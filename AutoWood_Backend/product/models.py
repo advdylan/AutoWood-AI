@@ -24,27 +24,42 @@ class Paints(models.Model):
 class Worktimetype(models.Model):
     name = models.CharField(max_length=30)
     cost = models.FloatField(help_text="Cost of one hour worktime")
-    workers = models.IntegerField()
 
     def __str__(self):
-        return self.name
+        return f"{self.name}"
+
+class Worktimetype(models.Model):
+    name = models.CharField(max_length=30)
+    cost = models.FloatField(help_text="Cost of one hour worktime")
+
+    def __str__(self):
+        return f"{self.name}"
 
 class Worktime(models.Model):
     name = models.ManyToManyField(Worktimetype)
     duration = models.FloatField()
+    workers = models.IntegerField(blank=True, null=True)
+
+    def __str__(self):
+        return ", ".join([str(worktimetype) for worktimetype in self.name.all()])
+
 
 
 class AccessoryType(models.Model):
     name = models.CharField(max_length=200)
     description = models.CharField(max_length=500)
     weight = models.DecimalField(blank=True, max_digits=5, decimal_places=2)
+    price = models.DecimalField(blank=True, max_digits=8, decimal_places=2, null=True)
 
     def __str__(self):
-        return self.name
+        return f"{self.name}"
     
 class Accessory(models.Model):
     type = models.ForeignKey(AccessoryType, on_delete=models.CASCADE)
     quantity = models.IntegerField(default=0)
+
+    def __str__(self):
+        return str(self.type)
 
 class Element(models.Model):
     name = models.CharField(max_length=200)
