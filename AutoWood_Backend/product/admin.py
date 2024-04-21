@@ -38,3 +38,23 @@ class WoodAdmin(admin.ModelAdmin):
     list_display = ("name", "density", "price")
 
 admin.site.register(Wood,WoodAdmin)
+
+class PaintsAdmin(admin.ModelAdmin):
+    list_display = ("name", "cost", "volume")
+
+admin.site.register(Paints, PaintsAdmin)
+
+class WorktimetypeAdmin(admin.ModelAdmin):
+    list_display = ("name", "cost", "workers")
+
+admin.site.register(Worktimetype, WorktimetypeAdmin)
+
+class WorktimeAdmin(admin.ModelAdmin):
+    list_display = ("duration",)
+
+    #def display_name(self, obj):
+        #return ", ".join([worktimetype.name for worktimetype in obj.worktimetypes.all()])
+    
+    #display_name.short_description = "display_name"
+
+admin.site.register(Worktime, WorktimeAdmin)

@@ -33,8 +33,6 @@ class Worktime(models.Model):
     name = models.ManyToManyField(Worktimetype)
     duration = models.FloatField()
 
-    def __str__(self):
-        return self.name
 
 class AccessoryType(models.Model):
     name = models.CharField(max_length=200)
