@@ -27,6 +27,7 @@ class ProductAdmin(admin.ModelAdmin):
 
 admin.site.register(Product, ProductAdmin)
 
+
 class WoodTypeAdmin(admin.ModelAdmin):
     list_display = ("name_id",)
 
