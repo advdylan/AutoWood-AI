@@ -126,6 +126,7 @@ class Product(models.Model):
     
     
 
+
 class Balance(models.Model):
     balance = models.DecimalField(blank=True, max_digits=7, decimal_places=2)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
