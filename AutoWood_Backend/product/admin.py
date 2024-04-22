@@ -27,12 +27,6 @@ class ProductAdmin(admin.ModelAdmin):
 
 admin.site.register(Product, ProductAdmin)
 
-
-class WoodTypeAdmin(admin.ModelAdmin):
-    list_display = ("name_id",)
-
-admin.site.register(WoodType, WoodTypeAdmin)
-
 class WoodAdmin(admin.ModelAdmin):
     
     list_display = ("name", "density", "price")
@@ -69,5 +63,17 @@ class AccessoryAdmin(admin.ModelAdmin):
 
 admin.site.register(Accessory, AccessoryAdmin)
 
+class ElementAdmin(admin.ModelAdmin):
+    list_display = ("name", "dimX", "dimY", "dimZ", "wood_type", "price")
 
+admin.site.register(Element, ElementAdmin)
     
+class CollectionAdmin(admin.ModelAdmin):
+    list_display = ("name", "description", "partners")
+
+admin.site.register(Collection, CollectionAdmin)
+
+class CategoryAdmin(admin.ModelAdmin):
+    list_display = ("name", "slug")
+
+admin.site.register(Category, CategoryAdmin)
