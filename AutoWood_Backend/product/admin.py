@@ -11,19 +11,18 @@ class ProductAdmin(admin.ModelAdmin):
         "display_elements",
         "collection"
         )
-
     def display_worktimes(self, obj):
         return ", ".join([worktime.name for worktime in obj.worktimes.all()])
+    display_worktimes.short_description = 'Worktimes'
 
     def display_accessories(self, obj):
-        return ", ".join([accessory.type.name for accessory in obj.accessories.all()])
+        return ", ".join([accessory.name for accessory in obj.accessories.all()])
+    display_accessories.short_description = 'Accessories'
 
     def display_elements(self, obj):
         return ", ".join([element.name for element in obj.elements.all()])
-
-    display_worktimes.short_description = 'Worktimes'
-    display_accessories.short_description = 'Accessories'
     display_elements.short_description = 'Elements'
+
 
 admin.site.register(Product, ProductAdmin)
 
