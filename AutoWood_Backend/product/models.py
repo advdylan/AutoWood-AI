@@ -28,13 +28,6 @@ class Worktimetype(models.Model):
     def __str__(self):
         return f"{self.name}"
 
-class Worktimetype(models.Model):
-    name = models.CharField(max_length=30)
-    cost = models.FloatField(help_text="Cost of one hour worktime")
-
-    def __str__(self):
-        return f"{self.name}"
-
 class Worktime(models.Model):
     name = models.ManyToManyField(Worktimetype)
     duration = models.FloatField()
