@@ -88,7 +88,7 @@ class Collection(models.Model):
 
     def __str__(self):
         if(self.partners):
-            return f"{self.name} + {self.partners}"
+            return f"{self.name} | {self.partners}"
         else:
             return f"{self.name}"
     
@@ -125,14 +125,12 @@ class Product(models.Model):
         return f'/{self.category.name}/{self.name}'
     
     
-
-
 class Balance(models.Model):
     balance = models.DecimalField(blank=True, max_digits=7, decimal_places=2)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     worktime = models.ForeignKey(Worktime, on_delete=models.CASCADE)
 
-class ProductElement(models.Model):
-    product = models.ForeignKey(Product, on_delete=models.CASCADE)
-    element = models.ForeignKey(Element, on_delete=models.CASCADE)
-    quantity = models.IntegerField()
+#class ProductElement(models.Model):
+    #product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    #element = models.ForeignKey(Element, on_delete=models.CASCADE)
+    #quantity = models.IntegerField()
