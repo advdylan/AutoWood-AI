@@ -13,12 +13,27 @@ class PaintsSerializer(serializers.ModelSerializer):
         model = Paints
         fields = '__all__'
 
+
+class WorktimeTypeSerializer(serializers.ModelSerializer):
+    class Meta: 
+        model = Worktimetype
+        fields = '__all__'
+
 class WorktimeSerializer(serializers.ModelSerializer):
+
+    name = WorktimeTypeSerializer(read_only = True)
     class Meta:
         model = Worktime
         fields = '__all__'
 
+class AccessoryTypeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = AccessoryType
+        fields = '__all__'
+
 class AccessorySerializer(serializers.ModelSerializer):
+
+    type = AccessoryTypeSerializer(read_only = True)
     class Meta:
         model = Accessory
         fields = '__all__'

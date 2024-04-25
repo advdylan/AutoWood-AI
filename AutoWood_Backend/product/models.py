@@ -33,7 +33,7 @@ class Worktime(models.Model):
     workers = models.IntegerField(blank=True, null=True)
 
     def __str__(self):
-        return ", ".join([str(worktimetype) for worktimetype in self.name.all()])
+        return ", ".join([worktimetype.name for worktimetype in self.name.all()])
 
 
 
