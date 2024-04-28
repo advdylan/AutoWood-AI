@@ -21,7 +21,7 @@ class WorktimeTypeSerializer(serializers.ModelSerializer):
 
 class WorktimeSerializer(serializers.ModelSerializer):
 
-    name = WorktimeTypeSerializer(read_only = True)
+    name = WorktimeTypeSerializer(read_only = True, many = True)
     class Meta:
         model = Worktime
         fields = '__all__'
