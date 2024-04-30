@@ -82,6 +82,15 @@
     </div>
   </nav>
 
+  <section class="section">
+    <router-view/>
+  </section>
+
+  
+  <footer class="footer">
+    <p class="has-text-centered"> Copyrith (c) 2024</p>
+  </footer>
+
 
 
  
