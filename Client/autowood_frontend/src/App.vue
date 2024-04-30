@@ -37,9 +37,7 @@
           <a class="navbar-item">
             Lista projektów
           </a> 
-        </div>
-        
-        
+        </div>       
         </div>
   
   
