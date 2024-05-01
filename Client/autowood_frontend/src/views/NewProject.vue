@@ -43,21 +43,18 @@
                           </select>
                         </div>
                       </div>
-                    </div>
-                    
-                    </div>
-                    
-                    </div>
-                    
-                    
-                    
+
+
+                    </div>                   
+                    </div>                 
+                    </div>                                                   
                     </div>    
                     
                     
                     <div class="column">
+
                       <div class="card-content">               
                         <div class="content">
-      
                       <div class="card">
                         <header class="card-header" @click="isCollapsedelements = !isCollapsedelements">
                           <p class="card-header-title">
@@ -69,8 +66,6 @@
                             </span>
                           </a>
                         </header>
-
-
 
                         <div id="collapsible-card" class="is-collapsible" v-show="isCollapsedelements">
                           <div class="card-content">
@@ -123,10 +118,35 @@
                         </div>
                         </div>
 
+                        
 
-           </div>
+
+           </div>       
+           <div class="card">
+            <header class="card-header" @click="isCollapsedpaints = !isCollapsedpaints">
+              <p class="card-header-title">
+                Lakiery
+              </p>
+              <a href="#collapsible-card" data-action="collapse" class="card-header-icon is-hidden-fullscreen" aria-label="more options">
+                <span class="icon">
+                  <i class="fas fa-angle-down" aria-hidden="true"></i>
+                </span>
+              </a>
+            </header>
+  
+            <div id="collapsible-card" class="is-collapsible" v-show="isCollapsedpaints">
+              <div class="card-content">
+                content
+                </div>
+                </div>
+                </div>
+           </div> 
           </div>
-         </div>
+          
+          
+         
+
+
         </div>
        </div>    
       </div>                          
@@ -209,6 +229,7 @@ export default {
     data() {
         return {
             showElementModal: false,
+            isCollapsedpaints : false,
             isCollapsed: false,
             isCollapsedelements: false,
             project: {
