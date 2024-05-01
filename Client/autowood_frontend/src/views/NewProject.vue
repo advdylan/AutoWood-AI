@@ -5,10 +5,11 @@
               <header class="card-header">
                 <p class="card-header-title is-centered is-size-3">Szkic projektu</p>        
               </header>
-                <div class="card-content">
-                  <div class="column is-half">
-                  <div class="content">
 
+              <div class="columns">
+              <div class="column is-half">
+                <div class="card-content">               
+                  <div class="content">
                     <div class="field">
                       <label class="label">Nazwa projektu</label>
                       <div class="control">
@@ -43,15 +44,19 @@
                         </div>
                       </div>
                     </div>
-
-
-
-                  </div>
-                  </div>
-                </div>
-              </div>
-        </div>
-      
+                    
+                    </div>
+                    
+                    </div>
+                    
+                    
+                    
+                    </div>      
+                  </div>    
+              </div>  
+                         
+        </div>    
+        
     </div>
 </template>
 
@@ -63,7 +68,12 @@ export default {
     name: 'NewProject',
     data() {
         return {
-            project: {},
+            isCollapsed: false,
+            isCollapsedelements: false,
+            project: {
+              items: []
+            }
+            
         }
     }
 }
