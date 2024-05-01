@@ -87,8 +87,8 @@
   </section>
 
   
-  <footer class="footer">
-    <p class="has-text-centered"> Copyrith (c) 2024</p>
+  <footer class="footer has-background-light">
+    <p class="has-text-centered is-size-5"> Copyrith (c) 2024 <div class="has-text-weight-bold is-underlined">Auto-Wood</div></p>
   </footer>
 
 

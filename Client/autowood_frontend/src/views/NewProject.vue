@@ -69,18 +69,22 @@
                             </span>
                           </a>
                         </header>
+
+
+
                         <div id="collapsible-card" class="is-collapsible" v-show="isCollapsedelements">
                           <div class="card-content">
 
-                            <table class="table">
+                            
+                            <table class="table is-bordered is-striped is-hoverable is-fullwidth">
                               <thead>
                                 <tr>
-
                                   <th>Name</th>
                                   <th>Długość</th>
                                   <th>Wysokość</th>
                                   <th>Grubość</th>
                                   <th>Materiał</th>
+                                  <th>Ilość</th>
                                   <th>Cena jednostkowa</th>
                                 </tr>
 
@@ -88,26 +92,38 @@
                               
                               <tfoot>
                                 <tr>
-                                  <th></th>
-                                  <th></th>
-                                  <th></th>
-                                  <th></th>
-                                  <th></th>
                                   <th>Podsumowanie</th>
                                 </tr>
                               </tfoot>
-
-
-
-
-
+                              <tbody>
+                                <tr>
+                                  <th>Nośna</th>
+                                  <td>2000</td>
+                                  <td>250</td>
+                                  <td>25</td>
+                                  <td>Buk</td>
+                                  <td>2</td>
+                                  <td>50</td>
+                                </tr>
+                              </tbody>
+                              
                             </table>
 
+                            
+
+                            <div class="buttons">
+
+                              <button @click="showElementModal = true" data-target="newelement-modal" class="button is-dark"><i class="fa-solid fa-plus">&nbsp;</i>Dodaj element</button>
+
+                              
+                              <button class="button is-dark"><i class="fa-regular fa-pen-to-square">&nbsp;</i>Edytuj tabelę</button>
+                              <button class="button is-dark"><i class="fa-regular fa-file">&nbsp;</i>Wygeneruj rozpiskę</button>
+                            </div> 
+
+                        </div>
+                        </div>
 
 
-
-             </div>
-            </div>
            </div>
           </div>
          </div>
@@ -116,6 +132,72 @@
       </div>                          
      </div>           
     </div>
+
+    <div v-bind:class="{'is-active': showElementModal}" id="newelement-modal" class="modal">
+      <div class="modal-background"></div>
+      <div class="modal-content">
+
+
+        <div class="modal-card">
+          <header class="modal-card-head">
+                <p class="modal-card-title is-centered is-size-3">Dodaj element</p>
+                <button class="delete" aria-label="close" @click="showElementModal = false"></button>        
+              </header>
+              
+          
+          <section class="modal-card-body">
+
+            <div class="field">
+              <label class="label">Nazwa</label>
+              <div class="control">
+                <input class="input" type="text" placeholder="Nazwa">             
+              </div>
+            </div>
+
+            <div class="field">
+              <label class="label">Długość</label>
+              <div class="control">
+                <input class="input" type="text" placeholder="Długość">             
+              </div>
+            </div>
+
+            <div class="field">
+              <label class="label">Szerokość</label>
+              <div class="control">
+                <input class="input" type="text" placeholder="Szerokosć">             
+              </div>
+            </div>
+
+            <div class="field">
+              <label class="label">Grubość</label>
+              <div class="control">
+                <input class="input" type="text" placeholder="Grubość">             
+              </div>
+            </div>
+
+            <div class="field">
+              <label class="label">Ilość</label>
+              <div class="control">
+                <input class="input" type="text" placeholder="Ilość">             
+              </div>
+            </div>
+
+          </section>
+
+          <footer class="modal-card-foot">
+            <div class="buttons">
+              <button class="button is-success">Zapisz</button>
+              <button class="button">Anuluj</button>
+            </div>
+          </footer>
+
+        
+
+      </div>
+      </div>
+      
+    </div>
+
 </template>
 
 <script>
@@ -126,6 +208,7 @@ export default {
     name: 'NewProject',
     data() {
         return {
+            showElementModal: false,
             isCollapsed: false,
             isCollapsedelements: false,
             project: {
