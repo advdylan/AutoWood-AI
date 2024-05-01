@@ -44,6 +44,20 @@
                         </div>
                       </div>
 
+                      <div class="field">
+                        <label class="label">Malowanie</label>
+                        <div class="control">
+                          <div class="select">
+                            <select>
+  
+                              <option>Naturalny</option>
+                              <option>Loop through collection in axios data</option>
+                              
+                            </select>
+                          </div>
+                        </div>
+                      </div>
+
 
                     </div>                   
                     </div>                 
@@ -121,11 +135,13 @@
                         
 
 
-           </div>       
+           </div> 
+           
+           
            <div class="card">
             <header class="card-header" @click="isCollapsedpaints = !isCollapsedpaints">
               <p class="card-header-title">
-                Lakiery
+                Koszty pracy
               </p>
               <a href="#collapsible-card" data-action="collapse" class="card-header-icon is-hidden-fullscreen" aria-label="more options">
                 <span class="icon">
@@ -139,9 +155,45 @@
                 content
                 </div>
                 </div>
-                </div>
+                </div>     
+
+
+                <div class="card">
+                  <header class="card-header" @click="isCollapsedacc = !isCollapsedacc">
+                    <p class="card-header-title">
+                      Akcesoria
+                    </p>
+                    <a href="#collapsible-card" data-action="collapse" class="card-header-icon is-hidden-fullscreen" aria-label="more options">
+                      <span class="icon">
+                        <i class="fas fa-angle-down" aria-hidden="true"></i>
+                      </span>
+                    </a>
+                  </header>
+        
+                  <div id="collapsible-card" class="is-collapsible" v-show="isCollapsedacc">
+                    <div class="card-content">
+                      content
+                      </div>
+                      </div>
+                      </div> 
+                
+                
+
+
+
+
+
+
+
+
            </div> 
+
+
+
+
           </div>
+
+          
           
           
          
@@ -229,6 +281,7 @@ export default {
     data() {
         return {
             showElementModal: false,
+            isCollapsedacc : false,
             isCollapsedpaints : false,
             isCollapsed: false,
             isCollapsedelements: false,
