@@ -51,12 +51,70 @@
                     
                     
                     
-                    </div>      
-                  </div>    
-              </div>  
-                         
-        </div>    
-        
+                    </div>    
+                    
+                    
+                    <div class="column">
+                      <div class="card-content">               
+                        <div class="content">
+      
+                      <div class="card">
+                        <header class="card-header" @click="isCollapsedelements = !isCollapsedelements">
+                          <p class="card-header-title">
+                            Lista elementów
+                          </p>
+                          <a href="#collapsible-card" data-action="collapse" class="card-header-icon is-hidden-fullscreen" aria-label="more options">
+                            <span class="icon">
+                              <i class="fas fa-angle-down" aria-hidden="true"></i>
+                            </span>
+                          </a>
+                        </header>
+                        <div id="collapsible-card" class="is-collapsible" v-show="isCollapsedelements">
+                          <div class="card-content">
+
+                            <table class="table">
+                              <thead>
+                                <tr>
+
+                                  <th>Name</th>
+                                  <th>Długość</th>
+                                  <th>Wysokość</th>
+                                  <th>Grubość</th>
+                                  <th>Materiał</th>
+                                  <th>Cena jednostkowa</th>
+                                </tr>
+
+                              </thead>
+                              
+                              <tfoot>
+                                <tr>
+                                  <th></th>
+                                  <th></th>
+                                  <th></th>
+                                  <th></th>
+                                  <th></th>
+                                  <th>Podsumowanie</th>
+                                </tr>
+                              </tfoot>
+
+
+
+
+
+                            </table>
+
+
+
+
+             </div>
+            </div>
+           </div>
+          </div>
+         </div>
+        </div>
+       </div>    
+      </div>                          
+     </div>           
     </div>
 </template>
 
