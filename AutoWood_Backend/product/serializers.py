@@ -59,6 +59,8 @@ class CollectionSerializer(serializers.ModelSerializer):
         model = Collection
         fields = '__all__'
 
+
+
 class ProductSerializer(serializers.ModelSerializer): 
     category = CategorySerializer(read_only=True)
     paints = PaintsSerializer(read_only=True)

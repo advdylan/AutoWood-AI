@@ -117,9 +117,7 @@
                               </tbody>
                               
                             </table>
-
-                            
-
+                          
                             <div class="buttons">
 
                               <button @click="showElementModal = true" data-target="newelement-modal" class="button is-dark"><i class="fa-solid fa-plus">&nbsp;</i>Dodaj element</button>
@@ -267,11 +265,27 @@ export default {
             isCollapsedpaints : false,
             isCollapsed: false,
             isCollapsedelements: false,
-            project: {
-              items: []
-            }
-            
+            project: {},       
         }
+    },
+     mounted(){
+      this.getProject()
+
+     },
+     methods: {
+      async getProject() {
+        await axios
+        .get(`/api/v1/project/`)
+        .then(response =>{
+          this.project = response.data
+          document.title = 'New Project | Auto-Wood'
+          console.log(JSON.stringify(response.data))
+
+        })
+        .catch(error =>{
+          console.log(error)
+        })
+      }
     }
 }
 </script>
