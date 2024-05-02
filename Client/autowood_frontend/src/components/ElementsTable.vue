@@ -8,7 +8,6 @@
             <th>Grubość</th>
             <th>Materiał</th>
             <th>Ilość</th>
-            <th>Cena jednostkowa</th>
           </tr>
 
         </thead>
@@ -25,8 +24,7 @@
             <td>{{ element.dimY }}</td>
             <td>{{ element.dimZ }}</td>
             <td>{{ element.wood_type }}</td>
-            <td>{{ element.quantity }}</td>
-            <td>{{ element.price }}</td>
+            <td>{{ element.quantity }}</td>          
           </tr>
         </tbody>
         

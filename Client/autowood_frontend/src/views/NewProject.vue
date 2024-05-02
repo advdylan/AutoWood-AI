@@ -84,9 +84,22 @@
                           </a>
                         </header>
 
-                        
+                        <div id="collapsible-card" class="is-collapsible" v-show="isCollapsedelements">
+                        <div class="card-content"></div>
 
-                      
+                        <ElementsTable :elements="elements"/>
+
+                        <div class="buttons">
+
+                          <button @click="showElementModal = true" data-target="newelement-modal" class="button is-dark"><i class="fa-solid fa-plus">&nbsp;</i>Dodaj element</button>
+
+                          
+                          <button class="button is-dark"><i class="fa-regular fa-pen-to-square">&nbsp;</i>Edytuj tabelę</button>
+                          <button class="button is-dark"><i class="fa-regular fa-file">&nbsp;</i>Wygeneruj rozpiskę</button>
+                        </div>
+                        </div>
+
+                    
 
            </div> 
            
@@ -158,35 +171,35 @@
             <div class="field">
               <label class="label">Nazwa</label>
               <div class="control">
-                <input class="input" type="text" placeholder="Nazwa">             
+                <input class="input" type="text" placeholder="Nazwa" v-model="newElement.name">             
               </div>
             </div>
 
             <div class="field">
               <label class="label">Długość</label>
               <div class="control">
-                <input class="input" type="text" placeholder="Długość">             
+                <input class="input" type="text" placeholder="Długość" v-model="newElement.dimX">             
               </div>
             </div>
 
             <div class="field">
               <label class="label">Szerokość</label>
               <div class="control">
-                <input class="input" type="text" placeholder="Szerokosć">             
+                <input class="input" type="text" placeholder="Szerokosć" v-model="newElement.dimY">             
               </div>
             </div>
 
             <div class="field">
               <label class="label">Grubość</label>
               <div class="control">
-                <input class="input" type="text" placeholder="Grubość">             
+                <input class="input" type="text" placeholder="Grubość" v-model="newElement.dimZ">             
               </div>
             </div>
 
             <div class="field">
               <label class="label">Ilość</label>
               <div class="control">
-                <input class="input" type="text" placeholder="Ilość">             
+                <input class="input" type="text" placeholder="Ilość" v-model="newElement.quantity">             
               </div>
             </div>
 
@@ -194,8 +207,8 @@
               <label class="label">Materiał</label>
               <div class="control">
                 <div class="select">
-                  <select>
-                    <option v-for="wood in project.wood"> {{ wood.name }}</option>
+                  <select v-model="newElement.wood_type">
+                    <option v-for="wood in project.wood" :value="wood.id">{{ wood.name }}</option>
                   </select>
                 </div>
               </div>
@@ -204,7 +217,7 @@
             
           <footer class="modal-card-foot">
             <div class="buttons">
-              <button type="submit"  class="button is-success">Zapisz</button>
+              <button @click.prevent="addElement()" type="submit"  class="button is-success">Zapisz</button>
               <button class="button">Anuluj</button>
             </div>
           </footer>
@@ -216,10 +229,7 @@
       </div>
       </div>
 
-      <div v-for="element in elements" :key="element.id">
-        <!-- Display the element data here -->
-      </div>
-      
+
     </div>
 
 </template>
@@ -227,7 +237,7 @@
 <script>
 import axios from 'axios'
 import { toast } from 'bulma-toast'
-import ElementsTable from 'src/components/ElementsTable.vue'
+import ElementsTable from '@/components/ElementsTable'
 
 export default {
     name: 'NewProject',
@@ -244,11 +254,11 @@ export default {
             project: {},
             newElement: {
               name: '',
-              dimX: 0,
-              dimY: 0,
-              dimZ: 0,
-              wood_type: null,
-              price: 0,              
+              dimX: '',
+              dimY: '',
+              dimZ: '',
+              wood_type: '',
+              quantity: '',              
             },
             elements: [],
             woods: [],
@@ -256,7 +266,7 @@ export default {
     },
      mounted(){
       this.getProject()
-
+    
      },
      methods: {
       async getProject() {
@@ -276,11 +286,11 @@ export default {
         this.elements.push({ ...this.newElement})
         this.newElement = {
           name: '',
-          dimX: 0,
-          dimY: 0,
-          dimZ: 0,
-          wood_type: null,
-          price: 0, 
+          dimX: '',
+          dimY: '',
+          dimZ: '',
+          wood_type: '',
+          quantity: '', 
         }
       }
     }
