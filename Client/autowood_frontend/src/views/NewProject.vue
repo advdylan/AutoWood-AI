@@ -18,14 +18,22 @@
                     </div>
 
                     <div class="field">
+                      <label class="label">Materiał</label>
+                      <div class="control">
+                        <div class="select">
+                          <select>
+                            <option v-for="wood in project.wood"> {{ wood.name }}</option>
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="field">
                       <label class="label">Kategoria</label>
                       <div class="control">
                         <div class="select">
                           <select>
-
-                            <option>Łóżka</option>
-                            <option>Loop through categories in axios data</option>
-                            
+                            <option v-for="category in project.category"> {{ category.name }}</option>
                           </select>
                         </div>
                       </div>
@@ -36,12 +44,10 @@
                       <div class="control">
                         <div class="select">
                           <select>
-
-                            <option>Sandemo</option>
-                            <option>Loop through collection in axios data</option>
-                            
+                          <option v-for="collection in project.collection"> {{ collection.name }}</option>
                           </select>
                         </div>
+                      </div>
                       </div>
 
                       <div class="field">
@@ -49,17 +55,14 @@
                         <div class="control">
                           <div class="select">
                             <select>
-  
-                              <option>Naturalny</option>
-                              <option>Loop through collection in axios data</option>
-                              
+                              <option v-for="paints in project.paints">{{ paints.name}}</option>
                             </select>
                           </div>
                         </div>
                       </div>
 
 
-                    </div>                   
+                                       
                     </div>                 
                     </div>                                                   
                     </div>    
@@ -265,7 +268,7 @@ export default {
             isCollapsedpaints : false,
             isCollapsed: false,
             isCollapsedelements: false,
-            project: {},       
+            project: {},      
         }
     },
      mounted(){
