@@ -84,57 +84,9 @@
                           </a>
                         </header>
 
-                        <div id="collapsible-card" class="is-collapsible" v-show="isCollapsedelements">
-                          <div class="card-content">
-
-                            
-                            <table class="table is-bordered is-striped is-hoverable is-fullwidth">
-                              <thead>
-                                <tr>
-                                  <th>Name</th>
-                                  <th>Długość</th>
-                                  <th>Wysokość</th>
-                                  <th>Grubość</th>
-                                  <th>Materiał</th>
-                                  <th>Ilość</th>
-                                  <th>Cena jednostkowa</th>
-                                </tr>
-
-                              </thead>
-                              
-                              <tfoot>
-                                <tr>
-                                  <th>Podsumowanie</th>
-                                </tr>
-                              </tfoot>
-                              <tbody>
-                                <tr>
-                                  <th>Nośna</th>
-                                  <td>2000</td>
-                                  <td>250</td>
-                                  <td>25</td>
-                                  <td>Buk</td>
-                                  <td>2</td>
-                                  <td>50</td>
-                                </tr>
-                              </tbody>
-                              
-                            </table>
-                          
-                            <div class="buttons">
-
-                              <button @click="showElementModal = true" data-target="newelement-modal" class="button is-dark"><i class="fa-solid fa-plus">&nbsp;</i>Dodaj element</button>
-
-                              
-                              <button class="button is-dark"><i class="fa-regular fa-pen-to-square">&nbsp;</i>Edytuj tabelę</button>
-                              <button class="button is-dark"><i class="fa-regular fa-file">&nbsp;</i>Wygeneruj rozpiskę</button>
-                            </div> 
-
-                        </div>
-                        </div>
-
                         
 
+                      
 
            </div> 
            
@@ -201,6 +153,7 @@
               
           
           <section class="modal-card-body">
+            <form>
 
             <div class="field">
               <label class="label">Nazwa</label>
@@ -237,18 +190,34 @@
               </div>
             </div>
 
-          </section>
+            <div class="field">
+              <label class="label">Materiał</label>
+              <div class="control">
+                <div class="select">
+                  <select>
+                    <option v-for="wood in project.wood"> {{ wood.name }}</option>
+                  </select>
+                </div>
+              </div>
+            </div>
 
+            
           <footer class="modal-card-foot">
             <div class="buttons">
-              <button class="button is-success">Zapisz</button>
+              <button type="submit"  class="button is-success">Zapisz</button>
               <button class="button">Anuluj</button>
             </div>
           </footer>
 
-        
+        </form>
+
+      </section>
 
       </div>
+      </div>
+
+      <div v-for="element in elements" :key="element.id">
+        <!-- Display the element data here -->
       </div>
       
     </div>
@@ -258,9 +227,13 @@
 <script>
 import axios from 'axios'
 import { toast } from 'bulma-toast'
+import ElementsTable from 'src/components/ElementsTable.vue'
 
 export default {
     name: 'NewProject',
+    components: {
+      ElementsTable
+    },
     data() {
         return {
             showElementModal: false,
@@ -268,7 +241,17 @@ export default {
             isCollapsedpaints : false,
             isCollapsed: false,
             isCollapsedelements: false,
-            project: {},      
+            project: {},
+            newElement: {
+              name: '',
+              dimX: 0,
+              dimY: 0,
+              dimZ: 0,
+              wood_type: null,
+              price: 0,              
+            },
+            elements: [],
+            woods: [],
         }
     },
      mounted(){
@@ -288,6 +271,17 @@ export default {
         .catch(error =>{
           console.log(error)
         })
+      },
+      addElement(){
+        this.elements.push({ ...this.newElement})
+        this.newElement = {
+          name: '',
+          dimX: 0,
+          dimY: 0,
+          dimZ: 0,
+          wood_type: null,
+          price: 0, 
+        }
       }
     }
 }
