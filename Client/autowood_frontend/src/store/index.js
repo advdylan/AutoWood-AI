@@ -10,6 +10,14 @@ export default createStore({
     wood: [],
     collection: [],
     paints: [],
+    elements: {
+      name: '',
+      dimX: '',
+      dimY: '',
+      dimZ: '',
+      wood_type: '',
+      quantity: '',
+    }
 
   },
   getters: {
@@ -22,12 +30,13 @@ export default createStore({
       state.wood = data.wood
       state.collection = data.collection
       state.paints = data.paints
+      state.elements = data.elements
     },
 
-    addElement(state,data ) {
-
+    addElement(state, element) {
+      state.elements.push(element)
     }
-
+    
   }, 
   actions: {
     async loadData({commit}) {

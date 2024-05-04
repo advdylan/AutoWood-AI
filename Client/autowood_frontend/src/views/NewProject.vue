@@ -171,35 +171,35 @@
             <div class="field">
               <label class="label">Nazwa</label>
               <div class="control">
-                <input class="input" type="text" placeholder="Nazwa" >             
+                <input class="input" type="text" placeholder="Nazwa" v-model="elements.name" >             
               </div>
             </div>
 
             <div class="field">
               <label class="label">Długość</label>
               <div class="control">
-                <input class="input" type="text" placeholder="Długość" >             
+                <input class="input" type="text" placeholder="Długość" v-model="elements.dimX" >             
               </div>
             </div>
 
             <div class="field">
               <label class="label">Szerokość</label>
               <div class="control">
-                <input class="input" type="text" placeholder="Szerokosć" >             
+                <input class="input" type="text" placeholder="Szerokosć" v-model="elements.dimY" >             
               </div>
             </div>
 
             <div class="field">
               <label class="label">Grubość</label>
               <div class="control">
-                <input class="input" type="text" placeholder="Grubość" >             
+                <input class="input" type="text" placeholder="Grubość" v-model="elements.dimZ">             
               </div>
             </div>
 
             <div class="field">
               <label class="label">Ilość</label>
               <div class="control">
-                <input class="input" type="text" placeholder="Ilość" >             
+                <input class="input" type="text" placeholder="Ilość" v-model="elements.quantity" >             
               </div>
             </div>
 
@@ -253,9 +253,7 @@ export default {
             isCollapsed: false,
             isCollapsedelements: false,
             project: {},
-            elements: [
-              
-            ]
+
             
             
         }
@@ -267,6 +265,7 @@ export default {
       'wood',
       'collection',
       'paints',
+      'elements'
       
     ]),
       
