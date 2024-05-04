@@ -275,7 +275,7 @@ export default {
         .then(response =>{
           this.project = response.data
           document.title = 'New Project | Auto-Wood'
-          //console.log(JSON.stringify(response.data))
+          console.log(JSON.stringify(response.data))
 
         })
         .catch(error =>{
