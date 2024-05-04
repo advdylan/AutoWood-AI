@@ -24,6 +24,10 @@ export default createStore({
       state.paints = data.paints
     },
 
+    addElement(state,data ) {
+
+    }
+
   }, 
   actions: {
     async loadData({commit}) {

@@ -93,7 +93,7 @@
 
                           <button @click="showElementModal = true" data-target="newelement-modal" class="button is-dark"><i class="fa-solid fa-plus">&nbsp;</i>Dodaj element</button>
 
-                          
+                         
                           <button class="button is-dark"><i class="fa-regular fa-pen-to-square">&nbsp;</i>Edytuj tabelę</button>
                           <button class="button is-dark"><i class="fa-regular fa-file">&nbsp;</i>Wygeneruj rozpiskę</button>
                         </div>
@@ -171,35 +171,35 @@
             <div class="field">
               <label class="label">Nazwa</label>
               <div class="control">
-                <input class="input" type="text" placeholder="Nazwa" v-model="newElement.name">             
+                <input class="input" type="text" placeholder="Nazwa" >             
               </div>
             </div>
 
             <div class="field">
               <label class="label">Długość</label>
               <div class="control">
-                <input class="input" type="text" placeholder="Długość" v-model="newElement.dimX">             
+                <input class="input" type="text" placeholder="Długość" >             
               </div>
             </div>
 
             <div class="field">
               <label class="label">Szerokość</label>
               <div class="control">
-                <input class="input" type="text" placeholder="Szerokosć" v-model="newElement.dimY">             
+                <input class="input" type="text" placeholder="Szerokosć" >             
               </div>
             </div>
 
             <div class="field">
               <label class="label">Grubość</label>
               <div class="control">
-                <input class="input" type="text" placeholder="Grubość" v-model="newElement.dimZ">             
+                <input class="input" type="text" placeholder="Grubość" >             
               </div>
             </div>
 
             <div class="field">
               <label class="label">Ilość</label>
               <div class="control">
-                <input class="input" type="text" placeholder="Ilość" v-model="newElement.quantity">             
+                <input class="input" type="text" placeholder="Ilość" >             
               </div>
             </div>
 
@@ -207,8 +207,8 @@
               <label class="label">Materiał</label>
               <div class="control">
                 <div class="select">
-                  <select v-model="newElement.wood_type">
-                    <option v-for="wood in project.wood" :value="wood.id">{{ wood.name }}</option>
+                  <select>
+                    <option v-for="wood in wood"> {{ wood.name}}</option>
                   </select>
                 </div>
               </div>
@@ -217,7 +217,7 @@
             
           <footer class="modal-card-foot">
             <div class="buttons">
-              <button @click.prevent="addElement()" type="submit"  class="button is-success">Zapisz</button>
+              <button type="submit"  class="button is-success">Zapisz</button>
               <button class="button">Anuluj</button>
             </div>
           </footer>
@@ -253,15 +253,10 @@ export default {
             isCollapsed: false,
             isCollapsedelements: false,
             project: {},
-            newElement: {
-              name: '',
-              dimX: '',
-              dimY: '',
-              dimZ: '',
-              wood_type: '',
-              quantity: '',              
-            },
-
+            elements: [
+              
+            ]
+            
             
         }
     },

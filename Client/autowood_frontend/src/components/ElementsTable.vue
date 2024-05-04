@@ -42,15 +42,8 @@ export default {
       }
     },
     methods: {
-      getWoodTypeName(id) {
-        const wood = this.project.wood.find(wood => wood.id === id)
-        console.log(wood)
-        return wood ? wood.name : ''
-        
-  },
-
-    }
-    
-
+         
+  },  
 }
+   
 </script>
