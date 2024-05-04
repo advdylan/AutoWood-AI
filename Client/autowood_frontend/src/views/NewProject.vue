@@ -22,7 +22,7 @@
                       <div class="control">
                         <div class="select">
                           <select>
-                            <option v-for="wood in project.wood"> {{ wood.name }}</option>
+                            <option v-for="wood in wood"> {{ wood.name }}</option>
                           </select>
                         </div>
                       </div>
@@ -33,7 +33,7 @@
                       <div class="control">
                         <div class="select">
                           <select>
-                            <option v-for="category in project.category"> {{ category.name }}</option>
+                            <option v-for="category in category"> {{ category.name }}</option>
                           </select>
                         </div>
                       </div>
@@ -44,7 +44,7 @@
                       <div class="control">
                         <div class="select">
                           <select>
-                          <option v-for="collection in project.collection"> {{ collection.name }}</option>
+                          <option v-for="collection in collection"> {{ collection.name }}</option>
                           </select>
                         </div>
                       </div>
@@ -55,7 +55,7 @@
                         <div class="control">
                           <div class="select">
                             <select>
-                              <option v-for="paints in project.paints">{{ paints.name}}</option>
+                              <option v-for="paints in paints">{{ paints.name}}</option>
                             </select>
                           </div>
                         </div>
@@ -238,6 +238,7 @@
 import axios from 'axios'
 import { toast } from 'bulma-toast'
 import ElementsTable from '@/components/ElementsTable'
+import { mapState } from 'vuex'
 
 export default {
     name: 'NewProject',
@@ -260,33 +261,26 @@ export default {
               wood_type: '',
               quantity: '',              
             },
-            elements: [],
-            woods: [],
+
+            
         }
     },
+    computed: mapState([
+      'category',
+      'worktimetype',
+      'accesorytype',
+      'wood',
+      'collection',
+      'paints',
+      
+    ]),
+      
      mounted(){
-      this.getProject()
-    
      },
-     methods: {
-      async getProject() {
-        await axios
-        .get(`/api/v1/project/`)
-        .then(response =>{
-          this.project = response.data
-          document.title = 'New Project | Auto-Wood'
-          console.log(JSON.stringify(response.data))
-
-        })
-        .catch(error =>{
-          console.log(error)
-        })
-      },
-      addElement(){
-        this.elements.push({ ...this.newElement})
-       
-        console.log(JSON.stringify(this.elements))
-      }
+     created(){
+      this.$store.dispatch('loadData')   
+     },
+     methods: {    
     }
 }
 </script>

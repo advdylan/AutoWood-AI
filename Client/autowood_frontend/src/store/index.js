@@ -1,4 +1,5 @@
 import { createStore } from 'vuex'
+import axios from 'axios'
 
 export default createStore({
   state: {
@@ -21,8 +22,9 @@ export default createStore({
       state.wood = data.wood
       state.collection = data.collection
       state.paints = data.paints
-    }
-  },
+    },
+
+  }, 
   actions: {
     async loadData({commit}) {
       await axios
