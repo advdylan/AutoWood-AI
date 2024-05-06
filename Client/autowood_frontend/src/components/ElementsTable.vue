@@ -19,6 +19,7 @@
         </tfoot>
         <tbody>
           <tr v-for="element in elements" :key="element.name">
+            
             <th>{{ element.name }}</th>
             <td>{{ element.dimX }}</td>
             <td>{{ element.dimY }}</td>
@@ -35,15 +36,15 @@
 <script>
 export default {
     name: 'ElementsTable',
-    props: {
-      elements: {
-        type: Array,
-        required: true,
-      }
-    },
     methods: {
-         
-  },  
-}
+  }, 
+  computed: {
+    elements() {
+      return this.$store.state.elements;
+    }
+  }
+  } 
+
+
    
 </script>

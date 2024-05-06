@@ -10,14 +10,8 @@ export default createStore({
     wood: [],
     collection: [],
     paints: [],
-    elements: {
-      name: '',
-      dimX: '',
-      dimY: '',
-      dimZ: '',
-      wood_type: '',
-      quantity: '',
-    }
+    elements: [ 
+    ]
 
   },
   getters: {
@@ -30,7 +24,6 @@ export default createStore({
       state.wood = data.wood
       state.collection = data.collection
       state.paints = data.paints
-      state.elements = data.elements
     },
 
     addElement(state, element) {
@@ -54,3 +47,5 @@ export default createStore({
   modules: {
   }
 })
+
+

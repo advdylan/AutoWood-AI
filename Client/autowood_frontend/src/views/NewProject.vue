@@ -87,7 +87,7 @@
                         <div id="collapsible-card" class="is-collapsible" v-show="isCollapsedelements">
                         <div class="card-content"></div>
 
-                        <ElementsTable :elements="elements"/>
+                        <ElementsTable/>
 
                         <div class="buttons">
 
@@ -166,40 +166,40 @@
               
           
           <section class="modal-card-body">
-            <form>
+            <form @submit.prevent="addElement">
 
             <div class="field">
               <label class="label">Nazwa</label>
               <div class="control">
-                <input class="input" type="text" placeholder="Nazwa" v-model="elements.name" >             
+                <input class="input" type="text" placeholder="Nazwa" v-model="newElement.name" >             
               </div>
             </div>
 
             <div class="field">
               <label class="label">Długość</label>
               <div class="control">
-                <input class="input" type="text" placeholder="Długość" v-model="elements.dimX" >             
+                <input class="input" type="text" placeholder="Długość" v-model="newElement.dimX" >             
               </div>
             </div>
 
             <div class="field">
               <label class="label">Szerokość</label>
               <div class="control">
-                <input class="input" type="text" placeholder="Szerokosć" v-model="elements.dimY" >             
+                <input class="input" type="text" placeholder="Szerokosć" v-model="newElement.dimY" >             
               </div>
             </div>
 
             <div class="field">
               <label class="label">Grubość</label>
               <div class="control">
-                <input class="input" type="text" placeholder="Grubość" v-model="elements.dimZ">             
+                <input class="input" type="text" placeholder="Grubość" v-model="newElement.dimZ">             
               </div>
             </div>
 
             <div class="field">
               <label class="label">Ilość</label>
               <div class="control">
-                <input class="input" type="text" placeholder="Ilość" v-model="elements.quantity" >             
+                <input class="input" type="text" placeholder="Ilość" v-model="newElement.quantity" >             
               </div>
             </div>
 
@@ -207,8 +207,8 @@
               <label class="label">Materiał</label>
               <div class="control">
                 <div class="select">
-                  <select>
-                    <option v-for="wood in wood"> {{ wood.name}}</option>
+                  <select v-model="newElement.wood_type">
+                    <option v-for="wood in wood"> {{ wood.name}}</option >
                   </select>
                 </div>
               </div>
@@ -217,7 +217,7 @@
             
           <footer class="modal-card-foot">
             <div class="buttons">
-              <button type="submit"  class="button is-success">Zapisz</button>
+              <button @click="addElement" type="submit"  class="button is-success">Zapisz</button>
               <button class="button">Anuluj</button>
             </div>
           </footer>
@@ -253,6 +253,14 @@ export default {
             isCollapsed: false,
             isCollapsedelements: false,
             project: {},
+            newElement:  {
+              name: '',
+              dimX: '',
+              dimY: '',
+              dimZ: '',
+              quantity: '',
+              wood_type: ''
+            }
 
             
             
@@ -274,7 +282,25 @@ export default {
      created(){
       this.$store.dispatch('loadData')   
      },
-     methods: {    
-    }
+     methods: {      
+      addElement() {
+        this.newElement = {
+        name: '',
+        dimX: '',
+        dimY: '',
+        dimZ: '',
+        quantity: '',
+        wood_type: ''
+  }
+        console.log(this.newElement)
+        this.$store.commit('addElement', this.newElement)
+  
+  
 }
+
+            
+  
+}
+    }
+
 </script>
