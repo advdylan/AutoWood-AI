@@ -217,7 +217,7 @@
             
           <footer class="modal-card-foot">
             <div class="buttons">
-              <button @click="addElement" type="submit"  class="button is-success">Zapisz</button>
+              <button @click="elements.addElements()" type="submit"  class="button is-success">Zapisz</button>
               <button class="button">Anuluj</button>
             </div>
           </footer>
