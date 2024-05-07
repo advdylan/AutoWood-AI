@@ -1,8 +1,8 @@
-import { createStore } from 'vuex'
+import { defineStore } from 'pinia'
 import axios from 'axios'
 
-export default createStore({
-  state: {
+export const useStore = defineStore('new-project', {
+  state: () => ({
     projects : [],
     category: [],
     worktimetype: [],
@@ -10,42 +10,32 @@ export default createStore({
     wood: [],
     collection: [],
     paints: [],
-    elements: [ 
-    ]
-
-  },
-  getters: {
-  },
-  mutations: {
-    setData(state,data) {
-      state.category = data.category
-      state.worktimetype = data.worktimetype
-      state.accesorytype = data.accesorytype
-      state.wood = data.wood
-      state.collection = data.collection
-      state.paints = data.paints
-    },
-
-    addElement(state, element) {
-      state.elements.push(element)
-    }
-    
-  }, 
+    elements: []
+  }),
   actions: {
-    async loadData({commit}) {
+    async loadData() {
       await axios
       .get(`/api/v1/project/`)
       .then(response =>{
         console.log(JSON.stringify(response.data))
-        commit('setData', response.data)    
+        this.setData(response.data)    
       })
       .catch(error =>{
         console.log(error)
       })
     },
-  },
-  modules: {
+
+    setData(data) {
+      this.$state.category = data.category
+      this.$state.worktimetype = data.worktimetype
+      this.$state.accesorytype = data.accesorytype
+      this.$state.wood = data.wood
+      this.$state.collection = data.collection
+      this.$state.paints = data.paints
+    },
+
+    addElement(element) {
+      this.elements.push(element)
+    }
   }
 })
-
-

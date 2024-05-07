@@ -1,10 +1,21 @@
 import { createApp } from 'vue'
 import App from './App.vue'
 import router from './router'
-import store from './store'
+
 import axios from 'axios'
-import bulmaCollapsible from '@creativebulma/bulma-collapsible';
+import { createPinia } from 'pinia'
+
+
 
 axios.defaults.baseURL = "http://127.0.0.1:8000"
 
-createApp(App).use(store).use(router).mount('#app')
+const pinia = createPinia()
+const app = createApp(App)
+
+
+app.use(pinia)
+app.use(router)
+app.mount('#app')
+
+
+

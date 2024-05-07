@@ -22,7 +22,7 @@
                       <div class="control">
                         <div class="select">
                           <select>
-                            <option v-for="wood in wood"> {{ wood.name }}</option>
+                            <option v-for="woodItem in wood"> {{ woodItem.name }}</option>
                           </select>
                         </div>
                       </div>
@@ -235,72 +235,44 @@
 </template>
 
 <script>
+import { ref, reactive } from 'vue'
 import axios from 'axios'
 import { toast } from 'bulma-toast'
 import ElementsTable from '@/components/ElementsTable'
-import { mapState } from 'vuex'
+import { useStore } from '@/store' 
 
 export default {
-    name: 'NewProject',
-    components: {
-      ElementsTable
-    },
-    data() {
-        return {
-            showElementModal: false,
-            isCollapsedacc : false,
-            isCollapsedpaints : false,
-            isCollapsed: false,
-            isCollapsedelements: false,
-            project: {},
-            newElement:  {
-              name: '',
-              dimX: '',
-              dimY: '',
-              dimZ: '',
-              quantity: '',
-              wood_type: ''
-            }
+  name: 'NewProject',
+  components: {
+    ElementsTable
+  },
+  setup() {
+    const showElementModal = ref(false)
+    const isCollapsedacc = ref(false)
+    const isCollapsedpaints = ref(false)
+    const isCollapsed = ref(false)
+    const isCollapsedelements = ref(false)
+    const project = reactive({})
+    const newElement = reactive({
+      name: '',
+      dimX: '',
+      dimY: '',
+      dimZ: '',
+      quantity: '',
+      wood_type: ''
+    })
 
-            
-            
-        }
-    },
-    computed: mapState([
-      'category',
-      'worktimetype',
-      'accesorytype',
-      'wood',
-      'collection',
-      'paints',
-      'elements'
+  
+    return {
+      showElementModal,
+      isCollapsedacc,
+      isCollapsedpaints,
+      isCollapsed,
+      isCollapsedelements,
+      project,
+      newElement
       
-    ]),
-      
-     mounted(){
-     },
-     created(){
-      this.$store.dispatch('loadData')   
-     },
-     methods: {      
-      addElement() {
-        this.newElement = {
-        name: '',
-        dimX: '',
-        dimY: '',
-        dimZ: '',
-        quantity: '',
-        wood_type: ''
-  }
-        console.log(this.newElement)
-        this.$store.commit('addElement', this.newElement)
-  
-  
-}
-
-            
-  
-}
     }
-
+  }
+}
 </script>

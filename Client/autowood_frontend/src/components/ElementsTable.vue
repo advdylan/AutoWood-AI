@@ -38,12 +38,10 @@ export default {
     name: 'ElementsTable',
     methods: {
   }, 
-  computed: {
-    elements() {
-      return this.$store.state.elements;
+  computed: { 
     }
   }
-  } 
+   
 
 
    
