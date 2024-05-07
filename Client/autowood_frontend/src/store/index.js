@@ -1,8 +1,8 @@
-import { defineStore } from 'pinia'
+import { ref, reactive, computed } from 'vue'
 import axios from 'axios'
 
-export const useStore = defineStore('new-project', {
-  state: () => ({
+export const useStore = () => {
+  const state = reactive({
     projects : [],
     category: [],
     worktimetype: [],
@@ -11,31 +11,40 @@ export const useStore = defineStore('new-project', {
     collection: [],
     paints: [],
     elements: []
-  }),
-  actions: {
-    async loadData() {
-      await axios
+  })
+  
+  const loadData = async () => {
+    await axios
       .get(`/api/v1/project/`)
       .then(response =>{
-        console.log(JSON.stringify(response.data))
-        this.setData(response.data)    
+        //console.log(JSON.stringify(response.data))
+        setData(response.data)    
       })
       .catch(error =>{
         console.log(error)
       })
-    },
-
-    setData(data) {
-      this.$state.category = data.category
-      this.$state.worktimetype = data.worktimetype
-      this.$state.accesorytype = data.accesorytype
-      this.$state.wood = data.wood
-      this.$state.collection = data.collection
-      this.$state.paints = data.paints
-    },
-
-    addElement(element) {
-      this.elements.push(element)
-    }
   }
-})
+
+  const setData = (data) => {
+    state.category = data.category
+    state.worktimetype = data.worktimetype
+    state.accesorytype = data.accesorytype
+    state.wood = data.wood
+    state.collection = data.collection
+    state.paints = data.paints
+  }
+
+  const addElement = (element) => {
+    state.elements.push(element)
+  }
+
+
+
+  return {
+    state,
+    loadData,
+    setData,
+    addElement,
+    
+  }
+}

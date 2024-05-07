@@ -33,7 +33,7 @@
                       <div class="control">
                         <div class="select">
                           <select>
-                            <option v-for="category in category"> {{ category.name }}</option>
+                            <option v-for="categoryItem in category"> {{ categoryItem.name }}</option>
                           </select>
                         </div>
                       </div>
@@ -235,7 +235,8 @@
 </template>
 
 <script>
-import { ref, reactive } from 'vue'
+import { ref, reactive, computed } from 'vue'
+import { mapWritableState } from 'pinia'
 import axios from 'axios'
 import { toast } from 'bulma-toast'
 import ElementsTable from '@/components/ElementsTable'
@@ -246,7 +247,11 @@ export default {
   components: {
     ElementsTable
   },
+
+  
+
   setup() {
+
     const showElementModal = ref(false)
     const isCollapsedacc = ref(false)
     const isCollapsedpaints = ref(false)
@@ -262,7 +267,18 @@ export default {
       wood_type: ''
     })
 
-  
+    const store = useStore()
+    store.loadData()
+
+    const category = computed(() => store.state.category)
+    const wood = computed(() => store.state.wood)
+    const collection = computed(() => store.state.collection)
+    const paints = computed(() => store.state.paints)
+
+
+    
+
+    
     return {
       showElementModal,
       isCollapsedacc,
@@ -270,9 +286,17 @@ export default {
       isCollapsed,
       isCollapsedelements,
       project,
-      newElement
+      newElement,
+      category,
+      wood,
+      collection,
+      paints
+     
+ 
+
       
     }
-  }
+  },
+
 }
 </script>
