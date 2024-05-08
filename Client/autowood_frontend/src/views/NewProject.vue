@@ -87,7 +87,7 @@
                         <div id="collapsible-card" class="is-collapsible" v-show="isCollapsedelements">
                         <div class="card-content"></div>
 
-                        <ElementsTable/>
+                        
 
                         <div class="buttons">
 
@@ -235,11 +235,12 @@
 </template>
 
 <script>
-import { ref, reactive, computed } from 'vue'
+import { ref, reactive, computed, onMounted } from 'vue'
 import axios from 'axios'
 import { toast } from 'bulma-toast'
 import ElementsTable from '@/components/ElementsTable'
-import { useNewProjectStore } from '@/store' 
+import { useNewProjectStore } from '@/store/newproject'
+import { storeToRefs } from 'pinia'
 
 export default {
   name: 'NewProject',
@@ -262,8 +263,8 @@ export default {
       quantity: '',
       wood_type: ''
     })
-
     const store = useNewProjectStore()
+
     store.loadData()
 
     const category = store.categoryCount
@@ -271,8 +272,10 @@ export default {
     const collection = store.collectionCount
     const paints = store.paintsCount
     
-
     
+  
+
+
     return {
       showElementModal,
       isCollapsedacc,
