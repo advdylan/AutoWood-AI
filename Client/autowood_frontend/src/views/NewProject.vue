@@ -217,7 +217,7 @@
             
           <footer class="modal-card-foot">
             <div class="buttons">
-              <button @click="elements.addElements()" type="submit"  class="button is-success">Zapisz</button>
+              <button @click="addElement" type="submit"  class="button is-success">Zapisz</button>
               <button class="button">Anuluj</button>
             </div>
           </footer>
@@ -267,15 +267,23 @@ export default {
 
     store.loadData()
 
-    const category = store.categoryCount
-    const wood = store.woodCount
-    const collection = store.collectionCount
-    const paints = store.paintsCount
-    
-    
-  
+    const category = computed(() => store.state.category)
+    const wood = computed(() => store.state.wood)
+    const collection = computed(() => store.state.collection)
+    const paints = computed(() => store.state.paints)
 
-
+    const addElement = () => {
+    store.addElement(newElement.value)
+    newElement.value = {
+      name: '',
+      dimX: '',
+      dimY: '',
+      dimZ: '',
+      quantity: '',
+      wood_type: ''
+    }
+  }
+      
     return {
       showElementModal,
       isCollapsedacc,
@@ -287,7 +295,8 @@ export default {
       category,
       wood,
       collection,
-      paints
+      paints,
+      addElement
     }
   },
 

@@ -11,13 +11,9 @@ export const useNewProjectStore = defineStore('newproject', () => {
     accesorytype : ref([]),
     wood : ref([]),
     collection : ref([]),
-    paints : ref([])
+    paints : ref([]),
+    elements: ref({})
     }
-
-    const categoryCount = computed(() => state.category.value)
-    const woodCount = computed(() => state.wood.value)
-    const collectionCount = computed(() => state.collection.value)
-    const paintsCount = computed(() => state.paints.value )
 
     const loading = ref(false)
 
@@ -49,10 +45,10 @@ export const useNewProjectStore = defineStore('newproject', () => {
   }
 
     function addElement(element) {
-        state.elements.push(element)
+      state.elements.value.push(element)
     }
 
-    return { state, categoryCount, addElement, loadData, setData, woodCount, collectionCount, paintsCount}
+    return { state, addElement, loadData, setData}
   })
 
 
