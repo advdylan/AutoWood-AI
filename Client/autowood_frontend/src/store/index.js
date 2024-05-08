@@ -1,50 +1,55 @@
-import { ref, reactive, computed } from 'vue'
+import {defineStore} from 'pinia'
+import {ref, computed} from 'vue'
 import axios from 'axios'
 
-export const useStore = () => {
-  const state = reactive({
-    projects : [],
-    category: [],
-    worktimetype: [],
-    accesorytype: [],
-    wood: [],
-    collection: [],
-    paints: [],
-    elements: []
-  })
-  
-  const loadData = async () => {
-    await axios
+export const useNewProjectStore = defineStore('newproject', () => {
+
+    const state = {
+
+    category : ref([]),
+    worktimetype : ref([]),
+    accesorytype : ref([]),
+    wood : ref([]),
+    collection : ref([]),
+    paints : ref([])
+    }
+
+    const categoryCount = computed(() => state.category.value)
+    const woodCount = computed(() => state.wood.value)
+    const collectionCount = computed(() => state.collection.value)
+    const paintsCount = computed(() => state.paints.value )
+
+
+    function loadData() {
+       axios
       .get(`/api/v1/project/`)
       .then(response =>{
-        //console.log(JSON.stringify(response.data))
+        console.log(JSON.stringify(response.data))
         setData(response.data)    
       })
       .catch(error =>{
         console.log(error)
-      })
+
+    })
   }
 
-  const setData = (data) => {
-    state.category = data.category
-    state.worktimetype = data.worktimetype
-    state.accesorytype = data.accesorytype
-    state.wood = data.wood
-    state.collection = data.collection
-    state.paints = data.paints
+    function setData(data) {
+      state.category.value = data.category
+      state.worktimetype.value = data.worktimetype
+      state.accesorytype.value = data.accesorytype
+      state.wood.value = data.wood
+      state.collection.value = data.collection
+      state.paints.value = data.paints
+
   }
 
-  const addElement = (element) => {
-    state.elements.push(element)
-  }
+    function addElement(element) {
+        state.elements.push(element)
+    }
+
+    return { state, categoryCount, addElement, loadData, setData, woodCount, collectionCount, paintsCount}
+  })
 
 
 
-  return {
-    state,
-    loadData,
-    setData,
-    addElement,
-    
-  }
-}
+  

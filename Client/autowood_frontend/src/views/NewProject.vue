@@ -236,20 +236,16 @@
 
 <script>
 import { ref, reactive, computed } from 'vue'
-import { mapWritableState } from 'pinia'
 import axios from 'axios'
 import { toast } from 'bulma-toast'
 import ElementsTable from '@/components/ElementsTable'
-import { useStore } from '@/store' 
+import { useNewProjectStore } from '@/store' 
 
 export default {
   name: 'NewProject',
   components: {
     ElementsTable
   },
-
-  
-
   setup() {
 
     const showElementModal = ref(false)
@@ -267,15 +263,13 @@ export default {
       wood_type: ''
     })
 
-    const store = useStore()
+    const store = useNewProjectStore()
     store.loadData()
 
-    const category = computed(() => store.state.category)
-    const wood = computed(() => store.state.wood)
-    const collection = computed(() => store.state.collection)
-    const paints = computed(() => store.state.paints)
-
-
+    const category = store.categoryCount
+    const wood = store.woodCount
+    const collection = store.collectionCount
+    const paints = store.paintsCount
     
 
     
@@ -291,10 +285,6 @@ export default {
       wood,
       collection,
       paints
-     
- 
-
-      
     }
   },
 
