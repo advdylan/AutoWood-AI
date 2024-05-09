@@ -25,7 +25,8 @@ export const useNewProjectStoreBeta = defineStore('newproject', {
   }),
   actions: {
     addElement(element) { 
-        this.elements.push(...element)
+        this.elements.push(element)
+    
     }
   }
 })
