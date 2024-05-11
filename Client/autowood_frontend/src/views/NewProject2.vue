@@ -234,71 +234,12 @@
 
 </template>
 
-<script>
-import { ref, reactive, computed, onMounted } from 'vue'
-import axios from 'axios'
-import { toast } from 'bulma-toast'
-import ElementsTable from '@/components/ElementsTable'
-import { useNewProjectStore } from '@/store/newproject'
+<script setup>
+import { useNewProjectStoreBeta } from '@/store/newprojectbeta'
+import {ref, computed} from 'vue'
 import { storeToRefs } from 'pinia'
 
-export default {
-  name: 'NewProject',
-  components: {
-    ElementsTable
-  },
-  setup() {
 
-    const showElementModal = ref(false)
-    const isCollapsedacc = ref(false)
-    const isCollapsedpaints = ref(false)
-    const isCollapsed = ref(false)
-    const isCollapsedelements = ref(false)
-    const project = reactive({})
-    const newElement = reactive({
-      name: '',
-      dimX: '',
-      dimY: '',
-      dimZ: '',
-      quantity: '',
-      wood_type: ''
-    })
-    const store = useNewProjectStore()
 
-    store.loadData()
 
-    //const category = computed(() => store.state.category)
-    //const wood = computed(() => store.state.wood)
-    //const collection = computed(() => store.state.collection)
-    //const paints = computed(() => store.state.paints)
-
-    const addElement = () => {
-    store.addElement(newElement.value)
-    newElement.value = {
-      name: '',
-      dimX: '',
-      dimY: '',
-      dimZ: '',
-      quantity: '',
-      wood_type: ''
-    }
-  }
-      
-    return {
-      showElementModal,
-      isCollapsedacc,
-      isCollapsedpaints,
-      isCollapsed,
-      isCollapsedelements,
-      project,
-      newElement,
-      category,
-      wood,
-      collection,
-      paints,
-      addElement
-    }
-  },
-
-}
 </script>

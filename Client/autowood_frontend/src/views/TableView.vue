@@ -19,8 +19,7 @@
             </tr>
           </tfoot>
           <tbody>
-            <tr v-for="element in elements" :key="element.name">
-              
+            <tr v-for="element in elements" :key="element.name">             
               <th>{{ element.name }}</th>
               <td>{{ element.dimX }}</td>
               <td>{{ element.dimY }}</td>
@@ -32,7 +31,7 @@
           
         </table>
 
-        <form @submit.prevent="addElement">
+        <form @submit.prevent="submitForm">
 
             <div class="field">
               <label class="label">Nazwa</label>
@@ -83,7 +82,7 @@
             
           <footer class="modal-card-foot">
             <div class="buttons">
-              <button @click="addElement(newElement)" type="submit" class="button is-success">Zapisz</button>
+              <button type="submit" class="button is-success">Zapisz</button>
               <button class="button">Anuluj</button>
             </div>
             </footer>
@@ -94,11 +93,12 @@
 
 <script setup>
 import { useNewProjectStoreBeta } from '@/store/newprojectbeta'
-import {ref} from 'vue'
+import {ref, computed} from 'vue'
 import { storeToRefs } from 'pinia'
 
 
 const newElement = ref({
+  id: '',
   name: '',
   dimX: '',
   dimY: '',
@@ -109,9 +109,28 @@ const newElement = ref({
 
 const elementStore = useNewProjectStoreBeta()
 
-const {elements } = storeToRefs(elementStore)
-const { addElement } = elementStore
 
+
+//const wood_type = computed(() => store.state.wood)
+
+
+const { addElement, loadData, } = elementStore
+
+loadData()
+const {elements, wood} = storeToRefs(elementStore)
+
+const submitForm = () => {
+  addElement(newElement.value)
+  newElement.value = {
+    id: '',
+    name: '',
+    dimX: '',
+    dimY: '',
+    dimZ: '',
+    quantity: '',
+    wood_type: ''
+  }
+}
 
 
 
