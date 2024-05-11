@@ -2,7 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 
 import NewProject from '../views/NewProject.vue'
-import TableView from '../views/TableView.vue'
+
 
 const routes = [
   {
@@ -24,11 +24,7 @@ const routes = [
     name: 'NewProject',
     component: NewProject
   },
-  {
-    path: '/table',
-    name: 'table',
-    component: TableView
-  }
+  
  
 ]
 

@@ -1,304 +1,308 @@
 <template>
-    <div class="columns">
-        <div class="column is-full">
-            <div class="card">
-              <header class="card-header">
-                <p class="card-header-title is-centered is-size-3">Szkic projektu</p>        
-              </header>
+  <div class="columns">
+      <div class="column is-full">
+          <div class="card">
+            <header class="card-header">
+              <p class="card-header-title is-centered is-size-3">Szkic projektu</p>        
+            </header>
 
-              <div class="columns">
-              <div class="column is-half">
-                <div class="card-content">               
-                  <div class="content">
-                    <div class="field">
-                      <label class="label">Nazwa projektu</label>
-                      <div class="control">
-                        <input class="input" type="text" placeholder="Nazwa projektu">
+            <div class="columns">
+            <div class="column is-half">
+              <div class="card-content">               
+                <div class="content">
+                  <div class="field">
+                    <label class="label">Nazwa projektu</label>
+                    <div class="control">
+                      <input class="input" type="text" placeholder="Nazwa projektu">
+                    </div>
+                  </div>
+
+                  <div class="field">
+                    <label class="label">Materiał</label>
+                    <div class="control">
+                      <div class="select">
+                        <select>
+                          <option v-for="woodItem in wood"> {{ woodItem.name }}</option>
+                        </select>
                       </div>
+                    </div>
+                  </div>
+
+                  <div class="field">
+                    <label class="label">Kategoria</label>
+                    <div class="control">
+                      <div class="select">
+                        <select>
+                          <option v-for="categoryItem in category"> {{ categoryItem.name }}</option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="field">
+                    <label class="label">Kolekcja</label>
+                    <div class="control">
+                      <div class="select">
+                        <select>
+                        <option v-for="collection in collection"> {{ collection.name }}</option>
+                        </select>
+                      </div>
+                    </div>
                     </div>
 
                     <div class="field">
-                      <label class="label">Materiał</label>
+                      <label class="label">Malowanie</label>
                       <div class="control">
                         <div class="select">
                           <select>
-                            <option v-for="woodItem in wood"> {{ woodItem.name }}</option>
+                            <option v-for="paints in paints">{{ paints.name}}</option>
                           </select>
                         </div>
                       </div>
                     </div>
 
-                    <div class="field">
-                      <label class="label">Kategoria</label>
-                      <div class="control">
-                        <div class="select">
-                          <select>
-                            <option v-for="categoryItem in category"> {{ categoryItem.name }}</option>
-                          </select>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div class="field">
-                      <label class="label">Kolekcja</label>
-                      <div class="control">
-                        <div class="select">
-                          <select>
-                          <option v-for="collection in collection"> {{ collection.name }}</option>
-                          </select>
-                        </div>
-                      </div>
-                      </div>
-
-                      <div class="field">
-                        <label class="label">Malowanie</label>
-                        <div class="control">
-                          <div class="select">
-                            <select>
-                              <option v-for="paints in paints">{{ paints.name}}</option>
-                            </select>
-                          </div>
-                        </div>
-                      </div>
-
-
-                                       
-                    </div>                 
-                    </div>                                                   
-                    </div>    
-                    
-                    
-                    <div class="column">
-
-                      <div class="card-content">               
-                        <div class="content">
-                      <div class="card">
-                        <header class="card-header" @click="isCollapsedelements = !isCollapsedelements">
-                          <p class="card-header-title">
-                            Lista elementów
-                          </p>
-                          <a href="#collapsible-card" data-action="collapse" class="card-header-icon is-hidden-fullscreen" aria-label="more options">
-                            <span class="icon">
-                              <i class="fas fa-angle-down" aria-hidden="true"></i>
-                            </span>
-                          </a>
-                        </header>
-
-                        <div id="collapsible-card" class="is-collapsible" v-show="isCollapsedelements">
-                        <div class="card-content"></div>
 
                         
+                  </div>                 
+                  </div>                                                   
+                  </div>    
+                  
+                  
+                  <div class="column">
 
-                        <div class="buttons">
+                    <div class="card-content">               
+                      <div class="content">
+                    <div class="card">
+                      <header class="card-header" @click="isCollapsedelements = !isCollapsedelements">
+                        <p class="card-header-title">
+                          Lista elementów
+                        </p>
+                        <a href="#collapsible-card" data-action="collapse" class="card-header-icon is-hidden-fullscreen" aria-label="more options">
+                          <span class="icon">
+                            <i class="fas fa-angle-down" aria-hidden="true"></i>
+                          </span>
+                        </a>
+                      </header>
 
-                          <button @click="showElementModal = true" data-target="newelement-modal" class="button is-dark"><i class="fa-solid fa-plus">&nbsp;</i>Dodaj element</button>
+                      <div id="collapsible-card" class="is-collapsible" v-show="isCollapsedelements">
+                      <div class="card-content"></div>
 
-                         
-                          <button class="button is-dark"><i class="fa-regular fa-pen-to-square">&nbsp;</i>Edytuj tabelę</button>
-                          <button class="button is-dark"><i class="fa-regular fa-file">&nbsp;</i>Wygeneruj rozpiskę</button>
-                        </div>
-                        </div>
-
-                    
-
-           </div> 
-           
-           
-           <div class="card">
-            <header class="card-header" @click="isCollapsedpaints = !isCollapsedpaints">
-              <p class="card-header-title">
-                Koszty pracy
-              </p>
-              <a href="#collapsible-card" data-action="collapse" class="card-header-icon is-hidden-fullscreen" aria-label="more options">
-                <span class="icon">
-                  <i class="fas fa-angle-down" aria-hidden="true"></i>
-                </span>
-              </a>
-            </header>
-  
-            <div id="collapsible-card" class="is-collapsible" v-show="isCollapsedpaints">
-              <div class="card-content">
-                content
-                </div>
-                </div>
-                </div>     
-
-
-                <div class="card">
-                  <header class="card-header" @click="isCollapsedacc = !isCollapsedacc">
-                    <p class="card-header-title">
-                      Akcesoria
-                    </p>
-                    <a href="#collapsible-card" data-action="collapse" class="card-header-icon is-hidden-fullscreen" aria-label="more options">
-                      <span class="icon">
-                        <i class="fas fa-angle-down" aria-hidden="true"></i>
-                      </span>
-                    </a>
-                  </header>
-        
-                  <div id="collapsible-card" class="is-collapsible" v-show="isCollapsedacc">
-                    <div class="card-content">
-                      content
-                      </div>
-                      </div>
-                      </div> 
-
+                      <ElementsTable />
 
                       
-           </div> 
-          </div>
+
+                      <div class="buttons">
+
+                        <button @click="showElementModal = true" data-target="newelement-modal" class="button is-dark"><i class="fa-solid fa-plus">&nbsp;</i>Dodaj element</button>
+
+                       
+                        <button class="button is-dark"><i class="fa-regular fa-pen-to-square">&nbsp;</i>Edytuj tabelę</button>
+                        <button class="button is-dark"><i class="fa-regular fa-file">&nbsp;</i>Wygeneruj rozpiskę</button>
+                      </div>
+                      </div>
+
+                  
+
+         </div> 
+         
+         
+         <div class="card">
+          <header class="card-header" @click="isCollapsedpaints = !isCollapsedpaints">
+            <p class="card-header-title">
+              Koszty pracy
+            </p>
+            <a href="#collapsible-card" data-action="collapse" class="card-header-icon is-hidden-fullscreen" aria-label="more options">
+              <span class="icon">
+                <i class="fas fa-angle-down" aria-hidden="true"></i>
+              </span>
+            </a>
+          </header>
+
+          <div id="collapsible-card" class="is-collapsible" v-show="isCollapsedpaints">
+            <div class="card-content">
+              content
+              </div>
+              </div>
+              </div>     
+
+
+              <div class="card">
+                <header class="card-header" @click="isCollapsedacc = !isCollapsedacc">
+                  <p class="card-header-title">
+                    Akcesoria
+                  </p>
+                  <a href="#collapsible-card" data-action="collapse" class="card-header-icon is-hidden-fullscreen" aria-label="more options">
+                    <span class="icon">
+                      <i class="fas fa-angle-down" aria-hidden="true"></i>
+                    </span>
+                  </a>
+                </header>
+      
+                <div id="collapsible-card" class="is-collapsible" v-show="isCollapsedacc">
+                  <div class="card-content">
+                    content
+                    </div>
+                    </div>
+                    </div> 
+
+
+                    
+         </div> 
         </div>
-       </div>    
-      </div>                          
-     </div>           
-    </div>
+      </div>
+     </div>    
+    </div>                          
+   </div>           
+  </div>
 
-    <div v-bind:class="{'is-active': showElementModal}" id="newelement-modal" class="modal">
-      <div class="modal-background"></div>
-      <div class="modal-content">
+  <div v-bind:class="{'is-active': showElementModal}" id="newelement-modal" class="modal">
+    <div class="modal-background"></div>
+    <div class="modal-content">
 
 
-        <div class="modal-card">
-          <header class="modal-card-head">
-                <p class="modal-card-title is-centered is-size-3">Dodaj element</p>
-                <button class="delete" aria-label="close" @click="showElementModal = false"></button>        
-              </header>
-              
-          
-          <section class="modal-card-body">
-            <form @submit.prevent="addElement">
-
-            <div class="field">
-              <label class="label">Nazwa</label>
-              <div class="control">
-                <input class="input" type="text" placeholder="Nazwa" v-model="newElement.name" >             
-              </div>
-            </div>
-
-            <div class="field">
-              <label class="label">Długość</label>
-              <div class="control">
-                <input class="input" type="text" placeholder="Długość" v-model="newElement.dimX" >             
-              </div>
-            </div>
-
-            <div class="field">
-              <label class="label">Szerokość</label>
-              <div class="control">
-                <input class="input" type="text" placeholder="Szerokosć" v-model="newElement.dimY" >             
-              </div>
-            </div>
-
-            <div class="field">
-              <label class="label">Grubość</label>
-              <div class="control">
-                <input class="input" type="text" placeholder="Grubość" v-model="newElement.dimZ">             
-              </div>
-            </div>
-
-            <div class="field">
-              <label class="label">Ilość</label>
-              <div class="control">
-                <input class="input" type="text" placeholder="Ilość" v-model="newElement.quantity" >             
-              </div>
-            </div>
-
-            <div class="field">
-              <label class="label">Materiał</label>
-              <div class="control">
-                <div class="select">
-                  <select v-model="newElement.wood_type">
-                    <option v-for="wood in wood"> {{ wood.name}}</option >
-                  </select>
-                </div>
-              </div>
-            </div>
-
+      <div class="modal-card">
+        <header class="modal-card-head">
+              <p class="modal-card-title is-centered is-size-3">Dodaj element</p>
+              <button class="delete" aria-label="close" @click="showElementModal = false"></button>        
+            </header>
             
-          <footer class="modal-card-foot">
-            <div class="buttons">
-              <button @click="addElement" type="submit" class="button is-success">Zapisz</button>
-              <button class="button">Anuluj</button>
+        
+        <section class="modal-card-body">
+          <div class="columns">
+            <div class="column is-two-fifths">
+
+          <form @submit.prevent="submitForm">
+
+          <div class="field">
+            <label class="label">Nazwa</label>
+            <div class="control">
+              <input class="input" type="text" placeholder="Nazwa" v-model="newElement.name" >             
             </div>
-          </footer>
+          </div>
 
-        </form>
+          <div class="field">
+            <label class="label">Długość</label>
+            <div class="control">
+              <input class="input" type="text" placeholder="Długość" v-model="newElement.dimX" >             
+            </div>
+          </div>
 
-      </section>
+          <div class="field">
+            <label class="label">Szerokość</label>
+            <div class="control">
+              <input class="input" type="text" placeholder="Szerokosć" v-model="newElement.dimY" >             
+            </div>
+          </div>
 
-      </div>
-      </div>
+          <div class="field">
+            <label class="label">Grubość</label>
+            <div class="control">
+              <input class="input" type="text" placeholder="Grubość" v-model="newElement.dimZ">             
+            </div>
+          </div>
 
+          <div class="field">
+            <label class="label">Ilość</label>
+            <div class="control">
+              <input class="input" type="text" placeholder="Ilość" v-model="newElement.quantity" >             
+            </div>
+          </div>
+
+          <div class="field">
+            <label class="label">Materiał</label>
+            <div class="control">
+              <div class="select">
+                <select v-model="newElement.wood_type">
+                  <option v-for="wood in wood"> {{ wood.name}}</option >
+                </select>
+              </div>
+            </div>
+          </div>
+ 
+        <footer class="modal-card-foot">
+          <div class="buttons">
+            <button type="submit" class="button is-success">Dodaj element</button>
+           
+          </div>
+        </footer>
+        
+
+      </form>
+    </div>
+    <div class="column">
+      <ElementsTable/>
+    </div>
+    </div>
+
+    </section>
 
     </div>
+    </div>
+
+
+  </div>
+
+
+
+  
+
+  
 
 </template>
 
-<script>
-import { ref, reactive, computed, onMounted } from 'vue'
-import axios from 'axios'
-import { toast } from 'bulma-toast'
-import ElementsTable from '@/components/ElementsTable'
-import { useNewProjectStore } from '@/store/newproject'
+<script setup>
+import { useNewProjectStoreBeta } from '@/store/newproject'
+import {ref, computed} from 'vue'
 import { storeToRefs } from 'pinia'
+import ElementsTable from '@/components/ElementsTable'
 
-export default {
-  name: 'NewProject',
-  components: {
-    ElementsTable
-  },
-  setup() {
+const showElementModal = ref(false)
+const showElementModalTable = ref(false)
+const isCollapsedacc = ref(false)
+const isCollapsedpaints = ref(false)
+const isCollapsed = ref(false)
+const isCollapsedelements = ref(false)
+const project = ref({})
 
-    const showElementModal = ref(false)
-    const isCollapsedacc = ref(false)
-    const isCollapsedpaints = ref(false)
-    const isCollapsed = ref(false)
-    const isCollapsedelements = ref(false)
-    const project = reactive({})
-    const newElement = reactive({
-      name: '',
-      dimX: '',
-      dimY: '',
-      dimZ: '',
-      quantity: '',
-      wood_type: ''
-    })
-    const store = useNewProjectStore()
+const newElement = ref({
+id: '',
+name: '',
+dimX: '',
+dimY: '',
+dimZ: '',
+quantity: '',
+wood_type: ''
+})
 
-    store.loadData()
+const elementStore = useNewProjectStoreBeta()
 
-    //const category = computed(() => store.state.category)
-    //const wood = computed(() => store.state.wood)
-    //const collection = computed(() => store.state.collection)
-    //const paints = computed(() => store.state.paints)
+const { addElement, loadData, } = elementStore
 
-    const addElement = () => {
-    store.addElement(newElement.value)
-    newElement.value = {
-      name: '',
-      dimX: '',
-      dimY: '',
-      dimZ: '',
-      quantity: '',
-      wood_type: ''
-    }
-  }
-      
-    return {
-      showElementModal,
-      isCollapsedacc,
-      isCollapsedpaints,
-      isCollapsed,
-      isCollapsedelements,
-      project,
-      newElement,
-      category,
-      wood,
-      collection,
-      paints,
-      addElement
-    }
-  },
+loadData()
+const {elements, wood, collection, paints, category} = storeToRefs(elementStore)
 
+const submitForm = () => {
+addElement(newElement.value)
+newElement.value = {
+  id: '',
+  name: '',
+  dimX: '',
+  dimY: '',
+  dimZ: '',
+  quantity: '',
+  wood_type: ''
 }
+}
+
+
+
+
 </script>
+
+<style>
+:root
+.modal{
+  --bulma-modal-content-width: 100rem;
+}
+
+</style>

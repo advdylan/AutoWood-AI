@@ -2,55 +2,61 @@ import {defineStore} from 'pinia'
 import {ref, computed} from 'vue'
 import axios from 'axios'
 
-export const useNewProjectStore = defineStore('newproject', () => {
 
-    const state = {
+export const useNewProjectStoreBeta = defineStore('newproject', {
+  state: () => ({
 
-    category : ref([]),
-    worktimetype : ref([]),
-    accesorytype : ref([]),
-    wood : ref([]),
-    collection : ref([]),
-    paints : ref([]),
-    elements: ref({})
-    }
+    category: [],
+    worktimetype: [],
+    accesorytype: [],
+    wood: [],
+    collection: [],
+    paints: [],
+    elements: [
+    ]
 
-    const loading = ref(false)
+  }),
+  actions: {
+
+    setData(data){
+      this.category = data.category,
+      this.worktimetype = data.worktimetype,
+      this.accesorytype = data.accesorytype,
+      this.wood = data.wood,
+      this.collection = data.collection,
+      this.paints = data.paints
+
+    },
 
 
-    async function loadData() {
-        loading.value = true
-       await axios
+    async loadData(){
+      await axios
       .get(`/api/v1/project/`)
       .then(response =>{
         console.log(JSON.stringify(response.data))
-        setData(response.data)
-        loading.value = false    
+        this.setData(response.data)   
       })
       .catch(error =>{
-        console.log(error)
-        loading.value = false
+        console.log(error)     
+      })
 
-    })
-  }
+    },
 
-    function setData(data) {
-      state.category.value = data.category
-      state.worktimetype.value = data.worktimetype
-      state.accesorytype.value = data.accesorytype
-      state.wood.value = data.wood
-      state.collection.value = data.collection
-      state.paints.value = data.paints
 
-  }
-
-    function addElement(element) {
-      state.elements.value.push(element)
+    addElement(element) { 
+      console.log(element)
+        this.elements.push({
+        
+          id: Math.floor(Math.random()* 10000000),
+          name: element.name,
+          dimX: element.dimX,
+          dimY: element.dimY,
+          dimZ: element.dimZ,
+          quantity: element.quantity,
+          wood_type: element.wood_type
+        })
+        
+      
     }
-
-    return { state, addElement, loadData, setData}
-  })
-
-
-
-  
+  }
+})

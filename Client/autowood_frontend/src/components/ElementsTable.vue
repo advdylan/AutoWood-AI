@@ -13,9 +13,12 @@
         </thead>
         
         <tfoot>
+          
           <tr>
-            <th>Podsumowanie</th>
+            
           </tr>
+        
+        
         </tfoot>
         <tbody>
           <tr v-for="element in elements" :key="element.name">
@@ -25,7 +28,7 @@
             <td>{{ element.dimY }}</td>
             <td>{{ element.dimZ }}</td>
             <td>{{ element.wood_type }}</td>
-            <td>{{ element.quantity }}</td>          
+            <td>{{ element.quantity }}</td>         
           </tr>
         </tbody>
         
@@ -35,13 +38,19 @@
 
 <script>
 export default {
-    name: 'ElementsTable',
-    methods: {
-  }, 
-  computed: { 
-    }
-  }
-  
+  name: 'ElementsTable'
+}
+
+</script>
+
+<script setup>
+import { useNewProjectStoreBeta } from '@/store/newproject'
+import { storeToRefs } from 'pinia'
+
+const store = useNewProjectStoreBeta()
+
+const {elements} = storeToRefs(store)
+
 </script>
 
 
