@@ -120,7 +120,7 @@
 
           <div id="collapsible-card" class="is-collapsible" v-show="isCollapsedpaints">
             <div class="card-content">
-              content
+              <WorktimeType />
               </div>
               </div>
               </div>     
@@ -255,6 +255,7 @@ import { useNewProjectStoreBeta } from '@/store/newproject'
 import {ref, computed} from 'vue'
 import { storeToRefs } from 'pinia'
 import ElementsTable from '@/components/ElementsTable'
+import WorktimeType from '@/components/WorktimeType'
 
 const showElementModal = ref(false)
 const showElementModalTable = ref(false)
