@@ -16,15 +16,20 @@
 
 <script setup>
 import { useNewProjectStoreBeta } from '@/store/newproject'
-import {ref, reactive} from 'vue'
+import {ref, reactive, computed} from 'vue'
 import { storeToRefs } from 'pinia'
 
 const store = useNewProjectStoreBeta()
 const {worktimetype} = storeToRefs(store)
 
-let boxes = reactive(worktimetype.value.map(item => {
-  return { text: item.name, value: item.cost, checked: false, input: '' }
-}))
+const boxes = computed(() => {
+  return worktimetype.value.map(item => ({
+    text: item.name,
+    value: item.cost,
+    checked: false,
+    input: ''
+  }))
+})
 </script>
 
 
