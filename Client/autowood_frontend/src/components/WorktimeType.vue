@@ -12,32 +12,21 @@
     </div>
   </div>
 
-  <div class="column" v-for="worktimetyp in worktimetype"> {{ worktimetyp.cost }}  </div>
 </template>
-
-<script>
-
-</script>
-
 
 <script setup>
 import { useNewProjectStoreBeta } from '@/store/newproject'
-import {ref} from 'vue'
+import {ref, reactive} from 'vue'
 import { storeToRefs } from 'pinia'
 
 const store = useNewProjectStoreBeta()
 
 const {worktimetype} = storeToRefs(store)
 
-const boxes = ref([
-      { text: 'Produkcja', checked: false, input: '', value: worktimetype.cost },
-      { text: 'Czyszczenie', checked: false, input: '', value: worktimetype.cost },
-      { text: 'Lakiernia', checked: false, input: '', value: worktimetype.cost },
-      { text: 'Pakowanie', checked: false, input: '', value: worktimetype.cost }
-    ])
-
-
-
+ 
+let boxes = reactive(worktimetype.value.map(item => {
+  return { text: item.name, value: item.cost, checked: false, input: '' }
+}))
 </script>
 
 
