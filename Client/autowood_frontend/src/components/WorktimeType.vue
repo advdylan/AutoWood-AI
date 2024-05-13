@@ -7,7 +7,7 @@
           {{ box.text }}
         </label>
         <input class="input" type="tel" v-if="box.checked" v-model="box.input" />
-        <div class="box" v-if="box.checked">{{ box.value }}</div>
+        <div class="box" v-if="box.checked"> Stawka godzinowa:{{ box.value }}</div>
       </div>
     </div>
   </div>
@@ -20,10 +20,8 @@ import {ref, reactive} from 'vue'
 import { storeToRefs } from 'pinia'
 
 const store = useNewProjectStoreBeta()
-
 const {worktimetype} = storeToRefs(store)
 
- 
 let boxes = reactive(worktimetype.value.map(item => {
   return { text: item.name, value: item.cost, checked: false, input: '' }
 }))
