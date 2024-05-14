@@ -1,5 +1,4 @@
 import {defineStore} from 'pinia'
-import {ref, computed} from 'vue'
 import axios from 'axios'
 
 
@@ -12,8 +11,9 @@ export const useNewProjectStoreBeta = defineStore('newproject', {
     wood: [],
     collection: [],
     paints: [],
-    elements: [
-    ]
+    elements: [],
+    boxes: []
+
 
   }),
   actions: {
@@ -25,6 +25,9 @@ export const useNewProjectStoreBeta = defineStore('newproject', {
       this.wood = data.wood,
       this.collection = data.collection,
       this.paints = data.paints
+      this.boxes = this.worktimetype.map(item => {
+        return { text: item.name, value: item.cost, checked: false, input: ''}
+      })
 
     },
 

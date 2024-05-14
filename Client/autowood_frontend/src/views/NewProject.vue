@@ -120,7 +120,7 @@
 
           <div id="collapsible-card" class="is-collapsible" v-show="isCollapsedpaints">
             <div class="card-content">
-              <WorktimeType />
+              <WorktimeType/>        
               </div>
               </div>
               </div>     
@@ -280,7 +280,7 @@ const elementStore = useNewProjectStoreBeta()
 const { addElement, loadData, } = elementStore
 
 loadData()
-const {elements, wood, collection, paints, category} = storeToRefs(elementStore)
+const {elements, wood, collection, paints, category,} = storeToRefs(elementStore)
 
 const submitForm = () => {
 addElement(newElement.value)
