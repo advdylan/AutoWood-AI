@@ -27,12 +27,6 @@ import { storeToRefs } from 'pinia'
 const store = useNewProjectStoreBeta()
 const {boxes} = storeToRefs(store)
 
-store.loadData();
-
-
-
-
-
 </script>
 
 

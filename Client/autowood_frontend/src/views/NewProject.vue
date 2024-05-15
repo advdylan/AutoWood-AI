@@ -140,7 +140,7 @@
       
                 <div id="collapsible-card" class="is-collapsible" v-show="isCollapsedacc">
                   <div class="card-content">
-                    content
+                    <AccessoryTable />
                     </div>
                     </div>
                     </div> 
@@ -256,6 +256,7 @@ import {ref, computed} from 'vue'
 import { storeToRefs } from 'pinia'
 import ElementsTable from '@/components/ElementsTable'
 import WorktimeType from '@/components/WorktimeType'
+import AccessoryTable from '@/components/AccessoryTable.vue'
 
 const showElementModal = ref(false)
 const showElementModalTable = ref(false)

@@ -47,7 +47,7 @@ export const useNewProjectStoreBeta = defineStore('newproject', {
 
 
     addElement(element) { 
-      console.log(element)
+      
         this.elements.push({
         
           id: Math.floor(Math.random()* 10000000),
