@@ -85,9 +85,10 @@
                       </header>
 
                       <div id="collapsible-card" class="is-collapsible" v-show="isCollapsedelements">
-                      <div class="card-content"></div>
+                      <div class="card-content">
 
                       <ElementsTable />
+                    </div>
 
                       
 
@@ -100,6 +101,7 @@
                         <button class="button is-dark"><i class="fa-regular fa-file">&nbsp;</i>Wygeneruj rozpiskę</button>
                       </div>
                       </div>
+                    
 
                   
 

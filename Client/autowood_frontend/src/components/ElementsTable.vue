@@ -1,4 +1,5 @@
 <template>
+  <div class="elements-table-container">
       <table class="table is-bordered is-striped is-hoverable is-fullwidth">
         <thead>
           <tr>
@@ -33,6 +34,7 @@
         </tbody>
         
       </table>
+    </div>
     
 </template>
 
