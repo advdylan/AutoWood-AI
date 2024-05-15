@@ -38,10 +38,17 @@ class Worktime(models.Model):
 
 
 class AccessoryType(models.Model):
+
+    choices = [
+        ("Prowadnice", "Prowadnice"),
+        ("Złącza", "Złącza"),
+        ("Zawiasy", "Zawiasy")]
+
     name = models.CharField(max_length=200)
-    description = models.CharField(max_length=500)
-    weight = models.DecimalField(blank=True, max_digits=5, decimal_places=2)
+    description = models.CharField(max_length=500, blank=True, null=True)
+    weight = models.DecimalField(blank=True, max_digits=5, decimal_places=2, null=True)
     price = models.DecimalField(blank=True, max_digits=8, decimal_places=2, null=True)
+    type = models.CharField(max_length = 50, choices=choices, default="Prowadnice")
 
     def __str__(self):
         return f"{self.name}"
