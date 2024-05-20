@@ -64,11 +64,10 @@
             <th>{{ accesory.name }}</th>
             <td>{{ accesory.price }}</td>
             <td>{{ accesory.type }}</td>
-            <td> {{ accesory.quantity }} <div class="buttons">
-              <td><button @click="addAccesory(accesory)" class="button is-dark"><i class="fa-solid fa-plus">&nbsp;</i></button>
-                  <button @click="deleteAccesory(accesory)" class="button is-dark"><i class="fa-solid fa-minus">&nbsp;</i></button>
-              </td>
-            </div> </td>
+            <td> {{ accesory.quantity }} 
+                  <button @click="deleteAccesory(accesory)" class="button is-dark">Usuń</button>
+
+             </td>
             
             <td> {{ accesory.sum }}</td>
             
