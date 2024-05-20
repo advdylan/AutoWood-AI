@@ -46,7 +46,7 @@
             <th>Cena</th>
             <th>Typ</th>
             <th>Ilość</th>
-            <th>Dodaj</th>
+            
             <th>Suma</th>
           </tr>
 
@@ -64,12 +64,12 @@
             <th>{{ accesory.name }}</th>
             <td>{{ accesory.price }}</td>
             <td>{{ accesory.type }}</td>
-            <td><input v-model="accesory.quantity" class="input is-small" type="text" placeholder="Ilość"/></td>
-            <div class="buttons">
-            <td><button @click="addAccesory(accesory)" class="button is-dark"><i class="fa-solid fa-plus">&nbsp;</i></button>
-                <button @click="deleteAccesory(accesory)" class="button is-dark"><i class="fa-solid fa-minus">&nbsp;</i></button>
-            </td>
-          </div>
+            <td> {{ accesory.quantity }} <div class="buttons">
+              <td><button @click="addAccesory(accesory)" class="button is-dark"><i class="fa-solid fa-plus">&nbsp;</i></button>
+                  <button @click="deleteAccesory(accesory)" class="button is-dark"><i class="fa-solid fa-minus">&nbsp;</i></button>
+              </td>
+            </div> </td>
+            
             <td> {{ accesory.sum }}</td>
             
             
