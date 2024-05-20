@@ -139,7 +139,9 @@
       
                 <div id="collapsible-card" class="is-collapsible" v-show="isCollapsedacc">
                   <div class="card-content">
-                    <AccessoryTable />
+                    <button @click="showAccModal = true" data-target="newelement-modal" class="button is-dark"><i class="fa-solid fa-plus">&nbsp;</i>Przeszukaj akcesoria</button>
+
+                    
                     </div>
                     </div>
                     </div> 
@@ -241,6 +243,26 @@
 
   </div>
 
+  <div v-bind:class="{'is-active': showAccModal}" id="newelement-modal" class="modal">
+    <div class="modal-background"></div>
+    <div class="modal-content">
+
+      <div class="modal-card">
+        <header class="modal-card-head">
+              <p class="modal-card-title is-centered is-size-3">Akcesoria</p>
+              <button class="delete" aria-label="close" @click="showAccModal = false"></button>        
+            </header>
+            <section class="modal-card-body">
+              <AccessoryTable />
+            </section>
+            
+        
+    </div>
+    </div>
+
+
+  </div>
+
 
 
   
@@ -259,6 +281,7 @@ import AccessoryTable from '@/components/AccessoryTable.vue'
 
 const showElementModal = ref(false)
 const showElementModalTable = ref(false)
+const showAccModal = ref(false)
 const isCollapsedacc = ref(false)
 const isCollapsedpaints = ref(false)
 const isCollapsed = ref(false)
@@ -294,9 +317,6 @@ newElement.value = {
   wood_type: ''
 }
 }
-
-
-
 
 </script>
 
