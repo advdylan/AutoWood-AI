@@ -63,22 +63,22 @@ const setFilterType = (type) => {
 
 
 const filteredAccesories = computed(() => {
+    accesorytype.slice(0,2)
     let result = accesorytype.value
+    console.log(result)
    
 
     if (searchQuery.value) {
         result = result.filter(accesory => 
             accesory.name.toLowerCase().
             includes(searchQuery.value.toLocaleLowerCase())
-        )
-        
+        )    
     }
 
     if (filterType.value) {
         result = result.filter(accesory => 
             accesory.type === filterType.value
-        )
-        
+        )       
     }
 
     return result
