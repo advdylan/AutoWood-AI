@@ -8,11 +8,13 @@ export const useNewProjectStoreBeta = defineStore('newproject', {
     category: [],
     worktimetype: [],
     accesorytype: [],
+    accesories: [],
     wood: [],
     collection: [],
     paints: [],
     elements: [],
     boxes: []
+    
 
 
   }),
@@ -57,9 +59,27 @@ export const useNewProjectStoreBeta = defineStore('newproject', {
           dimZ: element.dimZ,
           quantity: element.quantity,
           wood_type: element.wood_type
-        })
-        
-      
+        })   
+    },
+
+    addAccesory(accesory) {
+      console.log(accesory)
+      this.accesories.push({
+        name: accesory.name,
+        price: accesory.price,
+        type: accesory.type,
+        quantity: accesory.quantity
+      })
+    },
+    deleteAccesory(accesory) {
+      console.log(accesory)
+      this.accesories.pop({
+        name: accesory.name,
+        price: accesory.price,
+        type: accesory.type,
+        quantity: accesory.quantity
+      })
+
     }
   }
 })

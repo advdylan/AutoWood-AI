@@ -13,6 +13,7 @@
             <th>Cena</th>
             <th>Typ</th>
             <th>Ilość</th>
+            <th>Dodaj</th>
           </tr>
 
         </thead>
@@ -24,12 +25,48 @@
 
         </tfoot>
         <tbody>
-          <tr v-for="accesory in filteredAccesories" :key="accesory.name">
+          <tr v-for="accesory in filteredAccesories.slice(0, 3)" :key="accesory.name">
             
             <th>{{ accesory.name }}</th>
             <td>{{ accesory.price }}</td>
             <td>{{ accesory.type }}</td>
-            <td><input class="input is-small" type="text" placeholder="Ilość"/></td>
+            <td><input v-model="accesory.quantity" class="input is-small" type="text" placeholder="Ilość"/></td>
+            <td><button @click="addAccesory(accesory)" class="button is-dark"><i class="fa-solid fa-plus">&nbsp;</i></button></td>
+                   
+          </tr>
+        </tbody>
+        
+      </table>
+
+      <table class="table is-bordered is-striped is-hoverable is-fullwidth">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Cena</th>
+            <th>Typ</th>
+            <th>Ilość</th>
+            <th>Dodaj</th>
+          </tr>
+
+        </thead>
+        
+        <tfoot>
+          
+          <tr>   
+          </tr>
+
+        </tfoot>
+        <tbody>
+          <tr v-for="accesory in accesories" :key="accesory.name">
+            
+            <th>{{ accesory.name }}</th>
+            <td>{{ accesory.price }}</td>
+            <td>{{ accesory.type }}</td>
+            <td><input v-model="accesory.quantity" class="input is-small" type="text" placeholder="Ilość"/></td>
+            <td class="buttons"><button @click="addAccesory(accesory)" class="button is-dark"><i class="fa-solid fa-plus">&nbsp;</i></button>
+                <button @click="deleteAccesory(accesory)" class="button is-dark"><i class="fa-solid fa-minus">&nbsp;</i></button>
+            </td>
+            
                    
           </tr>
         </tbody>
@@ -52,7 +89,8 @@ import { storeToRefs } from 'pinia'
 import { types } from 'sass';
 
 const store = useNewProjectStoreBeta()
-const {accesorytype} = storeToRefs(store)
+const {addAccesory, deleteAccesory} = store
+const {accesorytype, accesories} = storeToRefs(store)
 
 const searchQuery = ref('')
 const filterType = ref('')
@@ -61,30 +99,24 @@ const setFilterType = (type) => {
     filterType.value = type
 }
 
-
 const filteredAccesories = computed(() => {
-    accesorytype.slice(0,2)
+  
     let result = accesorytype.value
-    console.log(result)
-   
-
+ 
     if (searchQuery.value) {
         result = result.filter(accesory => 
             accesory.name.toLowerCase().
             includes(searchQuery.value.toLocaleLowerCase())
         )    
     }
-
     if (filterType.value) {
         result = result.filter(accesory => 
             accesory.type === filterType.value
         )       
     }
-
     return result
-
-    
 })
+
 
 
 
