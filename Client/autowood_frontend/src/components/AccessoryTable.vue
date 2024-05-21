@@ -31,7 +31,25 @@
             <th>{{ accesory.name }}</th>
             <td>{{ accesory.price }}</td>
             <td>{{ accesory.type }}</td>
-            <td><input v-model="accesory.quantity" class="input is-small" type="text" placeholder="Ilość"/></td>
+
+            <td>
+            <div class="field has-addons">
+            <div class="control">
+              <button @click="increaseQuantity(accesory)" class="button is-dark is-small is-height-matched"><i class="fa-solid fa-plus"></i></button> 
+            </div>
+            &nbsp;
+            <div class="control">     
+            <input v-model="accesory.quantity" class="input is-small is-height-matched" type="text" placeholder="Ilość"/>
+            </div>
+            &nbsp;
+            <div class="control"> 
+            <button @click="decreaseQuantity(accesory)" class="button is-dark is-small is-height-matched"><i class="fa-solid fa-minus"></i></button> 
+            </div>
+            </div>
+            </td>
+          
+
+
             <td><button @click="addAccesory(accesory)" class="button is-dark"><i class="fa-solid fa-plus">&nbsp;</i></button></td>
                    
           </tr>
@@ -64,7 +82,7 @@
             <th>{{ accesory.name }}</th>
             <td>{{ accesory.price }}</td>
             <td>{{ accesory.type }}</td>
-            <td> {{ accesory.quantity }} 
+            <td> {{ accesory.quantity  }} 
                   <button @click="deleteAccesory(accesory)" class="button is-dark">Usuń</button>
 
              </td>
@@ -91,7 +109,7 @@ export default {
 import { useNewProjectStoreBeta } from '@/store/newproject'
 import {ref, computed} from 'vue'
 import { storeToRefs } from 'pinia'
-import { types } from 'sass';
+
 
 const store = useNewProjectStoreBeta()
 const {addAccesory, deleteAccesory} = store
@@ -111,8 +129,8 @@ const filteredAccesories = computed(() => {
     if (searchQuery.value) {
         result = result.filter(accesory => 
             accesory.name.toLowerCase().
-            includes(searchQuery.value.toLocaleLowerCase())
-        )    
+            includes(searchQuery.value.toLocaleLowerCase())         
+        ) 
     }
     if (filterType.value) {
         result = result.filter(accesory => 
@@ -124,5 +142,26 @@ const filteredAccesories = computed(() => {
 
 
 
+function increaseQuantity(accesory) {
+  if (accesory.quantity === NaN) {
+    accesory.quantity = 0
+  }
+  
+}
+
+function decreaseQuantityQuantity(accesory) {
+  accesory.quantity--
+}
+
+
+
+
+
 
 </script>
+
+<style>
+.is-height-matched {
+    height: 2.25em; /* Default height for Bulma's .input.is-small */
+}
+</style>

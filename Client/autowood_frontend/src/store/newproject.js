@@ -79,7 +79,6 @@ export const useNewProjectStoreBeta = defineStore('newproject', {
         type: accesory.type,
         quantity: accesory.quantity
       })
-
-    }
+    },
   }
 })
