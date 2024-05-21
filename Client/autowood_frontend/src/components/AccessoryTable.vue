@@ -122,6 +122,10 @@ const setFilterType = (type) => {
     filterType.value = type
 }
 
+accesorytype.forEach(accesory => {
+  accesory.quantity = 0
+})
+
 const filteredAccesories = computed(() => {
   
     let result = accesorytype.value
