@@ -107,7 +107,7 @@ export default {
 </script>
 <script setup>
 import { useNewProjectStoreBeta } from '@/store/newproject'
-import {ref, computed} from 'vue'
+import {ref, computed } from 'vue'
 import { storeToRefs } from 'pinia'
 
 
@@ -122,12 +122,14 @@ const setFilterType = (type) => {
     filterType.value = type
 }
 
-accesorytype.forEach(accesory => {
-  accesory.quantity = 0
-})
+
 
 const filteredAccesories = computed(() => {
-  
+
+    accesorytype.value.forEach(accesory => {
+    accesory.quantity = 0
+    })
+    
     let result = accesorytype.value
 
  
@@ -145,8 +147,6 @@ const filteredAccesories = computed(() => {
     
     return result
 })
-
-
 
 function increaseQuantity(accesory) {
   accesory.quantity++
