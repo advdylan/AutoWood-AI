@@ -125,6 +125,7 @@ const setFilterType = (type) => {
 const filteredAccesories = computed(() => {
   
     let result = accesorytype.value
+
  
     if (searchQuery.value) {
         result = result.filter(accesory => 
@@ -137,19 +138,18 @@ const filteredAccesories = computed(() => {
             accesory.type === filterType.value
         )       
     }
+    
     return result
 })
 
 
 
 function increaseQuantity(accesory) {
-  if (accesory.quantity === NaN) {
-    accesory.quantity = 0
-  }
+  accesory.quantity++
   
 }
 
-function decreaseQuantityQuantity(accesory) {
+function decreaseQuantity(accesory) {
   accesory.quantity--
 }
 
