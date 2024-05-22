@@ -18,6 +18,16 @@ export const useNewProjectStoreBeta = defineStore('newproject', {
 
 
   }),
+
+  getters: {
+    accesoriesStore() {
+      return this.accesories.map(accesory => ({
+        ...accesory,
+        sum: accesory.price * accesory.quantity
+      }));
+    }
+  
+  }, 
   actions: {
 
     setData(data){
@@ -63,16 +73,18 @@ export const useNewProjectStoreBeta = defineStore('newproject', {
     },
 
     addAccesory(accesory) {
-      console.log(accesory)
+      
       this.accesories.push({
         name: accesory.name,
         price: accesory.price,
         type: accesory.type,
-        quantity: accesory.quantity
+        quantity: accesory.quantity,
+        
+
       })
     },
     deleteAccesory(accesory) {
-      console.log(accesory)
+      
       this.accesories.pop({
         name: accesory.name,
         price: accesory.price,
@@ -80,5 +92,6 @@ export const useNewProjectStoreBeta = defineStore('newproject', {
         quantity: accesory.quantity
       })
     },
+
   }
 })

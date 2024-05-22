@@ -77,7 +77,7 @@
 
         </tfoot>
         <tbody>
-          <tr v-for="accesory in accesories" :key="accesory.name">
+          <tr v-for="accesory in accesoriesWithSum" :key="accesory.name">
             
             <th>{{ accesory.name }}</th>
             <td>{{ accesory.price }}</td>
@@ -87,7 +87,7 @@
 
              </td>
             
-            <td> {{ accesory.sum }}</td>
+            <td>  {{ accesory.sum  }}zł </td>
             
             
                    
@@ -112,8 +112,8 @@ import { storeToRefs } from 'pinia'
 
 
 const store = useNewProjectStoreBeta()
-const {addAccesory, deleteAccesory} = store
-const {accesorytype, accesories} = storeToRefs(store)
+const {addAccesory, deleteAccesory, } = store
+const {accesorytype, accesories, accesoriesWithSum} = storeToRefs(store)
 
 const searchQuery = ref('')
 const filterType = ref('')
@@ -129,7 +129,7 @@ const filteredAccesories = computed(() => {
     accesorytype.value.forEach(accesory => {
     accesory.quantity = 0
     })
-    
+
     let result = accesorytype.value
 
  
@@ -158,6 +158,9 @@ function decreaseQuantity(accesory) {
 }
 
 
+function calculateSum(accesory) {
+  return accesory.price * accesory.quantity;
+}
 
 
 
