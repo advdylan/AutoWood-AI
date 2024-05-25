@@ -13,7 +13,7 @@
                   <div class="field">
                     <label class="label">Nazwa projektu</label>
                     <div class="control">
-                      <input class="input" type="text" placeholder="Nazwa projektu">
+                      <input v-model="project_name" class="input" type="text" placeholder="Nazwa projektu">
                     </div>
                   </div>
 
@@ -267,11 +267,11 @@
   <div class="card">
     <div class="card-content">
       <p class="title">
-        “There are two hard things in computer science: cache invalidation, naming
-        things, and off-by-one errors.”
+        Podsumowanie
       </p>
-      <p class="subtitle">Jeff Atwood</p>
+      <p class="subtitle">{{project_name}}</p>
     </div>
+    <Summary/>
     <footer class="card-footer">
       <p class="card-footer-item">
         <span>
@@ -300,6 +300,7 @@ import { storeToRefs } from 'pinia'
 import ElementsTable from '@/components/ElementsTable'
 import WorktimeType from '@/components/WorktimeType'
 import AccessoryTable from '@/components/AccessoryTable.vue'
+import Summary from '@/components/Summary.vue'
 
 const showElementModal = ref(false)
 const showElementModalTable = ref(false)
@@ -309,6 +310,7 @@ const isCollapsedpaints = ref(false)
 const isCollapsed = ref(false)
 const isCollapsedelements = ref(false)
 const project = ref({})
+const project_name = ref()
 
 const newElement = ref({
 id: '',
