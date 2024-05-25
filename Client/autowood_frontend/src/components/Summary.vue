@@ -14,10 +14,10 @@
    
                 </tfoot>
                 <tbody>
-                  <tr v-for="element in pricedElements" :key="pricedElements.name">
+                  <tr v-for="element in pricedElements">
                     
                     <th>{{ element.price }}</th>
-                            
+                             
                   </tr>
                 </tbody>
                 
@@ -100,7 +100,7 @@
   export default {
     name: 'Summary'
   }
-  
+   
   </script>
   
   <script setup>
@@ -108,15 +108,9 @@
   import { storeToRefs } from 'pinia'
   
   const store = useNewProjectStoreBeta()
-  const { elementsPrice } = store
-
-  const pricedElements = elementsPrice()
-
-
-
   
 
-  const {elements, wood} = storeToRefs(store)
+  const {elements, wood, pricedElements} = storeToRefs(store)
 
  
  
