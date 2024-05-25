@@ -112,9 +112,16 @@
   const {elements, wood} = storeToRefs(store)
 
   function elementsPrice() {
-    if(elements) {
-        console.log(elements.value[0].dimX)
-    }
+    return elements.value.forEach(element =>{
+        let volume = (element.dimX / 1000) * (element.dimY / 1000) * (element.dimZ / 1000)
+        
+        let wood_type = wood.value.find(w => w.name === element.wood_type)
+        
+        let price = volume * wood_type.price
+        console.log(price)
+
+      
+    })
   }
  
 elementsPrice()
