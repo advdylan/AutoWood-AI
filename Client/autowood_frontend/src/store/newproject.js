@@ -12,7 +12,14 @@ export const useNewProjectStoreBeta = defineStore('newproject', {
     wood: [],
     collection: [],
     paints: [],
-    elements: [],
+    elements: [
+      { name: 'Nośna',
+        dimX: 2000,
+        dimY: 250 ,
+        dimZ: 25,
+        quantity: 2,
+        wood_type: 'Buk'}
+    ],
     boxes: []
     
 
@@ -24,8 +31,9 @@ export const useNewProjectStoreBeta = defineStore('newproject', {
       return this.accesories.map(accesory => ({
         ...accesory,
         sum: accesory.price * accesory.quantity
-      }));
-    }
+      }))
+    },
+
   
   }, 
   actions: {
@@ -92,6 +100,27 @@ export const useNewProjectStoreBeta = defineStore('newproject', {
         quantity: accesory.quantity
       })
     },
+
+    elementsPrice() {
+      return this.elements.map(element => {
+        let volume = (element.dimX / 1000) * (element.dimY / 1000) * (element.dimZ / 1000)
+        let wood_type = this.wood.find(w => w.name === element.wood_type)
+
+        if (!wood_type) {
+          console.error(`Nie znaleziono typu drewna: ${element.wood_type}`)
+          return {
+            ...element,
+            price: 'Nieznana cena - brak typu drewna'
+          }
+        }
+        
+        let price = volume * wood_type.price
+        return {
+          ...element,
+          price: price
+        }
+      })
+    }
 
   }
 })

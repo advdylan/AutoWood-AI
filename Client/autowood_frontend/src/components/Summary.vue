@@ -5,7 +5,7 @@
                 <thead>
                   <tr>
                     <th class="title is-size-5">Koszty elementów</th> 
-                    <button @click="elementsPrice" class="button">Button</button>
+                    
                         
                   </tr>    
                 </thead>
@@ -14,9 +14,9 @@
    
                 </tfoot>
                 <tbody>
-                  <tr v-for="data in summary" :key="summary.data">
+                  <tr v-for="element in pricedElements" :key="pricedElements.name">
                     
-                    <th>{{ data.elements }}</th>
+                    <th>{{ element.price }}</th>
                             
                   </tr>
                 </tbody>
@@ -108,23 +108,18 @@
   import { storeToRefs } from 'pinia'
   
   const store = useNewProjectStoreBeta()
+  const { elementsPrice } = store
+
+  const pricedElements = elementsPrice()
+
+
+
   
+
   const {elements, wood} = storeToRefs(store)
 
-  function elementsPrice() {
-    return elements.value.forEach(element =>{
-        let volume = (element.dimX / 1000) * (element.dimY / 1000) * (element.dimZ / 1000)
-        
-        let wood_type = wood.value.find(w => w.name === element.wood_type)
-        
-        let price = volume * wood_type.price
-        console.log(price)
-
-      
-    })
-  }
  
-elementsPrice()
+ 
 
 
 
