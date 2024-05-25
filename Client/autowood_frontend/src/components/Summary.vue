@@ -1,6 +1,6 @@
 <template>
     <div class="columns">
-        <div class="column is-half">
+        <div class="column is-two-thirds">
             <table class="table is-bordered is-striped is-hoverable is-fullwidth">
                 <thead>
                   <tr>
@@ -29,7 +29,7 @@
                 
               </table>
         </div>
-        <div class="column is-half">
+        <div class="column">
             <table class="table is-bordered is-striped is-hoverable is-fullwidth">
                 <thead>
                   <tr>
@@ -75,7 +75,9 @@
   
   const store = useNewProjectStoreBeta()
   
-  const {elements} = storeToRefs(store)
+  const {elements, } = storeToRefs(store)
+
+
 
 
   

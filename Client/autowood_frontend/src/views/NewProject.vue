@@ -275,15 +275,15 @@
     <footer class="card-footer">
       <p class="card-footer-item">
         <span>
-          View on
-          <a href="https://twitter.com/codinghorror/status/506010907021828096"
-            >Twitter</a
-          >
+          Wydrukuj podsumowanie wewnętrzne
         </span>
       </p>
       <p class="card-footer-item">
-        <span> Share on <a href="#">Facebook</a> </span>
+        <span>
+          Wydrukuj podsumowanie dla klienta
+        </span>
       </p>
+      
     </footer>
   </div>
 

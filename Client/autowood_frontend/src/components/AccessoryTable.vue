@@ -57,6 +57,8 @@
         
       </table>
 
+      <p class="title is-centered is-size-3">Dodane akcesoria</p>
+
       <table class="table is-bordered is-striped is-hoverable is-fullwidth">
         <thead>
           <tr>
@@ -77,7 +79,7 @@
 
         </tfoot>
         <tbody>
-          <tr v-for="accesory in accesoriesWithSum" :key="accesory.name">
+          <tr v-for="accesory in accesoriesStore" :key="accesory.name">
             
             <th>{{ accesory.name }}</th>
             <td>{{ accesory.price }}</td>
@@ -113,7 +115,7 @@ import { storeToRefs } from 'pinia'
 
 const store = useNewProjectStoreBeta()
 const {addAccesory, deleteAccesory, } = store
-const {accesorytype, accesories, accesoriesWithSum} = storeToRefs(store)
+const {accesorytype, accesories, accesoriesStore} = storeToRefs(store)
 
 const searchQuery = ref('')
 const filterType = ref('')
