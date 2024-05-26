@@ -18,6 +18,24 @@ export const useNewProjectStoreBeta = defineStore('newproject', {
         dimY: 250 ,
         dimZ: 25,
         quantity: 2,
+        wood_type: 'Buk'},
+        { name: 'Przód',
+        dimX: 1256,
+        dimY: 250 ,
+        dimZ: 25,
+        quantity: 2,
+        wood_type: 'Buk'},
+        { name: 'Oparcie',
+        dimX: 1256,
+        dimY: 450 ,
+        dimZ: 25,
+        quantity: 2,
+        wood_type: 'Buk'},
+        { name: 'Nośna',
+        dimX: 2000,
+        dimY: 250 ,
+        dimZ: 25,
+        quantity: 2,
         wood_type: 'Buk'}
     ],
     boxes: []
@@ -49,9 +67,17 @@ export const useNewProjectStoreBeta = defineStore('newproject', {
         let price = volume * wood_type.price
         return {
           ...element,
-          price: price
+          price: parseFloat(price).toFixed(2)
         }
       })
+    },
+    worktimeCost() {
+      return this.boxes.map(works => ({
+        ...works,
+        sum: works.value * works.hours
+      })
+        
+      )
     }
 
   
@@ -66,7 +92,7 @@ export const useNewProjectStoreBeta = defineStore('newproject', {
       this.collection = data.collection,
       this.paints = data.paints
       this.boxes = this.worktimetype.map(item => {
-        return { text: item.name, value: item.cost, checked: false, input: ''}
+        return { text: item.name, value: item.cost, checked: false, hours: ''}
       })
 
     },
@@ -121,6 +147,8 @@ export const useNewProjectStoreBeta = defineStore('newproject', {
         quantity: accesory.quantity
       })
     },
+
+    
 
     
 

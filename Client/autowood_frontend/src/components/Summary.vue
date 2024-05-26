@@ -4,9 +4,7 @@
             <table class="table is-bordered is-striped is-hoverable is-fullwidth">
                 <thead>
                   <tr>
-                    <th class="title is-size-5">Koszty elementów</th> 
-                    
-                        
+                    <th class="title is-size-5">Koszty elementów</th>        
                   </tr>    
                 </thead>
                 
@@ -14,11 +12,8 @@
    
                 </tfoot>
                 <tbody>
-                  <tr v-for="element in pricedElements">
-                    
-                    <th>{{ element.price }}</th>
-                             
-                  </tr>
+                  <th class="title is-size-5">Suma: {{ summElementCosts }} </th>
+                  
                 </tbody>
                 
               </table>
@@ -36,11 +31,9 @@
                                
                 </tfoot>
                 <tbody>
-                  <tr v-for="data in summary" :key="summary.data">
-                    
-                    <th>{{ data.elements }}</th>
+                  <th class="title is-size-5">Suma: {{ summAccesoriesCosts }} </th>
                             
-                  </tr>
+                  
                 </tbody>
                 
               </table>
@@ -59,9 +52,12 @@
                                
                 </tfoot>
                 <tbody>
-                  <tr v-for="data in summary" :key="summary.data">
+                  <tr>
+                    <tr v-for="worktime in worktimeCost">
+                      <th> {{worktime.sum}}</th>
+                    </tr>
                     
-                    <th>{{ data.elements }}</th>
+                  
                             
                   </tr>
                 </tbody>
@@ -105,15 +101,32 @@
   
   <script setup>
   import { useNewProjectStoreBeta } from '@/store/newproject'
+  import { computed } from 'vue'
   import { storeToRefs } from 'pinia'
   
   const store = useNewProjectStoreBeta()
   
 
-  const {elements, wood, pricedElements} = storeToRefs(store)
+  const {elements, wood, pricedElements, accesoriesStore, worktimeCost} = storeToRefs(store)
 
+
+  
+ const summElementCosts = computed(() => {
+  return pricedElements.value.reduce((n, {price}) => n + parseFloat(price), 0)
+  
+ })
  
- 
+ const summAccesoriesCosts = computed(() => {
+  return accesoriesStore.value.reduce((n, {sum}) => n + parseFloat(sum), 0)
+ })
+
+
+
+
+
+
+
+
 
 
 
