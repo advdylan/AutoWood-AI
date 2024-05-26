@@ -42,24 +42,27 @@
         <div class="column is-one-quarter">
             <table class="table is-bordered is-striped is-hoverable is-fullwidth">
                 <thead>
-                  <tr>
-                    <th class="title is-size-5">Koszty pracy</th>
-                    </tr>
+                  <th class="title is-size-5">Dział</th>
+                  <th class="title is-size-5">Godziny</th>
+                  <th class="title is-size-5">Stawka</th>
+                  <th class="title is-size-5">Suma</th>
                 </thead>
-                
-                <tfoot>
 
-                               
+                <tfoot>
+                  <th></th>
+                  <th>Suma</th>                 
                 </tfoot>
                 <tbody>
-                  <tr>
+
                     <tr v-for="worktime in worktimeCost">
+                      <th> {{worktime.text}}</th>
+                      <th> {{worktime.hours}}</th>
+                      <th> {{worktime.value}}</th>
                       <th> {{worktime.sum}}</th>
+                      
                     </tr>
-                    
-                  
                             
-                  </tr>
+                  
                 </tbody>
                 
               </table>
@@ -120,6 +123,7 @@
   return accesoriesStore.value.reduce((n, {sum}) => n + parseFloat(sum), 0)
  })
 
+ console.log(worktimeCost.value)
 
 
 
