@@ -7,18 +7,18 @@
             </header>
 
             <div class="columns">
-            <div class="column is-half">
+            <div class="column is-two-fifths">
               <div class="card-content">               
                 <div class="content">
                   <div class="field">
-                    <label class="label">Nazwa projektu</label>
+                    <label class="label is-size-5">Nazwa projektu</label>
                     <div class="control">
                       <input v-model="project_name" class="input" type="text" placeholder="Nazwa projektu">
                     </div>
                   </div>
 
                   <div class="field">
-                    <label class="label">Materiał</label>
+                    <label class="label is-size-5">Materiał</label>
                     <div class="control">
                       <div class="select">
                         <select>
@@ -29,7 +29,7 @@
                   </div>
 
                   <div class="field">
-                    <label class="label">Kategoria</label>
+                    <label class="label is-size-5">Kategoria</label>
                     <div class="control">
                       <div class="select">
                         <select>
@@ -40,7 +40,7 @@
                   </div>
 
                   <div class="field">
-                    <label class="label">Kolekcja</label>
+                    <label class="label is-size-5">Kolekcja</label>
                     <div class="control">
                       <div class="select">
                         <select>
@@ -51,7 +51,7 @@
                     </div>
 
                     <div class="field">
-                      <label class="label">Malowanie</label>
+                      <label class="label is-size-5">Malowanie</label>
                       <div class="control">
                         <div class="select">
                           <select>
@@ -71,7 +71,7 @@
                       <div class="content">
                     <div class="card">
                       <header class="card-header" @click="isCollapsedelements = !isCollapsedelements">
-                        <p class="card-header-title">
+                        <p class="card-header-title is-size-5">
                           Lista elementów
                         </p>
                         <a href="#collapsible-card" data-action="collapse" class="card-header-icon is-hidden-fullscreen" aria-label="more options">
@@ -107,7 +107,7 @@
          
          <div class="card">
           <header class="card-header" @click="isCollapsedpaints = !isCollapsedpaints">
-            <p class="card-header-title">
+            <p class="card-header-title is-size-5">
               Koszty pracy
             </p>
             <a href="#collapsible-card" data-action="collapse" class="card-header-icon is-hidden-fullscreen" aria-label="more options">
@@ -127,7 +127,7 @@
 
               <div class="card">
                 <header class="card-header" @click="isCollapsedacc = !isCollapsedacc">
-                  <p class="card-header-title">
+                  <p class="card-header-title is-size-5">
                     Akcesoria
                   </p>
                   <a href="#collapsible-card" data-action="collapse" class="card-header-icon is-hidden-fullscreen" aria-label="more options">

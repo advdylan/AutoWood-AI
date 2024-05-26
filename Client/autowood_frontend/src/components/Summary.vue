@@ -1,96 +1,112 @@
 <template>
     <div class="columns">
-        <div class="column is-one-quarter">
-            <table class="table is-bordered is-striped is-hoverable is-fullwidth">
-                <thead>
-                  <tr>
-                    <th class="title is-size-5">Koszty elementów</th>        
-                  </tr>    
-                </thead>
+        <div class="column is-half">
+
+
+
+
+
+          <div class="card">
+            <header class="card-header">
+              <p class="card-header-title">Component</p>
+    
+            </header>
+            <div class="card-content">
+              <div class="content">
                 
-                <tfoot>
-   
-                </tfoot>
-                <tbody>
-                  <th class="title is-size-5">Suma: {{ summElementCosts }} </th>
+
+                <table class="table is-bordered is-striped is-hoverable is-fullwidth">
+                  <thead>
+                    <tr>
+                      <th class="title is-size-5">Koszty elementów</th>        
+                    </tr>    
+                  </thead>
                   
-                </tbody>
-                
-              </table>
-        </div>
-        <div class="column is-one-quarter">
-            <table class="table is-bordered is-striped is-hoverable is-fullwidth">
-                <thead>
-                  <tr>
-                    <th class="title is-size-5">Koszty akcesorii</th>
-                    </tr>
-                </thead>
-                
-                <tfoot>
-
-                               
-                </tfoot>
-                <tbody>
-                  <th class="title is-size-5">Suma: {{ summAccesoriesCosts }} </th>
-                            
-                  
-                </tbody>
-                
-              </table>
-        </div>
-
-        <div class="column is-one-quarter">
-            <table class="table is-bordered is-striped is-hoverable is-fullwidth">
-                <thead>
-                  <th class="title is-size-5">Dział</th>
-                  <th class="title is-size-5">Godziny</th>
-                  <th class="title is-size-5">Stawka</th>
-                  <th class="title is-size-5">Suma</th>
-                </thead>
-
-                <tfoot>
-                  <th></th>
-                  <th>Suma</th>                 
-                </tfoot>
-                <tbody>
-
-                    <tr v-for="worktime in worktimeCost">
-                      <th> {{worktime.text}}</th>
-                      <th> {{worktime.hours}}</th>
-                      <th> {{worktime.value}}</th>
-                      <th> {{worktime.sum}}</th>
-                      
-                    </tr>
-                            
-                  
-                </tbody>
-                
-              </table>
-        </div>
-
-        <div class="column is-one-quarter">
-            <table class="table is-bordered is-striped is-hoverable is-fullwidth">
-                <thead>
-                  <tr>
-                    <th class="title is-size-5">Marże</th>
-                    </tr>
-                </thead>
-                
-                <tfoot>
-
-                               
-                </tfoot>
-                <tbody>
-                  <tr v-for="data in summary" :key="summary.data">
+                  <tfoot>
+     
+                  </tfoot>
+                  <tbody>
+                    <th class="title is-size-5">Suma: {{ summElementCosts }} </th>
                     
-                    <th>{{ data.elements }}</th>
-                            
-                  </tr>
-                </tbody>
-                
-              </table>
+                  </tbody>
+                  
+                </table>
+  
+                <table class="table is-bordered is-striped is-hoverable is-fullwidth">
+                  <thead>
+                    <tr>
+                      <th class="title is-size-5">Koszty akcesorii</th>
+                      </tr>
+                  </thead>
+                  
+                  <tfoot>
+  
+                                 
+                  </tfoot>
+                  <tbody>
+                    <th class="title is-size-5">Suma: {{ summAccesoriesCosts }} </th>
+                              
+                    
+                  </tbody>
+                  
+                </table>
+  
+                <table class="table is-bordered is-striped is-hoverable is-fullwidth">
+                  <thead>
+                    <th class="title is-size-5">Dział</th>
+                    <th class="title is-size-5">Godziny</th>
+                    <th class="title is-size-5">Stawka</th>
+                    <th class="title is-size-5">Suma</th>
+
+                  </thead>
+                 
+   
+                  <tbody>
+  
+                      <tr v-for="worktime in worktimeCost">
+                        <th> {{worktime.text}}</th>
+                        <th> {{worktime.hours}}</th>
+                        <th> {{worktime.value}}</th>
+                        <th> {{worktime.sum}}</th>
+                        
+                      </tr>
+
+                  </tbody>
+                  
+                </table>
+          </div>
+              </div>
+            </div>
+          
+          </div>
+
+
+
+        <div class="column">
+          <div class="card">
+            <header class="card-header">
+              <p class="card-header-title">Component</p>           
+            </header>
+            <div class="card-content">
+              <div class="content">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus nec
+                iaculis mauris.
+                <a href="#">@bulmaio</a>. <a href="#">#css</a> <a href="#">#responsive</a>
+                <br />
+                <time datetime="2016-1-1">11:09 PM - 1 Jan 2016</time>
+              </div>
+            </div>
+            <footer class="card-footer">
+              <a href="#" class="card-footer-item">Save</a>
+              <a href="#" class="card-footer-item">Edit</a>
+              <a href="#" class="card-footer-item">Delete</a>
+            </footer>
+          </div>
+            
         </div>
+        
     </div>
+  
 
       
   </template>
