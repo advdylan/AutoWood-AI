@@ -8,7 +8,7 @@
 
           <div class="card">
             <header class="card-header">
-              <p class="card-header-title">Component</p>
+              <p class="card-header-title">Suma kosztów</p>
     
             </header>
             <div class="card-content">
@@ -18,7 +18,7 @@
                 <table class="table is-bordered is-striped is-hoverable is-fullwidth">
                   <thead>
                     <tr>
-                      <th class="title is-size-5">Koszty elementów</th>        
+                      <th class="title is-size-6">Koszty elementów</th>        
                     </tr>    
                   </thead>
                   
@@ -26,7 +26,7 @@
      
                   </tfoot>
                   <tbody>
-                    <th class="title is-size-5">Suma: {{ summElementCosts }} </th>
+                    <th class="title is-size-6">Suma: {{ summElementCosts }} zł </th>
                     
                   </tbody>
                   
@@ -35,7 +35,7 @@
                 <table class="table is-bordered is-striped is-hoverable is-fullwidth">
                   <thead>
                     <tr>
-                      <th class="title is-size-5">Koszty akcesorii</th>
+                      <th class="title is-size-6">Koszty akcesorii</th>
                       </tr>
                   </thead>
                   
@@ -44,7 +44,7 @@
                                  
                   </tfoot>
                   <tbody>
-                    <th class="title is-size-5">Suma: {{ summAccesoriesCosts }} </th>
+                    <th class="title is-size-6">Suma: {{ summAccesoriesCosts }} zł </th>
                               
                     
                   </tbody>
@@ -53,10 +53,10 @@
   
                 <table class="table is-bordered is-striped is-hoverable is-fullwidth">
                   <thead>
-                    <th class="title is-size-5">Dział</th>
-                    <th class="title is-size-5">Godziny</th>
-                    <th class="title is-size-5">Stawka</th>
-                    <th class="title is-size-5">Suma</th>
+                    <th class="title is-size-6">Dział</th>
+                    <th class="title is-size-6">Czas</th>
+                    <th class="title is-size-6">Stawka</th>
+                    <th class="title is-size-6">Suma</th>
 
                   </thead>
                  
@@ -65,16 +65,22 @@
   
                       <tr v-for="worktime in worktimeCost">
                         <th> {{worktime.text}}</th>
-                        <th> {{worktime.hours}}</th>
-                        <th> {{worktime.value}}</th>
-                        <th> {{worktime.sum}}</th>
+                        <th> {{worktime.hours}} h</th>
+                        <th> {{worktime.value}} zł/h</th>
+                        <th> {{worktime.sum}} zł</th>
                         
+                      </tr>
+                      <tr>
+                        <th>Suma </th>
                       </tr>
 
                   </tbody>
+
+                  
                   
                 </table>
           </div>
+          
               </div>
             </div>
           
