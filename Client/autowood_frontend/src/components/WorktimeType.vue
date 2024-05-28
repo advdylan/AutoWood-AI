@@ -6,7 +6,7 @@
           <input type="checkbox" v-model="box.checked" />
           {{ box.text }}
         </label>
-        <input  class="input" type="text" v-if="box.checked" v-model="box.hours" />
+        <input  class="input is-small" type="text" v-if="box.checked" v-model="box.hours" />
         <div class="box" v-if="box.checked"> Stawka godzinowa:{{ box.value }}</div>
       </div>
     </div>

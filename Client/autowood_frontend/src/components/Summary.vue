@@ -8,7 +8,7 @@
 
           <div class="card">
             <header class="card-header">
-              <p class="card-header-title">Suma kosztów</p>
+              <p class="card-header-title is-size-5">Suma kosztów</p>
     
             </header>
             <div class="card-content">
@@ -59,26 +59,43 @@
                     <th class="title is-size-6">Suma</th>
 
                   </thead>
-                 
-   
                   <tbody>
-  
+
                       <tr v-for="worktime in worktimeCost">
                         <th> {{worktime.text}}</th>
                         <th> {{worktime.hours}} h</th>
                         <th> {{worktime.value}} zł/h</th>
                         <th> {{worktime.sum}} zł</th>
-                        
                       </tr>
                       <tr>
                         <th>Suma </th>
+                        <th></th>
+                        <th></th>
+                        <th> {{ summWorktimeCosts }} zł</th>
                       </tr>
+                  </tbody>
+                </table>
+
+                <table class="table is-bordered is-striped is-hoverable is-fullwidth">
+                  <thead>
+                    <tr>
+                      <th class="title is-size-6">Łącznie</th>        
+                    </tr>    
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <th> Suma: {{ summaryCosts}}</th>
+                    </tr>
+                    <tr>
+                      <th v-if="marginA"> Suma z marżą materiałową : {{ parseFloat(summaryCostsWithMarginA).toFixed(2) }}</th>
+                      <th v-if="marginB"> Suma z marżą na akcesoria: {{ parseFloat(summaryCostsWithMarginB).toFixed(2)}}</th>
+                    </tr>
 
                   </tbody>
-
-                  
                   
                 </table>
+                
+
           </div>
           
               </div>
@@ -91,21 +108,30 @@
         <div class="column">
           <div class="card">
             <header class="card-header">
-              <p class="card-header-title">Component</p>           
+              <p class="card-header-title is-size-5">Marże</p>           
             </header>
             <div class="card-content">
               <div class="content">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus nec
-                iaculis mauris.
-                <a href="#">@bulmaio</a>. <a href="#">#css</a> <a href="#">#responsive</a>
-                <br />
-                <time datetime="2016-1-1">11:09 PM - 1 Jan 2016</time>
+                <div class="field">
+                  <label class="label">Marża materiałowa</label>
+                  <div class="control">
+                    <input v-model="marginA" class="input" type="text" placeholder="Marża wyrażana w %">                  
+                  </div>
+                  <label class="label">Marża akcesorii</label>
+                  <div class="control">
+                    <input v-model="marginB" class="input" type="text" placeholder="Marża wyrażana w %">                  
+                  </div>
+                  <label class="label">Marża dodatkowa</label>
+                  <div class="control">
+                    <input class="input" type="text" placeholder="Marża wyrażana w %">                  
+                  </div>
+                </div>
               </div>
             </div>
             <footer class="card-footer">
-              <a href="#" class="card-footer-item">Save</a>
-              <a href="#" class="card-footer-item">Edit</a>
-              <a href="#" class="card-footer-item">Delete</a>
+
+
+             
             </footer>
           </div>
             
@@ -126,9 +152,13 @@
   
   <script setup>
   import { useNewProjectStoreBeta } from '@/store/newproject'
-  import { computed } from 'vue'
+  import { computed, ref } from 'vue'
   import { storeToRefs } from 'pinia'
   
+  const marginA = ref()
+  const marginB = ref()
+
+
   const store = useNewProjectStoreBeta()
   
 
@@ -145,17 +175,24 @@
   return accesoriesStore.value.reduce((n, {sum}) => n + parseFloat(sum), 0)
  })
 
- console.log(worktimeCost.value)
+const summWorktimeCosts = computed(() => {
+  return worktimeCost.value.reduce((n, {sum}) => n + parseFloat(sum), 0)
+  
+})
 
+const summaryCosts = computed(() => {
+  return parseFloat(summWorktimeCosts.value) + parseFloat(summElementCosts.value) + parseFloat(summAccesoriesCosts.value)
+})
 
+const summaryCostsWithMarginA = computed(() => {
+  let margin = ((parseFloat(summElementCosts.value) * parseInt(marginA.value)) / 100)
+  return summaryCosts.value + margin
+})
 
+const summaryCostsWithMarginB = computed(() => {
+  let margin = ((parseFloat(summAccesoriesCosts.value) * parseInt(marginB.value)) / 100)
 
-
-
-
-
-
-
+})
   
   </script>
   
