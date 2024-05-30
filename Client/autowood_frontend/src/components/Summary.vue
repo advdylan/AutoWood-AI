@@ -87,13 +87,13 @@
                       <th> Suma: {{ summaryCosts}}</th>
                     </tr>
                     <tr>
-                      <th v-if="marginA"> Marża na materiał : {{ parseFloat(elementsMargin).toFixed(2) }}</th>
+                      <th v-if="marginA"> Marża na materiał : {{ parseFloat(elementsMargin) }}</th>
                     </tr>
                     <tr>
-                      <th v-if="marginB"> Marża na akcesoria: {{ parseFloat(accesoriesMargin).toFixed(2)}}</th>
+                      <th v-if="marginB"> Marża na akcesoria: {{ parseFloat(accesoriesMargin)}}</th>
                     </tr>
                     <tr>
-                      <th v-if="marginC">Marża dodatkowa: {{ parseFloat(additionalMargin).toFixed(2) }}</th>
+                      <th v-if="marginC">Marża dodatkowa: {{ parseFloat(additionalMargin) }}</th>
                     </tr>
                     <tr>
                       <th v-if="marginC || marginB || marginA">Suma z marżami: {{ parseFloat(summaryCostsWithMargin).toFixed(2) }}</th>
@@ -161,7 +161,7 @@
   <script setup>
   import { useNewProjectStoreBeta } from '@/store/newproject'
   import { useSummaryStore } from '@/store/summary'
-  import { computed, ref } from 'vue'
+  import { computed, ref, watch, watchEffect } from 'vue'
   import { storeToRefs } from 'pinia'
   
   const marginA = ref()
@@ -178,16 +178,16 @@
 
   
  const summElementCosts = computed(() => {
-  return pricedElements.value.reduce((n, {price}) => n + parseFloat(price), 0)
+  return pricedElements.value.reduce((n, {price}) => n + parseFloat(price), 0).toFixed(2)
   
  })
  
  const summAccesoriesCosts = computed(() => {
-  return accesoriesStore.value.reduce((n, {sum}) => n + parseFloat(sum), 0)
+  return accesoriesStore.value.reduce((n, {sum}) => n + parseFloat(sum), 0).toFixed(2)
  })
 
 const summWorktimeCosts = computed(() => {
-  return worktimeCost.value.reduce((n, {sum}) => n + parseFloat(sum), 0)
+  return worktimeCost.value.reduce((n, {sum}) => n + parseFloat(sum), 0).toFixed(2)
   
 })
 
@@ -216,11 +216,14 @@ const summaryCostsWithMargin = computed(() => {
 
 })
 
+watchEffect(() => {
 summaryStore.setSummaryCosts(summaryCosts.value)
 summaryStore.setElementsMargin(elementsMargin.value)
 summaryStore.setAccesoriesMargin(accesoriesMargin.value)
 summaryStore.setAdditionalMargin(additionalMargin.value)
 summaryStore.calculateSummaryCostsWithMargin()
+})
+
 
 
   

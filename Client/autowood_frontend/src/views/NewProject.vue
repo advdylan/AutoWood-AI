@@ -320,11 +320,6 @@ const selectedCategory = ref()
 const selectedCollection = ref()
 const selectedPaint = ref()
 
-
-
-
-
-
 const newElement = ref({
 id: '',
 name: '',
@@ -341,7 +336,7 @@ const summaryStore = useSummaryStore()
 const { addElement, loadData, } = elementStore
 const {summaryCosts, elementsMargin, accesoriesMargin, additionalMargin,summaryCostsWithMargin} = storeToRefs(summaryStore)
 
-console.log(summaryCosts.value)
+console.log(elementsMargin.value, accesoriesMargin.value, additionalMargin.value, summaryCostsWithMargin.value)
 
 loadData()
 const {elements, wood, collection, paints, category,} = storeToRefs(elementStore)
@@ -359,19 +354,17 @@ newElement.value = {
 }
 }
 
- 
-
-const projectpostData = {
-  name: projectName,
-  wood: selectedWood.value,
-  elements_margin: elementsMargin,
-  accesories_margin: accesoriesMargin.value,
-  additional_margin: additionalMargin.value,
-  summary_with_margin: summaryCostsWithMargin.value,
-}
-
+  
 
 function printData() {
+  const projectpostData = {
+    name: projectName.value,
+    wood: selectedWood.value,
+    elements_margin: parseFloat(elementsMargin.value.toFixed(2)),
+    accesories_margin: parseFloat(accesoriesMargin.value.toFixed(2)),
+    additional_margin: parseFloat(additionalMargin.value.toFixed(2)),
+    summary_with_margin: parseFloat(summaryCostsWithMargin.value.toFixed(2)),
+  }
   console.log(projectpostData)
 }
 
