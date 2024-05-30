@@ -295,6 +295,7 @@
 
 <script setup>
 import { useNewProjectStoreBeta } from '@/store/newproject'
+import { useSummaryStore } from '@/store/summary'
 import {ref, computed} from 'vue'
 import { storeToRefs } from 'pinia'
 import ElementsTable from '@/components/ElementsTable'
@@ -323,8 +324,12 @@ wood_type: ''
 })
 
 const elementStore = useNewProjectStoreBeta()
+const summaryStore = useSummaryStore()
 
 const { addElement, loadData, } = elementStore
+const {summaryCosts} = summaryStore
+
+console.log(summaryCosts)
 
 loadData()
 const {elements, wood, collection, paints, category,} = storeToRefs(elementStore)
@@ -341,6 +346,10 @@ newElement.value = {
   wood_type: ''
 }
 }
+
+
+
+
 
 </script>
 

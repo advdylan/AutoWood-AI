@@ -160,6 +160,7 @@
   
   <script setup>
   import { useNewProjectStoreBeta } from '@/store/newproject'
+  import { useSummaryStore } from '@/store/summary'
   import { computed, ref } from 'vue'
   import { storeToRefs } from 'pinia'
   
@@ -169,6 +170,7 @@
 
 
   const store = useNewProjectStoreBeta()
+  const summaryStore = useSummaryStore()
   
 
   const {elements, wood, pricedElements, accesoriesStore, worktimeCost} = storeToRefs(store)
@@ -209,10 +211,18 @@ const additionalMargin = computed(() => {
 })
 
 const summaryCostsWithMargin = computed(() => {
-  let sum = ((parseFloat(summaryCosts.value) + parseFloat(elementsMargin.value) + parseFloat(accesoriesMargin.value) + parseFloat(additionalMargin.value)))
+  let sum = ((parseFloat(summaryCosts.value) + parseFloat(elementsMargin.value || 0) + parseFloat(accesoriesMargin.value || 0) + parseFloat(additionalMargin.value || 0)))
   return sum
 
 })
+
+summaryStore.setSummaryCosts(summaryCosts.value)
+summaryStore.setElementsMargin(elementsMargin.value)
+summaryStore.setAccesoriesMargin(accesoriesMargin.value)
+summaryStore.setAdditionalMargin(additionalMargin.value)
+summaryStore.calculateSummaryCostsWithMargin()
+
+
   
   </script>
   
