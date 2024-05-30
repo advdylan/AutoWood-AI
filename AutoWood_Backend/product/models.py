@@ -131,6 +131,9 @@ class Product(models.Model):
     def get_absolute_url(self): 
         return f'/{self.category.name}/{self.name}'
     
+
+
+    
     
 class Balance(models.Model):
     balance = models.DecimalField(blank=True, max_digits=7, decimal_places=2)

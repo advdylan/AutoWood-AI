@@ -13,7 +13,7 @@
                   <div class="field">
                     <label class="label is-size-5">Nazwa projektu</label>
                     <div class="control">
-                      <input v-model="project_name" class="input" type="text" placeholder="Nazwa projektu">
+                      <input v-model="projectName" class="input" type="text" placeholder="Nazwa projektu">
                     </div>
                   </div>
 
@@ -21,7 +21,7 @@
                     <label class="label is-size-5">Materiał</label>
                     <div class="control">
                       <div class="select">
-                        <select>
+                        <select v-model="selectedWood">
                           <option v-for="woodItem in wood"> {{ woodItem.name }}</option>
                         </select>
                       </div>
@@ -32,7 +32,7 @@
                     <label class="label is-size-5">Kategoria</label>
                     <div class="control">
                       <div class="select">
-                        <select>
+                        <select v-model="selectedCategory">
                           <option v-for="categoryItem in category"> {{ categoryItem.name }}</option>
                         </select>
                       </div>
@@ -43,7 +43,7 @@
                     <label class="label is-size-5">Kolekcja</label>
                     <div class="control">
                       <div class="select">
-                        <select>
+                        <select v-model="selectedCollection">
                         <option v-for="collection in collection"> {{ collection.name }}</option>
                         </select>
                       </div>
@@ -54,7 +54,7 @@
                       <label class="label is-size-5">Malowanie</label>
                       <div class="control">
                         <div class="select">
-                          <select>
+                          <select v-model="selectedPaint">
                             <option v-for="paints in paints">{{ paints.name}}</option>
                           </select>
                         </div>
@@ -269,13 +269,14 @@
       <p class="title">
         Podsumowanie
       </p>
-      <p class="subtitle">{{project_name}}</p>
+      <p class="subtitle">{{projectName}}</p>
     </div>
     <Summary/>
     <footer class="card-footer">
       <p class="card-footer-item">
         <span>
           Wydrukuj podsumowanie wewnętrzne
+          <button @click="printData" class="button is-primary">PRINT</button>
         </span>
       </p>
       <p class="card-footer-item">
@@ -311,7 +312,18 @@ const isCollapsedpaints = ref(false)
 const isCollapsed = ref(false)
 const isCollapsedelements = ref(false)
 const project = ref({})
-const project_name = ref()
+
+
+const projectName = ref()
+const selectedWood = ref()
+const selectedCategory = ref()
+const selectedCollection = ref()
+const selectedPaint = ref()
+
+
+
+
+
 
 const newElement = ref({
 id: '',
@@ -327,9 +339,9 @@ const elementStore = useNewProjectStoreBeta()
 const summaryStore = useSummaryStore()
 
 const { addElement, loadData, } = elementStore
-const {summaryCosts} = summaryStore
+const {summaryCosts, elementsMargin, accesoriesMargin, additionalMargin,summaryCostsWithMargin} = storeToRefs(summaryStore)
 
-console.log(summaryCosts)
+console.log(summaryCosts.value)
 
 loadData()
 const {elements, wood, collection, paints, category,} = storeToRefs(elementStore)
@@ -346,6 +358,39 @@ newElement.value = {
   wood_type: ''
 }
 }
+
+ 
+
+const projectpostData = {
+  name: projectName,
+  wood: selectedWood.value,
+  elements_margin: elementsMargin,
+  accesories_margin: accesoriesMargin.value,
+  additional_margin: additionalMargin.value,
+  summary_with_margin: summaryCostsWithMargin.value,
+}
+
+
+function printData() {
+  console.log(projectpostData)
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
