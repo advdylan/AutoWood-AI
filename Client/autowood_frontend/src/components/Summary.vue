@@ -87,8 +87,16 @@
                       <th> Suma: {{ summaryCosts}}</th>
                     </tr>
                     <tr>
-                      <th v-if="marginA"> Suma z marżą materiałową : {{ parseFloat(summaryCostsWithMarginA).toFixed(2) }}</th>
-                      <th v-if="marginB"> Suma z marżą na akcesoria: {{ parseFloat(summaryCostsWithMarginB).toFixed(2)}}</th>
+                      <th v-if="marginA"> Marża na materiał : {{ parseFloat(elementsMargin).toFixed(2) }}</th>
+                    </tr>
+                    <tr>
+                      <th v-if="marginB"> Marża na akcesoria: {{ parseFloat(accesoriesMargin).toFixed(2)}}</th>
+                    </tr>
+                    <tr>
+                      <th v-if="marginC">Marża dodatkowa: {{ parseFloat(additionalMargin).toFixed(2) }}</th>
+                    </tr>
+                    <tr>
+                      <th v-if="marginC || marginB || marginA">Suma z marżami: {{ parseFloat(summaryCostsWithMargin).toFixed(2) }}</th>
                     </tr>
 
                   </tbody>
@@ -108,7 +116,7 @@
         <div class="column">
           <div class="card">
             <header class="card-header">
-              <p class="card-header-title is-size-5">Marże</p>           
+              <p class="card-header-title is-size-5">Marże wyrażane w %</p>           
             </header>
             <div class="card-content">
               <div class="content">
@@ -121,9 +129,9 @@
                   <div class="control">
                     <input v-model="marginB" class="input" type="text" placeholder="Marża wyrażana w %">                  
                   </div>
-                  <label class="label">Marża dodatkowa</label>
+                  <label  class="label">Marża dodatkowa <strong class="is-underlined">(Dotyczy wszystkich elementów wyceny)</strong></label>
                   <div class="control">
-                    <input class="input" type="text" placeholder="Marża wyrażana w %">                  
+                    <input v-model="marginC" class="input" type="text" placeholder="Marża wyrażana w %">                  
                   </div>
                 </div>
               </div>
@@ -157,6 +165,7 @@
   
   const marginA = ref()
   const marginB = ref()
+  const marginC = ref()
 
 
   const store = useNewProjectStoreBeta()
@@ -184,13 +193,24 @@ const summaryCosts = computed(() => {
   return parseFloat(summWorktimeCosts.value) + parseFloat(summElementCosts.value) + parseFloat(summAccesoriesCosts.value)
 })
 
-const summaryCostsWithMarginA = computed(() => {
+const elementsMargin = computed(() => {
   let margin = ((parseFloat(summElementCosts.value) * parseInt(marginA.value)) / 100)
-  return summaryCosts.value + margin
+  return margin
 })
 
-const summaryCostsWithMarginB = computed(() => {
+const accesoriesMargin = computed(() => {
   let margin = ((parseFloat(summAccesoriesCosts.value) * parseInt(marginB.value)) / 100)
+  return margin
+})
+
+const additionalMargin = computed(() => {
+  let margin = ((parseFloat(summWorktimeCosts.value)+ parseFloat(summElementCosts.value) + parseFloat(summAccesoriesCosts.value)) * parseInt(marginC.value) / 100)
+  return margin
+})
+
+const summaryCostsWithMargin = computed(() => {
+  let sum = ((parseFloat(summaryCosts.value) + parseFloat(elementsMargin.value) + parseFloat(accesoriesMargin.value) + parseFloat(additionalMargin.value)))
+  return sum
 
 })
   
