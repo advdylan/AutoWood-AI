@@ -8,7 +8,7 @@ export const useNewProjectStoreBeta = defineStore('newproject', {
     category: [],
     worktimetype: [],
     accesorytype: [],
-    accesories: [],
+    accesories: [{"name":"Prowadnica Hafele 35","price":"15.00","type":"Prowadnice","quantity":4},{"name":"Prowadnica Hafele 30","price":"10.00","type":"Prowadnice","quantity":3}],
     wood: [],
     collection: [],
     paints: [],
