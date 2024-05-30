@@ -221,7 +221,7 @@ summaryStore.setSummaryCosts(summaryCosts.value)
 summaryStore.setElementsMargin(elementsMargin.value)
 summaryStore.setAccesoriesMargin(accesoriesMargin.value)
 summaryStore.setAdditionalMargin(additionalMargin.value)
-summaryStore.calculateSummaryCostsWithMargin()
+summaryStore.calculateSummaryCostsWithMargin(summaryCostsWithMargin.value)
 })
 
 

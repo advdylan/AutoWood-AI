@@ -339,7 +339,7 @@ const {summaryCosts, elementsMargin, accesoriesMargin, additionalMargin,summaryC
 console.log(elementsMargin.value, accesoriesMargin.value, additionalMargin.value, summaryCostsWithMargin.value)
 
 loadData()
-const {elements, wood, collection, paints, category,} = storeToRefs(elementStore)
+const {elements, wood, collection, paints, category, boxes} = storeToRefs(elementStore)
 
 const submitForm = () => {
 addElement(newElement.value)
@@ -364,8 +364,14 @@ function printData() {
     accesories_margin: parseFloat(accesoriesMargin.value.toFixed(2)),
     additional_margin: parseFloat(additionalMargin.value.toFixed(2)),
     summary_with_margin: parseFloat(summaryCostsWithMargin.value.toFixed(2)),
+    elements: elements.value,
+    worktime: boxes.value,
+
+    
   }
+  let jsonProjectData = JSON.stringify(projectpostData)
   console.log(projectpostData)
+  console.log(jsonProjectData)
 }
 
 

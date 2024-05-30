@@ -1,4 +1,5 @@
 import { defineStore } from 'pinia'
+import { setTransitionHooks } from 'vue'
 
 export const useSummaryStore = defineStore('summary', {
     state: () => ({
@@ -21,8 +22,9 @@ export const useSummaryStore = defineStore('summary', {
       setAdditionalMargin(value) {
         this.additionalMargin = value
       },
-      calculateSummaryCostsWithMargin() {
-        this.summaryCostsWithMargin = this.summaryCosts + this.elementsMargin + this.accesoriesMargin + this.additionalMargin
+      calculateSummaryCostsWithMargin(value) {
+        this.summaryCostsWithMargin = value
+        
       },
     },
   })
