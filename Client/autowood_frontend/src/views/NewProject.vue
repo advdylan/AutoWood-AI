@@ -277,6 +277,7 @@
         <span>
           Wydrukuj podsumowanie wewnętrzne
           <button @click="printData" class="button is-primary">PRINT</button>
+          <button @click="saveData" class="button is-primary">Save</button>
         </span>
       </p>
       <p class="card-footer-item">
@@ -303,6 +304,7 @@ import ElementsTable from '@/components/ElementsTable'
 import WorktimeType from '@/components/WorktimeType'
 import AccessoryTable from '@/components/AccessoryTable.vue'
 import Summary from '@/components/Summary.vue'
+import axios from 'axios'
 
 const showElementModal = ref(false)
 const showElementModalTable = ref(false)
@@ -319,6 +321,7 @@ const selectedWood = ref()
 const selectedCategory = ref()
 const selectedCollection = ref()
 const selectedPaint = ref()
+const projectpostData = ref()
 
 const newElement = ref({
 id: '',
@@ -356,10 +359,13 @@ newElement.value = {
 
   
 
-function printData() {
+
+async function saveData() {
   const projectpostData = {
     name: projectName.value,
     wood: selectedWood.value,
+    collection: selectedCollection.value,
+    paint: selectedPaint.value,
     elements_margin: parseFloat(elementsMargin.value.toFixed(2)),
     accesories_margin: parseFloat(accesoriesMargin.value.toFixed(2)),
     additional_margin: parseFloat(additionalMargin.value.toFixed(2)),
@@ -367,30 +373,20 @@ function printData() {
     summary_without_margin: parseFloat(summaryCosts.value.toFixed(2)),
     elements: elements.value,
     worktime: boxes.value,
-
     
   }
   let jsonProjectData = JSON.stringify(projectpostData)
-  console.log(projectpostData)
-  console.log(jsonProjectData)
-}
+    
+    await axios
+    .post(`api/v1/product/save`, jsonProjectData)
+    .then(response => {
+      console.log(jsonProjectData)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    })
+    .catch(error => {
+      console.log(error)
+    })
+  }
 
 
 

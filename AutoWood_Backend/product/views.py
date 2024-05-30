@@ -1,6 +1,9 @@
 from rest_framework import authentication, generics, mixins, permissions
+from rest_framework.decorators import api_view
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from django.http import JsonResponse
+import json
 from .models import *
 from .serializers import *
 
@@ -67,3 +70,9 @@ class ProjectListView(APIView):
 project_list_view = ProjectListView.as_view()
    
 
+@api_view(['POST'])
+def save_data(request):
+    if request.method == "POST": 
+        data = json.loads(request.body)
+        print(data)
+        return JsonResponse({'message': 'Data saved'}, status=201)
