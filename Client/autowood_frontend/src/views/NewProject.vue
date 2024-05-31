@@ -363,6 +363,7 @@ newElement.value = {
 async function saveData() {
   const projectpostData = {
     name: projectName.value,
+    category: selectedCategory.value,
     wood: selectedWood.value,
     collection: selectedCollection.value,
     paint: selectedPaint.value,

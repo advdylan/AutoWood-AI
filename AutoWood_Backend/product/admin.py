@@ -61,3 +61,8 @@ class CategoryAdmin(admin.ModelAdmin):
     list_display = ("name", "slug")
 
 admin.site.register(Category, CategoryAdmin)
+
+class NewProjectAdmin(admin.ModelAdmin):
+    list_display = ("name", "category")
+
+admin.site.register(NewProject,NewProjectAdmin)

@@ -74,14 +74,15 @@ project_list_view = ProjectListView.as_view()
 def save_data(request):
     if request.method == "POST": 
         data = json.loads(request.body)
+        print(data)
 
         wood = get_or_create_model_instance(Wood, data["wood"])
-        collection = get_or_create_model_instance(Collection, data["collection"])
+        collection = get_or_create_model_instance(Collection, data["collection"]) 
         paint = get_or_create_model_instance(Paints, data["paint"])
         category = get_or_create_model_instance(Category, data["category"])
+        print(type(category))
         
-        collection = data["collection"]
-        paint = data["paint"]
+        
         elements_margin = data["elements_margin"]
         accesories_margin = data["accesories_margin"]
         additional_margin = data["additional_margin"]
@@ -89,10 +90,16 @@ def save_data(request):
         summary_without_margin = data["summary_without_margin"]
 
         new_project = NewProject.objects.create(
-            name = data["name"],
+            name = data["name"],    
             category = category,
             paints = paint,
-            
+            collection = collection,
+            wood = wood,
+            elements_margin=data["elements_margin"],
+            accesories_margin=data["accesories_margin"],
+            additional_margin=data["additional_margin"],
+            summary_with_margin=data["summary_with_margin"],
+            summary_without_margin=data["summary_without_margin"]
 
         )
 
