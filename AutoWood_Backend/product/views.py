@@ -77,18 +77,17 @@ def save_data(request):
         print(data)
 
         wood = get_or_create_model_instance(Wood, data["wood"])
-        collection = get_or_create_model_instance(Collection, data["collection"]) 
+        collection = get_or_create_model_instance(Collection, data["collection"])    
         paint = get_or_create_model_instance(Paints, data["paint"])
         category = get_or_create_model_instance(Category, data["category"])
-        print(type(category))
-        
-        
+
+
         elements_margin = data["elements_margin"]
         accesories_margin = data["accesories_margin"]
         additional_margin = data["additional_margin"]
         summary_with_margin = data["summary_with_margin"]
         summary_without_margin = data["summary_without_margin"]
-
+   
         new_project = NewProject.objects.create(
             name = data["name"],    
             category = category,
@@ -102,11 +101,10 @@ def save_data(request):
             summary_without_margin=data["summary_without_margin"]
 
         )
-
-        
-
+       
 
         return JsonResponse({'message': 'Data saved'}, status=201)
+        
 
 
 def get_or_create_model_instance(model, name):

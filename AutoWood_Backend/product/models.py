@@ -140,7 +140,7 @@ class NewProject(models.Model):
     worktimes = models.ManyToManyField(Worktime, blank=True)
     accessories = models.ManyToManyField(Accessory, blank=True)
     elements = models.ManyToManyField(Element,blank=True)
-    wood = models.ForeignKey(Wood,  on_delete=models.CASCADE, blank=True, null=True)
+    wood = models.ForeignKey(Wood,  on_delete=models.CASCADE)
     collection = models.ForeignKey(Collection, on_delete=models.CASCADE)
     elements_margin = models.DecimalField(max_digits=10,decimal_places=2)
     accesories_margin = models.DecimalField(max_digits=10,decimal_places=2)
