@@ -133,6 +133,22 @@ class Product(models.Model):
     
 
 
+class NewProject(models.Model):
+    name = models.CharField(max_length=100)
+    category = models.ForeignKey(Category, on_delete=models.CASCADE)
+    paints = models.ForeignKey(Paints, on_delete=models.CASCADE)
+    worktimes = models.ManyToManyField(Worktime, blank=True)
+    accessories = models.ManyToManyField(Accessory, blank=True)
+    elements = models.ManyToManyField(Element,blank=True)
+    collection = models.ForeignKey(Collection, on_delete=models.CASCADE)
+    elements_margin = models.DecimalField(max_digits=10,decimal_places=2)
+    accesories_margin = models.DecimalField(max_digits=10,decimal_places=2)
+    additional_margin = models.DecimalField(max_digits=10,decimal_places=2)
+    summary_with_margin = models.DecimalField(max_digits=10,decimal_places=2)
+    summary_without_margin = models.DecimalField(max_digits=10,decimal_places=2)
+
+    def __str__(self):
+        return self.name
     
     
 class Balance(models.Model):

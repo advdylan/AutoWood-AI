@@ -87,13 +87,13 @@
                       <th> Suma: {{ summaryCosts}}</th>
                     </tr>
                     <tr>
-                      <th v-if="marginA"> Marża na materiał : {{ parseFloat(elementsMargin) }}</th>
+                      <th v-if="marginA"> Marża na materiał : {{ parseFloat(elementsMargin).toFixed(2) }}</th>
                     </tr>
                     <tr>
-                      <th v-if="marginB"> Marża na akcesoria: {{ parseFloat(accesoriesMargin)}}</th>
+                      <th v-if="marginB"> Marża na akcesoria: {{ parseFloat(accesoriesMargin).toFixed(2)}}</th>
                     </tr>
                     <tr>
-                      <th v-if="marginC">Marża dodatkowa: {{ parseFloat(additionalMargin) }}</th>
+                      <th v-if="marginC">Marża dodatkowa: {{ parseFloat(additionalMargin).toFixed(2) }}</th>
                     </tr>
                     <tr>
                       <th v-if="marginC || marginB || marginA">Suma z marżami: {{ parseFloat(summaryCostsWithMargin).toFixed(2) }}</th>
