@@ -26,6 +26,8 @@ class Worktimetype(models.Model):
 
     def __str__(self):
         return f"{self.name}"
+    
+
 
 class Worktime(models.Model):
     name = models.ManyToManyField(Worktimetype)
@@ -36,7 +38,10 @@ class Worktime(models.Model):
         return ", ".join([worktimetype.name for worktimetype in self.name.all()])
 
 
-
+class ProjectWorktime(models.Model):
+    worktime = models.ForeignKey(Worktime, on_delete=models.CASCADE)
+    project = models.ForeignKey('NewProject', on_delete=models.CASCADE)
+    quantity = models.IntegerField()
 class AccessoryType(models.Model):
 
     choices = [
@@ -137,7 +142,7 @@ class NewProject(models.Model):
     name = models.CharField(max_length=100)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
     paints = models.ForeignKey(Paints, on_delete=models.CASCADE)
-    worktimes = models.ManyToManyField(Worktime, blank=True)
+    worktimes = models.ManyToManyField(Worktime,through=ProjectWorktime, blank=True)
     accessories = models.ManyToManyField(Accessory, blank=True)
     elements = models.ManyToManyField(Element,blank=True)
     wood = models.ForeignKey(Wood,  on_delete=models.CASCADE)
