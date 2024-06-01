@@ -88,7 +88,7 @@ def save_data(request):
         summary_with_margin = data["summary_with_margin"]
         summary_without_margin = data["summary_without_margin"]
    
-        new_project = NewProject.objects.create(
+        new_project = NewProject( #.objects.create(
             name = data["name"],    
             category = category,
             paints = paint,
@@ -99,9 +99,39 @@ def save_data(request):
             additional_margin=data["additional_margin"],
             summary_with_margin=data["summary_with_margin"],
             summary_without_margin=data["summary_without_margin"]
-
         )
-       
+        print(NewProject)
+
+        elements_data = data["elements"]
+        for element_data in elements_data:
+            wood_type = get_or_create_model_instance(Wood, element_data["wood_type"])
+            element = Element(
+                name=element_data["name"],
+                dimX=element_data["dimX"],
+                dimY=element_data["dimY"],
+                dimZ=element_data["dimZ"],
+                wood_type = wood_type
+            )
+            element.set_price()
+
+        worktime_data = data["worktime"]
+        for worktime in worktime_data:
+            worktimetype = get_or_create_model_instance(Worktimetype, worktime["text"])
+            duration = worktime["hours"]
+            if duration == '':
+                duration = 0
+
+            worktime = Worktime(                 
+                duration = duration
+            )
+            worktime.save()
+            worktime.name.set([worktimetype])
+
+            print(worktime.name.all())
+            print(worktime.duration)
+
+        
+            
 
         return JsonResponse({'message': 'Data saved'}, status=201)
         
