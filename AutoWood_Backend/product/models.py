@@ -54,11 +54,11 @@ class AccessoryType(models.Model):
         return f"{self.name}"
     
 class Accessory(models.Model):
-    type = models.ForeignKey(AccessoryType, on_delete=models.CASCADE)
+    name = models.ForeignKey(AccessoryType, on_delete=models.CASCADE)
     quantity = models.IntegerField(default=0)
 
     def __str__(self):
-        return str(self.type)
+        return str(self.name)
 
 class Element(models.Model):
     name = models.CharField(max_length=200)

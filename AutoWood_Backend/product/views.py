@@ -88,7 +88,7 @@ def save_data(request):
         summary_with_margin = data["summary_with_margin"]
         summary_without_margin = data["summary_without_margin"]
    
-        new_project = NewProject( #.objects.create(
+        new_project = NewProject.objects.create(
             name = data["name"],    
             category = category,
             paints = paint,
@@ -100,7 +100,7 @@ def save_data(request):
             summary_with_margin=data["summary_with_margin"],
             summary_without_margin=data["summary_without_margin"]
         )
-        print(NewProject)
+        
 
         elements_data = data["elements"]
         for element_data in elements_data:
@@ -113,6 +113,8 @@ def save_data(request):
                 wood_type = wood_type
             )
             element.set_price()
+            element.save()
+            new_project.elements.add(element)
 
         worktime_data = data["worktime"]
         for worktime in worktime_data:
@@ -126,9 +128,20 @@ def save_data(request):
             )
             worktime.save()
             worktime.name.set([worktimetype])
+            #new_project.worktimes.add(worktime)
 
-            print(worktime.name.all())
-            print(worktime.duration)
+            #print(worktime.name.all())
+            #print(worktime.duration)
+        
+        accesories = data["accesories"]
+        for acc in accesories:
+            name = get_or_create_model_instance(AccessoryType, acc["name"])
+            accesory = Accessory(
+                name = name,
+                quantity = acc["quantity"]
+            )
+            accesory.save()
+            #new_project.accessories.add(accesory)
 
         
 

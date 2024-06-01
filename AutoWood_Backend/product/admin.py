@@ -43,7 +43,7 @@ class AccessoryTypeAdmin(admin.ModelAdmin):
 admin.site.register(AccessoryType, AccessoryTypeAdmin)
 
 class AccessoryAdmin(admin.ModelAdmin):
-    list_display = ("type", "quantity")
+    list_display = ("name", "quantity")
 
 admin.site.register(Accessory, AccessoryAdmin)
 
