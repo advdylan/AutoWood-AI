@@ -131,6 +131,8 @@ def save_data(request):
             print(worktime.duration)
 
         
+
+        
             
 
         return JsonResponse({'message': 'Data saved'}, status=201)
