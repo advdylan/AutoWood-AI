@@ -128,20 +128,16 @@ def save_data(request):
             )
             worktime.save()
             worktime.name.set([worktimetype])
-            #new_project.worktimes.add(worktime)
+            new_project.worktimes.add(worktime)
 
             #print(worktime.name.all())
             #print(worktime.duration)
         
-        accesories = data["accesories"]
-        for acc in accesories:
-            name = get_or_create_model_instance(AccessoryType, acc["name"])
-            accesory = Accessory(
-                name = name,
-                quantity = acc["quantity"]
-            )
-            accesory.save()
-            #new_project.accessories.add(accesory)
+        
+        
+        accesories_data = data["accesories"]
+        
+
 
         return JsonResponse({'message': 'Data saved'}, status=201)
         

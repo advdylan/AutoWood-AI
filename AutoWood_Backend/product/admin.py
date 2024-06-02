@@ -50,7 +50,6 @@ class AccessoryAdmin(admin.ModelAdmin):
     def display_type(self, obj):
         return ", ".join([type.name for type in obj.type.all()])
 
-    display_type.short_description = 'Type'  # Sets column name in admin panel
 
 admin.site.register(Accessory, AccessoryAdmin)
 
