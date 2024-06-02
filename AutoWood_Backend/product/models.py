@@ -20,50 +20,10 @@ class Paints(models.Model):
     def __str__(self):
         return self.name
 
-class Worktimetype(models.Model):
-    name = models.CharField(max_length=30)
-    cost = models.FloatField(help_text="Cost of one hour worktime")
-
-    def __str__(self):
-        return f"{self.name}"
-    
 
 
-class Worktime(models.Model):
-    name = models.ManyToManyField(Worktimetype)
-    duration = models.FloatField()
-    workers = models.IntegerField(blank=True, null=True)
-
-    def __str__(self):
-        return ", ".join([worktimetype.name for worktimetype in self.name.all()])
 
 
-class ProjectWorktime(models.Model):
-    worktime = models.ForeignKey(Worktime, on_delete=models.CASCADE)
-    project = models.ForeignKey('NewProject', on_delete=models.CASCADE)
-    quantity = models.IntegerField()
-class AccessoryType(models.Model):
-
-    choices = [
-        ("Prowadnice", "Prowadnice"),
-        ("Złącza", "Złącza"),
-        ("Zawiasy", "Zawiasy")]
-
-    name = models.CharField(max_length=200)
-    description = models.CharField(max_length=500, blank=True, null=True)
-    weight = models.DecimalField(blank=True, max_digits=5, decimal_places=2, null=True)
-    price = models.DecimalField(blank=True, max_digits=8, decimal_places=2, null=True)
-    type = models.CharField(max_length = 50, choices=choices, default="Prowadnice")
-
-    def __str__(self):
-        return f"{self.name}"
-    
-class Accessory(models.Model):
-    name = models.ForeignKey(AccessoryType, on_delete=models.CASCADE)
-    quantity = models.IntegerField(default=0)
-
-    def __str__(self):
-        return str(self.name)
 
 class Element(models.Model):
     name = models.CharField(max_length=200)
@@ -118,6 +78,77 @@ class Category(models.Model):
     def get_absolute_url(self):
         return f'/{self.slug}'
     
+
+    
+
+class Worktimetype(models.Model):
+    name = models.CharField(max_length=30)
+    cost = models.FloatField(help_text="Cost of one hour worktime")
+
+    def __str__(self):
+        return f"{self.name}"
+    
+class Worktime(models.Model):
+    name = models.ManyToManyField(Worktimetype)
+    duration = models.FloatField()
+    workers = models.IntegerField(blank=True, null=True)
+    
+
+    def __str__(self):
+        return ", ".join([worktimetype.name for worktimetype in self.name.all()])
+    
+
+class AccessoryType(models.Model):
+
+    choices = [
+        ("Prowadnice", "Prowadnice"),
+        ("Złącza", "Złącza"),
+        ("Zawiasy", "Zawiasy")]
+
+    name = models.CharField(max_length=200)
+    description = models.CharField(max_length=500, blank=True, null=True)
+    weight = models.DecimalField(blank=True, max_digits=5, decimal_places=2, null=True)
+    price = models.DecimalField(blank=True, max_digits=8, decimal_places=2, null=True)
+    type = models.CharField(max_length = 50, choices=choices,)
+
+    def __str__(self):
+        return f"{self.name}"
+    
+class Accessory(models.Model):
+    type = models.ManyToManyField(AccessoryType)
+    quantity = models.IntegerField(default=0)
+
+    def __str__(self):
+        return str(self.name)
+
+class NewProject(models.Model):
+    name = models.CharField(max_length=100)
+    category = models.ForeignKey(Category, on_delete=models.CASCADE)
+    paints = models.ForeignKey(Paints, on_delete=models.CASCADE)
+    worktimes = models.ManyToManyField(Worktime,through='ProjectWorktime', blank=True)
+    accessories = models.ManyToManyField(Accessory, through='ProjectAccesories', blank=True)
+    elements = models.ManyToManyField(Element,blank=True)
+    wood = models.ForeignKey(Wood,  on_delete=models.CASCADE)
+    collection = models.ForeignKey(Collection, on_delete=models.CASCADE)
+    elements_margin = models.DecimalField(max_digits=10,decimal_places=2)
+    accesories_margin = models.DecimalField(max_digits=10,decimal_places=2)
+    additional_margin = models.DecimalField(max_digits=10,decimal_places=2)
+    summary_with_margin = models.DecimalField(max_digits=10,decimal_places=2)
+    summary_without_margin = models.DecimalField(max_digits=10,decimal_places=2)
+
+    def __str__(self):
+        return self.name
+    
+
+class ProjectWorktime(models.Model):
+    project = models.ForeignKey(NewProject, on_delete=models.CASCADE)
+    worktime = models.ForeignKey(Worktime, on_delete=models.CASCADE)
+
+class ProjectAccesories(models.Model):
+    project = models.ForeignKey(NewProject, on_delete=models.CASCADE)
+    accesories = models.ForeignKey(Accessory, on_delete=models.CASCADE)
+
+    
 class Product(models.Model):
     name = models.CharField(max_length=100)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
@@ -135,27 +166,6 @@ class Product(models.Model):
     
     def get_absolute_url(self): 
         return f'/{self.category.name}/{self.name}'
-    
-
-
-class NewProject(models.Model):
-    name = models.CharField(max_length=100)
-    category = models.ForeignKey(Category, on_delete=models.CASCADE)
-    paints = models.ForeignKey(Paints, on_delete=models.CASCADE)
-    worktimes = models.ManyToManyField(Worktime,through=ProjectWorktime, blank=True)
-    accessories = models.ManyToManyField(Accessory, blank=True)
-    elements = models.ManyToManyField(Element,blank=True)
-    wood = models.ForeignKey(Wood,  on_delete=models.CASCADE)
-    collection = models.ForeignKey(Collection, on_delete=models.CASCADE)
-    elements_margin = models.DecimalField(max_digits=10,decimal_places=2)
-    accesories_margin = models.DecimalField(max_digits=10,decimal_places=2)
-    additional_margin = models.DecimalField(max_digits=10,decimal_places=2)
-    summary_with_margin = models.DecimalField(max_digits=10,decimal_places=2)
-    summary_without_margin = models.DecimalField(max_digits=10,decimal_places=2)
-
-    def __str__(self):
-        return self.name
-    
     
 class Balance(models.Model):
     balance = models.DecimalField(blank=True, max_digits=7, decimal_places=2)

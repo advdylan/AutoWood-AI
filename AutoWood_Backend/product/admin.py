@@ -38,14 +38,22 @@ class WorktimeAdmin(admin.ModelAdmin):
 admin.site.register(Worktime, WorktimeAdmin)
 
 class AccessoryTypeAdmin(admin.ModelAdmin):
-    list_display = ("name", "description", "weight")
+    list_display = ("name", "description", "weight", "price")
 
 admin.site.register(AccessoryType, AccessoryTypeAdmin)
 
 class AccessoryAdmin(admin.ModelAdmin):
-    list_display = ("name", "quantity")
+    list_display = ['display_type', 'quantity']
+    search_fields = ['type__name']  # You can search by the 'name' field of the 'type'
+    list_filter = ['type__name']  # You can filter by the 'name' field of the 'type'
+
+    def display_type(self, obj):
+        return ", ".join([type.name for type in obj.type.all()])
+
+    display_type.short_description = 'Type'  # Sets column name in admin panel
 
 admin.site.register(Accessory, AccessoryAdmin)
+
 
 class ElementAdmin(admin.ModelAdmin):
     list_display = ("name", "dimX", "dimY", "dimZ", "wood_type", "price")
