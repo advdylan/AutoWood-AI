@@ -143,11 +143,6 @@ def save_data(request):
             accesory.save()
             #new_project.accessories.add(accesory)
 
-        
-
-        
-            
-
         return JsonResponse({'message': 'Data saved'}, status=201)
         
 
