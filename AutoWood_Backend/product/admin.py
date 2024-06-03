@@ -27,21 +27,13 @@ class WorktimetypeAdmin(admin.ModelAdmin):
 
 admin.site.register(Worktimetype, WorktimetypeAdmin)
 
-class WorktimeAdmin(admin.ModelAdmin):
-    list_display = ("display_name", "duration", "workers")
-
-    def display_name(self, obj):
-        return ", ".join([worktimetype.name for worktimetype in obj.name.all()])
-    
-    display_name.short_description = "display_name"
-
-admin.site.register(Worktime, WorktimeAdmin)
 
 class AccessoryTypeAdmin(admin.ModelAdmin):
     list_display = ("name", "description", "weight", "price")
 
 admin.site.register(AccessoryType, AccessoryTypeAdmin)
 
+"""
 class AccessoryAdmin(admin.ModelAdmin):
     list_display = ['display_type', 'quantity']
     search_fields = ['type__name']  # You can search by the 'name' field of the 'type'
@@ -52,6 +44,7 @@ class AccessoryAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Accessory, AccessoryAdmin)
+"""
 
 
 class ElementAdmin(admin.ModelAdmin):
@@ -69,7 +62,21 @@ class CategoryAdmin(admin.ModelAdmin):
 
 admin.site.register(Category, CategoryAdmin)
 
+class ProjectWorktimeInline(admin.TabularInline):
+    model = ProjectWorktime
+    extra = 1
+
+class AccessoryDetailInline(admin.TabularInline):
+    model = AccessoryDetail
+    extra = 1
 class NewProjectAdmin(admin.ModelAdmin):
-    list_display = ("name", "category")
+    inlines = [ProjectWorktimeInline, AccessoryDetailInline]
+    list_display = ('name', 'category', 'collection', 'summary_with_margin', 'summary_without_margin')
+    search_fields = ('name',)
 
 admin.site.register(NewProject,NewProjectAdmin)
+
+class ProjectWorktimeAdmin(admin.ModelAdmin):
+    list_display = ("project","worktime")
+
+admin.site.register(ProjectWorktime,ProjectWorktimeAdmin)

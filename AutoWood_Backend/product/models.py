@@ -88,14 +88,6 @@ class Worktimetype(models.Model):
     def __str__(self):
         return f"{self.name}"
     
-class Worktime(models.Model):
-    name = models.ManyToManyField(Worktimetype)
-    duration = models.FloatField()
-    workers = models.IntegerField(blank=True, null=True)
-    
-
-    def __str__(self):
-        return ", ".join([worktimetype.name for worktimetype in self.name.all()])
     
 
 class AccessoryType(models.Model):
@@ -116,22 +108,16 @@ class AccessoryType(models.Model):
     class Meta:
         db_table = 'product_accesory_type'
     
-    
-class Accessory(models.Model):
-    type = models.ManyToManyField(AccessoryType)
-    quantity = models.IntegerField(default=0)
 
-    def __str__(self):
-        return ", ".join([type.name for type in self.type.all()])
 
 class NewProject(models.Model):
     name = models.CharField(max_length=100)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
     paints = models.ForeignKey(Paints, on_delete=models.CASCADE)
-    worktimes = models.ManyToManyField(Worktime,through='ProjectWorktime', blank=True)
-    accessories = models.ManyToManyField(Accessory, through='ProjectAccesories', blank=True)
+    worktimes = models.ManyToManyField(Worktimetype,through='ProjectWorktime', blank=True)
+    accessories = models.ManyToManyField(AccessoryType, through='AccessoryDetail', blank=True)
     elements = models.ManyToManyField(Element,blank=True)
-    wood = models.ForeignKey(Wood,  on_delete=models.CASCADE)
+    wood = models.ForeignKey(Wood, on_delete=models.CASCADE)
     collection = models.ForeignKey(Collection, on_delete=models.CASCADE)
     elements_margin = models.DecimalField(max_digits=10,decimal_places=2, blank=True, null=True)
     accesories_margin = models.DecimalField(max_digits=10,decimal_places=2, blank=True, null=True)
@@ -159,17 +145,23 @@ class Product(models.Model):
 
 class ProjectWorktime(models.Model):
     project = models.ForeignKey(NewProject, on_delete=models.CASCADE)
-    worktime = models.ForeignKey(Worktime, on_delete=models.CASCADE)
+    worktime = models.ForeignKey(Worktimetype, on_delete=models.CASCADE)
+    duration = models.FloatField(default=0)
+    workers = models.IntegerField(blank=True, null=True)
     
 
-class ProjectAccesories(models.Model):
+class AccessoryDetail(models.Model):
     project = models.ForeignKey(NewProject, on_delete=models.CASCADE)
-    accessories = models.ForeignKey(Accessory, on_delete=models.CASCADE)
+    type = models.ForeignKey(AccessoryType, on_delete=models.CASCADE)
+    quantity = models.IntegerField(default=0)
+
+    def __str__(self):
+        return f"{self.type.name} - {self.quantity}"
     
 class Balance(models.Model):
     balance = models.DecimalField(blank=True, max_digits=7, decimal_places=2)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
-    worktime = models.ForeignKey(Worktime, on_delete=models.CASCADE)
+    
 
 #class ProductElement(models.Model):
     #product = models.ForeignKey(Product, on_delete=models.CASCADE)

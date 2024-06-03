@@ -49,7 +49,7 @@ class ProjectListView(APIView):
     def get(self,request):
         category_serializer = CategorySerializer(Category.objects.all(), many=True)
         worktimetype_serializer = WorktimeTypeSerializer(Worktimetype.objects.all(), many=True)
-        worktime_serializer = WorktimeSerializer(Worktime.objects.all(), many=True)
+        worktime_serializer = WorktimeSerializer(Worktimetype.objects.all(), many=True)
         accesorytype_serializer = AccessoryTypeSerializer(AccessoryType.objects.all().order_by('type'), many=True)
         #accesory_serializer = AccessorySerializer(Accessory.objects.all(), many=True)
         wood_serializer = WoodSerializer(Wood.objects.all(), many=True)
@@ -100,6 +100,7 @@ def save_data(request):
             summary_with_margin=data["summary_with_margin"],
             summary_without_margin=data["summary_without_margin"]
         )
+        print(new_project)
         
 
         elements_data = data["elements"]
@@ -112,6 +113,7 @@ def save_data(request):
                 dimZ=element_data["dimZ"],
                 wood_type = wood_type
             )
+            print(element)
             element.set_price()
             element.save()
             new_project.elements.add(element)
@@ -119,23 +121,27 @@ def save_data(request):
         worktime_data = data["worktime"]
         for worktime in worktime_data:
             worktimetype = get_or_create_model_instance(Worktimetype, worktime["text"])
+            print(type(worktimetype))
+
             duration = worktime["hours"]
+            
             if duration == '':
                 duration = 0
 
-            worktime = Worktime(                 
-                duration = duration
+            worktime = ProjectWorktime(       
+                project = new_project,
+                worktime = worktimetype,
+                duration = duration,          
+                
             )
             worktime.save()
-            worktime.name.set([worktimetype])
             new_project.worktimes.add(worktime)
+        
+        new_project.save()
+            
 
-            #print(worktime.name.all())
-            #print(worktime.duration)
-        
-        
-        
         accesories_data = data["accesories"]
+        
         
 
 

@@ -23,7 +23,7 @@ class WorktimeSerializer(serializers.ModelSerializer):
 
     name = WorktimeTypeSerializer(read_only = True, many = True)
     class Meta:
-        model = Worktime
+        model = Worktimetype
         fields = '__all__'
 
 class AccessoryTypeSerializer(serializers.ModelSerializer):
@@ -35,7 +35,7 @@ class AccessorySerializer(serializers.ModelSerializer):
 
     type = AccessoryTypeSerializer(read_only = True)
     class Meta:
-        model = Accessory
+        model = AccessoryDetail
         fields = '__all__'
 
 class WoodSerializer(serializers.ModelSerializer):
