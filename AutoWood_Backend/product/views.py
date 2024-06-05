@@ -128,22 +128,31 @@ def save_data(request):
             if duration == '':
                 duration = 0
 
-            worktime = ProjectWorktime(       
+            worktime = ProjectWorktime.objects.create(       
                 project = new_project,
                 worktime = worktimetype,
                 duration = duration,          
                 
             )
             worktime.save()
-            new_project.worktimes.add(worktime)
-        
+
         new_project.save()
             
 
         accesories_data = data["accesories"]
-        
-        
 
+        for accesory in accesories_data:
+            accesorytype = get_or_create_model_instance(AccessoryType, accesory["name"])
+            quantity = accesory["quantity"]
+
+            acc = AccessoryDetail.objects.create(
+                project = new_project,
+                type = accesorytype,
+                quantity = quantity
+            )
+            acc.save()
+
+        new_project.save()
 
         return JsonResponse({'message': 'Data saved'}, status=201)
         
