@@ -81,3 +81,22 @@ class ProductSerializer(serializers.ModelSerializer):
             'collection'
         ]
 
+class NewProjectSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = NewProject
+        fields = [
+            'name',
+            'category',
+            'paints',
+            'worktimes',
+            'accesories',
+            'elements',
+            'wood',
+            'collection',
+            'elements_margin',
+            'accesories_margin',
+            'additional_margin',
+            'summary_with_margin',
+            'summary_without_margin',
+        ]

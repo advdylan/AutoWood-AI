@@ -68,6 +68,15 @@ class ProjectListView(APIView):
         })
     
 project_list_view = ProjectListView.as_view()
+
+class NewProjectRetrieveUpdateDestroyAPIView(
+    generics.RetrieveUpdateDestroyAPIView
+):
+    queryset = NewProject.objects.all()
+    serializer_class = NewProjectSerializer
+
+
+new_project_retrieve_update_destroy_view = NewProjectRetrieveUpdateDestroyAPIView.as_view()
    
 
 @api_view(['POST'])
