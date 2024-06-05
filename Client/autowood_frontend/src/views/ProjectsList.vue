@@ -5,8 +5,12 @@
 
   
 <script setup>
-import { useNewProjectStoreBeta } from '@/store/newproject'
+import { useProjectsListStore } from '@/store/projectlist'
 import { storeToRefs } from 'pinia'
+
+const ProjectsListStore = useProjectsListStore()
+
+const { loadProjects, setProjects} = ProjectsListStore
 
 
 

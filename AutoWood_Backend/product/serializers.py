@@ -82,6 +82,9 @@ class ProductSerializer(serializers.ModelSerializer):
         ]
 
 class NewProjectSerializer(serializers.ModelSerializer):
+    worktimes = WorktimeTypeSerializer(many=True, read_only=True)
+    accessories = AccessoryTypeSerializer(many=True, read_only=True)
+    elements = ElementSerializer(many=True, read_only=True)
 
     class Meta:
         model = NewProject
@@ -90,7 +93,7 @@ class NewProjectSerializer(serializers.ModelSerializer):
             'category',
             'paints',
             'worktimes',
-            'accesories',
+            'accessories',
             'elements',
             'wood',
             'collection',
