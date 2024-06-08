@@ -134,8 +134,6 @@ export const useNewProjectStoreBeta = defineStore('newproject', {
         price: accesory.price,
         type: accesory.type,
         quantity: accesory.quantity,
-        
-
       })
     },
     deleteAccesory(accesory) {
