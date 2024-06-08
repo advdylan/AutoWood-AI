@@ -1,16 +1,13 @@
 <template>
 
     <div class="projects-list-container">
-
         <b-table :data="data" :columns="columns"></b-table>
-      
     </div>
 
     
 </template>
   
 
-  
 <script setup>
 import { useProjectsListStore } from '@/store/projectslist'
 import { storeToRefs } from 'pinia'
