@@ -85,6 +85,10 @@ class NewProjectSerializer(serializers.ModelSerializer):
     worktimes = WorktimeTypeSerializer(many=True, read_only=True)
     accessories = AccessoryTypeSerializer(many=True, read_only=True)
     elements = ElementSerializer(many=True, read_only=True)
+    wood = WoodSerializer( read_only=True)
+    paints = PaintsSerializer(read_only=True)
+    category = CategorySerializer(read_only=True)
+    collection = CollectionSerializer(read_only=True)
 
     class Meta:
         model = NewProject
