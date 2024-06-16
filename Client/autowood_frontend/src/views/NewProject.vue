@@ -184,28 +184,28 @@
           <div class="field">
             <label class="label">Długość</label>
             <div class="control">
-              <input class="input" type="text" placeholder="Długość" v-model="newElement.dimX" >             
+              <input class="input" type="number" placeholder="Długość" v-model="newElement.dimX" >             
             </div>
           </div>
 
           <div class="field">
             <label class="label">Szerokość</label>
             <div class="control">
-              <input class="input" type="text" placeholder="Szerokosć" v-model="newElement.dimY" >             
+              <input class="input" type="number" placeholder="Szerokosć" v-model="newElement.dimY" >             
             </div>
           </div>
 
           <div class="field">
             <label class="label">Grubość</label>
             <div class="control">
-              <input class="input" type="text" placeholder="Grubość" v-model="newElement.dimZ">             
+              <input class="input" type="number" placeholder="Grubość" v-model="newElement.dimZ">             
             </div>
           </div>
 
           <div class="field">
             <label class="label">Ilość</label>
             <div class="control">
-              <input class="input" type="text" placeholder="Ilość" v-model="newElement.quantity" >             
+              <input class="input" type="number" placeholder="Ilość" v-model="newElement.quantity" >             
             </div>
           </div>
 
@@ -325,11 +325,11 @@ const projectpostData = ref()
 
 const newElement = ref({
 id: '',
-name: '',
-dimX: '',
-dimY: '',
-dimZ: '',
-quantity: '',
+name: 0,
+dimX: 0,
+dimY: 0,
+dimZ: 0,
+quantity: 0,
 wood_type: ''
 })
 
@@ -348,11 +348,11 @@ const submitForm = () => {
 addElement(newElement.value)
 newElement.value = {
   id: '',
-  name: '',
-  dimX: '',
-  dimY: '',
-  dimZ: '',
-  quantity: '',
+  name: 0,
+  dimX: 0,
+  dimY: 0,
+  dimZ: 0,
+  quantity: 0,
   wood_type: ''
 }
 }
