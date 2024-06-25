@@ -10,8 +10,13 @@
                             icon="magnify"/>
                     </template>
                     <template v-slot="props">
+                        <template v-if="column.field === 'nawigacja'">
+                            <b-button @click="navigateToProject(props.row.id)">View</b-button>
+                        </template>
+                        <template v-else>
                         {{ props.row[column.field] }}
                     </template>
+                </template>
                 </b-table-column>
             </template>
         </b-table>

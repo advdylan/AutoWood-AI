@@ -15,7 +15,8 @@ export const useProjectsListStore = defineStore('projectslist', {
                 category: item.category.name,
                 collection: item.collection.name,
                 wood: item.wood.name,
-                paints: item.paints.name
+                paints: item.paints.name,
+                nawigacja: 'nawigacja'
             })) : [];
         },
 
@@ -45,6 +46,10 @@ export const useProjectsListStore = defineStore('projectslist', {
                 field: 'paints',
                 label: 'Paints',
                 searchable: true 
+                },
+                {
+                field: 'nawigacja',
+                laber: 'nawigacja'
                 }
             ]
             return columns
