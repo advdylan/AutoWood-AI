@@ -93,6 +93,7 @@ class NewProjectSerializer(serializers.ModelSerializer):
     class Meta:
         model = NewProject
         fields = [
+            'id',
             'name',
             'category',
             'paints',
