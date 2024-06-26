@@ -11,7 +11,10 @@
                     </template>
                     <template v-slot="props">
                         <template v-if="column.field === 'nawigacja'">
-                            <b-button @click="navigateToProject(props.row.id)">View</b-button>
+                            <router-link :to="{ name: 'NewProjectDetail', params: { id: props.row.id } }">
+                                <b-button>View</b-button>
+                            </router-link>
+                            <b-button @click="loadDetailProject(props.row.id)">Detail {{ props.row.id }}</b-button>
                         </template>
                         <template v-else>
                         {{ props.row[column.field] }}
@@ -26,11 +29,12 @@
 <script setup>
 import { useProjectsListStore } from '@/store/projectslist'
 import { storeToRefs } from 'pinia'
+
 import Buefy from 'buefy'
 
 const ProjectsListStore = useProjectsListStore()
 
-const { loadProjects } = ProjectsListStore
+const { loadProjects, loadDetailProject } = ProjectsListStore
 const { projectlist, data, columns } = storeToRefs(ProjectsListStore)
 
 loadProjects()

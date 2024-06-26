@@ -22,21 +22,21 @@
       <div class="navbar-start">
 
         <div class="navbar-item has-dropdown is-hoverable">
-          <a class="navbar-link">
+          <router-link to="/projects-list" class="navbar-link">
           <i class="fa-solid fa-file-pen fa-lg">
           </i>
           <div class="is-size-5"> 
             &nbsp;Projekty          
           </div>
-        </a>
+        </router-link>
         <div class="navbar-dropdown is-dark fa-lg">
-          <a class="navbar-item">
+          <router-link to="/new-project" class="navbar-item">
             Nowy projekt 
-          </a>
+          </router-link>
           <hr class="navbar-divider">
-          <a class="navbar-item">
+          <router-link to="/projects-list" class="navbar-item">
             Lista projektów
-          </a> 
+          </router-link>
         </div>       
         </div>
   

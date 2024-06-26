@@ -3,6 +3,7 @@ import HomeView from '../views/HomeView.vue'
 
 import NewProject from '../views/NewProject.vue'
 import ProjectsList from '../views/ProjectsList.vue'
+import NewProjectDetail from '../views/NewProjectDetail.vue'
 
 
 const routes = [
@@ -24,6 +25,12 @@ const routes = [
     path: '/new-project',
     name: 'NewProject',
     component: NewProject
+  },
+
+  {
+    path: '/new-project/:id',
+    name: 'NewProjectDetail',
+    component: NewProjectDetail
   },
 
   {

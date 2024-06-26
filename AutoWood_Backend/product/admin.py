@@ -71,7 +71,7 @@ class AccessoryDetailInline(admin.TabularInline):
     extra = 1
 class NewProjectAdmin(admin.ModelAdmin):
     inlines = [ProjectWorktimeInline, AccessoryDetailInline]
-    list_display = ('name', 'category', 'collection', 'summary_with_margin', 'summary_without_margin')
+    list_display = ('id','name', 'category', 'collection', 'summary_with_margin', 'summary_without_margin')
     search_fields = ('name',)
 
 admin.site.register(NewProject,NewProjectAdmin)

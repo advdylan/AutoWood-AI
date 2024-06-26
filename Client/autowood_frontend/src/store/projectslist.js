@@ -6,11 +6,13 @@ import axios from 'axios'
 export const useProjectsListStore = defineStore('projectslist', {
     state: () => ({
         projectlist: null,
+        detail_project: null,
 
     }),
     getters: {
         data() {
             return this.projectlist ? this.projectlist.map(item => ({
+                id: item.id,
                 name: item.name,
                 category: item.category.name,
                 collection: item.collection.name,
@@ -63,15 +65,33 @@ export const useProjectsListStore = defineStore('projectslist', {
 
         },
 
+        setDetaiLProject(data) {
+            this.detail_project = data
+        },
+
         async loadProjects() {
             await axios
             .get(`/api/v1/newproject`)
             .then(response => {
+                console.log(response.data)
                 this.setProjects(response.data)
             })
             .catch(error =>{
                 console.log(error)     
             })
+        },
+
+        async loadDetailProject(id) {
+            await axios
+            .get(`/api/v1/newproject/${id}/`)
+            .then(response => {
+                console.log(response.data)
+                this.setDetaiLProject(response.data)
+            })
+            .catch(error => {
+                console.log(error)
+            })
+
         }
     },
     
