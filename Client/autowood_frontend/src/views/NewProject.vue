@@ -84,7 +84,7 @@
                       <div id="collapsible-card" class="is-collapsible" v-show="isCollapsedelements">
                       <div class="card-content">
 
-                      <ElementsTable />
+                        <ElementsTable :elements="elements" />
                     </div>
 
                       
@@ -339,9 +339,8 @@ const summaryStore = useSummaryStore()
 const { addElement, loadData, } = elementStore
 const {summaryCosts, elementsMargin, accesoriesMargin, additionalMargin,summaryCostsWithMargin} = storeToRefs(summaryStore)
 
-console.log(elementsMargin.value, accesoriesMargin.value, additionalMargin.value, summaryCostsWithMargin.value)
-
 loadData()
+
 const {elements, wood, collection, paints, category, boxes, accesories} = storeToRefs(elementStore)
 
 const submitForm = () => {

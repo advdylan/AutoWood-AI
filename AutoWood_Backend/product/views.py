@@ -132,7 +132,8 @@ def save_data(request):
                 dimX=element_data["dimX"],
                 dimY=element_data["dimY"],
                 dimZ=element_data["dimZ"],
-                wood_type = wood_type
+                wood_type = wood_type,
+                quantity = element_data["quantity"]
             )
             print(element)
             element.set_price()

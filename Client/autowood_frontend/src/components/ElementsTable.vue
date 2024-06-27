@@ -28,7 +28,7 @@
             <td>{{ element.dimX }}</td>
             <td>{{ element.dimY }}</td>
             <td>{{ element.dimZ }}</td>
-            <td>{{ element.wood_type }}</td>
+            <td>{{ element.wood_type.name }}</td>
             <td>{{ element.quantity }}</td>         
           </tr>
         </tbody>
@@ -40,19 +40,14 @@
 
 <script>
 export default {
-  name: 'ElementsTable'
+  name: 'ElementsTable',
+  props: {
+    elements: {
+      type: Array,
+      required: true
+    }
+  }
 }
-
-</script>
-
-<script setup>
-import { useNewProjectStoreBeta } from '@/store/newproject'
-import { storeToRefs } from 'pinia'
-
-const store = useNewProjectStoreBeta()
-
-const {elements} = storeToRefs(store)
-
 </script>
 
 

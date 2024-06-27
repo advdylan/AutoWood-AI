@@ -12,9 +12,9 @@
                     <template v-slot="props">
                         <template v-if="column.field === 'nawigacja'">
                             <router-link :to="{ name: 'NewProjectDetail', params: { id: props.row.id } }">
-                                <b-button>View</b-button>
+                                <b-button>Szczegóły</b-button>
                             </router-link>
-                            <b-button @click="loadDetailProject(props.row.id)">Detail {{ props.row.id }}</b-button>
+                            
                         </template>
                         <template v-else>
                         {{ props.row[column.field] }}

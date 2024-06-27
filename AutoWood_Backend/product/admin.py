@@ -48,7 +48,7 @@ admin.site.register(Accessory, AccessoryAdmin)
 
 
 class ElementAdmin(admin.ModelAdmin):
-    list_display = ("name", "dimX", "dimY", "dimZ", "wood_type", "price")
+    list_display = ("name", "dimX", "dimY", "dimZ", "wood_type", "price",)
 
 admin.site.register(Element, ElementAdmin)
     
