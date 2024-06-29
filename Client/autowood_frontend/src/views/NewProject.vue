@@ -177,35 +177,35 @@
           <div class="field">
             <label class="label">Nazwa</label>
             <div class="control">
-              <input class="input" type="text" placeholder="Nazwa" v-model="newElement.name" >             
+              <input class="input" type="text" placeholder="Nazwa" v-model="newElement.element.name">             
             </div>
           </div>
 
           <div class="field">
             <label class="label">Długość</label>
             <div class="control">
-              <input class="input" type="number" placeholder="Długość" v-model="newElement.dimX" >             
+              <input class="input" type="number" placeholder="Długość" v-model="newElement.element.dimX">           
             </div>
           </div>
 
           <div class="field">
             <label class="label">Szerokość</label>
             <div class="control">
-              <input class="input" type="number" placeholder="Szerokosć" v-model="newElement.dimY" >             
+              <input class="input" type="number" placeholder="Szerokosć" v-model="newElement.element.dimY" >             
             </div>
           </div>
 
           <div class="field">
             <label class="label">Grubość</label>
             <div class="control">
-              <input class="input" type="number" placeholder="Grubość" v-model="newElement.dimZ">             
+              <input class="input" type="number" placeholder="Grubość" v-model="newElement.element.dimZ">             
             </div>
           </div>
 
           <div class="field">
             <label class="label">Ilość</label>
             <div class="control">
-              <input class="input" type="number" placeholder="Ilość" v-model="newElement.quantity" >             
+              <input class="input" type="number" placeholder="Ilość" v-model="newElement.element.quantity" >             
             </div>
           </div>
 
@@ -213,8 +213,10 @@
             <label class="label">Materiał</label>
             <div class="control">
               <div class="select">
-                <select v-model="newElement.wood_type">
-                  <option v-for="wood in wood"> {{ wood.name}}</option >
+                <select v-model="newElement.element.wood_type">
+                  <option v-for="woodItem in wood" :key="woodItem.id" :value="woodItem.name">
+                    {{ woodItem.name }}
+                  </option>
                 </select>
               </div>
             </div>
@@ -231,7 +233,7 @@
       </form>
     </div>
     <div class="column">
-      <ElementsTable/>
+      <ElementsTable :elements="elements" />
     </div>
     </div>
 
@@ -324,15 +326,15 @@ const selectedPaint = ref()
 const projectpostData = ref()
 
 const newElement = ref({
-id: '',
-name: 0,
-dimX: 0,
-dimY: 0,
-dimZ: 0,
-quantity: 0,
-wood_type: ''
+  element: {
+    name: '',
+    dimX: 0,
+    dimY: 0,
+    dimZ: 0,
+    wood_type: ''
+  },
+  quantity: 0
 })
-
 const elementStore = useNewProjectStoreBeta()
 const summaryStore = useSummaryStore()
 
@@ -341,22 +343,23 @@ const {summaryCosts, elementsMargin, accesoriesMargin, additionalMargin,summaryC
 
 loadData()
 
+
 const {elements, wood, collection, paints, category, boxes, accesories} = storeToRefs(elementStore)
 
-const submitForm = () => {
-addElement(newElement.value)
-newElement.value = {
-  id: '',
-  name: 0,
-  dimX: 0,
-  dimY: 0,
-  dimZ: 0,
-  quantity: 0,
-  wood_type: ''
-}
-}
 
-  
+const submitForm = () => {
+  addElement(newElement.value);
+  newElement.value = {
+    element: {
+      name: '',
+      dimX: 0,
+      dimY: 0,
+      dimZ: 0,
+      wood_type: ''
+    },
+    quantity: 0
+  };
+};
 
 
 async function saveData() {
@@ -377,16 +380,17 @@ async function saveData() {
     
   }
   let jsonProjectData = JSON.stringify(projectpostData)
+  console.log(jsonProjectData)
     
-    await axios
-    .post(`api/v1/product/save`, jsonProjectData)
-    .then(response => {
-      console.log(jsonProjectData)
+    //await axios
+    //.post(`api/v1/product/save`, jsonProjectData)
+    //.then(response => {
+      //console.log(jsonProjectData)
 
-    })
-    .catch(error => {
-      console.log(error)
-    })
+    //})
+    //.catch(error => {
+      //console.log(error)
+    //})
   }
 
 

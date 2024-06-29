@@ -73,8 +73,7 @@ export const useProjectsListStore = defineStore('projectslist', {
         async loadProjects() {
             await axios
             .get(`/api/v1/newproject`)
-            .then(response => {      
-                console.log(response.data)   
+            .then(response => {       
                 this.setProjects(response.data)
             })
             .catch(error =>{

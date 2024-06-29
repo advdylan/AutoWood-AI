@@ -20,11 +20,6 @@ class Paints(models.Model):
     def __str__(self):
         return self.name
 
-
-
-
-
-
 class Element(models.Model):
     name = models.CharField(max_length=200)
     dimX = models.IntegerField(help_text="Dimension in milimeters")

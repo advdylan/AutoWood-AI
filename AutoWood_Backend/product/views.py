@@ -125,6 +125,7 @@ def save_data(request):
         
 
         elements_data = data["elements"]
+        
         for element_data in elements_data:
             wood_type = get_or_create_model_instance(Wood, element_data["wood_type"])
             element = Element(
@@ -135,9 +136,9 @@ def save_data(request):
                 wood_type = wood_type,              
             )
             print(element)
-            element.set_price()
-            element.save()
-            new_project.elements.add(element)
+            #element.set_price()
+            #element.save()
+            #new_project.elements.add(element)
 
         worktime_data = data["worktime"]
         for worktime in worktime_data:
@@ -154,9 +155,9 @@ def save_data(request):
                 duration = duration,          
                 
             )
-            worktime.save()
+            #worktime.save()
 
-        new_project.save()
+        #new_project.save()
             
 
         accesories_data = data["accesories"]
@@ -172,7 +173,7 @@ def save_data(request):
             )
             acc.save()
 
-        new_project.save()
+        #new_project.save()
 
         return JsonResponse({'message': 'Data saved'}, status=201)
         

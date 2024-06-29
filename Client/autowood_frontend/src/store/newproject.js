@@ -88,20 +88,20 @@ export const useNewProjectStoreBeta = defineStore('newproject', {
     },
 
 
-    addElement(element) { 
-      
-        this.elements.push({
-        
-          id: Math.floor(Math.random()* 10000000),
-          name: element.name,
-          dimX: element.dimX,
-          dimY: element.dimY,
-          dimZ: element.dimZ,
-          quantity: element.quantity,
-          wood_type: element.wood_type
-        })   
+    addElement(element) {
+      this.elements.push({
+        element: {
+          name: element.element.name,
+          dimX: element.element.dimX,
+          dimY: element.element.dimY,
+          dimZ: element.element.dimZ,
+          wood_type: element.element.wood_type
+        },
+        quantity: element.quantity
+      });
+      console.log(this.element)
     },
-
+  
     addAccesory(accesory) {
       
       this.accesories.push({

@@ -6,7 +6,7 @@
         <h1>Project Detail</h1>
         <p>Project ID: {{ id }}</p>
         <button @click="displayElements">halo</button>
-        <ElementsTable :elements="detail_project.elements" />
+        <ElementsTable v-if="detail_project && detail_project.elements && detail_project.elements.length" :elements="detail_project.elements" />
         
         
       
