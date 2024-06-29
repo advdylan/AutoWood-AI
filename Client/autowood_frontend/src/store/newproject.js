@@ -12,32 +12,7 @@ export const useNewProjectStoreBeta = defineStore('newproject', {
     wood: [],
     collection: [],
     paints: [],
-    elements: [
-      { name: 'Nośna',
-        dimX: 2000,
-        dimY: 250 ,
-        dimZ: 25,
-        quantity: 2,
-        wood_type: 'Buk'},
-        { name: 'Przód',
-        dimX: 1256,
-        dimY: 250 ,
-        dimZ: 25,
-        quantity: 2,
-        wood_type: 'Buk'},
-        { name: 'Oparcie',
-        dimX: 1256,
-        dimY: 450 ,
-        dimZ: 25,
-        quantity: 2,
-        wood_type: 'Buk'},
-        { name: 'Nośna',
-        dimX: 2000,
-        dimY: 250 ,
-        dimZ: 25,
-        quantity: 2,
-        wood_type: 'Buk'}
-    ],
+    elements: [],
     boxes: []
     
 

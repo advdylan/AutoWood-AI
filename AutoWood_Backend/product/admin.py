@@ -69,8 +69,12 @@ class ProjectWorktimeInline(admin.TabularInline):
 class AccessoryDetailInline(admin.TabularInline):
     model = AccessoryDetail
     extra = 1
+
+class ElementsDetailInline(admin.TabularInline):
+    model = NewProjectElement
+    extra = 1
 class NewProjectAdmin(admin.ModelAdmin):
-    inlines = [ProjectWorktimeInline, AccessoryDetailInline]
+    inlines = [ProjectWorktimeInline, AccessoryDetailInline, ElementsDetailInline]
     list_display = ('id','name', 'category', 'collection', 'summary_with_margin', 'summary_without_margin')
     search_fields = ('name',)
 

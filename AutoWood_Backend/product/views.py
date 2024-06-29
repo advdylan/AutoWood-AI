@@ -132,8 +132,7 @@ def save_data(request):
                 dimX=element_data["dimX"],
                 dimY=element_data["dimY"],
                 dimZ=element_data["dimZ"],
-                wood_type = wood_type,
-                quantity = element_data["quantity"]
+                wood_type = wood_type,              
             )
             print(element)
             element.set_price()
@@ -143,8 +142,7 @@ def save_data(request):
         worktime_data = data["worktime"]
         for worktime in worktime_data:
             worktimetype = get_or_create_model_instance(Worktimetype, worktime["text"])
-            print(type(worktimetype))
-
+           
             duration = worktime["hours"]
             
             if duration == '':

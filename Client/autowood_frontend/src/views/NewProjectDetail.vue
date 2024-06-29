@@ -39,10 +39,11 @@
   function displayElements() {
     console.log(detail_project.value)
   } 
+  
+  loadDetailProject(id)
 
   onMounted(() => {
     loadDetailProject(id)
-
 })
 
 

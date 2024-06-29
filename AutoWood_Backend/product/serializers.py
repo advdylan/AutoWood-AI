@@ -50,10 +50,20 @@ class WoodSerializer(serializers.ModelSerializer):
 class ElementSerializer(serializers.ModelSerializer):
 
     wood_type = WoodSerializer(read_only=True)
+    wood_type_id = serializers.PrimaryKeyRelatedField(queryset=Wood.objects.all(), source='wood_type', write_only=True)
     class Meta:
         model = Element
         fields = '__all__'
 
+
+class NewProjectElementSerializer(serializers.ModelSerializer):
+    element = ElementSerializer(read_only = True)
+    element_id = serializers.PrimaryKeyRelatedField(queryset=Element.objects.all(), source='element', write_only=True)
+    
+    class Meta:
+        model = NewProjectElement
+        fields = '__all__'
+        
 class CollectionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Collection
@@ -84,7 +94,7 @@ class ProductSerializer(serializers.ModelSerializer):
 class NewProjectSerializer(serializers.ModelSerializer):
     worktimes = WorktimeTypeSerializer(many=True, read_only=True)
     accessories = AccessoryTypeSerializer(many=True, read_only=True)
-    elements = ElementSerializer(many=True, read_only=True)
+    elements = NewProjectElementSerializer(many=True, read_only=True, source='project_elements')
     wood = WoodSerializer( read_only=True)
     paints = PaintsSerializer(read_only=True)
     category = CategorySerializer(read_only=True)

@@ -116,7 +116,7 @@ class NewProject(models.Model):
     paints = models.ForeignKey(Paints, on_delete=models.CASCADE)
     worktimes = models.ManyToManyField(Worktimetype,through='ProjectWorktime', blank=True)
     accessories = models.ManyToManyField(AccessoryType, through='AccessoryDetail', blank=True)
-    elements = models.ManyToManyField(Element,blank=True)
+    new_elements = models.ManyToManyField(Element, through='NewProjectElement',blank=True)
     wood = models.ForeignKey(Wood, on_delete=models.CASCADE)
     collection = models.ForeignKey(Collection, on_delete=models.CASCADE)
     elements_margin = models.DecimalField(max_digits=10,decimal_places=2, blank=True, null=True)
@@ -163,7 +163,10 @@ class Balance(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     
 
-#class ProductElement(models.Model):
-    #product = models.ForeignKey(Product, on_delete=models.CASCADE)
-    #element = models.ForeignKey(Element, on_delete=models.CASCADE)
-    #quantity = models.IntegerField()
+class NewProjectElement(models.Model):
+    project = models.ForeignKey(NewProject, on_delete=models.CASCADE, related_name='project_elements')
+    element = models.ForeignKey(Element, on_delete=models.CASCADE)
+    quantity = models.IntegerField(default=0)
+
+    def __str__(self):
+        return f"{self.project.name} - {self.quantity}"
