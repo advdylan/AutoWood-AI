@@ -28,24 +28,29 @@ export const useNewProjectStoreBeta = defineStore('newproject', {
     },
     pricedElements() {
       return this.elements.map(element => {
-        let volume = (element.dimX / 1000) * (element.dimY / 1000) * (element.dimZ / 1000)
-        let wood_type = this.wood.find(w => w.name === element.wood_type)
-
+        
+        let volume = (element.element.dimX / 1000) * (element.element.dimY / 1000) * (element.element.dimZ / 1000)
+        let wood_type = this.wood.find(w => w.name === element.element.wood_type.name)
+        
         if (!wood_type) {
-          console.error(`Nie znaleziono typu drewna: ${element.wood_type}`)
+          console.error(`Nie znaleziono typu drewna: ${element.element.wood_type}`)
           return {
             ...element,
             price: 'Nieznana cena - brak typu drewna'
           }
         }
-
+     
         let price = volume * wood_type.price
+        
         return {
           ...element,
           price: parseFloat(price).toFixed(2)
         }
+          
+         
       })
     },
+    
     worktimeCost() {
       return this.boxes.map(works => ({
         ...works,

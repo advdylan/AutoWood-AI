@@ -1,16 +1,21 @@
 <template>
-
-   
-
-    <div>
-        <h1>Project Detail</h1>
-        <p>Project ID: {{ id }}</p>
-        <button @click="displayElements">halo</button>
-        <ElementsTable v-if="detail_project && detail_project.elements && detail_project.elements.length" :elements="detail_project.elements" />
-        
-        
+  <div class="card">
+    <header class="card-header">
+      <p class="card-header-title is-centered is-size-4">Wycena zamówienia "{{ detail_project.name}}"</p>
+    </header>
+  <div class="columns">
+    <div class="column is-half">
       
-    </div>  
+      </div>
+   
+    <div class="column is-half">
+
+  </div>
+</div>
+</div>
+   
+<ElementsTable v-if="detail_project && detail_project.elements && detail_project.elements.length" :elements="detail_project.elements" />
+   
     
 </template>
   

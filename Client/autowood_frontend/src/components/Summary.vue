@@ -181,7 +181,7 @@
   return pricedElements.value.reduce((n, {price}) => n + parseFloat(price), 0).toFixed(2)
   
  })
- 
+  
  const summAccesoriesCosts = computed(() => {
   return accesoriesStore.value.reduce((n, {sum}) => n + parseFloat(sum), 0).toFixed(2)
  })

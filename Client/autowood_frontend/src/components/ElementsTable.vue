@@ -28,7 +28,7 @@
             <td>{{ element.element.dimX }}</td>
             <td>{{ element.element.dimY }}</td>
             <td>{{ element.element.dimZ }}</td>
-            <td>{{ element.element.wood_type }}</td>
+            <td>{{ element.element.wood_type.name }}</td>
             <td>{{ element.quantity }}</td>         
           </tr>
         </tbody>

@@ -95,7 +95,7 @@ new_project_detail_view= NewProjectDetailAPIView.as_view()
 def save_data(request):
     if request.method == "POST": 
         data = json.loads(request.body)
-        print(data)
+        #print(data)
 
         wood = get_or_create_model_instance(Wood, data["wood"])
         collection = get_or_create_model_instance(Collection, data["collection"])    
@@ -121,24 +121,25 @@ def save_data(request):
             summary_with_margin=data["summary_with_margin"],
             summary_without_margin=data["summary_without_margin"]
         )
-        print(new_project)
+        #print(new_project)
         
 
         elements_data = data["elements"]
         
         for element_data in elements_data:
-            wood_type = get_or_create_model_instance(Wood, element_data["wood_type"])
+            print(element_data["element"]["wood_type"])
+            wood_type = get_or_create_model_instance(Wood, element_data["element"]["wood_type"]["name"])
             element = Element(
-                name=element_data["name"],
-                dimX=element_data["dimX"],
-                dimY=element_data["dimY"],
-                dimZ=element_data["dimZ"],
+                name=element_data["element"]["name"],
+                dimX=element_data["element"]["dimX"],
+                dimY=element_data["element"]["dimY"],
+                dimZ=element_data["element"]["dimZ"],
                 wood_type = wood_type,              
             )
             print(element)
-            #element.set_price()
-            #element.save()
-            #new_project.elements.add(element)
+            element.set_price()
+            element.save()
+            new_project.new_elements.add(element)
 
         worktime_data = data["worktime"]
         for worktime in worktime_data:
@@ -155,9 +156,9 @@ def save_data(request):
                 duration = duration,          
                 
             )
-            #worktime.save()
+            worktime.save()
 
-        #new_project.save()
+        new_project.save()
             
 
         accesories_data = data["accesories"]
@@ -173,7 +174,7 @@ def save_data(request):
             )
             acc.save()
 
-        #new_project.save()
+        new_project.save()
 
         return JsonResponse({'message': 'Data saved'}, status=201)
         

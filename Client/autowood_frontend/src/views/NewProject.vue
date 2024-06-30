@@ -205,7 +205,7 @@
           <div class="field">
             <label class="label">Ilość</label>
             <div class="control">
-              <input class="input" type="number" placeholder="Ilość" v-model="newElement.element.quantity" >             
+              <input class="input" type="number" placeholder="Ilość" v-model="newElement.quantity" >             
             </div>
           </div>
 
@@ -214,7 +214,7 @@
             <div class="control">
               <div class="select">
                 <select v-model="newElement.element.wood_type">
-                  <option v-for="woodItem in wood" :key="woodItem.id" :value="woodItem.name">
+                  <option v-for="woodItem in wood" :key="woodItem.id" :value="woodItem">
                     {{ woodItem.name }}
                   </option>
                 </select>
@@ -327,13 +327,13 @@ const projectpostData = ref()
 
 const newElement = ref({
   element: {
-    name: '',
-    dimX: 0,
-    dimY: 0,
-    dimZ: 0,
+    name: 'Przód',
+    dimX: 2500,
+    dimY: 250,
+    dimZ: 25,
     wood_type: ''
   },
-  quantity: 0
+  quantity: 1
 })
 const elementStore = useNewProjectStoreBeta()
 const summaryStore = useSummaryStore()
@@ -382,20 +382,16 @@ async function saveData() {
   let jsonProjectData = JSON.stringify(projectpostData)
   console.log(jsonProjectData)
     
-    //await axios
-    //.post(`api/v1/product/save`, jsonProjectData)
-    //.then(response => {
-      //console.log(jsonProjectData)
+    await axios
+    .post(`api/v1/product/save`, jsonProjectData)
+    .then(response => {
+      console.log(jsonProjectData)
 
-    //})
-    //.catch(error => {
-      //console.log(error)
-    //})
+    })
+    .catch(error => {
+      console.log(error)
+    })
   }
-
-
-
-
 
 </script>
 
