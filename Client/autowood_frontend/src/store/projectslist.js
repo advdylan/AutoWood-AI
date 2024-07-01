@@ -85,7 +85,6 @@ export const useProjectsListStore = defineStore('projectslist', {
             await axios
             .get(`/api/v1/newproject/${id}/`)
             .then(response => {
-                console.log(response.data)
                 this.setDetaiLProject(response.data)
             })
             .catch(error => {
