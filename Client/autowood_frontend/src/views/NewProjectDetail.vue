@@ -5,8 +5,8 @@
     </header>
     <div class="card-content">
 
-      <NewProject></NewProject>
-
+      
+      <ElementsTable  :elements="detail_project.elements"></ElementsTable>
 </div>
 </div>
    
