@@ -27,32 +27,32 @@ export const useProjectsListStore = defineStore('projectslist', {
             let columns = [
                 { 
                 field: 'name', 
-                label: 'Name',
+                label: 'Nazwa',
                 searchable: true
                 },
                 { 
                 field: 'category', 
-                label: 'Category',
+                label: 'Kategoria',
                 searchable: true 
                 },
                 { 
                 field: 'collection', 
-                label: 'Collection',
+                label: 'Kolekcja',
                 searchable: true
                 },
                 { 
                 field: 'wood', 
-                label: 'Wood',
+                label: 'Materiał',
                 searchable: true 
                 },
                 { 
                 field: 'paints',
-                label: 'Paints',
+                label: 'Malowanie',
                 searchable: true 
                 },
                 {
                 field: 'nawigacja',
-                laber: 'nawigacja'
+                label: 'Nawigacja'
                 }
             ]
             return columns
