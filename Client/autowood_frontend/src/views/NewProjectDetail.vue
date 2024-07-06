@@ -67,20 +67,9 @@
                           </div>                   
                         </div>                      
                       </div>     
-                      <div class="buttons">
-
-                      <b-button type="is-primary" >
-                        <i class="fa-solid fa-floppy-disk"></i>
-                        Zapisz zmiany
-                      </b-button>
-
-                      <b-button type="is-danger" >
-                        <i class="fa-solid fa-trash"></i>
-                        Usuń projekt
-                      </b-button>
-
-                      </div>
+                      
                     </div>   
+                    
                   </div>  
                   <div class="column is-one-third">
 
@@ -156,9 +145,22 @@
 
                   </div> 
 
+                </div>  
+                <div class="buttons">
                   
-                  
-                </div>     
+                  <b-button type="is-primary" >
+                    <i class="fa-solid fa-floppy-disk"></i>
+                    Zapisz zmiany
+                  </b-button>
+
+                  <b-button type="is-danger" >
+                    <i class="fa-solid fa-trash"></i>
+                    Usuń projekt
+                  </b-button>
+
+                  <b-button class="button is-dark"><i class="fa-regular fa-file">&nbsp;</i>Wygeneruj rozpiskę</b-button>
+
+                  </div>   
             </div>
             
           </div>

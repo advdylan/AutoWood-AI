@@ -10,10 +10,10 @@
                             icon="magnify"/>
                     </template>
                     <template v-slot="props">
+                        
                         <template v-if="column.field === 'nawigacja'">
                             <router-link :to="{ name: 'NewProjectDetail', params: { id: props.row.id } }">
-                                <b-button icon-right="circle-info">Szczegóły</b-button>
-                                
+                                <b-button icon-right="circle-info">Szczegóły</b-button>                               
                             </router-link>
                             
                         </template>
