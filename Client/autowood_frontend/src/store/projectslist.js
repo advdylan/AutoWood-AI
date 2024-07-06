@@ -91,7 +91,22 @@ export const useProjectsListStore = defineStore('projectslist', {
                 console.log(error)
             })
 
+        },
+        async updateProject(id, editedData) {
+            try {
+                const response = await axios.put(`/api/v1/newproject/${id}/`, editedData, {
+                    headers: {
+                        'Content-Type': 'application/json',                    
+                    },
+                });
+                console.log('Project updated successfully:', response.data);
+            } catch (error) {
+                console.error('Error updating the project:', error);
+            }
         }
     },
+
+
+        
     
 })

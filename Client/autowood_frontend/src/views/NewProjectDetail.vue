@@ -147,7 +147,7 @@
 
                 </div>  
                 <div class="buttons">
-                  
+
                   <b-button type="is-primary" >
                     <i class="fa-solid fa-floppy-disk"></i>
                     Zapisz zmiany
@@ -157,8 +157,9 @@
                     <i class="fa-solid fa-trash"></i>
                     Usuń projekt
                   </b-button>
-
-                  <b-button class="button is-dark"><i class="fa-regular fa-file">&nbsp;</i>Wygeneruj rozpiskę</b-button>
+                  <b-button class="button is-dark"><i class="fa-regular fa-file">&nbsp;</i>Raport dla klienta</b-button>
+                  <b-button @click="submitForm" class="button is-dark"><i class="fa-regular fa-file">&nbsp;</i>Rozpiska</b-button>
+                  
 
                   </div>   
             </div>
@@ -249,7 +250,7 @@
   const elementStore = useNewProjectStoreBeta()
 
 
-  const { loadDetailProject } = ProjectsListStore
+  const { loadDetailProject,} = ProjectsListStore
 
   const {loadData} = elementStore
   loadData()
@@ -267,6 +268,13 @@
     selectedPaint.value = detail_project.value.paints.name
   }
 })
+
+
+  async function submitForm() {
+                  const formData = detail_project.value
+                  
+              }
+
 </script>
 
 
