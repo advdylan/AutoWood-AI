@@ -158,7 +158,7 @@
                     Usuń projekt
                   </b-button>
                   <b-button class="button is-dark"><i class="fa-regular fa-file">&nbsp;</i>Raport dla klienta</b-button>
-                  <b-button @click="submitForm" class="button is-dark"><i class="fa-regular fa-file">&nbsp;</i>Rozpiska</b-button>
+                  <b-button @click="submitUpdateForm" class="button is-dark"><i class="fa-regular fa-file">&nbsp;</i>Rozpiska</b-button>
                   
 
                   </div>   
@@ -169,8 +169,28 @@
         
 
         <div class="column is-one-third">
+          <div class="card">
+            <header class="card-header" @click="isCollapsedelements = !isCollapsedelements">
+              <p class="card-header-title is-size-5">
+                Lista elementów
+              </p>
+            </header>
+              <div class="card-content">
 
+
+         
           <ElementsTable v-if="detail_project"  :elements="detail_project.elements"></ElementsTable>
+          </div>
+          
+
+          <div class="buttons">
+            <button class="button is-dark" @click="showElementModal = true" data-target="newelement-modal"><i class="fa-regular fa-pen-to-square">&nbsp;</i>Edytuj tabelę</button>
+        
+          </div>
+          
+          </div>
+
+
 
           <hr class="dashed">
 
@@ -216,7 +236,99 @@
     </div>
 </div>
 </div>
-   
+
+
+
+
+
+<div v-bind:class="{'is-active': showElementModal}" id="newelement-modal" class="modal">
+  <div class="modal-background"></div>
+  <div class="modal-content">
+
+
+    <div class="modal-card">
+      <header class="modal-card-head">
+            <p class="modal-card-title is-centered is-size-3">Dodaj element</p>
+            <button class="delete" aria-label="close" @click="showElementModal = false"></button>        
+          </header>
+          
+      
+      <section class="modal-card-body">
+        <div class="columns">
+          <div class="column is-two-fifths">
+
+        <form @submit.prevent="submitForm">
+
+        <div class="field">
+          <label class="label">Nazwa</label>
+          <div class="control">
+            <input class="input" type="text" placeholder="Nazwa" v-model="newElement.element.name">             
+          </div>
+        </div>
+
+        <div class="field">
+          <label class="label">Długość</label>
+          <div class="control">
+            <input class="input" type="number" placeholder="Długość" v-model="newElement.element.dimX">           
+          </div>
+        </div>
+
+        <div class="field">
+          <label class="label">Szerokość</label>
+          <div class="control">
+            <input class="input" type="number" placeholder="Szerokosć" v-model="newElement.element.dimY" >             
+          </div>
+        </div>
+
+        <div class="field">
+          <label class="label">Grubość</label>
+          <div class="control">
+            <input class="input" type="number" placeholder="Grubość" v-model="newElement.element.dimZ">             
+          </div>
+        </div>
+
+        <div class="field">
+          <label class="label">Ilość</label>
+          <div class="control">
+            <input class="input" type="number" placeholder="Ilość" v-model="newElement.quantity" >             
+          </div>
+        </div>
+
+        <div class="field">
+          <label class="label">Materiał</label>
+          <div class="control">
+            <div class="select">
+              <select v-model="newElement.element.wood_type">
+                <option v-for="woodItem in wood" :key="woodItem.id" :value="woodItem">
+                  {{ woodItem.name }}
+                </option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+      <footer class="modal-card-foot">
+        <div class="buttons">
+          <button type="submit" class="button is-success">Dodaj element</button>
+         
+        </div>
+      </footer>
+      
+
+    </form>
+  </div>
+  <div class="column">
+    <ElementsTable :elements="detail_project.elements" />
+  </div>
+  </div>
+
+  </section>
+
+  </div>
+  </div>
+
+
+</div>
    
     
 </template>
@@ -242,6 +354,18 @@
   const selectedCategory = ref()
   const selectedCollection = ref()
   const selectedPaint = ref()
+  const showElementModal = ref(false)
+
+  const newElement = ref({
+  element: {
+    name: 'Przód',
+    dimX: 2500,
+    dimY: 250,
+    dimZ: 25,
+    wood_type: ''
+  },
+  quantity: 1
+})
 
   const route = useRoute()
   const id = route.params.id
@@ -250,9 +374,9 @@
   const elementStore = useNewProjectStoreBeta()
 
 
-  const { loadDetailProject,} = ProjectsListStore
+  const { loadDetailProject, updateProject, addElement} = ProjectsListStore
 
-  const {loadData} = elementStore
+  const {loadData, } = elementStore
   loadData()
 
 
@@ -269,10 +393,26 @@
   }
 })
 
+const submitForm = () => {
+  addElement(newElement.value);
+  newElement.value = {
+    element: {
+      name: '',
+      dimX: 0,
+      dimY: 0,
+      dimZ: 0,
+      wood_type: ''
+    },
+    quantity: 0
+  };
+};
 
-  async function submitForm() {
-                  const formData = detail_project.value
-                  
+
+  async function submitUpdateForm() {
+                  const formData = JSON.stringify(detail_project.value)
+                  console.log(formData)                 
+                  updateProject(id, formData)
+
               }
 
 </script>

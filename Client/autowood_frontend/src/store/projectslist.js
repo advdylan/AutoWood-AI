@@ -103,7 +103,21 @@ export const useProjectsListStore = defineStore('projectslist', {
             } catch (error) {
                 console.error('Error updating the project:', error);
             }
-        }
+        },
+
+        addElement(element) {
+            this.detail_project.elements.push({
+              element: {
+                name: element.element.name,
+                dimX: element.element.dimX,
+                dimY: element.element.dimY,
+                dimZ: element.element.dimZ,
+                wood_type: element.element.wood_type
+              },
+              quantity: element.quantity
+            });
+            console.log(this.element)
+          },
     },
 
 
