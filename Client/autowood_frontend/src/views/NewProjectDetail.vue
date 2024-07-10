@@ -344,7 +344,7 @@
   import { useNewProjectStoreBeta } from '@/store/newproject'
   import { useProjectsListStore } from '@/store/projectslist'
   import { storeToRefs } from 'pinia'
-  import { ref } from 'vue'
+  import { ref, watchEffect } from 'vue'
   import { useRoute } from 'vue-router'
   import ElementsTable from '@/components/ElementsTable'
   import NewProject from './NewProject.vue'
@@ -407,10 +407,24 @@ const submitForm = () => {
   };
 };
 
-
   async function submitUpdateForm() {
-                  const formData = JSON.stringify(detail_project.value)
-                  console.log(formData)                 
+                  const formData = {
+    name: projectName.value,
+    category: selectedCategory.value,
+    wood: selectedWood.value,
+    collection: selectedCollection.value,
+    paint: selectedPaint.value,
+    elements_margin: parseFloat(elementsMargin.value.toFixed(2)),
+    accesories_margin: parseFloat(accesoriesMargin.value.toFixed(2)),
+    additional_margin: parseFloat(additionalMargin.value.toFixed(2)),
+    summary_with_margin: parseFloat(summaryCostsWithMargin.value.toFixed(2)),
+    summary_without_margin: parseFloat(summaryCosts.value.toFixed(2)),
+    elements: elements.value,
+    worktime: boxes.value,
+    accesories: accesories.value
+    
+  }
+                                
                   updateProject(id, formData)
 
               }

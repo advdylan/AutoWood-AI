@@ -94,7 +94,7 @@ export const useProjectsListStore = defineStore('projectslist', {
         },
         async updateProject(id, editedData) {
             try {
-                const response = await axios.put(`/api/v1/newproject/${id}/`, editedData, {
+                const response = await axios.patch(`/api/v1/newproject/${id}/`, editedData, {
                     headers: {
                         'Content-Type': 'application/json',                    
                     },
