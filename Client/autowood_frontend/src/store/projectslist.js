@@ -99,6 +99,7 @@ export const useProjectsListStore = defineStore('projectslist', {
                         'Content-Type': 'application/json',                    
                     },
                 });
+                console.log('Server response:', response);
                 console.log('Project updated successfully:', response.data);
             } catch (error) {
                 console.error('Error updating the project:', error);
