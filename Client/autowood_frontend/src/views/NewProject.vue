@@ -347,6 +347,7 @@ loadData()
 const {elements, wood, collection, paints, category, boxes, accesories} = storeToRefs(elementStore)
 
 
+
 const submitForm = () => {
   addElement(newElement.value);
   newElement.value = {

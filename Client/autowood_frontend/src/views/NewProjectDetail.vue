@@ -318,7 +318,7 @@
     </form>
   </div>
   <div class="column">
-    <ElementsTable :elements="detail_project.elements" />
+    <ElementsTable v-if="detail_project" :elements="detail_project.elements" />
   </div>
   </div>
 

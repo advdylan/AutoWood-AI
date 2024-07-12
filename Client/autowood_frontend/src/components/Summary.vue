@@ -225,8 +225,6 @@ summaryStore.calculateSummaryCostsWithMargin(summaryCostsWithMargin.value)
 })
 
 
-
-  
   </script>
   
   
