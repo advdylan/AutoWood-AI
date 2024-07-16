@@ -227,7 +227,23 @@
               </tbody>
               
             </table>
+            <button @click="showAccModal = true" data-target="newelement-modal" class="button is-dark"><i class="fa-solid fa-plus">&nbsp;</i>Przeszukaj akcesoria</button>
+        </div>
 
+        <div v-bind:class="{'is-active': showAccModal}" id="newelement-modal" class="modal">
+          <div class="modal-background"></div>
+          <div class="modal-content">
+      
+            <div class="modal-card">
+              <header class="modal-card-head">
+                    <p class="modal-card-title is-centered is-size-3">Akcesoria</p>
+                    <button class="delete" aria-label="close" @click="showAccModal = false"></button>        
+                  </header>
+                  <section class="modal-card-body">
+                    <AccessoryTable v-if="detail_project" :propsAccesories="detail_project.accessories" />
+                  </section>
+          </div>
+          </div>
         </div>
         </div>
 
@@ -347,6 +363,7 @@
   import { ref, watchEffect } from 'vue'
   import { useRoute } from 'vue-router'
   import ElementsTable from '@/components/ElementsTable'
+  import AccessoryTable from '@/components/AccessoryTable.vue'
   import NewProject from './NewProject.vue'
 
   const projectName = ref()
@@ -355,6 +372,7 @@
   const selectedCollection = ref()
   const selectedPaint = ref()
   const showElementModal = ref(false)
+  const showAccModal = ref(false)
 
   const newElement = ref({
   element: {
@@ -406,6 +424,7 @@ const submitForm = () => {
     quantity: 0
   };
 };
+
 
   async function submitUpdateForm() {
         const formData = {

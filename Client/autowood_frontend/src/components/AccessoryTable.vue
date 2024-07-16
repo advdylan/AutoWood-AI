@@ -59,7 +59,46 @@
 
       <p class="title is-centered is-size-3">Dodane akcesoria</p>
 
-      <table class="table is-bordered is-striped is-hoverable is-fullwidth">
+      <table v-if="propsAccesories" class="table is-bordered is-striped is-hoverable is-fullwidth">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Cena</th>
+            <th>Typ</th>
+            <th>Ilość</th>
+            
+            <th>Suma</th>
+          </tr>
+  
+        </thead>
+        
+        <tfoot>
+          
+          <tr>   
+          </tr>
+  
+        </tfoot>
+        <tbody>
+          <tr v-for="accesory in propsAccesories" :key="accesory.name">
+            
+            <th>{{ accesory.name }}</th>
+            <td>{{ accesory.price }}</td>
+            <td>{{ accesory.type }}</td>
+            <td> {{ accesory.quantity  }} 
+                  <button @click="deleteAccesory(accesory)" class="button is-dark">Usuń</button>
+  
+             </td>
+            
+            <td>  {{ accesory.sum  }}zł </td>
+            
+            
+                   
+          </tr>
+        </tbody>
+        
+      </table>
+
+      <table v-if="accesoriesStore" class="table is-bordered is-striped is-hoverable is-fullwidth">
         <thead>
           <tr>
             <th>Name</th>
@@ -99,6 +138,10 @@
       </table>
     </div>
 
+
+    
+  
+
 </template>
 
 <script>
@@ -117,13 +160,18 @@ const store = useNewProjectStoreBeta()
 const {addAccesory, deleteAccesory, } = store
 const {accesorytype, accesories, accesoriesStore} = storeToRefs(store)
 
+const props = defineProps({
+  propsAccesories: Object,
+})
+
+console.log(props.propsAccesories)
+
 const searchQuery = ref('')
 const filterType = ref('')
 
 const setFilterType = (type) => {
     filterType.value = type
 }
-
 
 
 const filteredAccesories = computed(() => {

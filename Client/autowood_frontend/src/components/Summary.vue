@@ -168,6 +168,10 @@
   const marginB = ref()
   const marginC = ref()
 
+  const props = defineProps({
+    
+  })
+
 
   const store = useNewProjectStoreBeta()
   const summaryStore = useSummaryStore()
