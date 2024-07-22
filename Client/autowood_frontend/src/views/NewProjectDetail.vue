@@ -217,10 +217,10 @@
                 
                 <tr v-if="detail_project" v-for="akc in detail_project.accessories">
   
-                  <th>{{ akc.name }}</th>
-                  <td>{{ akc.type }}</td>
-                  <td>{{ akc.weight }}</td>
-                  <td>{{ akc.price }}</td>
+                  <th>{{ akc.type.name }}</th>
+                  <td>{{ akc.type.type }}</td>
+                  <td>{{ akc.type.weight }}</td>
+                  <td>{{ akc.type.price }}</td>
 
                 </tr>
                 

@@ -146,12 +146,10 @@ class ProjectWorktime(models.Model):
     
 
 class AccessoryDetail(models.Model):
-    project = models.ForeignKey(NewProject, on_delete=models.CASCADE)
+    project = models.ForeignKey(NewProject, on_delete=models.CASCADE, related_name="project_accesories")
     type = models.ForeignKey(AccessoryType, on_delete=models.CASCADE)
     quantity = models.IntegerField(default=0)
 
-    def __str__(self):
-        return f"{self.type.name} - {self.quantity}"
     
 class Balance(models.Model):
     balance = models.DecimalField(blank=True, max_digits=7, decimal_places=2)

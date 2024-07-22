@@ -81,15 +81,15 @@
         <tbody>
           <tr v-for="accesory in propsAccesories" :key="accesory.name">
             
-            <th>{{ accesory.name }}</th>
-            <td>{{ accesory.price }}</td>
-            <td>{{ accesory.type }}</td>
+            <th>{{ accesory.type.name }}</th>
+            <td>{{ accesory.type.price }}</td>
+            <td>{{ accesory.type.type }}</td>
             <td> {{ accesory.quantity  }} 
                   <button @click="deleteAccesory(accesory)" class="button is-dark">Usuń</button>
   
              </td>
             
-            <td>  {{ accesory.sum  }}zł </td>
+            <td>  {{ accesory.type.price * accesory.quantity  }} zł </td>
             
             
                    
@@ -98,7 +98,7 @@
         
       </table>
 
-      <table v-if="accesoriesStore" class="table is-bordered is-striped is-hoverable is-fullwidth">
+      <table v-else class="table is-bordered is-striped is-hoverable is-fullwidth">
         <thead>
           <tr>
             <th>Name</th>

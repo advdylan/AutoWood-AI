@@ -34,6 +34,7 @@ class AccessoryTypeSerializer(serializers.ModelSerializer):
 class AccessorySerializer(serializers.ModelSerializer):
 
     type = AccessoryTypeSerializer(read_only = True)
+    type_id = serializers.PrimaryKeyRelatedField(queryset=AccessoryType.objects.all(),source='type', write_only=True)
     class Meta:
         model = AccessoryDetail
         fields = '__all__'
@@ -93,7 +94,7 @@ class ProductSerializer(serializers.ModelSerializer):
 
 class NewProjectSerializer(serializers.ModelSerializer):
     worktimes = WorktimeTypeSerializer(many=True, read_only=True)
-    accessories = AccessoryTypeSerializer(many=True, read_only=True)
+    accessories = AccessorySerializer(many=True, read_only=True, source='project_accesories')
     elements = NewProjectElementSerializer(many=True, read_only=True, source='project_elements')
     wood = WoodSerializer( read_only=True)
     paints = PaintsSerializer(read_only=True)
