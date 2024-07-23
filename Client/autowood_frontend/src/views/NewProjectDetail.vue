@@ -429,16 +429,17 @@ const submitForm = () => {
   async function submitUpdateForm() {
         const formData = {
 
+          id: id,
           name: projectName.value,
           category: selectedCategory.value,
           wood: selectedWood.value,
           collection: selectedCollection.value,
-          paint: selectedPaint.value,
-          //elements_margin: parseFloat(elementsMargin.value.toFixed(2)),
-          //accesories_margin: parseFloat(accesoriesMargin.value.toFixed(2)),
-          //additional_margin: parseFloat(additionalMargin.value.toFixed(2)),
-          //summary_with_margin: parseFloat(summaryCostsWithMargin.value.toFixed(2)),
-          //summary_without_margin: parseFloat(summaryCosts.value.toFixed(2)),
+          paints: selectedPaint.value,
+          elements_margin: detail_project.value.elements_margin,
+          accesories_margin: detail_project.value.accesories_margin,
+          additional_margin: detail_project.value.additional_margin,
+          summary_with_margin: detail_project.value.summary_with_margin,
+          summary_without_margin: detail_project.value.summary_without_margin,
           elements: detail_project.value.elements,
           worktime: boxes.value,
           accesories: accesories.value

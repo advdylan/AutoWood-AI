@@ -3,6 +3,7 @@ from rest_framework.decorators import api_view
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from django.http import JsonResponse
+from django.shortcuts import get_object_or_404
 import json
 from .models import *
 from .serializers import *
@@ -86,10 +87,79 @@ class NewProjectDetailAPIView(
     queryset = NewProject.objects.all()
     lookup_field = 'pk'
     serializer_class = NewProjectSerializer
-    
 
+    def update(self, request, *args, **kwargs):
+        data = json.loads(request.body)
+        wood = get_or_create_model_instance(Wood, data["wood"])
+        collection = get_or_create_model_instance(Collection, data["collection"])    
+        paint = get_or_create_model_instance(Paints, data["paints"])
+        category_name = get_or_create_model_instance(Category, data["category"])
+
+        elements_margin = data["elements_margin"]
+        accesories_margin = data["accesories_margin"]
+        additional_margin = data["additional_margin"]
+        summary_with_margin = data["summary_with_margin"]
+        summary_without_margin = data["summary_without_margin"]
+
+        new_project = get_object_or_404(NewProject, pk=data["id"])
+
+        new_project.name = data["name"]
+        new_project.category = category_name
+        new_project.paints = paint
+        new_project.wood = wood
+        new_project.collection = collection
+
+        elements_data = data["elements"]
+        
+        for element_data in elements_data:
+            #print(element_data["element"]["wood_type"])
+            wood_type = get_or_create_model_instance(Wood, element_data["element"]["wood_type"]["name"])
+
+
+            element = Element(
+                name=element_data["element"]["name"],
+                dimX=element_data["element"]["dimX"],
+                dimY=element_data["element"]["dimY"],
+                dimZ=element_data["element"]["dimZ"],
+                wood_type = wood_type,              
+            )
+            element.set_price()
+            element.save()
+
+            print(element_data["quantity"])
+            new_project_element = NewProjectElement(
+                project = new_project,
+                element = element,
+                quantity = element_data["quantity"]
+                
+            )
+
+            print((new_project_element))
+
+            new_project_element.save()
+            new_project.new_elements.add(element)
+
+        new_project.save()
+        
+
+        
+
+
+
+        return JsonResponse({'message': 'Data updated'}, status=201)
+
+    
 new_project_detail_view= NewProjectDetailAPIView.as_view()
    
+
+@api_view(['PATCH'])
+def update_data(request):
+
+    if request.method == "PATCH":
+        print(request.data)
+
+
+    return 0
 
 @api_view(['POST'])
 def save_data(request):
