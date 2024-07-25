@@ -110,6 +110,8 @@ class NewProjectDetailAPIView(
         new_project.collection = collection
 
         elements_data = data["elements"]
+
+        new_project.new_elements.clear()
         
         for element_data in elements_data:
             #print(element_data["element"]["wood_type"])
@@ -126,7 +128,7 @@ class NewProjectDetailAPIView(
             element.set_price()
             element.save()
 
-            print(element_data["quantity"])
+            #print(element_data["quantity"])
             new_project_element = NewProjectElement(
                 project = new_project,
                 element = element,
@@ -139,13 +141,23 @@ class NewProjectDetailAPIView(
             new_project_element.save()
             new_project.new_elements.add(element)
 
+
+        accesories_data = data["accesories"]
+        new_project.accessories.clear()
+
+        for accesory in accesories_data:
+            accesorytype = get_or_create_model_instance(AccessoryType, accesory["name"])
+            quantity = accesory["quantity"]
+
+            acc = AccessoryDetail.objects.create(
+                project = new_project,
+                type = accesorytype,
+                quantity = quantity
+            )
+            acc.save()
+
         new_project.save()
         
-
-        
-
-
-
         return JsonResponse({'message': 'Data updated'}, status=201)
 
     
