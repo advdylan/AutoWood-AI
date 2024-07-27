@@ -442,7 +442,7 @@ const submitForm = () => {
           summary_without_margin: detail_project.value.summary_without_margin,
           elements: detail_project.value.elements,
           worktime: boxes.value,
-          accesories: accesories.value
+          accessories: detail_project.value.accessories
   }
 
   console.log('Form Data before sending:', formData)

@@ -227,15 +227,10 @@ function handleClick(accesory) {
     addAccesoryDetailProject(accesory)
   }
   else {
-    addAccesory(accesory)
     console.log("else")
   }
   return 0
 }
-
-
-
-
 
 </script>
 

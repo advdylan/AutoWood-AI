@@ -142,7 +142,7 @@ class NewProjectDetailAPIView(
             new_project.new_elements.add(element)
 
 
-        accesories_data = data["accesories"]
+        accesories_data = data["accessories"]
         new_project.accessories.clear()
 
         for accesory in accesories_data:

@@ -1,5 +1,6 @@
 import {defineStore} from 'pinia'
 import axios from 'axios'
+import { getTransitionRawChildren } from 'vue';
 
 
 
@@ -86,7 +87,7 @@ export const useProjectsListStore = defineStore('projectslist', {
             .get(`/api/v1/newproject/${id}/`)
             .then(response => {
                 this.setDetaiLProject(response.data)
-                console.log(response.data)
+                //console.log(response.data)
             })
             .catch(error => {
                 console.log(error)
@@ -100,8 +101,8 @@ export const useProjectsListStore = defineStore('projectslist', {
                         'Content-Type': 'application/json',                    
                     },
                 });
-                //console.log('Server response:', response);
-                //console.log('Project updated successfully:', response.data);
+                console.log('Server response:', response);
+                console.log('Project updated successfully:', response.data);
             } catch (error) {
                 console.error('Error updating the project:', error);
             }
@@ -122,7 +123,25 @@ export const useProjectsListStore = defineStore('projectslist', {
           },
 
         addAccesoryDetailProject(accesory) {
-                console.log(accesory)
+                
+                const newAccesory = {
+                    id: accesory.id,
+                    project: this.detail_project.id,
+                    quantity: accesory.quantity,
+                    type: {
+                        description: accesory.description,
+                        id: accesory.id,
+                        name: accesory.name,
+                        price: accesory.price,
+                        type: accesory.type,
+                        weight: accesory.weight
+                    }
+                }
+
+                //console.log("NewAcc" , newAccesory)
+                this.detail_project.accessories.push(newAccesory)
+
+
                 /*
                 this.detail_project.accessories.push({
                     id: accesory.id,
