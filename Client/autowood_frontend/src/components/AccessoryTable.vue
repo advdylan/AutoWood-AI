@@ -223,7 +223,7 @@ function calculateSum(accesory) {
 
 function handleClick(accesory) {
   if (props.addAccDetail === 'one'){
-    console.log(accesory)
+    //console.log(accesory)
     addAccesoryDetailProject(accesory)
   }
   else {

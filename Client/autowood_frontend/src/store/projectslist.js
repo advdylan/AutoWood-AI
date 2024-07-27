@@ -122,6 +122,8 @@ export const useProjectsListStore = defineStore('projectslist', {
           },
 
         addAccesoryDetailProject(accesory) {
+                console.log(accesory)
+                /*
                 this.detail_project.accessories.push({
                     id: accesory.id,
                     project: "-",
@@ -135,7 +137,10 @@ export const useProjectsListStore = defineStore('projectslist', {
                         weight: accesory.weight
                     }
                 })
+                     */
             }
+               
+            
 
         
     },
