@@ -240,7 +240,7 @@
                     <button class="delete" aria-label="close" @click="showAccModal = false"></button>        
                   </header>
                   <section class="modal-card-body">
-                    <AccessoryTable v-if="detail_project" :propsAccesories="detail_project.accessories" />
+                    <AccessoryTable v-if="detail_project" :propsAccesories="detail_project.accessories" addAccDetail="one"  />
                   </section>
           </div>
           </div>

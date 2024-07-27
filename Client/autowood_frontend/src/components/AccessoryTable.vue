@@ -47,10 +47,8 @@
             </div>
             </div>
             </td>
-          
-
-
-            <td><button @click="addAccesory(accesory)" class="button is-dark"><i class="fa-solid fa-plus">&nbsp;</i></button></td>
+ 
+            <td><button @click="handleClick(accesory)" class="button is-dark"><i class="fa-solid fa-plus">&nbsp;</i></button></td>
                    
           </tr>
         </tbody>
@@ -152,19 +150,28 @@ export default {
 </script>
 <script setup>
 import { useNewProjectStoreBeta } from '@/store/newproject'
+import {useProjectsListStore} from '@/store/projectslist'
 import {ref, computed } from 'vue'
 import { storeToRefs } from 'pinia'
 
 
 const store = useNewProjectStoreBeta()
+const detail_store = useProjectsListStore()
+
 const {addAccesory, deleteAccesory, } = store
+const { addAccesoryDetailProject} = detail_store
 const {accesorytype, accesories, accesoriesStore} = storeToRefs(store)
+const {detail_project} = storeToRefs(detail_store)
+
 
 const props = defineProps({
   propsAccesories: Object,
+  addAccDetail: String
 })
 
-console.log(props.propsAccesories)
+//console.log(props.propsAccesories)
+//console.log(props.addAccDetail)
+
 
 const searchQuery = ref('')
 const filterType = ref('')
@@ -211,6 +218,21 @@ function decreaseQuantity(accesory) {
 function calculateSum(accesory) {
   return accesory.price * accesory.quantity;
 }
+
+
+
+function handleClick(accesory) {
+  if (props.addAccDetail === 'one'){
+    console.log(accesory)
+    addAccesoryDetailProject(accesory)
+  }
+  else {
+    addAccesory(accesory)
+    console.log("else")
+  }
+  return 0
+}
+
 
 
 

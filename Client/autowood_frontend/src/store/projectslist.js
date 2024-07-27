@@ -100,8 +100,8 @@ export const useProjectsListStore = defineStore('projectslist', {
                         'Content-Type': 'application/json',                    
                     },
                 });
-                console.log('Server response:', response);
-                console.log('Project updated successfully:', response.data);
+                //console.log('Server response:', response);
+                //console.log('Project updated successfully:', response.data);
             } catch (error) {
                 console.error('Error updating the project:', error);
             }
@@ -120,6 +120,24 @@ export const useProjectsListStore = defineStore('projectslist', {
             });
             console.log(this.element)
           },
+
+        addAccesoryDetailProject(accesory) {
+                this.detail_project.accessories.push({
+                    id: accesory.id,
+                    project: "-",
+                    quantity: accesory.quantity,
+                    type: {
+                        description: accesory.description,
+                        id: accesory.id,
+                        name: accesory.name,
+                        price: accesory.price,
+                        type: accesory.price,
+                        weight: accesory.weight
+                    }
+                })
+            }
+
+        
     },
 
 
