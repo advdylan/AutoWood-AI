@@ -144,9 +144,11 @@ class NewProjectDetailAPIView(
 
         accesories_data = data["accessories"]
         new_project.accessories.clear()
+        print(accesories_data)
+        #print(data["type"]["name"])
 
         for accesory in accesories_data:
-            accesorytype = get_or_create_model_instance(AccessoryType, accesory["name"])
+            accesorytype = get_or_create_model_instance(AccessoryType, accesory["type"]["name"])
             quantity = accesory["quantity"]
 
             acc = AccessoryDetail.objects.create(
@@ -155,6 +157,12 @@ class NewProjectDetailAPIView(
                 quantity = quantity
             )
             acc.save()
+
+            print(acc)
+            print(accesorytype)
+            
+
+            new_project.accessories.add(accesorytype)
 
         new_project.save()
         

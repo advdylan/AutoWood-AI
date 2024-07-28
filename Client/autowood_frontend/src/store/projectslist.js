@@ -87,7 +87,7 @@ export const useProjectsListStore = defineStore('projectslist', {
             .get(`/api/v1/newproject/${id}/`)
             .then(response => {
                 this.setDetaiLProject(response.data)
-                //console.log(response.data)
+                console.log(response.data)
             })
             .catch(error => {
                 console.log(error)
