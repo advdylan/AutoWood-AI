@@ -141,14 +141,13 @@
                         </tbody>
                         
                       </table>
-                    </div>
-
+                    </div>                
                   </div> 
 
                 </div>  
                 <div class="buttons">
 
-                  <b-button type="is-primary" >
+                  <b-button type="is-success" >
                     <i class="fa-solid fa-floppy-disk"></i>
                     Zapisz zmiany
                   </b-button>
@@ -157,8 +156,10 @@
                     <i class="fa-solid fa-trash"></i>
                     Usuń projekt
                   </b-button>
-                  <b-button class="button is-dark"><i class="fa-regular fa-file">&nbsp;</i>Raport dla klienta</b-button>
-                  <b-button @click="submitUpdateForm" class="button is-dark"><i class="fa-regular fa-file">&nbsp;</i>Rozpiska</b-button>
+                  <b-button class="button is-info"><i class="fa-regular fa-file">&nbsp;</i>Raport dla klienta</b-button>
+                  <b-button @click="submitUpdateForm" class="button is-info"><i class="fa-regular fa-file">&nbsp;</i>Wygeneruj rozpiskę</b-button>
+                  <button @click="showEditModal = true" data-target="newelement-modal" class="button is-dark"><i class="fa-regular fa-pen-to-square">&nbsp;</i>Edytuj marżę i koszty pracy</button>
+
                   
 
                   </div>   
@@ -227,7 +228,7 @@
               </tbody>
               
             </table>
-            <button @click="showAccModal = true" data-target="newelement-modal" class="button is-dark"><i class="fa-solid fa-plus">&nbsp;</i>Przeszukaj akcesoria</button>
+            <button @click="showAccModal = true" data-target="newelement-modal" class="button is-dark"><i class="fa-regular fa-pen-to-square">&nbsp;</i>Edytuj listę akcesorii</button>
         </div>
 
         <div v-bind:class="{'is-active': showAccModal}" id="newelement-modal" class="modal">
@@ -345,6 +346,28 @@
 
 
 </div>
+
+<div v-bind:class="{'is-active': showEditModal}" id="newelement-modal" class="modal">
+  <div class="modal-background"></div>
+  <div class="modal-content">
+
+    <div class="modal-card">
+      <header class="modal-card-head">
+            <p class="modal-card-title is-centered is-size-3">Marże i koszty pracy</p>
+            <button class="delete" aria-label="close" @click="showEditModal = false"></button>        
+          </header>
+          <section class="modal-card-body">
+            <Summary>
+              
+            </Summary>
+          </section>
+          
+      
+  </div>
+  </div>
+
+
+</div>
    
     
 </template>
@@ -365,6 +388,7 @@
   import ElementsTable from '@/components/ElementsTable'
   import AccessoryTable from '@/components/AccessoryTable.vue'
   import NewProject from './NewProject.vue'
+  import Summary from '@/components/Summary.vue'
 
   const projectName = ref()
   const selectedWood = ref()
@@ -373,6 +397,7 @@
   const selectedPaint = ref()
   const showElementModal = ref(false)
   const showAccModal = ref(false)
+  const showEditModal = ref(false)
 
   const newElement = ref({
   element: {
