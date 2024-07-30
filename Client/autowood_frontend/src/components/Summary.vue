@@ -87,7 +87,9 @@
                       <th> Suma: {{ summaryCosts}}</th>
                     </tr>
                     <tr>
-                      <th v-if="marginA"> Marża na materiał : {{ parseFloat(elementsMargin).toFixed(2) }}</th>
+                      <th v-if="marginA"> Marża na materiał : {{ parseFloat(elementsMargin).toFixed(2) }}
+                      
+                      </th>
                     </tr>
                     <tr>
                       <th v-if="marginB"> Marża na akcesoria: {{ parseFloat(accesoriesMargin).toFixed(2)}}</th>
@@ -169,8 +171,15 @@
   const marginC = ref()
 
   const props = defineProps({
-    
+    propMarginA: Number,
+    propMarginB: Number,
+    propMarginC: Number
   })
+
+  if (props) {
+    console.log(props.propMarginA)
+    
+  }
 
 
   const store = useNewProjectStoreBeta()

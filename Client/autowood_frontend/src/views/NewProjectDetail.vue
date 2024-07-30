@@ -147,7 +147,7 @@
                 </div>  
                 <div class="buttons">
 
-                  <b-button type="is-success" >
+                  <b-button @click="submitUpdateForm" type="is-success" >
                     <i class="fa-solid fa-floppy-disk"></i>
                     Zapisz zmiany
                   </b-button>
@@ -157,7 +157,7 @@
                     Usuń projekt
                   </b-button>
                   <b-button class="button is-info"><i class="fa-regular fa-file">&nbsp;</i>Raport dla klienta</b-button>
-                  <b-button @click="submitUpdateForm" class="button is-info"><i class="fa-regular fa-file">&nbsp;</i>Wygeneruj rozpiskę</b-button>
+                  <b-button  class="button is-info"><i class="fa-regular fa-file">&nbsp;</i>Wygeneruj rozpiskę</b-button>
                   <button @click="showEditModal = true" data-target="newelement-modal" class="button is-dark"><i class="fa-regular fa-pen-to-square">&nbsp;</i>Edytuj marżę i koszty pracy</button>
 
                   
@@ -357,7 +357,12 @@
             <button class="delete" aria-label="close" @click="showEditModal = false"></button>        
           </header>
           <section class="modal-card-body">
-            <Summary>
+            <Summary v-if="detail_project" 
+            :propMarginA="Number(parseFloat(detail_project.elements_margin).toFixed(2))"
+            :propMarginB="Number(parseFloat(detail_project.accesories_margin).toFixed(2))"
+            :propMarginC="Number(parseFloat(detail_project.additional_margin).toFixed(2))"
+            
+            >
               
             </Summary>
           </section>
