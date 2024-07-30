@@ -125,6 +125,16 @@ export const useNewProjectStoreBeta = defineStore('newproject', {
       })
     },
 
+    setElements(newElements) {
+      this.elements = newElements;
+    },
+
+    setAccesories(newAccesories) {
+      this.accesories = newAccesories
+    }
+
+
+
     
 
 

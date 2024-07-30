@@ -173,13 +173,11 @@
   const props = defineProps({
     propMarginA: Number,
     propMarginB: Number,
-    propMarginC: Number
+    propMarginC: Number,
+    propElements: Array,
+    propAccesories: Array,
+    propWorktimecosts: Array,
   })
-
-  if (props) {
-    console.log(props.propMarginA)
-    
-  }
 
 
   const store = useNewProjectStoreBeta()
@@ -188,7 +186,28 @@
 
   const {elements, wood, pricedElements, accesoriesStore, worktimeCost} = storeToRefs(store)
 
+  watch(
+  () => props.propElements,
+  (newElements) => {
+    if (newElements && Array.isArray(newElements)) {
+      store.setElements(newElements);
+    }
+  },
+  { immediate: true }
+);
 
+watch(
+  () => props.propAccesories,
+  (newAccesories) => {
+    if (newAccesories && Array.isArray(newAccesories)) {
+      store.setAccesories(newAccesories);
+    }
+  },
+  { immediate: true }
+);
+ 
+  
+  
   
  const summElementCosts = computed(() => {
   return pricedElements.value.reduce((n, {price}) => n + parseFloat(price), 0).toFixed(2)
