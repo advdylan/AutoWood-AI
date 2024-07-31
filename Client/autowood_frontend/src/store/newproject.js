@@ -131,7 +131,19 @@ export const useNewProjectStoreBeta = defineStore('newproject', {
 
     setAccesories(newAccesories) {
       this.accesories = newAccesories
-    }
+    },
+
+    $reset() {
+      this.category = []
+      this.worktimetype = []
+      this.accesorytype = []
+      this.accesories = []
+      this.wood = []
+      this.collection = []
+      this.paints = []
+      this.elements = []
+      this.boxes = []
+    },
 
 
 

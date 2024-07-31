@@ -390,7 +390,7 @@
   import { useNewProjectStoreBeta } from '@/store/newproject'
   import { useProjectsListStore } from '@/store/projectslist'
   import { storeToRefs } from 'pinia'
-  import { ref, watchEffect } from 'vue'
+  import { ref, watchEffect, onUnmounted } from 'vue'
   import { useRoute } from 'vue-router'
   import ElementsTable from '@/components/ElementsTable'
   import AccessoryTable from '@/components/AccessoryTable.vue'
@@ -426,7 +426,7 @@
 
   const { loadDetailProject, updateProject, addElement} = ProjectsListStore
 
-  const {loadData, } = elementStore
+  const {loadData, $reset } = elementStore
   loadData()
 
 
@@ -482,6 +482,13 @@ const submitForm = () => {
   updateProject(id, formData)
 
               }
+
+  onUnmounted(()=> {
+    console.log("Unmount the NewProjectDetail")
+    $reset()
+  })
+
+  
 
 </script>
 

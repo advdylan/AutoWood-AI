@@ -300,7 +300,7 @@
 <script setup>
 import { useNewProjectStoreBeta } from '@/store/newproject'
 import { useSummaryStore } from '@/store/summary'
-import {ref, computed} from 'vue'
+import {ref, computed, onUnmounted} from 'vue'
 import { storeToRefs } from 'pinia'
 import ElementsTable from '@/components/ElementsTable'
 import WorktimeType from '@/components/WorktimeType'
@@ -381,18 +381,22 @@ async function saveData() {
     
   }
   let jsonProjectData = JSON.stringify(projectpostData)
-  console.log(jsonProjectData)
+  //console.log(jsonProjectData)
     
     await axios
     .post(`api/v1/product/save`, jsonProjectData)
     .then(response => {
-      console.log(jsonProjectData)
+      //console.log(jsonProjectData)
 
     })
     .catch(error => {
       console.log(error)
     })
   }
+
+  onUnmounted(()=> {
+    console.log("Onmounted NewProject")
+  })
 
 </script>
 
