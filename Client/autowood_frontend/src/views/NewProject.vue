@@ -386,7 +386,7 @@ async function saveData() {
     await axios
     .post(`api/v1/product/save`, jsonProjectData)
     .then(response => {
-      //console.log(jsonProjectData)
+      console.log(jsonProjectData)
 
     })
     .catch(error => {

@@ -81,7 +81,7 @@ export const useNewProjectStoreBeta = defineStore('newproject', {
       await axios
       .get(`/api/v1/project/`)
       .then(response =>{
-        //console.log(JSON.stringify(response.data))
+        console.log(JSON.stringify(response.data))
         this.setData(response.data)
         
       })
@@ -109,10 +109,20 @@ export const useNewProjectStoreBeta = defineStore('newproject', {
     addAccesory(accesory) {
       
       this.accesories.push({
-        name: accesory.name,
-        price: accesory.price,
-        type: accesory.type,
+
+        id: accesory.id,
+        project: accesory.project,
         quantity: accesory.quantity,
+        type: {
+          description: accesory.type.id,
+          id: accesory.type.id,
+          name: accesory.type.name,
+          price: accesory.type.price,
+          type: accesory.type.type,
+          weight: accesory.type.weight    
+            }
+        
+
       })
     },
     deleteAccesory(accesory) {
