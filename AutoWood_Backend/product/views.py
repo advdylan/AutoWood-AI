@@ -254,7 +254,7 @@ def save_data(request):
         accesories_data = data["accesories"]
 
         for accesory in accesories_data:
-            accesorytype = get_or_create_model_instance(AccessoryType, accesory["name"])
+            accesorytype = get_or_create_model_instance(AccessoryType, accesory["type"]["name"])
             quantity = accesory["quantity"]
 
             acc = AccessoryDetail.objects.create(
@@ -263,6 +263,12 @@ def save_data(request):
                 quantity = quantity
             )
             acc.save()
+
+            print(acc)
+            print(accesorytype)
+            
+
+            new_project.accessories.add(accesorytype)
 
         new_project.save()
 

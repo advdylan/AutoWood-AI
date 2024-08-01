@@ -118,15 +118,15 @@
         <tbody>
           <tr v-for="accesory in accesoriesStore" :key="accesory.name">
             
-            <th>{{ accesory.name }}</th>
-            <td>{{ accesory.price }}</td>
-            <td>{{ accesory.type }}</td>
+            <th>{{ accesory.type.name }}</th>
+            <td>{{ accesory.type.price }}</td>
+            <td>{{ accesory.type.type }}</td>
             <td> {{ accesory.quantity  }} 
                   <button @click="deleteAccesory(accesory)" class="button is-dark">Usuń</button>
 
              </td>
             
-            <td>  {{ accesory.sum  }}zł </td>
+            <td>  {{ accesory.type.price * accesory.quantity  }}zł </td>
             
             
                    
@@ -162,6 +162,8 @@ const {addAccesory, deleteAccesory, } = store
 const { addAccesoryDetailProject} = detail_store
 const {accesorytype, accesories, accesoriesStore} = storeToRefs(store)
 const {detail_project} = storeToRefs(detail_store)
+
+console.log(accesoriesStore.value)
 
 
 const props = defineProps({

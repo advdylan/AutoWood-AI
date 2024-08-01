@@ -23,11 +23,12 @@ export const useNewProjectStoreBeta = defineStore('newproject', {
     accesoriesStore() {
       return this.accesories.map(accesory => ({
         ...accesory,
-        sum: accesory.price * accesory.quantity
+        sum: accesory.type.price * accesory.quantity 
       }))
     },
     pricedElements() {
       return this.elements.map(element => {
+        console.log(this.element)
         
         let volume = (element.element.dimX / 1000) * (element.element.dimY / 1000) * (element.element.dimZ / 1000)
         let wood_type = this.wood.find(w => w.name === element.element.wood_type.name)
@@ -40,7 +41,7 @@ export const useNewProjectStoreBeta = defineStore('newproject', {
           }
         }
      
-        let price = volume * wood_type.price
+        let price = (volume * wood_type.price) * element.quantity
         
         return {
           ...element,
@@ -93,6 +94,7 @@ export const useNewProjectStoreBeta = defineStore('newproject', {
 
 
     addElement(element) {
+    
       this.elements.push({
         element: {
           name: element.element.name,
@@ -108,22 +110,25 @@ export const useNewProjectStoreBeta = defineStore('newproject', {
   
     addAccesory(accesory) {
       
-      this.accesories.push({
-
+      const newAccesory = {
         id: accesory.id,
-        project: accesory.project,
+        project: 0,
         quantity: accesory.quantity,
         type: {
-          description: accesory.type.id,
-          id: accesory.type.id,
-          name: accesory.type.name,
-          price: accesory.type.price,
-          type: accesory.type.type,
-          weight: accesory.type.weight    
-            }
+            description: accesory.description,
+            id: accesory.id,
+            name: accesory.name,
+            price: accesory.price,
+            type: accesory.type,
+            weight: accesory.weight
+        }
+    }
+
+    //console.log("NewAcc" , newAccesory)
+    this.accesories.push(newAccesory)
         
 
-      })
+      
     },
     deleteAccesory(accesory) {
       
