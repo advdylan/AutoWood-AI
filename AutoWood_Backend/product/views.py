@@ -218,7 +218,10 @@ def save_data(request):
         
         for element_data in elements_data:
             print(element_data["element"]["wood_type"])
+            print(element_data)
             wood_type = get_or_create_model_instance(Wood, element_data["element"]["wood_type"]["name"])
+
+
             element = Element(
                 name=element_data["element"]["name"],
                 dimX=element_data["element"]["dimX"],
@@ -226,10 +229,20 @@ def save_data(request):
                 dimZ=element_data["element"]["dimZ"],
                 wood_type = wood_type,              
             )
-            print(element)
+
+            new_project_element = NewProjectElement(
+                project = new_project,
+                element = element,
+                quantity = element_data["quantity"]
+                
+            )
+          
             element.set_price()
             element.save()
+            
+            new_project_element.save()
             new_project.new_elements.add(element)
+            
 
         worktime_data = data["worktime"]
         for worktime in worktime_data:
@@ -267,7 +280,6 @@ def save_data(request):
             print(acc)
             print(accesorytype)
             
-
             new_project.accessories.add(accesorytype)
 
         new_project.save()
