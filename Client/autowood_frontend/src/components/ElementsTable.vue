@@ -9,7 +9,7 @@
             <th>Grubość</th>
             <th>Materiał</th>
             <th>Ilość</th>
-            <th></th>
+            <th>Usuń</th>
             
           </tr>
 
