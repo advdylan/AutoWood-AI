@@ -12,8 +12,8 @@
             <th>Name</th>
             <th>Cena</th>
             <th>Typ</th>
-            <th>Ilość</th>
-            <th>Dodaj</th>
+            <th class="input-column">Ilość</th>
+            <th class="delete-column">Dodaj</th>
             
           </tr>
 
@@ -35,20 +35,20 @@
             <td>
             <div class="field has-addons">
             <div class="control">
-              <button @click="increaseQuantity(accesory)" class="button is-dark is-small is-height-matched"><i class="fa-solid fa-plus"></i></button> 
+              <button @click="increaseQuantity(accesory)" class="button is-success is-height-matched"><i class="fa-solid fa-plus"></i></button> 
             </div>
             &nbsp;
             <div class="control">     
-            <input v-model="accesory.quantity" class="input is-small is-height-matched" type="text" placeholder="Ilość"/>
+            <input v-model="accesory.quantity" class="input is-height-matched" type="text" placeholder="Ilość"/>
             </div>
             &nbsp;
             <div class="control"> 
-            <button @click="decreaseQuantity(accesory)" class="button is-dark is-small is-height-matched"><i class="fa-solid fa-minus"></i></button> 
+            <button @click="decreaseQuantity(accesory)" class="button is-danger is-height-matched"><i class="fa-solid fa-minus"></i></button> 
             </div>
             </div>
             </td>
  
-            <td><button @click="handleClick(accesory)" class="button is-dark"><i class="fa-solid fa-plus">&nbsp;</i></button></td>
+            <td><button @click="handleClick(accesory)" class="button is-success"><i class="fa-solid fa-plus">&nbsp;</i></button></td>
                    
           </tr>
         </tbody>
@@ -63,9 +63,9 @@
             <th>Name</th>
             <th>Cena</th>
             <th>Typ</th>
-            <th>Ilość</th>
+            <th >Ilość</th>
             <th>Suma</th>
-            <th>Usuń</th>
+            <th class="delete-column">Usuń</th>
           </tr>
   
         </thead>
@@ -101,7 +101,7 @@
             <th>Typ</th>
             <th>Ilość</th>  
             <th>Suma</th>
-            <th>Usuń</th>
+            <th class="delete-column">Usuń</th>
           </tr>
 
         </thead>
@@ -209,7 +209,7 @@ function calculateSum(accesory) {
 
 function handleClick(accesory) {
 
-  if (accesory.quantity <= 0) {
+  if (accesory.quantity <= 0 || typeof accesory.quantity != 'number')   {
     errors.value.push('Niepoprawna ilość akcesorii')
   }
 
@@ -254,5 +254,16 @@ function handleClick(accesory) {
 <style>
 .is-height-matched {
     height: 2.25em; /* Default height for Bulma's .input.is-small */
+}
+.delete-column {
+  width: 50px; /* Adjust this width to fit your icon */
+  text-align: center;
+}
+.input-column {
+  width: 200px;
+  text-align: center;
+}
+.delete-column b-button {
+  padding: 0;
 }
 </style>
