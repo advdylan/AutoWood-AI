@@ -9,6 +9,8 @@
             <th>Grubość</th>
             <th>Materiał</th>
             <th>Ilość</th>
+            <th></th>
+            
           </tr>
 
         </thead>
@@ -29,7 +31,8 @@
             <td>{{ element.element.dimY }}</td>
             <td>{{ element.element.dimZ }}</td>
             <td>{{ element.element.wood_type.name }}</td>
-            <td>{{ element.quantity }}</td>         
+            <td>{{ element.quantity }}</td>
+            <td><b-button type="is-danger"><i class="fa-solid fa-xmark"></i></b-button></td>
           </tr>
         </tbody>
         
