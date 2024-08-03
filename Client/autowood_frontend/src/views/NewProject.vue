@@ -318,8 +318,8 @@ const isCollapsedacc = ref(false)
 const isCollapsedpaints = ref(false)
 const isCollapsed = ref(false)
 const isCollapsedelements = ref(false)
-const project = ref({})
 
+const project = ref({})
 const errors = ref([])
 
 
@@ -348,23 +348,17 @@ const {summaryCosts, elementsMargin, accesoriesMargin, additionalMargin,summaryC
 
 loadData()
 
-
 const {elements, wood, collection, paints, category, boxes, accesories} = storeToRefs(elementStore)
-
-
 
 
 const submitForm = () => {
 
-  
-
   if (newElement.value.element.dimX <= 0) {
     errors.value.push('Podaj długość większą niż 0')
   }
-
   if (typeof newElement?.value?.element?.name !== 'string' || newElement.value.element.name.trim() === '') {
     errors.value.push('Podaj właściwą nazwę')
-}
+  }
   if (newElement.value.element.dimY <= 0) {
     errors.value.push('Podaj wysokość większą niż 0')
   }
@@ -379,13 +373,13 @@ const submitForm = () => {
     addElement(newElement.value);
   newElement.value = {
     element: {
-      name: '',
-      dimX: 0,
-      dimY: 0,
-      dimZ: 0,
-      wood_type: ''
+      name: 'Przód',
+      dimX: 2500,
+      dimY: 250,
+      dimZ: 25,
+      wood_type: 'Sosna'
             },
-    quantity: 0
+    quantity: 1
     }
     }
 
@@ -406,18 +400,8 @@ const submitForm = () => {
       })
 
       errors.value = []
-
-
-    
-      
   }
-
   }
-
-
-
-
-  
 
 
 async function saveData() {

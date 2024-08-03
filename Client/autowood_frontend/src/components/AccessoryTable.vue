@@ -64,8 +64,8 @@
             <th>Cena</th>
             <th>Typ</th>
             <th>Ilość</th>
-            
             <th>Suma</th>
+            <th>Usuń</th>
           </tr>
   
         </thead>
@@ -82,12 +82,9 @@
             <th>{{ accesory.type.name }}</th>
             <td>{{ accesory.type.price }}</td>
             <td>{{ accesory.type.type }}</td>
-            <td> {{ accesory.quantity  }} 
-                  <button @click="deleteAccesory(accesory)" class="button is-dark">Usuń</button>
-  
-             </td>
-            
+            <td> {{ accesory.quantity  }}</td>
             <td>  {{ accesory.type.price * accesory.quantity  }} zł </td>
+            <td><b-button @click="deleteAccesory(accesory)" type="is-danger"><i class="fa-solid fa-xmark"></i></b-button></td>
             
             
                    
@@ -102,9 +99,9 @@
             <th>Name</th>
             <th>Cena</th>
             <th>Typ</th>
-            <th>Ilość</th>
-            
+            <th>Ilość</th>  
             <th>Suma</th>
+            <th>Usuń</th>
           </tr>
 
         </thead>
@@ -121,15 +118,10 @@
             <th>{{ accesory.type.name }}</th>
             <td>{{ accesory.type.price }}</td>
             <td>{{ accesory.type.type }}</td>
-            <td> {{ accesory.quantity  }} 
-                  <button @click="deleteAccesory(accesory)" class="button is-dark">Usuń</button>
-
-             </td>
-            
+            <td> {{ accesory.quantity  }}</td>          
             <td>  {{ accesory.type.price * accesory.quantity  }}zł </td>
-            
-            
-                   
+            <td><b-button @click="deleteAccesory(accesory)" type="is-danger"><i class="fa-solid fa-xmark"></i></b-button></td>
+   
           </tr>
         </tbody>
         
@@ -153,6 +145,8 @@ import { useNewProjectStoreBeta } from '@/store/newproject'
 import {useProjectsListStore} from '@/store/projectslist'
 import {ref, computed } from 'vue'
 import { storeToRefs } from 'pinia'
+import { toast } from 'bulma-toast'
+
 
 
 const store = useNewProjectStoreBeta()
@@ -163,20 +157,15 @@ const { addAccesoryDetailProject} = detail_store
 const {accesorytype, accesories, accesoriesStore} = storeToRefs(store)
 const {detail_project} = storeToRefs(detail_store)
 
-console.log(accesoriesStore.value)
-
 
 const props = defineProps({
   propsAccesories: Object,
   addAccDetail: String
 })
 
-//console.log(props.propsAccesories)
-//console.log(props.addAccDetail)
-
-
 const searchQuery = ref('')
 const filterType = ref('')
+const errors = ref([])
 
 const setFilterType = (type) => {
     filterType.value = type
@@ -191,7 +180,6 @@ const filteredAccesories = computed(() => {
 
     let result = accesorytype.value
 
- 
     if (searchQuery.value) {
         result = result.filter(accesory => 
             accesory.name.toLowerCase().
@@ -209,14 +197,10 @@ const filteredAccesories = computed(() => {
 
 function increaseQuantity(accesory) {
   accesory.quantity++
-  
 }
-
 function decreaseQuantity(accesory) {
   accesory.quantity--
 }
-
-
 function calculateSum(accesory) {
   return accesory.price * accesory.quantity;
 }
@@ -224,15 +208,45 @@ function calculateSum(accesory) {
 
 
 function handleClick(accesory) {
-  if (props.addAccDetail === 'one'){
-    
-    addAccesoryDetailProject(accesory)
+
+  if (accesory.quantity <= 0) {
+    errors.value.push('Niepoprawna ilość akcesorii')
+  }
+
+  if (!errors.value.length) {
+    if (props.addAccDetail === 'one'){
+          
+          addAccesoryDetailProject(accesory)
+        }
+        else {
+
+          addAccesory(accesory)         
+        }
+        return 0
   }
   else {
-    addAccesory(accesory)
+    let msg = ''
+
+    for (let i=0; i <errors.value.length; i++){
+      msg += errors.value[i] += "\n"
+    }
+
+    toast({
+        message: msg,
+        duration: 5000,
+        position: "top-center",
+        type: 'is-danger',
+        animate: { in: 'backInDown', out: 'backOutUp' },
+      })
+
+      errors.value = []
     
   }
-  return 0
+
+
+
+
+
 }
 
 </script>

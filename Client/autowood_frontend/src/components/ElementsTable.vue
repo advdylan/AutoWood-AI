@@ -32,7 +32,7 @@
             <td>{{ element.element.dimZ }}</td>
             <td>{{ element.element.wood_type.name }}</td>
             <td>{{ element.quantity }}</td>
-            <td><b-button type="is-danger"><i class="fa-solid fa-xmark"></i></b-button></td>
+            <td><b-button @click="deleteElement(element)" type="is-danger"><i class="fa-solid fa-xmark"></i></b-button></td>
           </tr>
         </tbody>
         
@@ -43,14 +43,25 @@
 
 <script>
 export default {
-  name: 'ElementsTable',
-  props: {
-    elements: {
-      type: Array,
-      required: true
-    }
-  }
+  name: 'ElementsTable', 
 }
+</script>
+
+
+<script setup>
+import { useNewProjectStoreBeta } from '@/store/newproject'
+
+const store = useNewProjectStoreBeta()
+const {deleteElement} = store
+
+const props = defineProps({
+  elements: Array,
+  required: true
+})
+
+
+
+
 </script>
 
 
