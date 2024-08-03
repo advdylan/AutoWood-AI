@@ -371,6 +371,9 @@ const submitForm = () => {
   if (newElement.value.element.dimZ <= 0) {
     errors.value.push('Podaj grubość większą niż 0')
   }
+  if (newElement.value.element.wood_type == '') {
+    errors.value.push('Wybierz materiał')
+  }
 
   if (!errors.value.length) {
     addElement(newElement.value);
@@ -388,8 +391,14 @@ const submitForm = () => {
 
   else {
 
+    let msg = ''
+
+    for (let i=0; i <errors.value.length; i++){
+      msg += errors.value[i] += "\n"
+    }
+
     toast({
-        message: `${errors.value}`,
+        message: msg,
         duration: 5000,
         position: "top-center",
         type: 'is-danger',

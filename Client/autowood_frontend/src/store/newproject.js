@@ -107,6 +107,10 @@ export const useNewProjectStoreBeta = defineStore('newproject', {
       });
       
     },
+
+    deleteElement(element) {
+      this.elements.pop(element)
+    },
   
     addAccesory(accesory) {
       
