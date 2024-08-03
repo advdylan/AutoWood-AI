@@ -365,6 +365,12 @@ const submitForm = () => {
   if (typeof newElement?.value?.element?.name !== 'string' || newElement.value.element.name.trim() === '') {
     errors.value.push('Podaj właściwą nazwę')
 }
+  if (newElement.value.element.dimY <= 0) {
+    errors.value.push('Podaj wysokość większą niż 0')
+  }
+  if (newElement.value.element.dimZ <= 0) {
+    errors.value.push('Podaj grubość większą niż 0')
+  }
 
   if (!errors.value.length) {
     addElement(newElement.value);
