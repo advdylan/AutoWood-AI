@@ -28,7 +28,7 @@ export const useNewProjectStoreBeta = defineStore('newproject', {
     },
     pricedElements() {
       return this.elements.map(element => {
-        console.log(this.element)
+        console.log(element)
         
         let volume = (element.element.dimX / 1000) * (element.element.dimY / 1000) * (element.element.dimZ / 1000)
         let wood_type = this.wood.find(w => w.name === element.element.wood_type.name)
@@ -94,7 +94,7 @@ export const useNewProjectStoreBeta = defineStore('newproject', {
 
 
     addElement(element) {
-    
+      
       this.elements.push({
         element: {
           name: element.element.name,
@@ -105,7 +105,7 @@ export const useNewProjectStoreBeta = defineStore('newproject', {
         },
         quantity: element.quantity
       });
-      console.log(this.element)
+      
     },
   
     addAccesory(accesory) {

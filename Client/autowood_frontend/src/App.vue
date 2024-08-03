@@ -1,4 +1,8 @@
 <template>
+  <link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/animate.css@4.0.0/animate.min.css"
+  />
 
   <nav class="navbar" role="navigation" aria-label="main navigation">
     <div class="navbar-brand">

@@ -302,11 +302,14 @@ import { useNewProjectStoreBeta } from '@/store/newproject'
 import { useSummaryStore } from '@/store/summary'
 import {ref, computed, onUnmounted} from 'vue'
 import { storeToRefs } from 'pinia'
+
 import ElementsTable from '@/components/ElementsTable'
 import WorktimeType from '@/components/WorktimeType'
 import AccessoryTable from '@/components/AccessoryTable.vue'
 import Summary from '@/components/Summary.vue'
+
 import axios from 'axios'
+import { toast } from 'bulma-toast'
 
 const showElementModal = ref(false)
 const showElementModalTable = ref(false)
@@ -316,6 +319,8 @@ const isCollapsedpaints = ref(false)
 const isCollapsed = ref(false)
 const isCollapsedelements = ref(false)
 const project = ref({})
+
+const errors = ref([])
 
 
 const projectName = ref()
@@ -348,8 +353,21 @@ const {elements, wood, collection, paints, category, boxes, accesories} = storeT
 
 
 
+
 const submitForm = () => {
-  addElement(newElement.value);
+
+  
+
+  if (newElement.value.element.dimX <= 0) {
+    errors.value.push('Podaj długość większą niż 0')
+  }
+
+  if (typeof newElement?.value?.element?.name !== 'string' || newElement.value.element.name.trim() === '') {
+    errors.value.push('Podaj właściwą nazwę')
+}
+
+  if (!errors.value.length) {
+    addElement(newElement.value);
   newElement.value = {
     element: {
       name: '',
@@ -357,10 +375,34 @@ const submitForm = () => {
       dimY: 0,
       dimZ: 0,
       wood_type: ''
-    },
+            },
     quantity: 0
-  };
-};
+    }
+    }
+
+  else {
+
+    toast({
+        message: `${errors.value}`,
+        duration: 5000,
+        position: "top-center",
+        type: 'is-danger',
+        animate: { in: 'backInDown', out: 'backOutUp' },
+      })
+
+      errors.value = []
+
+
+    
+      
+  }
+
+  }
+
+
+
+
+  
 
 
 async function saveData() {
