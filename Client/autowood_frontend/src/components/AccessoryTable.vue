@@ -83,7 +83,7 @@
             <td>{{ accesory.type.price }}</td>
             <td>{{ accesory.type.type }}</td>
             <td> {{ accesory.quantity  }}</td>
-            <td>  {{ accesory.type.price * accesory.quantity  }} zł </td>
+            <td>  {{ (accesory.type.price * accesory.quantity).toFixed(2)  }} zł </td>
             <td><b-button @click="deleteAccesory(accesory)" type="is-danger"><i class="fa-solid fa-xmark"></i></b-button></td>
             
             
@@ -119,7 +119,7 @@
             <td>{{ accesory.type.price }}</td>
             <td>{{ accesory.type.type }}</td>
             <td> {{ accesory.quantity  }}</td>          
-            <td>  {{ accesory.type.price * accesory.quantity  }}zł </td>
+            <td>  {{ (accesory.type.price * accesory.quantity).toFixed(2)   }}zł </td>
             <td><b-button @click="deleteAccesory(accesory)" type="is-danger"><i class="fa-solid fa-xmark"></i></b-button></td>
    
           </tr>
