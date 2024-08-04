@@ -422,18 +422,63 @@ async function saveData() {
     
   }
   let jsonProjectData = JSON.stringify(projectpostData)
-  //console.log(jsonProjectData)
-    
-    await axios
-    .post(`api/v1/product/save`, jsonProjectData)
-    .then(response => {
-      //console.log(jsonProjectData)
+  let parsedProjectData = JSON.parse(jsonProjectData)
+  console.log(parsedProjectData.name)
 
-    })
-    .catch(error => {
-      console.log(error)
-    })
+  if (typeof parsedProjectData.name !== 'string' || parsedProjectData.name.trim() === '') {
+    errors.value.push('Podaj właściwą nazwę wyceny w oknie "Nazwa projektu"')
   }
+  if (typeof parsedProjectData.category !== 'string' || parsedProjectData.name.trim() === '') {
+    errors.value.push('Podaj właściwą nazwę w oknie "Kategoria"')
+  }
+  if (typeof parsedProjectData.wood !== 'string' || parsedProjectData.name.trim() === '') {
+    errors.value.push('Podaj właściwą nazwę w oknie "Materiał"')
+  }
+  if (typeof parsedProjectData.collection !== 'string' || parsedProjectData.name.trim() === '') {
+    errors.value.push('Podaj właściwą nazwę w oknie "Kolekcja"')
+  }
+  if (typeof parsedProjectData.paint !== 'string' || parsedProjectData.name.trim() === '') {
+    errors.value.push('Podaj właściwą nazwę w oknie "Malowanie"')
+  }
+
+
+  if (!errors.value.length) {
+      await axios
+          .post(`api/v1/product/save`, jsonProjectData)
+          .then(response => {  
+            toast({
+              message: `Wycena ${parsedProjectData.name} dodane poprawnie`,
+              duration: 5000,
+              position: "top-center",
+              type: 'is-success',
+              animate: { in: 'backInDown', out: 'backOutUp' },
+            })        
+          })
+          .catch(error => {
+            console.log(error)
+          })
+      }
+
+  else {
+        let msg = ''
+
+        for (let i=0; i <errors.value.length; i++){
+          msg += errors.value[i] += "\n"
+        }
+        toast({
+            message: msg,
+            duration: 5000,
+            position: "top-center",
+            type: 'is-danger',
+            animate: { in: 'backInDown', out: 'backOutUp' },
+          })
+
+          errors.value = []
+        }
+
+  }
+    
+    
 
   onUnmounted(()=> {
     //console.log("Onmounted NewProject")
