@@ -104,7 +104,9 @@
                   </tbody>
                   
                 </table>
-                
+                <slot>
+            
+                </slot>
 
           </div>
           
@@ -138,13 +140,9 @@
                 </div>
               </div>
             </div>
-            <footer class="card-footer">
 
-
-             
-            </footer>
           </div>
-            
+
         </div>
         
     </div>

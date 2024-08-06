@@ -13,7 +13,7 @@
                   <div class="field">
                     <label class="label is-size-5">Nazwa projektu</label>
                     <div class="control">
-                      <input v-model="projectName" class="input" type="text" placeholder="Nazwa projektu">
+                      <input v-model="projectName" :class="inputClass" type="text" placeholder="Nazwa projektu">
                     </div>
                   </div>
 
@@ -257,12 +257,9 @@
             <section class="modal-card-body">
               <AccessoryTable />
             </section>
-            
-        
+
     </div>
     </div>
-
-
   </div>
   
 
@@ -273,13 +270,24 @@
       </p>
       <p class="subtitle">{{projectName}}</p>
     </div>
-    <Summary/>
+    <Summary>
+      <div class="buttons">
+        <b-button @click="saveData" type="is-success" >
+          <i class="fa-solid fa-floppy-disk"></i>
+          Zapisz zmiany
+        </b-button>
+        <b-button @click="$reset" type="is-danger" >
+          <i class="fa-solid fa-xmark"></i>
+          Wyczyść projekt
+        </b-button>
+      </div>
+    </Summary>
+    
+
     <footer class="card-footer">
       <p class="card-footer-item">
         <span>
-          Wydrukuj podsumowanie wewnętrzne
-          <button @click="printData" class="button is-primary">PRINT</button>
-          <button @click="saveData" class="button is-primary">Save</button>
+        
         </span>
       </p>
       <p class="card-footer-item">
@@ -300,7 +308,7 @@
 <script setup>
 import { useNewProjectStoreBeta } from '@/store/newproject'
 import { useSummaryStore } from '@/store/summary'
-import {ref, computed, onUnmounted} from 'vue'
+import {ref, computed, onUnmounted, watch} from 'vue'
 import { storeToRefs } from 'pinia'
 
 import ElementsTable from '@/components/ElementsTable'
@@ -329,6 +337,7 @@ const selectedCategory = ref()
 const selectedCollection = ref()
 const selectedPaint = ref()
 const projectpostData = ref()
+const inputClass = ref('input')
 
 const newElement = ref({
   element: {
@@ -343,7 +352,7 @@ const newElement = ref({
 const elementStore = useNewProjectStoreBeta()
 const summaryStore = useSummaryStore()
 
-const { addElement, loadData, } = elementStore
+const { addElement, loadData, $reset } = elementStore
 const {summaryCosts, elementsMargin, accesoriesMargin, additionalMargin,summaryCostsWithMargin} = storeToRefs(summaryStore)
 
 loadData()
@@ -427,6 +436,7 @@ async function saveData() {
 
   if (typeof parsedProjectData.name !== 'string' || parsedProjectData.name.trim() === '') {
     errors.value.push('Podaj właściwą nazwę wyceny w oknie "Nazwa projektu"')
+    //inputClass.value = 'input is-danger'
   }
   if (typeof parsedProjectData.category !== 'string' || parsedProjectData.name.trim() === '') {
     errors.value.push('Podaj właściwą nazwę w oknie "Kategoria"')
