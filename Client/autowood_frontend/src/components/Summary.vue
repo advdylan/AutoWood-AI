@@ -177,6 +177,7 @@
     propWorktimecosts: Array,
   })
 
+ 
 
   const store = useNewProjectStoreBeta()
   const summaryStore = useSummaryStore()
@@ -204,31 +205,19 @@ watch(
   { immediate: true }
 );
 
-watch(
-  () => props.propMarginA,
-  (newMarginA) => {
-    marginA.value = newMarginA
-  },
-  { immediate: true }
-)
-watch(
-  () => props.propMarginB,
-  (newMarginB) => {
-    marginB.value = newMarginB
-  },
-  { immediate: true}
-)
-watch(
-  () => props.propMarginC,
-  (newMarginC) => {
-    marginC.value = newMarginC
-  },
-  { immediate: true}
-)
- 
-  
-  
-  
+watch(() => props.propMarginA, (newMarginA) => {
+  marginA.value = newMarginA
+}, { immediate: true })
+
+watch(() => props.propMarginB, (newMarginB) => {
+  marginB.value = newMarginB
+}, { immediate: true })
+
+watch(() => props.propMarginC, (newMarginC) => {
+  marginC.value = newMarginC
+}, { immediate: true })
+
+
  const summElementCosts = computed(() => {
   return pricedElements.value.reduce((n, {price}) => n + parseFloat(price), 0).toFixed(2)
   

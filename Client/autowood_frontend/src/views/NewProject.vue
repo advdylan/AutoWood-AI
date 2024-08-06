@@ -271,9 +271,9 @@
      
     </div>
     <Summary
-    :propMarginA="Number(marginA)"
-    :propMarginB="Number(marginB)"
-    :propMarginC="Number(marginC)"
+    :prop-margin-a="Number(marginA)"
+    :prop-margin-b="Number(marginB)"
+    :prop-margin-c="Number(marginC)"
     >
       <div class="buttons">
         <b-button @click="saveData" type="is-success" >
@@ -282,7 +282,7 @@
         </b-button>
         <b-button @click="resetInput" type="is-danger" >
           <i class="fa-solid fa-xmark"></i>
-          Wyczyść projekt {{ marginA }}
+          Wyczyść projekt {{ marginA}} {{ marginB }} {{ marginC }}
         </b-button>
       </div>
     </Summary>
@@ -312,7 +312,7 @@
 <script setup>
 import { useNewProjectStoreBeta } from '@/store/newproject'
 import { useSummaryStore } from '@/store/summary'
-import {ref, computed, onUnmounted, watch} from 'vue'
+import {ref, computed, onUnmounted, watch, watchEffect} from 'vue'
 import { storeToRefs } from 'pinia'
 
 import ElementsTable from '@/components/ElementsTable'
@@ -342,9 +342,9 @@ const selectedCollection = ref()
 const selectedPaint = ref()
 const projectpostData = ref()
 const inputClass = ref('input')
-const marginA = ref(0)
-const marginB = ref(0)
-const marginC = ref(0)
+const marginA = ref(5)
+const marginB = ref(5)
+const marginC = ref(5)
 
 const newElement = ref({
   element: {
@@ -512,7 +512,7 @@ async function saveData() {
     marginC.value = 0
 
   }
-    
+
 
   onUnmounted(()=> {
     //console.log("Onmounted NewProject")
