@@ -13,7 +13,10 @@ export const useNewProjectStoreBeta = defineStore('newproject', {
     collection: [],
     paints: [],
     elements: [],
-    boxes: []
+    boxes: [],
+    marginA: 0,
+    marginB: 0,
+    marginC: 0
     
 
 

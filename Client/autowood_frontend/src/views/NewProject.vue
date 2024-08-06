@@ -282,7 +282,7 @@
         </b-button>
         <b-button @click="resetInput" type="is-danger" >
           <i class="fa-solid fa-xmark"></i>
-          Wyczyść projekt {{ marginA}} {{ marginB }} {{ marginC }}
+          Wyczyść projekt
         </b-button>
       </div>
     </Summary>
@@ -342,9 +342,7 @@ const selectedCollection = ref()
 const selectedPaint = ref()
 const projectpostData = ref()
 const inputClass = ref('input')
-const marginA = ref(5)
-const marginB = ref(5)
-const marginC = ref(5)
+
 
 const newElement = ref({
   element: {
@@ -364,7 +362,7 @@ const {summaryCosts, elementsMargin, accesoriesMargin, additionalMargin,summaryC
 
 loadData()
 
-const {elements, wood, collection, paints, category, boxes, accesories} = storeToRefs(elementStore)
+const {elements, wood, collection, paints, category, boxes, accesories, marginA, marginB, marginC} = storeToRefs(elementStore)
 
 
 const submitForm = () => {
@@ -499,6 +497,8 @@ async function saveData() {
 
 
   function resetInput() {
+    
+
     projectName.value  = ''
     selectedWood.value = ''
     selectedCategory.value = ''
@@ -510,6 +510,8 @@ async function saveData() {
     marginA.value = 0
     marginB.value = 0
     marginC.value = 0
+
+    
 
   }
 

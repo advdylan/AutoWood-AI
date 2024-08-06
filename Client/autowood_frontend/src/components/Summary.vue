@@ -128,7 +128,7 @@
                   <label class="label">Marża materiałowa</label>
                   <div class="control">
                     <input v-model="marginA" class="input" type="text" placeholder="Marża wyrażana w %">                  
-                  </div>
+                  </div>           
                   <label class="label">Marża akcesorii</label>
                   <div class="control">
                     <input v-model="marginB" class="input" type="text" placeholder="Marża wyrażana w %">                  
@@ -164,9 +164,7 @@
   import { computed, ref, watch, watchEffect } from 'vue'
   import { storeToRefs } from 'pinia'
   
-  const marginA = ref(0)
-  const marginB = ref(0)
-  const marginC = ref(0)
+  
 
   const props = defineProps({
     propMarginA: Number,
@@ -177,13 +175,13 @@
     propWorktimecosts: Array,
   })
 
- 
+  
 
   const store = useNewProjectStoreBeta()
   const summaryStore = useSummaryStore()
   
 
-  const {elements, wood, pricedElements, accesoriesStore, worktimeCost} = storeToRefs(store)
+  const {elements, wood, pricedElements, accesoriesStore, worktimeCost, marginA, marginB, marginC} = storeToRefs(store)
 
   watch(
   () => props.propElements,
