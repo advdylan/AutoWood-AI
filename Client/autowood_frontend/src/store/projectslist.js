@@ -87,7 +87,7 @@ export const useProjectsListStore = defineStore('projectslist', {
             .get(`/api/v1/newproject/${id}/`)
             .then(response => {
                 this.setDetaiLProject(response.data)
-                console.log(response.data)
+                console.log(`Project DETAIL ID:${id} \n ${response.data}`, response.data)
             })
             .catch(error => {
                 console.log(error)
@@ -102,7 +102,7 @@ export const useProjectsListStore = defineStore('projectslist', {
                     },
                 });
                 console.log('Server response:', response);
-                console.log('Project updated successfully:', response.data);
+                //console.log('Project updated successfully:', response.data);
             } catch (error) {
                 console.error('Error updating the project:', error);
             }

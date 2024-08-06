@@ -119,6 +119,10 @@ class NewProject(models.Model):
     additional_margin = models.DecimalField(max_digits=10,decimal_places=2, blank=True, null=True)
     summary_with_margin = models.DecimalField(max_digits=10,decimal_places=2, blank=True, null=True)
     summary_without_margin = models.DecimalField(max_digits=10,decimal_places=2, blank=True, null=True)
+    percent_elements_margin = models.IntegerField(blank=True, null=True)
+    percent_accesories_margin = models.IntegerField(blank=True, null=True)
+    percent_additional_margin = models.IntegerField(blank=True, null=True)
+    
 
     def __str__(self):
         return self.name
