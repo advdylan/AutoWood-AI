@@ -77,6 +77,14 @@ export const useNewProjectStoreBeta = defineStore('newproject', {
 
     },
 
+    $resetBoxes() {
+      this.boxes = this.worktimetype.map(item => {
+        return { text: item.name, value: item.cost, checked: false, hours: ''}
+      })
+      
+
+    },
+
 
     async loadData(){
       await axios
@@ -163,6 +171,8 @@ export const useNewProjectStoreBeta = defineStore('newproject', {
       this.elements = []
       this.boxes = []
     },
+
+   
 
 
 

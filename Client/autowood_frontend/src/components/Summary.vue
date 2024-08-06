@@ -164,9 +164,9 @@
   import { computed, ref, watch, watchEffect } from 'vue'
   import { storeToRefs } from 'pinia'
   
-  const marginA = ref()
-  const marginB = ref()
-  const marginC = ref()
+  const marginA = ref(0)
+  const marginB = ref(0)
+  const marginC = ref(0)
 
   const props = defineProps({
     propMarginA: Number,
@@ -203,6 +203,28 @@ watch(
   },
   { immediate: true }
 );
+
+watch(
+  () => props.propMarginA,
+  (newMarginA) => {
+    marginA.value = newMarginA
+  },
+  { immediate: true }
+)
+watch(
+  () => props.propMarginB,
+  (newMarginB) => {
+    marginB.value = newMarginB
+  },
+  { immediate: true}
+)
+watch(
+  () => props.propMarginC,
+  (newMarginC) => {
+    marginC.value = newMarginC
+  },
+  { immediate: true}
+)
  
   
   

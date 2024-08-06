@@ -268,17 +268,21 @@
       <p class="title">
         Podsumowanie
       </p>
-      <p class="subtitle">{{projectName}}</p>
+     
     </div>
-    <Summary>
+    <Summary
+    :propMarginA="Number(marginA)"
+    :propMarginB="Number(marginB)"
+    :propMarginC="Number(marginC)"
+    >
       <div class="buttons">
         <b-button @click="saveData" type="is-success" >
           <i class="fa-solid fa-floppy-disk"></i>
-          Zapisz zmiany
+          Zapisz projekt
         </b-button>
-        <b-button @click="$reset" type="is-danger" >
+        <b-button @click="resetInput" type="is-danger" >
           <i class="fa-solid fa-xmark"></i>
-          Wyczyść projekt
+          Wyczyść projekt {{ marginA }}
         </b-button>
       </div>
     </Summary>
@@ -338,6 +342,9 @@ const selectedCollection = ref()
 const selectedPaint = ref()
 const projectpostData = ref()
 const inputClass = ref('input')
+const marginA = ref(0)
+const marginB = ref(0)
+const marginC = ref(0)
 
 const newElement = ref({
   element: {
@@ -352,7 +359,7 @@ const newElement = ref({
 const elementStore = useNewProjectStoreBeta()
 const summaryStore = useSummaryStore()
 
-const { addElement, loadData, $reset } = elementStore
+const { addElement, loadData, $resetBoxes } = elementStore
 const {summaryCosts, elementsMargin, accesoriesMargin, additionalMargin,summaryCostsWithMargin} = storeToRefs(summaryStore)
 
 loadData()
@@ -433,6 +440,7 @@ async function saveData() {
   let jsonProjectData = JSON.stringify(projectpostData)
   let parsedProjectData = JSON.parse(jsonProjectData)
   console.log(parsedProjectData.name)
+  
 
   if (typeof parsedProjectData.name !== 'string' || parsedProjectData.name.trim() === '') {
     errors.value.push('Podaj właściwą nazwę wyceny w oknie "Nazwa projektu"')
@@ -488,6 +496,22 @@ async function saveData() {
 
   }
     
+
+
+  function resetInput() {
+    projectName.value  = ''
+    selectedWood.value = ''
+    selectedCategory.value = ''
+    selectedCollection.value = ''
+    selectedPaint.value = ''
+    elements.value = []
+    accesories.value = []
+    $resetBoxes()
+    marginA.value = 0
+    marginB.value = 0
+    marginC.value = 0
+
+  }
     
 
   onUnmounted(()=> {
