@@ -99,7 +99,10 @@ class NewProjectDetailAPIView(
         accesories_margin = data["accesories_margin"]
         additional_margin = data["additional_margin"]
         summary_with_margin = data["summary_with_margin"]
-        summary_without_margin = data["summary_without_margin"]
+        summary_without_margin=data["summary_without_margin"]
+        percent_elements_margin = data["percent_elements_margin"]
+        percent_accesories_margin = data["percent_accesories_margin"]
+        percent_additional_margin = data["percent_additional_margin"]
 
         new_project = get_object_or_404(NewProject, pk=data["id"])
 
@@ -108,8 +111,14 @@ class NewProjectDetailAPIView(
         new_project.paints = paint
         new_project.wood = wood
         new_project.collection = collection
-
-        
+        new_project.percent_elements_margin = percent_elements_margin
+        new_project.percent_accesories_margin = percent_accesories_margin
+        new_project.percent_additional_margin = percent_additional_margin
+        new_project.elements_margin = elements_margin
+        new_project.accesories_margin = accesories_margin
+        new_project.additional_margin = additional_margin
+        new_project.summary_with_margin = summary_with_margin
+        new_project.summary_without_margin = summary_without_margin
 
         elements_data = data["elements"]
 

@@ -358,9 +358,9 @@
           </header>
           <section class="modal-card-body">
             <Summary v-if="detail_project" 
-            :propMarginA="Number(parseFloat(detail_project.elements_margin).toFixed(2))"
-            :propMarginB="Number(parseFloat(detail_project.accesories_margin).toFixed(2))"
-            :propMarginC="Number(parseFloat(detail_project.additional_margin).toFixed(2))"
+            :propMarginA="Number(parseFloat(detail_project.percent_elements_margin).toFixed(2))"
+            :propMarginB="Number(parseFloat(detail_project.percent_accesories_margin).toFixed(2))"
+            :propMarginC="Number(parseFloat(detail_project.percent_additional_margin).toFixed(2))"
             :propElements="detail_project.elements"
             :propAccesories="detail_project.accessories">              
             </Summary>
