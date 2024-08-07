@@ -194,17 +194,6 @@ def save_data(request):
         paint = get_or_create_model_instance(Paints, data["paint"])
         category = get_or_create_model_instance(Category, data["category"])
 
-
-        elements_margin = data["elements_margin"]
-        accesories_margin = data["accesories_margin"]
-        additional_margin = data["additional_margin"]
-        summary_with_margin = data["summary_with_margin"]
-        summary_without_margin = data["summary_without_margin"]
-
-        percent_elements_margin = data["percent_elements_margin"]
-        percent_accesories_margin = data["percent_accesories_margin"]
-        percent_additional_margin = data["percent_additional_margin"]
-
    
         new_project = NewProject.objects.create(
             name = data["name"],    
@@ -216,9 +205,12 @@ def save_data(request):
             accesories_margin=data["accesories_margin"],
             additional_margin=data["additional_margin"],
             summary_with_margin=data["summary_with_margin"],
-            summary_without_margin=data["summary_without_margin"]
+            summary_without_margin=data["summary_without_margin"],
+            percent_elements_margin = data["percent_elements_margin"],
+            percent_accesories_margin = data["percent_accesories_margin"],
+            percent_additional_margin = data["percent_additional_margin"]
         )
-        #print(new_project)
+        
         
 
         elements_data = data["elements"]

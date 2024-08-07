@@ -17,6 +17,7 @@ class WoodAdmin(admin.ModelAdmin):
 
 admin.site.register(Wood,WoodAdmin)
 
+
 class PaintAdmin(admin.ModelAdmin):
     list_display = ("name", "cost", "volume")
 
@@ -75,7 +76,16 @@ class ElementsDetailInline(admin.TabularInline):
     extra = 1
 class NewProjectAdmin(admin.ModelAdmin):
     inlines = [ProjectWorktimeInline, AccessoryDetailInline, ElementsDetailInline]
-    list_display = ('id','name', 'category', 'collection', 'summary_with_margin', 'summary_without_margin')
+    list_display = ('id',
+                    'name',
+                    'category',
+                    'collection',
+                    'summary_with_margin',
+                    'summary_without_margin', 
+                    'percent_elements_margin',
+                    'percent_accesories_margin',
+                    'percent_additional_margin'
+                    )
     search_fields = ('name',)
 
 admin.site.register(NewProject,NewProjectAdmin)
