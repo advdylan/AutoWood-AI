@@ -432,7 +432,12 @@ async function saveData() {
     summary_without_margin: parseFloat(summaryCosts.value.toFixed(2)),
     elements: elements.value,
     worktime: boxes.value,
-    accesories: accesories.value
+    accesories: accesories.value,
+    percent_elements_margin: marginA.value,
+    percent_accesories_margin: marginB.value,
+    percent_additional_margin: marginC.value
+
+
     
   }
   let jsonProjectData = JSON.stringify(projectpostData)

@@ -109,6 +109,8 @@ class NewProjectDetailAPIView(
         new_project.wood = wood
         new_project.collection = collection
 
+        
+
         elements_data = data["elements"]
 
         new_project.new_elements.clear()
@@ -198,6 +200,11 @@ def save_data(request):
         additional_margin = data["additional_margin"]
         summary_with_margin = data["summary_with_margin"]
         summary_without_margin = data["summary_without_margin"]
+
+        percent_elements_margin = data["percent_elements_margin"]
+        percent_accesories_margin = data["percent_accesories_margin"]
+        percent_additional_margin = data["percent_additional_margin"]
+
    
         new_project = NewProject.objects.create(
             name = data["name"],    
