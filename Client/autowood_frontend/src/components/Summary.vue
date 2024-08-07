@@ -202,6 +202,15 @@ watch(
   },
   { immediate: true }
 );
+/*
+watch(
+  () => props.worktimeCost,
+  (newWorktime) => {
+    console.log(worktimeCost.value)
+    store.setWorktimes(newWorktime)
+  }
+)
+  */
 
 watch(() => props.propMarginA, (newMarginA) => {
   marginA.value = newMarginA

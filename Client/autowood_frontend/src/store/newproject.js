@@ -163,6 +163,10 @@ export const useNewProjectStoreBeta = defineStore('newproject', {
       this.accesories = newAccesories
     },
 
+    setWorktimes(worktimes) {
+      this.boxes = worktimes
+    },
+
     $reset() {
       this.category = []
       this.worktimetype = []

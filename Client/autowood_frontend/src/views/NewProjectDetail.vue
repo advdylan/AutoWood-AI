@@ -362,7 +362,11 @@
             :propMarginB="Number(parseFloat(detail_project.percent_accesories_margin).toFixed(2))"
             :propMarginC="Number(parseFloat(detail_project.percent_additional_margin).toFixed(2))"
             :propElements="detail_project.elements"
-            :propAccesories="detail_project.accessories">              
+            :propAccesories="detail_project.accessories"
+            :propWorktimecosts="detail_project.propWorktimecosts" >
+
+            
+                      
             </Summary>
           </section>
           
