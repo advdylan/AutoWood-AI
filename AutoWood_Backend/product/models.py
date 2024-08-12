@@ -143,7 +143,7 @@ class Product(models.Model):
         return f'/{self.category.name}/{self.name}'
 
 class ProjectWorktime(models.Model):
-    project = models.ForeignKey(NewProject, on_delete=models.CASCADE)
+    project = models.ForeignKey(NewProject, on_delete=models.CASCADE, related_name="project_worktime")
     worktime = models.ForeignKey(Worktimetype, on_delete=models.CASCADE)
     duration = models.FloatField(default=0)
     workers = models.IntegerField(blank=True, null=True)
