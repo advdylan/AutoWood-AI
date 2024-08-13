@@ -22,8 +22,9 @@ class WorktimeTypeSerializer(serializers.ModelSerializer):
 class WorktimeSerializer(serializers.ModelSerializer):
 
     name = WorktimeTypeSerializer(read_only = True, many = True)
+    #name_id = serializers.PrimaryKeyRelatedField(queryset=Worktimetype.objects.all(),source='name', write_only=True)
     class Meta:
-        model = Worktimetype
+        model = ProjectWorktime
         fields = '__all__'
 
 class AccessoryTypeSerializer(serializers.ModelSerializer):
@@ -93,7 +94,7 @@ class ProductSerializer(serializers.ModelSerializer):
         ]
 
 class NewProjectSerializer(serializers.ModelSerializer):
-    worktimes = WorktimeTypeSerializer(many=True, read_only=True)
+    worktimes = WorktimeSerializer(many=True, read_only=True, source='project_worktime')
     accessories = AccessorySerializer(many=True, read_only=True, source='project_accesories')
     elements = NewProjectElementSerializer(many=True, read_only=True, source='project_elements')
     wood = WoodSerializer( read_only=True)

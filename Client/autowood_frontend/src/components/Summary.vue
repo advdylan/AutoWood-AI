@@ -202,7 +202,7 @@ watch(
   },
   { immediate: true }
 );
-/*
+
 watch(
   () => props.worktimeCost,
   (newWorktime) => {
@@ -210,7 +210,7 @@ watch(
     store.setWorktimes(newWorktime)
   }
 )
-  */
+
 
 watch(() => props.propMarginA, (newMarginA) => {
   marginA.value = newMarginA
