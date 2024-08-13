@@ -20,9 +20,10 @@ class WorktimeTypeSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class WorktimeSerializer(serializers.ModelSerializer):
+    worktime = WorktimeTypeSerializer(read_only=True)  # Serialize the related Worktimetype model
+    #worktime_id = serializers.PrimaryKeyRelatedField(queryset=Worktimetype.objects.all(), source='worktime', write_only=True)
 
     name = WorktimeTypeSerializer(read_only = True, many = True)
-    #name_id = serializers.PrimaryKeyRelatedField(queryset=Worktimetype.objects.all(),source='name', write_only=True)
     class Meta:
         model = ProjectWorktime
         fields = '__all__'
