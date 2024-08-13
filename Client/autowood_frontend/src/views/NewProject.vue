@@ -522,11 +522,6 @@ async function saveData() {
 
 
 
-
-  onUnmounted(()=> {
-    //console.log("Onmounted NewProject")
-  })
-
 </script>
 
 <style>
