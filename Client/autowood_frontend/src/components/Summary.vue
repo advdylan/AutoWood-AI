@@ -210,11 +210,6 @@ watch(
     store.setWorktimes(newWorktime)
   }
 )
-<<<<<<< HEAD
-
-=======
- 
->>>>>>> f1189b774f2d7b5876f39f7d1244ef1253f62c34
 
 watch(() => props.propMarginA, (newMarginA) => {
   marginA.value = newMarginA
