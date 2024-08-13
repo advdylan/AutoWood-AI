@@ -7,7 +7,7 @@
           {{ box.text }}
         </label>
         <div class="columns">
-        <div class="column is-one-fifth">
+        <div class="column is-one-third">
         <div class="block">
 
           <div class="control">
@@ -18,8 +18,8 @@
         <input class="input" type="number" v-if="box.checked" placeholder="Liczba pracowników">
         </div>
       </div>
-      <div class="column is-one-fifth">
-        <label>Koszt pracy działu</label>
+      <div class="column is-one-third">
+        <label>Koszt pracy działu {{ box.text}}</label>
         <input  class="input" type="text" :placeholder=box.value v-model="box.value" disabled />
       </div>
       </div>
