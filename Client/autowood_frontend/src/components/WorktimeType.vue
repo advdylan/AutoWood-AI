@@ -6,10 +6,23 @@
           <input type="checkbox" v-model="box.checked" />
           {{ box.text }}
         </label>
-        <input  class="input is-small" type="text" v-if="box.checked" v-model="box.hours" placeholder="Godziny" />
-        <input class="input is-small" type="text" v-if="box.checked" placeholder="Liczba pracowników">
-        <div class="box" v-if="box.checked"> Stawka godzinowa:{{ box.value }}</div>
-        
+        <div class="columns">
+        <div class="column is-one-fifth">
+        <div class="block">
+
+          <div class="control">
+          <label v-if="box.checked">Czas pracy</label>
+        <input  class="input" type="number" v-if="box.checked" v-model="box.hours" placeholder="Godziny" />
+          </div>
+        <label v-if="box.checked">Liczba pracowników</label>
+        <input class="input" type="number" v-if="box.checked" placeholder="Liczba pracowników">
+        </div>
+      </div>
+      <div class="column is-one-fifth">
+        <label>Koszt pracy działu</label>
+        <input  class="input" type="text" :placeholder=box.value v-model="box.value" disabled />
+      </div>
+      </div>
       </div>
     </div>
   </div>
