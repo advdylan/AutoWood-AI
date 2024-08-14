@@ -14,6 +14,7 @@ export const useNewProjectStoreBeta = defineStore('newproject', {
     paints: [],
     elements: [],
     boxes: [],
+    new_boxes: [],
     marginA: 0,
     marginB: 0,
     marginC: 0
@@ -58,7 +59,7 @@ export const useNewProjectStoreBeta = defineStore('newproject', {
     worktimeCost() {
       return this.boxes.map(works => ({
         ...works,
-        sum: works.value * works.hours
+        sum: works.value * (works.hours * works.workers)
       })
         
       )
@@ -75,7 +76,10 @@ export const useNewProjectStoreBeta = defineStore('newproject', {
       this.collection = data.collection,
       this.paints = data.paints
       this.boxes = this.worktimetype.map(item => {
-        return { text: item.name, value: item.cost, checked: false, hours: ''}
+        return { text: item.name, value: item.cost, checked: false, hours: '', workers: 0}
+      })
+      this.new_boxes = this.worktimetype.map(item => {
+        return { id: item.id,  duration: item.duration,   }
       })
 
     },
@@ -93,7 +97,7 @@ export const useNewProjectStoreBeta = defineStore('newproject', {
       await axios
       .get(`/api/v1/project/`)
       .then(response =>{
-        //console.log(JSON.stringify(response.data))
+        console.log(JSON.stringify(response.data))
         this.setData(response.data)
         
       })

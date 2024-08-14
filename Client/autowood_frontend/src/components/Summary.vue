@@ -271,6 +271,11 @@ summaryStore.setAdditionalMargin(additionalMargin.value)
 summaryStore.calculateSummaryCostsWithMargin(summaryCostsWithMargin.value)
 })
 
+if (props.propWorktimecosts)  {
+  worktimeCost.value = ''
+  console.log(worktimeCost.value)
+}
+
 
   </script>
   

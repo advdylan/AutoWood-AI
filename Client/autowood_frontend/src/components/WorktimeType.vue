@@ -15,7 +15,7 @@
         <input  class="input" type="number" v-if="box.checked" v-model="box.hours" placeholder="Godziny" />
           </div>
         <label v-if="box.checked">Liczba pracowników</label>
-        <input class="input" type="number" v-if="box.checked" placeholder="Liczba pracowników">
+        <input class="input" type="number" v-if="box.checked" v-model="box.workers"placeholder="Liczba pracowników">
         </div>
       </div>
       <div class="column is-one-third">
