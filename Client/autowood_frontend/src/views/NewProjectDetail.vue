@@ -476,6 +476,7 @@ const submitForm = () => {
           elements: detail_project.value.elements,
           worktime: boxes.value,
           accessories: detail_project.value.accessories,
+          percent_accesories_margin: detail_project.percent_accesories_margin
           
   }
 
