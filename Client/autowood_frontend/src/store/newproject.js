@@ -14,7 +14,6 @@ export const useNewProjectStoreBeta = defineStore('newproject', {
     paints: [],
     elements: [],
     boxes: [],
-    new_boxes: [],
     marginA: 0,
     marginB: 0,
     marginC: 0
@@ -76,19 +75,31 @@ export const useNewProjectStoreBeta = defineStore('newproject', {
       this.collection = data.collection,
       this.paints = data.paints
       this.boxes = this.worktimetype.map(item => {
-        return { text: item.name, value: item.cost, checked: false, hours: '', workers: 0}
+        return { text: item.name, value: item.cost, checked: false, hours: 0, workers: 0}
       })
-      this.new_boxes = this.worktimetype.map(item => {
-        return { id: item.id,  duration: item.duration,   }
-      })
+ 
 
     },
 
     $resetBoxes() {
       this.boxes = this.worktimetype.map(item => {
-        return { text: item.name, value: item.cost, checked: false, hours: ''}
+        return { text: item.name, value: item.cost, checked: false, hours: 0, workers: 0}
       })
-      
+    },
+
+    setBoxesViaProps(props) {
+      console.log("Props received in setBoxesViaProps:", props)
+      this.boxes = props.map(item => {
+        console.log("Mapping item:", item)
+        return { text: item.worktime.name,
+            value: item.worktime.cost,
+            checked: false,
+            hours: item.duration,
+            workers: item.workers
+          }
+          console.log("Resulting boxes:", this.boxes);
+      })
+        
 
     },
 

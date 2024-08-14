@@ -203,13 +203,18 @@ watch(
   { immediate: true }
 );
 
+console.log(props.propWorktimecosts)
 watch(
   () => props.propWorktimecosts,
   (newWorktime) => {
-    
-    store.setWorktimes(newWorktime)
+    store.setBoxesViaProps(newWorktime)
   }
 )
+
+if (props.propWorktimecosts) {
+  store.setBoxesViaProps(props.propWorktimecosts)
+
+}
 
 watch(() => props.propMarginA, (newMarginA) => {
   marginA.value = newMarginA
@@ -270,11 +275,6 @@ summaryStore.setAccesoriesMargin(accesoriesMargin.value)
 summaryStore.setAdditionalMargin(additionalMargin.value)
 summaryStore.calculateSummaryCostsWithMargin(summaryCostsWithMargin.value)
 })
-
-if (props.propWorktimecosts)  {
-  worktimeCost.value = ''
-  console.log(worktimeCost.value)
-}
 
 
   </script>
