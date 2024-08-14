@@ -432,7 +432,7 @@
 
 
   const {detail_project} = storeToRefs(ProjectsListStore)
-  const {elements, wood, collection, paints, category, boxes, accesories} = storeToRefs(elementStore)
+  const {elements, wood, collection, paints, category, boxes, accesories, marginA, marginB, marginC} = storeToRefs(elementStore)
 
   loadDetailProject(id).then(() => {
   if (detail_project.value) {
@@ -476,13 +476,13 @@ const submitForm = () => {
           elements: detail_project.value.elements,
           worktime: boxes.value,
           accessories: detail_project.value.accessories,
-          percent_accesories_margin: detail_project.percent_accesories_margin
+          percent_accesories_margin: marginA.value
           
   }
 
   console.log('Form Data before sending:', formData)
                                 
-  updateProject(id, formData)
+  //updateProject(id, formData)
 
               }
 
