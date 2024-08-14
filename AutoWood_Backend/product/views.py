@@ -257,6 +257,7 @@ def save_data(request):
             worktimetype = get_or_create_model_instance(Worktimetype, worktime["text"])
            
             duration = worktime["hours"]
+            workers = worktime["workers"]
             
             if duration == '':
                 duration = 0
@@ -264,7 +265,8 @@ def save_data(request):
             worktime = ProjectWorktime.objects.create(       
                 project = new_project,
                 worktime = worktimetype,
-                duration = duration,          
+                duration = duration,
+                workers = workers          
                 
             )
             worktime.save()
