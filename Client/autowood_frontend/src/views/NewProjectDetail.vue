@@ -6,7 +6,7 @@
     <div class="card-content">
       <div class="columns">
 
-        <div class="column is-two-third">
+        <div class="column is-three-fifths">
           <div class="card">
             <div class="card-header">
               <p class="card-header-title is-size-5">Szczegóły</p>
@@ -62,89 +62,14 @@
                           <div class="select">
                             <select v-model="selectedPaint">
                               <option v-for="paints in paints">{{ paints.name}}</option>
-                            </select>
-                            
+                            </select>                           
                           </div>                   
                         </div>                      
-                      </div>     
-                      
-                    </div>   
-                    
+                      </div>                         
+                    </div>                       
                   </div>  
-                  <div class="column is-one-third">
-
-                    <div class="elements-table-container">
-                      <table class="table is-bordered is-striped is-hoverable is-fullwidth">
-                        <thead>
-                          <tr>
-                            <th>Marża</th>
-                            <th>Koszt</th>
-                            
-                          </tr>
-                
-                        </thead>
-                        <tfoot>
-                          
-                          <tr>
-                            
-                          </tr>
-
-                        </tfoot>
-                        <tbody v-if="detail_project">
-                          
-                            <tr>
-                              <th>Marża na akcesoria</th>
-                                <td>{{ detail_project.accesories_margin}}  zł   
-                                </td>
-                            </tr>
-
-                            <tr>
-                              <th>Marża materiałowa</th>
-                              <td>{{ detail_project.elements_margin }} zł</td>
-                            </tr>
-
-                            <tr>
-                              <th>Dodatkowa marża</th>
-                              <td>{{ detail_project.additional_margin}} zł</td>
-                            </tr>
-                          
-                        </tbody>
-                        
-                      </table>
-                    </div>
-                    <hr class="dashed">
-                    <div class="container">
-                      <table class="table is-bordered is-striped is-hoverable is-fullwidth">
-                        <thead>
-                          <tr>
-                            <th>Dział</th>
-                            <th>Koszt</th>
-                            
-                          </tr>
-                
-                        </thead>
-                        <tfoot>
-                          
-                          <tr>
-                            
-                          </tr>
-
-                        </tfoot>
-                        <tbody>
-                          
-                          <tr v-if="detail_project" v-for="worktime in detail_project.worktimes">
-            
-                            <th>{{ worktime.name}}</th>
-                            <td>{{ worktime.cost}} zł</td>
-                          </tr>
-                          
-                        </tbody>
-                        
-                      </table>
-                    </div>                
-                  </div> 
-
                 </div>  
+
                 <div class="buttons">
 
                   <b-button @click="submitUpdateForm" type="is-success" >
@@ -169,20 +94,16 @@
         </div>
         
 
-        <div class="column is-one-third">
+        <div class="column">
           <div class="card">
             <header class="card-header" @click="isCollapsedelements = !isCollapsedelements">
               <p class="card-header-title is-size-5">
                 Lista elementów
               </p>
             </header>
-              <div class="card-content">
-
-
-         
+          <div class="card-content">
           <ElementsTable v-if="detail_project"  :elements="detail_project.elements"></ElementsTable>
           </div>
-          
 
           <div class="buttons">
             <button class="button is-dark" @click="showElementModal = true" data-target="newelement-modal"><i class="fa-regular fa-pen-to-square">&nbsp;</i>Edytuj tabelę</button>
@@ -195,6 +116,16 @@
 
           <hr class="dashed">
 
+          <div class="card">
+            <header class="card-header">
+              <p class="card-header-title is-size-5">
+                Akcesoria
+              </p>
+            </header>
+
+
+            
+          <div class="card-content">
           <div class="container-cost">
             <table class="table is-bordered is-striped is-hoverable is-fullwidth">
               <thead>
@@ -205,12 +136,9 @@
                   <th>Cena</th>
                   
                 </tr>
-      
               </thead>
-              <tfoot>
-                
-                <tr>
-                  
+              <tfoot>   
+                <tr>       
                 </tr>
 
               </tfoot>
@@ -230,6 +158,8 @@
             </table>
             <button @click="showAccModal = true" data-target="newelement-modal" class="button is-dark"><i class="fa-regular fa-pen-to-square">&nbsp;</i>Edytuj listę akcesorii</button>
         </div>
+      </div>
+      </div>
 
         <div v-bind:class="{'is-active': showAccModal}" id="newelement-modal" class="modal">
           <div class="modal-background"></div>
@@ -476,13 +406,15 @@ const submitForm = () => {
           elements: detail_project.value.elements,
           worktime: boxes.value,
           accessories: detail_project.value.accessories,
-          percent_accesories_margin: marginA.value
+          percent_elements_margin: parseInt(marginA.value),
+          percent_accesories_margin: parseInt(marginB.value),
+          percent_additional_margin: parseInt(marginC.value)
           
   }
 
   console.log('Form Data before sending:', formData)
                                 
-  //updateProject(id, formData)
+  updateProject(id, formData)
 
               }
 

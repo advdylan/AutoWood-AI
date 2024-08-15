@@ -9,7 +9,7 @@
             <th>Grubość</th>
             <th>Materiał</th>
             <th>Ilość</th>
-            <th>Usuń</th>
+            <th class="delete-column">Usuń</th>
             
           </tr>
 
@@ -63,6 +63,14 @@ const props = defineProps({
 
 
 </script>
+<style>
+.delete-column {
+  width: 10px; /* Adjust this width to fit your icon */
+  text-align: center;
+}
 
+.delete-column b-button {
+  padding: 0;
+}</style>
 
 
