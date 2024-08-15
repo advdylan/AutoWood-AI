@@ -297,6 +297,10 @@ def save_data(request):
         return JsonResponse({'message': 'Data saved'}, status=201)
         
 
+@api_view(['GET'])
+def generate_newproject_raport(request):
+    return
+
 
 def get_or_create_model_instance(model, name):
     instance, created = model.objects.get_or_create(name=name)

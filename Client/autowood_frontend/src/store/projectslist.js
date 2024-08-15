@@ -1,6 +1,6 @@
 import {defineStore} from 'pinia'
 import axios from 'axios'
-import { getTransitionRawChildren } from 'vue';
+
 
 
 
@@ -137,34 +137,7 @@ export const useProjectsListStore = defineStore('projectslist', {
                         weight: accesory.weight
                     }
                 }
-
-                //console.log("NewAcc" , newAccesory)
                 this.detail_project.accessories.push(newAccesory)
-
-
-                /*
-                this.detail_project.accessories.push({
-                    id: accesory.id,
-                    project: "-",
-                    quantity: accesory.quantity,
-                    type: {
-                        description: accesory.description,
-                        id: accesory.id,
-                        name: accesory.name,
-                        price: accesory.price,
-                        type: accesory.price,
-                        weight: accesory.weight
-                    }
-                })
-                     */
             }
-               
-            
-
-        
     },
-
-
-        
-    
 })

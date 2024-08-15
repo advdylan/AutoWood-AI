@@ -77,8 +77,6 @@ export const useNewProjectStoreBeta = defineStore('newproject', {
       this.boxes = this.worktimetype.map(item => {
         return { text: item.name, value: item.cost, checked: false, hours: 0, workers: 0}
       })
- 
-
     },
 
     $resetBoxes() {
@@ -87,20 +85,15 @@ export const useNewProjectStoreBeta = defineStore('newproject', {
       })
     },
 
-    setBoxesViaProps(props) {
-      console.log("Props received in setBoxesViaProps:", props)
+    setBoxesViaProps(props) {     
       this.boxes = props.map(item => {
-        console.log("Mapping item:", item)
         return { text: item.worktime.name,
             value: item.worktime.cost,
             checked: false,
             hours: item.duration,
             workers: item.workers
-          }
-          console.log("Resulting boxes:", this.boxes);
+          }      
       })
-        
-
     },
 
 
@@ -109,18 +102,15 @@ export const useNewProjectStoreBeta = defineStore('newproject', {
       .get(`/api/v1/project/`)
       .then(response =>{
         console.log(JSON.stringify(response.data))
-        this.setData(response.data)
-        
+        this.setData(response.data)      
       })
       .catch(error =>{
         console.log(error)     
       })
-
     },
 
 
-    addElement(element) {
-      
+    addElement(element) {   
       this.elements.push({
         element: {
           name: element.element.name,
@@ -130,16 +120,14 @@ export const useNewProjectStoreBeta = defineStore('newproject', {
           wood_type: element.element.wood_type
         },
         quantity: element.quantity
-      });
-      
+      });     
     },
 
     deleteElement(element) {
       this.elements.pop(element)
     },
   
-    addAccesory(accesory) {
-      
+    addAccesory(accesory) {      
       const newAccesory = {
         id: accesory.id,
         project: 0,
@@ -153,8 +141,7 @@ export const useNewProjectStoreBeta = defineStore('newproject', {
             weight: accesory.weight
         }
     }
-
-    //console.log("NewAcc" , newAccesory)
+    //console.log("NewAcc:" , newAccesory)
     this.accesories.push(newAccesory)
         
 
@@ -192,6 +179,9 @@ export const useNewProjectStoreBeta = defineStore('newproject', {
       this.paints = []
       this.elements = []
       this.boxes = []
+      this.marginA = 0
+      this.marginB = 0
+      this.marginC = 0
     },
 
    
