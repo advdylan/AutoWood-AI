@@ -60,8 +60,9 @@ def header_info(c):
 
     c.setFont("Times-Roman", 10)
 
-    company_info = """Gen. St. Dąbka 22 
-                      37-600 Lubaczów
+    company_info = """Sekwoja
+                      Gen. St. Dabka 22 
+                      37-600 Lubaczow
                       sekwoja@sekwoja.pl
                       +48 16 632 93 30"""
     
@@ -70,11 +71,13 @@ def header_info(c):
 
     header_paragraph = Paragraph(company_info,normalStyle, bulletText=None)
 
-    frame_width = 160
+    frame_width = 140
     frame_height = 75
-    x_position = X-300
-    y_position = Y-200
-    header_frame = Frame(x_position, y_position, frame_width, frame_height, showBoundary=0)
+    x_position = X-140
+    y_position = Y-105
+    
+    header_frame = Frame(x_position, y_position, frame_width, frame_height, showBoundary=0, leftPadding=6, bottomPadding=6,
+            rightPadding=6, topPadding=6)
     header_frame.addFromList([header_paragraph], c)
     
 
