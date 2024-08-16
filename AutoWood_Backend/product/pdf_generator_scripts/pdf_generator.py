@@ -1,5 +1,7 @@
 from reportlab.pdfgen import canvas
 from reportlab.pdfbase import pdfmetrics
+from reportlab.lib.styles import ParagraphStyle, getSampleStyleSheet
+from reportlab.platypus import Paragraph, Frame
 
 import reportlab
 import os
@@ -43,14 +45,39 @@ def footer(c):
     #footer setup 
 
     c.line(0, 35, 595.27, 35) #footer size
-    c.drawCentredString(X/2, 35/2, "| Auto - Wood |")
+    c.drawCentredString(60, 35/2, "| Auto - Wood |")
 
 def header(c, project_name):
     #header setup
 
     c.setFont("Times-Bold", 18)
-    c.line(0, Y - 35, 595.27, Y-35)  
+    #c.line(0, Y - 35, 595.27, Y-35)  
     c.drawCentredString(X/2, Y-(35/2)-5, f"Wycena zamówienia: {project_name}")
+
+def header_info(c):
+
+    #setting the information about company just under the header
+
+    c.setFont("Times-Roman", 10)
+
+    company_info = """Gen. St. Dąbka 22 
+                      37-600 Lubaczów
+                      sekwoja@sekwoja.pl
+                      +48 16 632 93 30"""
+    
+    stylesheet = getSampleStyleSheet()
+    normalStyle = stylesheet['Normal']
+
+    header_paragraph = Paragraph(company_info,normalStyle, bulletText=None)
+
+    frame_width = 160
+    frame_height = 75
+    x_position = X-300
+    y_position = Y-200
+    header_frame = Frame(x_position, y_position, frame_width, frame_height, showBoundary=0)
+    header_frame.addFromList([header_paragraph], c)
+    
+
 
 
 def main():
@@ -62,6 +89,7 @@ def main():
 
     footer(c)
     header(c, project_name)
+    header_info(c)
     c.showPage()
     c.save()
 

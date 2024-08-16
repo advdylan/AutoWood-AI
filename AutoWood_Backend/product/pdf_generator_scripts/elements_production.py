@@ -1,4 +1,4 @@
-from pdf_generator import get_data, header, footer, X, Y
+from pdf_generator import get_data, header, header_info, footer, X, Y
 from reportlab.pdfgen import canvas
 from reportlab.pdfbase import pdfmetrics
 
@@ -7,19 +7,30 @@ import requests
 import reportlab
 
 
-folder = os.path.dirname(reportlab.__file__) + os.sep + 'fonts'
-afmFile = os.path.join(folder, 'DarkGardenMK.afm')
-pfbFile = os.path.join(folder, 'DarkGardenMK.pfb')
+def main():
 
+    id = 54
+    project_data = get_data(id)
+    project_name = project_data["name"]
+    output_dir = f"/home/dylan/AutoWood/AutoWood_Backend/product/pdf_generator_scripts/reports/{id}"
+    raport_name = f"raport_{id}.pdf"
+    file_path = os.path.join(output_dir, raport_name)
 
-justFace = pdfmetrics.EmbeddedType1Face(afmFile, pfbFile)
-faceName = 'DarkGardenMK' # pulled from AFM file
-pdfmetrics.registerTypeFace(justFace)
-justFont = pdfmetrics.Font('DarkGardenMK',
-                           faceName,
-                           'WinAnsiEncoding')
-pdfmetrics.registerFont(justFont)
+    if os.path.exists(file_path):
+        #logika gdy dokument jest już gotowy
+        print(f"Dokument o ID:{id} istnieje już w bazie danych")
+    else:
 
-canvas.setFont('DarkGardenMK', 32)
-canvas.drawString(10, 150, 'This should be in')
-canvas.drawString(10, 100, 'DarkGardenMK')
+        if not os.path.exists(output_dir):
+            os.makedirs(output_dir)
+        
+        c = canvas.Canvas(file_path)
+
+        footer(c)
+        header(c, project_name)
+        header_info(c)
+        
+        c.showPage()
+        c.save()
+
+main()
