@@ -1,11 +1,31 @@
 from reportlab.pdfgen import canvas
+from reportlab.pdfbase import pdfmetrics
 
+import reportlab
 import os
 import requests
 
 X = 595.27 #standard width of A4 document format
 Y = 841.89 #standard height of A4 document format
 
+
+"""
+Script above is about importing fonts to my program
+"""
+#DARK GARDEN EXAMPLE
+folder = os.path.dirname(reportlab.__file__) + os.sep + 'fonts'
+afmFile = os.path.join(folder, 'DarkGardenMK.afm')
+pfbFile = os.path.join(folder, 'DarkGardenMK.pfb')
+
+justFace = pdfmetrics.EmbeddedType1Face(afmFile, pfbFile)
+faceName = 'DarkGardenMK' # pulled from AFM file
+pdfmetrics.registerTypeFace(justFace)
+justFont = pdfmetrics.Font('DarkGardenMK', faceName,'WinAnsiEncoding')
+pdfmetrics.registerFont(justFont)
+
+"""
+End of font scripts
+"""
 
 
 def get_data(id):
@@ -28,10 +48,9 @@ def footer(c):
 def header(c, project_name):
     #header setup
 
-    c.setFont("Times-Italic", 18)
+    c.setFont("Times-Bold", 18)
     c.line(0, Y - 35, 595.27, Y-35)  
-    c.drawCentredString(Y/2, Y-(35/2)-5, f"Wycena zamówienia: {project_name}")
-
+    c.drawCentredString(X/2, Y-(35/2)-5, f"Wycena zamówienia: {project_name}")
 
 
 def main():
@@ -43,6 +62,17 @@ def main():
 
     footer(c)
     header(c, project_name)
+    c.showPage()
+    c.save()
+
+def test():
+
+    print("x")
+
+    c = canvas.Canvas("test_reportlab.pdf")
+    c.setFont('DarkGardenMK', 32)
+    c.drawString(10, 150, 'This should be in')
+    c.drawString(10, 100, 'DarkGardenMK')
     c.showPage()
     c.save()
 
