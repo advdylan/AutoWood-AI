@@ -1,8 +1,10 @@
 from reportlab.pdfgen import canvas
 from reportlab.pdfbase import pdfmetrics
+from reportlab.lib import colors
 from reportlab.lib.styles import ParagraphStyle, getSampleStyleSheet
 from reportlab.rl_config import defaultPageSize
-from reportlab.platypus import Paragraph, Frame, SimpleDocTemplate, Spacer, Table
+from reportlab.platypus import Paragraph, Frame, SimpleDocTemplate, Spacer, Table, TableStyle
+
 
 import reportlab
 import os
@@ -86,6 +88,7 @@ def header_info(c):
 
 def elemental_table(c, project_data):
     #elemental table setup for displaying the New Project elements
+    
 
     elements_data = project_data["elements"]
     
@@ -93,21 +96,16 @@ def elemental_table(c, project_data):
     stylesheet = getSampleStyleSheet()
     normalStyle = stylesheet['Normal']
 
-    frame_width = X-100
-    frame_height = 600
-    x_position = X/2
-    y_position = Y - 90
+    
 
-    table_frame = Frame(x_position, y_position, frame_width, frame_height, showBoundary=0, leftPadding=50, bottomPadding=5,
-            rightPadding=5, topPadding=5)
+    #table_paragraph = Paragraph("table", normalStyle, bulletText=None)
 
-    table_paragraph = Paragraph("table", normalStyle, bulletText=None)
-
-    headers = ['Nazwa', "Długość", 'Szerokość', 'Grubość', 'Ilość', 'Drewno']
+    headers = ['Nazwa', "Długosc", 'Szerokosc', 'Grubosc', 'Ilosc', 'Drewno']
     
     data = []
 
     for item in elements_data:
+        #Getting information for header specified above : ['Nazwa', "Długość", 'Szerokość', 'Grubość', 'Ilość', 'Drewno']
         
         name = item['element']['name']
         wood_type = item['element']['wood_type']['name']
@@ -115,13 +113,37 @@ def elemental_table(c, project_data):
         width = item['element']['dimY']
         thickness = item['element']['dimZ']
         quantity = item['quantity']
+
         row = [name,length,width,thickness,quantity,wood_type]
-        print(row)
 
         data.append(row)
 
-        
-        
+    table_data = [headers] + data
+    col_widths = [100, 80, 80, 80, 70, 70]
+    table = Table(table_data, colWidths=col_widths)
+    table.setStyle(TableStyle([
+    ('BACKGROUND', (0, 0), (-1, 0), colors.grey),  # Header background color
+    ('TEXTCOLOR', (0, 0), (-1, 0), colors.whitesmoke),  # Header text color
+    ('ALIGN', (0, 0), (-1, -1), 'CENTER'),  # Center align all cells
+    ('FONTNAME', (0, 0), (-1, 0), 'Times-Bold'),  # Header font
+    ('BOTTOMPADDING', (0, 0), (-1, 0), 12),  # Header padding
+    ('BACKGROUND', (0, 1), (-1, -1), colors.white),  # Cell background color
+    ('GRID', (0, 0), (-1, -1), 1, colors.black),  # Table grid
+    ('FONTSIZE', (0, 0), (-1, 0), 12),  # Font size for the header
+    ('FONTSIZE', (0, 1), (-1, -1), 10),  # Font size for the rest of the table
+    ]))
+    frame_width = X-100
+    frame_height = 600
+    x_position = X/2
+    y_position = Y - 90
+
+    table.wrapOn(c, X-100, Y-90)  # Ensure the table wraps correctly within the page
+    table.drawOn(c, X/2-(X/2)/2, Y - 180)  # Adjust x and y positions as necessary
+
+    
+
+    
+    
 
 def main():
 
