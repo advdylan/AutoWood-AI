@@ -11,7 +11,7 @@ def main():
 
     id = 54
     project_data = get_data(id)
-    project_name = project_data["name"]
+    
     output_dir = f"/home/dylan/AutoWood/AutoWood_Backend/product/pdf_generator_scripts/reports/{id}"
     raport_name = f"raport_{id}.pdf"
     file_path = os.path.join(output_dir, raport_name)
@@ -27,7 +27,7 @@ def main():
         c = canvas.Canvas(file_path)
 
         footer(c)
-        header(c, project_name)
+        header(c, project_data)
         header_info(c)
         
         c.showPage()

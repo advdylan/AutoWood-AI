@@ -106,6 +106,7 @@ class AccessoryType(models.Model):
 
 
 class NewProject(models.Model):
+    
     name = models.CharField(max_length=100)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
     paints = models.ForeignKey(Paints, on_delete=models.CASCADE)

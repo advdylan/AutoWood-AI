@@ -47,15 +47,17 @@ def footer(c):
     c.line(0, 35, 595.27, 35) #footer size
     c.drawCentredString(60, 35/2, "| Auto - Wood |")
 
-def header(c, project_name):
+def header(c, project_data):
     #header setup
 
+    project_name = project_data["name"]
+    project_id = project_data["id"]
     c.setFont("Times-Bold", 18)
-    #c.line(0, Y - 35, 595.27, Y-35)  
-    c.drawCentredString(X/2, Y-(35/2)-5, f"Wycena zamówienia: {project_name}")
+    c.line(0, Y - 75, 595.27, Y-75)  
+    c.drawString(5, Y - 75/2 + 3, f"Wykaz elementów do zamowienia: {project_name}")
+    c.drawString(5, Y - 75/2 - 18 - 6, f"ZD : {project_id}")
 
 def header_info(c):
-
     #setting the information about company just under the header
 
     c.setFont("Times-Roman", 10)
@@ -73,11 +75,11 @@ def header_info(c):
 
     frame_width = 140
     frame_height = 75
-    x_position = X-140
-    y_position = Y-105
+    x_position = X - frame_width
+    y_position = Y - frame_height
     
     header_frame = Frame(x_position, y_position, frame_width, frame_height, showBoundary=0, leftPadding=6, bottomPadding=6,
-            rightPadding=6, topPadding=6)
+            rightPadding=6, topPadding=15)
     header_frame.addFromList([header_paragraph], c)
     
 
@@ -85,13 +87,13 @@ def header_info(c):
 
 def main():
     project_data = get_data(53)
-    project_name = project_data["name"]
+    print(project_data)
 
 
     c = canvas.Canvas("hello.pdf")
 
     footer(c)
-    header(c, project_name)
+    header(c, project_data)
     header_info(c)
     c.showPage()
     c.save()
