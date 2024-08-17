@@ -1,7 +1,8 @@
 from reportlab.pdfgen import canvas
 from reportlab.pdfbase import pdfmetrics
 from reportlab.lib.styles import ParagraphStyle, getSampleStyleSheet
-from reportlab.platypus import Paragraph, Frame
+from reportlab.rl_config import defaultPageSize
+from reportlab.platypus import Paragraph, Frame, SimpleDocTemplate, Spacer, Table
 
 import reportlab
 import os
@@ -54,7 +55,7 @@ def header(c, project_data):
     project_id = project_data["id"]
     c.setFont("Times-Bold", 18)
     c.line(0, Y - 75, 595.27, Y-75)  
-    c.drawString(5, Y - 75/2 + 3, f"Wykaz elementów do zamowienia: {project_name}")
+    c.drawString(5, Y - 75/2 + 5, f"Wykaz elementów do zamowienia: {project_name}")
     c.drawString(5, Y - 75/2 - 18 - 6, f"ZD : {project_id}")
 
 def header_info(c):
@@ -79,17 +80,53 @@ def header_info(c):
     y_position = Y - frame_height
     
     header_frame = Frame(x_position, y_position, frame_width, frame_height, showBoundary=0, leftPadding=6, bottomPadding=6,
-            rightPadding=6, topPadding=15)
+            rightPadding=6, topPadding=13)
     header_frame.addFromList([header_paragraph], c)
     
 
+def elemental_table(c, project_data):
+    #elemental table setup for displaying the New Project elements
 
+    elements_data = project_data["elements"]
+    
+
+    stylesheet = getSampleStyleSheet()
+    normalStyle = stylesheet['Normal']
+
+    frame_width = X-100
+    frame_height = 600
+    x_position = X/2
+    y_position = Y - 90
+
+    table_frame = Frame(x_position, y_position, frame_width, frame_height, showBoundary=0, leftPadding=50, bottomPadding=5,
+            rightPadding=5, topPadding=5)
+
+    table_paragraph = Paragraph("table", normalStyle, bulletText=None)
+
+    headers = ['Nazwa', "Długość", 'Szerokość', 'Grubość', 'Ilość', 'Drewno']
+    
+    data = []
+
+    for item in elements_data:
+        
+        name = item['element']['name']
+        wood_type = item['element']['wood_type']['name']
+        length = item['element']['dimX']
+        width = item['element']['dimY']
+        thickness = item['element']['dimZ']
+        quantity = item['quantity']
+        row = [name,length,width,thickness,quantity,wood_type]
+        print(row)
+
+        data.append(row)
+
+        
+        
 
 def main():
-    project_data = get_data(53)
-    print(project_data)
 
-
+    project_data = get_data(37)
+    
     c = canvas.Canvas("hello.pdf")
 
     footer(c)

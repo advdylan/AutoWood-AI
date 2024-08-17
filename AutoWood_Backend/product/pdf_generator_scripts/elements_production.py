@@ -1,4 +1,4 @@
-from pdf_generator import get_data, header, header_info, footer, X, Y
+from pdf_generator import get_data, header, header_info, footer, elemental_table, X, Y
 from reportlab.pdfgen import canvas
 from reportlab.pdfbase import pdfmetrics
 
@@ -9,7 +9,7 @@ import reportlab
 
 def main():
 
-    id = 54
+    id = 37
     project_data = get_data(id)
     
     output_dir = f"/home/dylan/AutoWood/AutoWood_Backend/product/pdf_generator_scripts/reports/{id}"
@@ -28,6 +28,7 @@ def main():
 
         footer(c)
         header(c, project_data)
+        elemental_table(c, project_data)
         header_info(c)
         
         c.showPage()
