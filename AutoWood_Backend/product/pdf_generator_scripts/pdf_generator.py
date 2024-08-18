@@ -120,6 +120,9 @@ def elemental_table(c, project_data):
 
     table_data = [headers] + data
     col_widths = [100, 80, 80, 80, 70, 70]
+    table_width = 0
+    for column, x in enumerate(col_widths):
+        table_width + 
     table = Table(table_data, colWidths=col_widths)
     table.setStyle(TableStyle([
     ('BACKGROUND', (0, 0), (-1, 0), colors.grey),  # Header background color
@@ -137,8 +140,8 @@ def elemental_table(c, project_data):
     x_position = X/2
     y_position = Y - 90
 
-    table.wrapOn(c, X-100, Y-90)  # Ensure the table wraps correctly within the page
-    table.drawOn(c, X/2-(X/2)/2, Y - 180)  # Adjust x and y positions as necessary
+    table.wrapOn(c, X/table_width, Y-90)  # Ensure the table wraps correctly within the page
+    table.drawOn(c, 0, Y - 180)  # Adjust x and y positions as necessary
 
     
 
