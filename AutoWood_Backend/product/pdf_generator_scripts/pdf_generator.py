@@ -14,6 +14,8 @@ import requests
 X = 595.27 #standard width of A4 document format
 Y = 841.89 #standard height of A4 document format
 
+pdfmetrics.registerFont(TTFont('DejaVuSans', 'DejaVuSans.ttf'))
+
 
 """
 Script above is about importing fonts to my program
@@ -40,6 +42,7 @@ def get_data(id):
     try:
         response = requests.get(f'http://127.0.0.1:8000/api/v1/newproject/{id}')
         project_data = response.json()
+
         return project_data
     
     except requests.exceptions.RequestException as e:
@@ -56,7 +59,7 @@ def header(c, project_data):
 
     project_name = project_data["name"]
     project_id = project_data["id"]
-    c.setFont("Times-Bold", 18)
+    c.setFont("DejaVuSans", 18)
     c.line(0, Y - 75, 595.27, Y-75)  
     c.drawString(5, Y - 75/2 + 5, f"Wykaz elementów do zamowienia: {project_name}")
     c.drawString(5, Y - 75/2 - 18 - 6, f"ZD : {project_id}")
@@ -64,11 +67,11 @@ def header(c, project_data):
 def header_info(c):
     #setting the information about company just under the header
 
-    c.setFont("Times-Roman", 10)
+    c.setFont("DejaVuSans", 10)
 
     company_info = """Sekwoja
-                      Gen. St. Dabka 22 
-                      37-600 Lubaczow
+                      Gen. St. Dąbka 22 
+                      37-600 Lubaczów
                       sekwoja@sekwoja.pl
                       +48 16 632 93 30"""
     
@@ -134,7 +137,7 @@ def elemental_table(c, project_data):
     ('BACKGROUND', (0, 0), (-1, 0), colors.grey),  # Header background color
     ('TEXTCOLOR', (0, 0), (-1, 0), colors.whitesmoke),  # Header text color
     ('ALIGN', (0, 0), (-1, -1), 'CENTER'),  # Center align all cells
-    ('FONTNAME', (0, 0), (-1, 0), 'Times-Bold'),  # Header font
+    ('FONTNAME', (0, 0), (-1, 0), 'DejaVuSans'),  # Header font
     ('BOTTOMPADDING', (0, 0), (-1, 0), 12),  # Header padding
     ('BACKGROUND', (0, 1), (-1, -1), colors.white),  # Cell background color
     ('GRID', (0, 0), (-1, -1), 1, colors.black),  # Table grid
