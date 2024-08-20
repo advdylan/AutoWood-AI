@@ -1,6 +1,7 @@
 from reportlab.pdfgen import canvas
 from reportlab.pdfbase import pdfmetrics
 from reportlab.lib import colors
+from reportlab.lib.enums import TA_LEFT
 from reportlab.lib.styles import ParagraphStyle, getSampleStyleSheet
 from reportlab.rl_config import defaultPageSize
 from reportlab.platypus import Paragraph, Frame, SimpleDocTemplate, Spacer, Table, TableStyle
@@ -68,7 +69,16 @@ def header(c, project_data):
 def header_info(c):
     #setting the information about company just under the header
 
-    c.setFont("DMSerifText-Italic", 44)
+    stylesheet = getSampleStyleSheet()
+
+    custom_style = ParagraphStyle(
+        'CustomStyle',
+        parent=stylesheet['Normal'],
+        fontName='DMSerifText-Italic',
+        fontSize=12, 
+        leading=14,
+        alignment=TA_LEFT
+    )
 
     company_info = """Sekwoja
                       Gen. St. Dąbka 22 
@@ -76,10 +86,10 @@ def header_info(c):
                       sekwoja@sekwoja.pl
                       +48 16 632 93 30"""
     
-    stylesheet = getSampleStyleSheet()
-    normalStyle = stylesheet['Normal']
+    
+   
 
-    header_paragraph = Paragraph(company_info,normalStyle, bulletText=None)
+    header_paragraph = Paragraph(company_info,custom_style, bulletText=None)
 
     frame_width = 140
     frame_height = 75
@@ -99,7 +109,7 @@ def elemental_table(c, project_data):
     
 
     stylesheet = getSampleStyleSheet()
-    normalStyle = stylesheet['Normal']
+    
 
     
 
@@ -151,8 +161,8 @@ def elemental_table(c, project_data):
     x_position = X/2
     y_position = Y - 90
 
-    table.wrapOn(c, (X/table_width), Y-90)  # Ensure the table wraps correctly within the page
-    table.drawOn(c, (X - table_width)/2, Y - 180)  # Adjust x and y positions as necessary
+    table.wrapOn(c, (X/table_width), Y/2)  # Ensure the table wraps correctly within the page
+    table.drawOn(c, (X - table_width)/2, Y/2)  # Adjust x and y positions as necessary
 
     
 
