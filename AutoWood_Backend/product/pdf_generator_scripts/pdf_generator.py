@@ -14,7 +14,7 @@ import requests
 X = 595.27 #standard width of A4 document format
 Y = 841.89 #standard height of A4 document format
 
-pdfmetrics.registerFont(TTFont('DejaVuSans', 'DejaVuSans.ttf'))
+pdfmetrics.registerFont(TTFont('DMSerifText-Italic', 'DMSerifText-Italic.ttf'))
 
 
 """
@@ -57,17 +57,18 @@ def footer(c):
 def header(c, project_data):
     #header setup
 
+
     project_name = project_data["name"]
     project_id = project_data["id"]
-    c.setFont("DejaVuSans", 18)
+    c.setFont("DMSerifText-Italic", 18)
     c.line(0, Y - 75, 595.27, Y-75)  
-    c.drawString(5, Y - 75/2 + 5, f"Wykaz elementów do zamowienia: {project_name}")
+    c.drawString(5, Y - 75/2 + 5, f"Wykaz elementów do zamówienia: {project_name}")
     c.drawString(5, Y - 75/2 - 18 - 6, f"ZD : {project_id}")
 
 def header_info(c):
     #setting the information about company just under the header
 
-    c.setFont("DejaVuSans", 10)
+    c.setFont("DMSerifText-Italic", 44)
 
     company_info = """Sekwoja
                       Gen. St. Dąbka 22 
@@ -104,7 +105,7 @@ def elemental_table(c, project_data):
 
     #table_paragraph = Paragraph("table", normalStyle, bulletText=None)
 
-    headers = ['Nazwa', "Długosc", 'Szerokosc', 'Grubosc', 'Ilosc', 'Drewno']
+    headers = ['Nazwa', "Długość", 'Szerokość', 'Grubość', 'Ilość', 'Drewno']
     
     data = []
 
@@ -137,7 +138,8 @@ def elemental_table(c, project_data):
     ('BACKGROUND', (0, 0), (-1, 0), colors.grey),  # Header background color
     ('TEXTCOLOR', (0, 0), (-1, 0), colors.whitesmoke),  # Header text color
     ('ALIGN', (0, 0), (-1, -1), 'CENTER'),  # Center align all cells
-    ('FONTNAME', (0, 0), (-1, 0), 'DejaVuSans'),  # Header font
+    ('FONTNAME', (0, 0), (-1, 0), 'DMSerifText-Italic'),  # Header font
+    ('FONTNAME', (0, 1), (-1, -1), 'DMSerifText-Italic'),
     ('BOTTOMPADDING', (0, 0), (-1, 0), 12),  # Header padding
     ('BACKGROUND', (0, 1), (-1, -1), colors.white),  # Cell background color
     ('GRID', (0, 0), (-1, -1), 1, colors.black),  # Table grid
