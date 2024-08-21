@@ -158,6 +158,62 @@ def elemental_table(c, project_data):
     table.wrapOn(c, X, Y)  # Ensure the table wraps correctly within the page
     table.drawOn(c, (X - table_width) / 2, y_position)  # Adjust x and y positions as necessary
 
+def worktimes_table(c, project_data):
+    #elemental table setup for displaying the New Project elements
+
+
+    worktimes_data = project_data["worktimes"]
+    stylesheet = getSampleStyleSheet()
+    print(worktimes_data)
+    
+    headers = ['Dział','Ilość pracowników', 'Czas pracy', 'Koszty pracy' 'Suma']
+    
+    data = []
+
+    for item in worktimes_data:
+        #Getting information for header specified above : ['Dział','Ilość pracowników', 'Czas pracy', 'Koszty pracy' 'Suma']
+        
+        name = item['worktime']['name']
+        workers = item['workers']
+        duration = item['duration']
+        cost = item['worktime']['cost']
+        sum = (int(workers)*int(duration)) * int(cost)
+
+        row = [name, workers, duration, cost, sum]
+
+        data.append(row)
+
+    table_data = [headers] + data
+    col_widths = [100, 100, 80, 80, 70]
+
+    table_width = 0
+    for column, x in enumerate(col_widths):      
+        table_width += x
+
+   
+    table = Table(table_data, colWidths=col_widths)
+    table.setStyle(TableStyle([
+    ('BACKGROUND', (0, 0), (-1, 0), colors.grey),  # Header background color
+    ('TEXTCOLOR', (0, 0), (-1, 0), colors.whitesmoke),  # Header text color
+    ('ALIGN', (0, 0), (-1, -1), 'CENTER'),  # Center align all cells
+    ('FONTNAME', (0, 0), (-1, 0), 'RobotoCondensed-Regular'),  # Header font
+    ('FONTNAME', (0, 1), (-1, -1), 'RobotoCondensed-Regular'),
+    ('BOTTOMPADDING', (0, 0), (-1, 0), 12),  # Header padding
+    ('BACKGROUND', (0, 1), (-1, -1), colors.white),  # Cell background color
+    ('GRID', (0, 0), (-1, -1), 1, colors.black),  # Table grid
+    ('FONTSIZE', (0, 0), (-1, 0), 12),  # Font size for the header
+    ('FONTSIZE', (0, 1), (-1, -1), 10),  # Font size for the rest of the table
+    ]))
+    
+
+    #calculating the width and height to set the table. Table width and position set accordingly
+    row_height = 18
+    rows_number = len(table_data)
+    table_height = rows_number * row_height
+    y_position = Y - 125 - table_height
+
+    table.wrapOn(c, X, Y)  # Ensure the table wraps correctly within the page
+    table.drawOn(c, (X - table_width) / 2, y_position)  # Adjust x and y positions as necessary
 
 def main():
 
