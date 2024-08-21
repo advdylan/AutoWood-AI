@@ -157,10 +157,12 @@ def elemental_table(c, project_data, offset=0):
     if offset == 0:
         y_position = Y - 125 - table_height
     else:
-        y_position = Y - 125 - offset - table_height
+        y_position = Y - 125 - offset - table_height - 30
 
     table.wrapOn(c, X, Y)  # Ensure the table wraps correctly within the page
     table.drawOn(c, (X - table_width) / 2, y_position)  # Adjust x and y positions as necessary
+
+    return table_height 
 
 def worktimes_table(c, project_data):
     #elemental table setup for displaying the New Project elements

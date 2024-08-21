@@ -27,8 +27,9 @@ def main():
         footer(c)
         header(c, project_data)  
         header_info(c)
-        table_height = worktimes_table(c, project_data)
-        print(table_height)
+        workers_table_height = worktimes_table(c, project_data)
+        elemental_table(c,project_data, offset=workers_table_height)
+        
 
 
         
