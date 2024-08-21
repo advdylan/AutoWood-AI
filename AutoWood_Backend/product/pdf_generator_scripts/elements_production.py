@@ -12,7 +12,7 @@ def main():
     id = 34
     project_data = get_data(id)
     
-    output_dir = f"/home/sekwoja/AutoWood/AutoWood_Backend/product/pdf_generator_scripts/reports/{id}"
+    output_dir = f"/home/dylan/AutoWood/AutoWood_Backend/product/pdf_generator_scripts/reports/{id}"
     raport_name = f"raport_{id}.pdf"
     file_path = os.path.join(output_dir, raport_name)
 
