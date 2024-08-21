@@ -9,7 +9,7 @@ import reportlab
 
 def main():
 
-    id = 34
+    id = 54
     project_data = get_data(id)
     
     output_dir = f"/home/dylan/AutoWood/AutoWood_Backend/product/pdf_generator_scripts/reports/{id}"

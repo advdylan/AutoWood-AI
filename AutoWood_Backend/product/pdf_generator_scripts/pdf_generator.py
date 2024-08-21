@@ -106,12 +106,8 @@ def elemental_table(c, project_data):
     
 
     elements_data = project_data["elements"]
-    
-
     stylesheet = getSampleStyleSheet()
     
-    #table_paragraph = Paragraph("table", normalStyle, bulletText=None)
-
     headers = ['Nazwa', "Długość", 'Szerokość', 'Grubość', 'Ilość', 'Drewno']
     
     data = []
@@ -133,13 +129,11 @@ def elemental_table(c, project_data):
     table_data = [headers] + data
     col_widths = [100, 80, 80, 80, 70, 70]
 
-    #calculating the width of all of the given columns. Table width and position set accordingly
-
     table_width = 0
     for column, x in enumerate(col_widths):      
         table_width += x
 
-    print(table_width)
+   
     table = Table(table_data, colWidths=col_widths)
     table.setStyle(TableStyle([
     ('BACKGROUND', (0, 0), (-1, 0), colors.grey),  # Header background color
@@ -153,20 +147,17 @@ def elemental_table(c, project_data):
     ('FONTSIZE', (0, 0), (-1, 0), 12),  # Font size for the header
     ('FONTSIZE', (0, 1), (-1, -1), 10),  # Font size for the rest of the table
     ]))
-
-    
-    frame_width = X-100
-    frame_height = 600
-    x_position = X/2
-    y_position = Y - 90
-
-    table.wrapOn(c, (X/table_width), Y/2)  # Ensure the table wraps correctly within the page
-    table.drawOn(c, (X - table_width)/2, Y/2)  # Adjust x and y positions as necessary
-
     
 
-    
-    
+    #calculating the width and height to set the table. Table width and position set accordingly
+    row_height = 18
+    rows_number = len(table_data)
+    table_height = rows_number * row_height
+    y_position = Y - 125 - table_height
+
+    table.wrapOn(c, X, Y)  # Ensure the table wraps correctly within the page
+    table.drawOn(c, (X - table_width) / 2, y_position)  # Adjust x and y positions as necessary
+
 
 def main():
 
