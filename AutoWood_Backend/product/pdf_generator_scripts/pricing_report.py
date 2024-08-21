@@ -18,7 +18,22 @@ def main():
 
     if os.path.exists(file_path):
         #logika gdy dokument jest już gotowy
-        print(f"Dokument o ID:{id} istnieje już w bazie danych")
+        if not os.path.exists(output_dir):
+            os.makedirs(output_dir)
+        
+        c = canvas.Canvas(file_path)
+
+        
+        footer(c)
+        header(c, project_data)  
+        header_info(c)
+        table_height = worktimes_table(c, project_data)
+        print(table_height)
+
+
+        
+        c.showPage()
+        c.save()
     else:
 
         if not os.path.exists(output_dir):
@@ -30,7 +45,8 @@ def main():
         footer(c)
         header(c, project_data)  
         header_info(c)
-        worktimes_table(c, project_data)
+        table_height = worktimes_table(c, project_data)
+        
 
 
         
