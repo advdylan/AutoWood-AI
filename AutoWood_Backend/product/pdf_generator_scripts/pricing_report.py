@@ -1,4 +1,4 @@
-from pdf_generator import get_data, header, header_info, footer, elemental_table, worktimes_table, X, Y
+from pdf_generator import get_data, header, header_info, footer, elemental_table, worktimes_table,accesories_table, X, Y
 from reportlab.pdfgen import canvas
 from reportlab.pdfbase import pdfmetrics
 
@@ -28,7 +28,9 @@ def main():
         header(c, project_data)  
         header_info(c)
         workers_table_height = worktimes_table(c, project_data)
-        elemental_table(c,project_data, offset=workers_table_height)
+        elemental_table_height = elemental_table(c,project_data, offset=workers_table_height)
+        accesories_table(c,project_data,offset=(workers_table_height + elemental_table_height))
+
         
 
 
