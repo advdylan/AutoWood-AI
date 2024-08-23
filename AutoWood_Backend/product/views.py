@@ -282,7 +282,16 @@ def save_data(request):
 
 @api_view(['GET'])
 def generate_newproject_raport(request):
-    return
+    
+    try:
+        print(request)
+    except:
+        print("x")
+
+    return 0
+        
+
+
 
 
 def get_or_create_model_instance(model, name):

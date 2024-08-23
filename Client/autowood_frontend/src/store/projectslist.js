@@ -108,6 +108,24 @@ export const useProjectsListStore = defineStore('projectslist', {
             }
         },
 
+        async generateReport(id) {
+            axios({
+                url: `/api/download-user-report/${userId}/`,
+                method: 'GET',
+                responseType: 'blob', // Important for downloading files
+              }).then((response) => {
+                const url = window.URL.createObjectURL(new Blob([response.data]));
+                const link = document.createElement('a');
+                link.href = url;
+                link.setAttribute('download', `user_${userId}_report.pdf`); // or whatever the filename should be
+                document.body.appendChild(link);
+                link.click();
+              }).catch((error) => {
+                console.error("There was an error downloading the report:", error);
+              });
+
+        },
+
         addElement(element) {
             this.detail_project.elements.push({
               element: {
