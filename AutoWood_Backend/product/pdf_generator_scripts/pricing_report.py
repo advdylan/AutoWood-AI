@@ -31,10 +31,6 @@ def main():
         elemental_table_height = elemental_table(c,project_data, offset=workers_table_height)
         accesories_table(c,project_data,offset=(workers_table_height + elemental_table_height))
 
-        
-
-
-        
         c.showPage()
         c.save()
     else:
