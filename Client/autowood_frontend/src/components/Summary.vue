@@ -203,7 +203,7 @@ watch(
   { immediate: true }
 );
 
-console.log(props.propWorktimecosts)
+
 watch(
   () => props.propWorktimecosts,
   (newWorktime) => {
@@ -244,7 +244,7 @@ const summWorktimeCosts = computed(() => {
 })
 
 const summaryCosts = computed(() => {
-  return parseFloat(summWorktimeCosts.value) + parseFloat(summElementCosts.value) + parseFloat(summAccesoriesCosts.value)
+  return (parseFloat(summWorktimeCosts.value) + parseFloat(summElementCosts.value) + parseFloat(summAccesoriesCosts.value)).toFixed(2)
 })
 
 const elementsMargin = computed(() => {

@@ -2,6 +2,7 @@ from rest_framework import authentication, generics, mixins, permissions
 from rest_framework.decorators import api_view
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from django.db import transaction
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404
 import json
@@ -183,118 +184,100 @@ class NewProjectDetailAPIView(
 new_project_detail_view= NewProjectDetailAPIView.as_view()
    
 
-@api_view(['PATCH'])
-def update_data(request):
-
-    if request.method == "PATCH":
-        print(request.data)
-
-
-    return 0
-
 @api_view(['POST'])
 def save_data(request):
-    if request.method == "POST": 
+
+    try:
         data = json.loads(request.body)
-        #print(data)
+    except json.JSONDecodeError:
+        return JsonResponse({'error': 'Invalid JSON data'}, status=400)
+    
 
-        wood = get_or_create_model_instance(Wood, data["wood"])
-        collection = get_or_create_model_instance(Collection, data["collection"])    
-        paint = get_or_create_model_instance(Paints, data["paint"])
-        category = get_or_create_model_instance(Category, data["category"])
+    try:
+        with transaction.atomic():
+            # Get or create related models
+            wood = get_or_create_model_instance(Wood, data["wood"])
+            collection = get_or_create_model_instance(Collection, data["collection"])    
+            paint = get_or_create_model_instance(Paints, data["paint"])
+            category = get_or_create_model_instance(Category, data["category"])
 
-   
-        new_project = NewProject.objects.create(
-            name = data["name"],    
-            category = category,
-            paints = paint,
-            collection = collection,
-            wood = wood,
-            elements_margin=data["elements_margin"],
-            accesories_margin=data["accesories_margin"],
-            additional_margin=data["additional_margin"],
-            summary_with_margin=data["summary_with_margin"],
-            summary_without_margin=data["summary_without_margin"],
-            percent_elements_margin = data["percent_elements_margin"],
-            percent_accesories_margin = data["percent_accesories_margin"],
-            percent_additional_margin = data["percent_additional_margin"]
-        )
-        
-        
-
-        elements_data = data["elements"]
-        
-        for element_data in elements_data:
-            print(element_data["element"]["wood_type"])
-            print(element_data)
-            wood_type = get_or_create_model_instance(Wood, element_data["element"]["wood_type"]["name"])
-
-
-            element = Element(
-                name=element_data["element"]["name"],
-                dimX=element_data["element"]["dimX"],
-                dimY=element_data["element"]["dimY"],
-                dimZ=element_data["element"]["dimZ"],
-                wood_type = wood_type,              
+            # Create the NewProject instance
+            new_project = NewProject.objects.create(
+                name=data["name"],    
+                category=category,
+                paints=paint,
+                collection=collection,
+                wood=wood,
+                elements_margin=data["elements_margin"],
+                accesories_margin=data["accesories_margin"],
+                additional_margin=data["additional_margin"],
+                summary_with_margin=data["summary_with_margin"],
+                summary_without_margin=data["summary_without_margin"],
+                percent_elements_margin=data["percent_elements_margin"],
+                percent_accesories_margin=data["percent_accesories_margin"],
+                percent_additional_margin=data["percent_additional_margin"]
             )
-
-            new_project_element = NewProjectElement(
-                project = new_project,
-                element = element,
-                quantity = element_data["quantity"]
-                
-            )
-          
-            element.set_price()
-            element.save()
             
-            new_project_element.save()
-            new_project.new_elements.add(element)
+            # Handle elements
+            elements_data = data.get("elements", [])
+            for element_data in elements_data:
+                wood_type = get_or_create_model_instance(Wood, element_data["element"]["wood_type"]["name"])
+
+                element = Element.objects.create(
+                    name=element_data["element"]["name"],
+                    dimX=element_data["element"]["dimX"],
+                    dimY=element_data["element"]["dimY"],
+                    dimZ=element_data["element"]["dimZ"],
+                    wood_type=wood_type
+                )
+                element.set_price()
+                element.save()
+
+                NewProjectElement.objects.create(
+                    project=new_project,
+                    element=element,
+                    quantity=element_data["quantity"]
+                )
+
+                new_project.new_elements.add(element)
             
+            # Handle worktime
+            worktime_data = data.get("worktime", [])
+            for worktime in worktime_data:
+                worktimetype = get_or_create_model_instance(Worktimetype, worktime["text"])
+                duration = worktime.get("hours", 0) or 0
+                workers = worktime["workers"]
 
-        worktime_data = data["worktime"]
-        for worktime in worktime_data:
-            worktimetype = get_or_create_model_instance(Worktimetype, worktime["text"])
-           
-            duration = worktime["hours"]
-            workers = worktime["workers"]
+                ProjectWorktime.objects.create(
+                    project=new_project,
+                    worktime=worktimetype,
+                    duration=duration,
+                    workers=workers
+                )
             
-            if duration == '':
-                duration = 0
+            # Handle accessories
+            accessories_data = data.get("accesories", [])
+            for accessory in accessories_data:
+                accessory_type = get_or_create_model_instance(AccessoryType, accessory["type"]["name"])
+                quantity = accessory["quantity"]
 
-            worktime = ProjectWorktime.objects.create(       
-                project = new_project,
-                worktime = worktimetype,
-                duration = duration,
-                workers = workers          
-                
-            )
-            worktime.save()
+                AccessoryDetail.objects.create(
+                    project=new_project,
+                    type=accessory_type,
+                    quantity=quantity
+                )
 
-        new_project.save()
+                new_project.accessories.add(accessory_type)
             
+            # Save the final project instance
+            new_project.save()
 
-        accesories_data = data["accesories"]
+        return JsonResponse({'message': 'Data saved', 'project_id': new_project.id}, status=201)
 
-        for accesory in accesories_data:
-            accesorytype = get_or_create_model_instance(AccessoryType, accesory["type"]["name"])
-            quantity = accesory["quantity"]
-
-            acc = AccessoryDetail.objects.create(
-                project = new_project,
-                type = accesorytype,
-                quantity = quantity
-            )
-            acc.save()
-
-            print(acc)
-            print(accesorytype)
-            
-            new_project.accessories.add(accesorytype)
-
-        new_project.save()
-
-        return JsonResponse({'message': 'Data saved'}, status=201)
+    except Exception as e:
+        # Log the error
+        # logger.error(f"Error saving data: {e}")
+        return JsonResponse({'error': str(e)}, status=500)
         
 
 @api_view(['GET'])
