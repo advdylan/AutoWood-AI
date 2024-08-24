@@ -110,7 +110,7 @@ export const useProjectsListStore = defineStore('projectslist', {
 
         async generateReport(id) {
             axios({
-                url: `/api/download-user-report/${userId}/`,
+                url: `/api/v1/newproject/${id}/`,
                 method: 'GET',
                 responseType: 'blob', // Important for downloading files
               }).then((response) => {

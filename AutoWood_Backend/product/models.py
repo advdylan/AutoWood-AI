@@ -123,6 +123,7 @@ class NewProject(models.Model):
     percent_elements_margin = models.IntegerField(blank=True, null=True)
     percent_accesories_margin = models.IntegerField(blank=True, null=True)
     percent_additional_margin = models.IntegerField(blank=True, null=True)
+
     
 
     def __str__(self):

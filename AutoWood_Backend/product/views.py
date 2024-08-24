@@ -1,10 +1,20 @@
+import sys
+import os
+# Add the project root directory to the sys.path
+sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
+
+# Now you can import as expected
+from product.pdf_generator_scripts.pdf_generator import get_data, header, header_info, footer, elemental_table, X, Y
+
 from rest_framework import authentication, generics, mixins, permissions
 from rest_framework.decorators import api_view
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from django.db import transaction
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
 from django.shortcuts import get_object_or_404
+from io import BytesIO
+
 import json
 from .models import *
 from .serializers import *
@@ -281,14 +291,16 @@ def save_data(request):
         
 
 @api_view(['GET'])
-def generate_newproject_raport(request):
-    
+def generate_elements_production(request, pk):
+
+    buffer = BytesIO()
+ 
     try:
         print(request)
     except:
         print("x")
 
-    return 0
+    
         
 
 

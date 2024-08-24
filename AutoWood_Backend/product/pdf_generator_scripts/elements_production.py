@@ -1,4 +1,11 @@
-from pdf_generator import get_data, header, header_info, footer, elemental_table, X, Y
+import sys
+import os
+
+# Add the project root directory to the sys.path
+sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
+
+# Now you can import as expected
+from product.pdf_generator_scripts.pdf_generator import get_data, header, header_info, footer, elemental_table, X, Y
 from reportlab.pdfgen import canvas
 from reportlab.pdfbase import pdfmetrics
 
@@ -7,7 +14,7 @@ import requests
 import reportlab
 
 
-def main():
+def generate_elements_production():
 
     id = 54
     project_data = get_data(id)
@@ -35,4 +42,4 @@ def main():
         c.showPage()
         c.save()
 
-main()
+generate_elements_production()
