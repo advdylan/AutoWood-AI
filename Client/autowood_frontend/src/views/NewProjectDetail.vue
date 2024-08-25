@@ -82,7 +82,7 @@
                     Usuń projekt
                   </b-button>
                   <b-button class="button is-info"><i class="fa-regular fa-file">&nbsp;</i>Raport dla klienta</b-button>
-                  <b-button  class="button is-info"><i class="fa-regular fa-file">&nbsp;</i>Wygeneruj rozpiskę</b-button>
+                  <b-button @click="downloadElementsTable(id)"  class="button is-info"><i class="fa-regular fa-file">&nbsp;</i>Wygeneruj rozpiskę</b-button>
                   <button @click="showEditModal = true" data-target="newelement-modal" class="button is-dark"><i class="fa-regular fa-pen-to-square">&nbsp;</i>Edytuj marżę i koszty pracy</button>
 
                   
@@ -355,7 +355,7 @@
   const elementStore = useNewProjectStoreBeta()
 
 
-  const { loadDetailProject, updateProject, addElement} = ProjectsListStore
+  const { loadDetailProject, updateProject, addElement, downloadElementsTable} = ProjectsListStore
 
   const {loadData, $reset } = elementStore
   loadData()

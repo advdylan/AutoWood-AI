@@ -1,5 +1,6 @@
 import {defineStore} from 'pinia'
 import axios from 'axios'
+import { useLink } from 'vue-router';
 
 
 
@@ -87,7 +88,7 @@ export const useProjectsListStore = defineStore('projectslist', {
             .get(`/api/v1/newproject/${id}/`)
             .then(response => {
                 this.setDetaiLProject(response.data)
-                console.log(`Project DETAIL ID:${id} \n ${response.data}`, response.data)
+                //console.log(`Project DETAIL ID:${id} \n ${response.data}`, response.data)
             })
             .catch(error => {
                 console.log(error)
@@ -101,29 +102,36 @@ export const useProjectsListStore = defineStore('projectslist', {
                         'Content-Type': 'application/json',                    
                     },
                 });
-                console.log('Server response:', response);
+                //console.log('Server response:', response);
                 //console.log('Project updated successfully:', response.data);
             } catch (error) {
                 console.error('Error updating the project:', error);
             }
         },
 
-        async generateReport(id) {
+        async downloadElementsTable(id) {
             axios({
-                url: `/api/v1/newproject/${id}/`,
+                url: `/api/v1/newproject/elements-production/${id}`,
                 method: 'GET',
-                responseType: 'blob', // Important for downloading files
-              }).then((response) => {
-                const url = window.URL.createObjectURL(new Blob([response.data]));
-                const link = document.createElement('a');
-                link.href = url;
-                link.setAttribute('download', `user_${userId}_report.pdf`); // or whatever the filename should be
-                document.body.appendChild(link);
-                link.click();
-              }).catch((error) => {
-                console.error("There was an error downloading the report:", error);
-              });
+                responseType: 'blob',
+            })
+            .then((response) => {
+                console.log(response)
+                const href = URL.createObjectURL(response.data)
 
+                const link = document.createElement('a')
+                link.href = href
+                link.setAttribute('download', `rozpiska_produkcja_${id}.pdf`)
+                document.body.appendChild(link)
+                link.click()
+
+                document.body.removeChild(link)
+                URL.revokeObjectURL(href)
+                
+            })
+            .catch(error => {
+                console.log("There was an error downloading the file", error)
+            }) 
         },
 
         addElement(element) {
