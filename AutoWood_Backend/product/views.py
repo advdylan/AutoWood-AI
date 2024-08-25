@@ -5,13 +5,13 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(
 
 # Now you can import as expected
 from product.pdf_generator_scripts.pdf_generator import get_data, header, header_info, footer, elemental_table, X, Y
-
+from product.pdf_generator_scripts.elements_production import generate_elements_productionpdf
 from rest_framework import authentication, generics, mixins, permissions
 from rest_framework.decorators import api_view
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from django.db import transaction
-from django.http import JsonResponse, HttpResponse
+from django.http import JsonResponse, HttpResponse, FileResponse
 from django.shortcuts import get_object_or_404
 from io import BytesIO
 
@@ -293,19 +293,20 @@ def save_data(request):
 @api_view(['GET'])
 def generate_elements_production(request, pk):
 
+    id = pk
     buffer = BytesIO()
- 
-    try:
-        print(request)
-    except:
-        print("x")
+    output_dir = f"/home/dylan/AutoWood/AutoWood_Backend/product/pdf_generator_scripts/reports/{id}"
+    raport_name = f"rozpiska_produkcja_{id}.pdf"
+    generate_elements_productionpdf(output_dir, raport_name, id)
 
+    with open(f"{output_dir}/{raport_name}", "rb") as file:
+        buffer.write(file.read())
+
+    buffer.seek(0)
+
+    return FileResponse(buffer, as_attachment=True, filename=raport_name)
     
-        
-
-
-
-
+ 
 def get_or_create_model_instance(model, name):
     instance, created = model.objects.get_or_create(name=name)
     return instance
