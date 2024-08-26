@@ -103,7 +103,7 @@ def header_info(c):
     header_frame.addFromList([header_paragraph], c)
     
 
-def elemental_table(c, project_data, offset=0):
+def generate_elemental_table(c, project_data, offset=0):
     #elemental table setup for displaying the New Project elements
     
 
@@ -152,21 +152,25 @@ def elemental_table(c, project_data, offset=0):
     
 
     #calculating the width and height to set the table. Table width and position set accordingly
+
     row_height = 18
     rows_number = len(table_data)
     table_height = rows_number * row_height
 
+    """
+
     if offset == 0:
-        y_position = Y - 115 - table_height
+        y_position = Y - 130 - table_height
     else:
-        y_position = Y - 125 - offset - table_height - 30
+        y_position = Y - 130 - offset - table_height - 30
 
     table.wrapOn(c, X, Y)  # Ensure the table wraps correctly within the page
     table.drawOn(c, (X - table_width) / 2, y_position)  # Adjust x and y positions as necessary
+    """
 
-    return table_height 
+    return table
 
-def worktimes_table(c, project_data):
+def generate_worktimes_table(c, project_data):
     #elemental table setup for displaying the New Project elements
 
     worktimes_data = project_data["worktimes"]
@@ -218,15 +222,19 @@ def worktimes_table(c, project_data):
     row_height = 18
     rows_number = len(table_data)
     table_height = rows_number * row_height
-    y_position = Y - 115 - table_height
+    y_position = Y - 130 - table_height
 
-    table.wrapOn(c, X, Y)  # Ensure the table wraps correctly within the page
-    table.drawOn(c, (X - table_width) / 2, y_position)  # Adjust x and y positions as necessary
+    #table.wrapOn(c, X, Y)  # Ensure the table wraps correctly within the page
+    #table.drawOn(c, (X - table_width) / 2, y_position)  # Adjust x and y positions as necessary
 
-    return table_height 
+    #c.setFont("RobotoCondensed-Regular", 16)
+    #c.line(0, y_position - 15, 595.27, y_position - 15)  
+    #c.drawCentredString(X/2, Y - 115 + 10, f"Koszty pracy")
+
+    return table
 
 
-def accesories_table(c, project_data, offset=0):
+def generate_accesories_table(c, project_data, offset=0):
     #elemental table setup for displaying the New Project elements
 
     accesories_data = project_data["accessories"]
@@ -277,6 +285,8 @@ def accesories_table(c, project_data, offset=0):
     rows_number = len(table_data)
     table_height = rows_number * row_height
 
+    """
+
     if offset == 0:
         y_position = Y - 115 - table_height
     else:
@@ -284,8 +294,9 @@ def accesories_table(c, project_data, offset=0):
 
     table.wrapOn(c, X, Y)  # Ensure the table wraps correctly within the page
     table.drawOn(c, (X - table_width) / 2, y_position)  # Adjust x and y positions as necessary
+    """
 
-    return table_height 
+    return table
 
 def main():
 

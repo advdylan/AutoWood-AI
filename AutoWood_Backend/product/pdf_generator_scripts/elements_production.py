@@ -5,7 +5,7 @@ import os
 sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
 
 # Now you can import as expected
-from product.pdf_generator_scripts.pdf_generator import get_data, header, header_info, footer, elemental_table, X, Y
+from product.pdf_generator_scripts.pdf_generator import get_data, header, header_info, footer, generate_elemental_table, X, Y
 from reportlab.pdfgen import canvas
 from reportlab.pdfbase import pdfmetrics
 
@@ -31,7 +31,7 @@ def generate_elements_productionpdf(output_dir, raport_name, id):
         
         footer(c)
         header(c, project_data)
-        elemental_table(c, project_data)
+        generate_elemental_table(c, project_data)
         header_info(c)
         
         c.showPage()
@@ -47,7 +47,7 @@ def generate_elements_productionpdf(output_dir, raport_name, id):
         
         footer(c)
         header(c, project_data)
-        elemental_table(c, project_data)
+        generate_elemental_table(c, project_data)
         header_info(c)
         
         c.showPage()

@@ -4,7 +4,7 @@ import os
 sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
 
 # Now you can import as expected
-from product.pdf_generator_scripts.pdf_generator import get_data, header, header_info, footer, elemental_table, X, Y
+from product.pdf_generator_scripts.pdf_generator import get_data, header, header_info, footer, X, Y
 from product.pdf_generator_scripts.elements_production import generate_elements_productionpdf
 from rest_framework import authentication, generics, mixins, permissions
 from rest_framework.decorators import api_view
