@@ -42,12 +42,14 @@ def get_data(id):
 
     try:
         response = requests.get(f'http://127.0.0.1:8000/api/v1/newproject/{id}')
+        response.raise_for_status()
         project_data = response.json()
 
         return project_data
     
     except requests.exceptions.RequestException as e:
-        raise SystemExit(e)
+        print(f"Error fetching project data: {e}")
+        return None
 
 def footer(c):
     #footer setup 

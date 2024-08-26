@@ -39,8 +39,7 @@ def solve_with_board_size(X, Y, elements):
 
     model.AddNoOverlap2D(x_intervals, y_intervals)
 
-    solver = cp_model.CpSolver()
-    status = solver.Solve(model)
+    
 
     return status, x, y, solver
 
