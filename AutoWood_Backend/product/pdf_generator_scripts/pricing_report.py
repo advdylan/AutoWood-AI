@@ -66,8 +66,7 @@ def generate_report(output_dir, raport_name, id):
     
     project_data = get_data(id)   
     file_path = os.path.join(output_dir, raport_name)
-    print("this is running")
-
+  
     if not os.path.exists(output_dir):
         os.makedirs(output_dir)
     
@@ -109,9 +108,3 @@ def generate_report(output_dir, raport_name, id):
     
 
 
-output_dir = f"/home/dylan/AutoWood/AutoWood_Backend/product/pdf_generator_scripts/reports/{id}"
-raport_name = f"wycena_{id}.pdf"
-
-id = 22
-
-generate_report(output_dir, raport_name, id)
