@@ -1,4 +1,10 @@
-from pdf_generator import get_data,  generate_elemental_table, generate_worktimes_table, generate_accesories_table, X, Y
+import sys
+import os
+
+# Add the project root directory to the sys.path
+sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
+
+from product.pdf_generator_scripts.pdf_generator import get_data, header, header_info, footer, generate_elemental_table, generate_accesories_table, generate_worktimes_table, X, Y
 from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
 from reportlab.lib.enums import TA_LEFT
 from reportlab.platypus import SimpleDocTemplate, PageTemplate, Frame, Table, Spacer, Paragraph
@@ -10,9 +16,7 @@ import os
 import requests
 import reportlab
 
-id = 37
 
-project_data = get_data(id)
 
 def header_and_info(canvas, doc, project_data):
     # Setting up the header
@@ -57,14 +61,12 @@ def header_and_info(canvas, doc, project_data):
     header_frame.addFromList([header_paragraph], canvas)
 
 
-def main():
+def generate_report(output_dir, raport_name, id):
 
-    id = 37
-    project_data = get_data(id)
     
-    output_dir = f"/home/dylan/AutoWood/AutoWood_Backend/product/pdf_generator_scripts/reports/{id}"
-    raport_name = f"wycena_{id}.pdf"
+    project_data = get_data(id)   
     file_path = os.path.join(output_dir, raport_name)
+    print("this is running")
 
     if not os.path.exists(output_dir):
         os.makedirs(output_dir)
@@ -101,13 +103,15 @@ def main():
     elements.append(Spacer(1,10))
     elements.append(accesories_table)
     elements.append(Spacer(1,10))
-    elements.append(accesories_table)
-    elements.append(Spacer(1,10))
-    elements.append(accesories_table)
-    elements.append(Spacer(1,10))
-    elements.append(elements_table)
+    
 
     doc.build(elements)
     
 
-main()
+
+output_dir = f"/home/dylan/AutoWood/AutoWood_Backend/product/pdf_generator_scripts/reports/{id}"
+raport_name = f"wycena_{id}.pdf"
+
+id = 22
+
+generate_report(output_dir, raport_name, id)

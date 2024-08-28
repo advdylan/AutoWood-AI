@@ -17,9 +17,7 @@ import reportlab
 def generate_elements_productionpdf(output_dir, raport_name, id):
 
     
-    project_data = get_data(id)
-    
-    
+    project_data = get_data(id)  
     file_path = os.path.join(output_dir, raport_name)
 
     if os.path.exists(file_path):
