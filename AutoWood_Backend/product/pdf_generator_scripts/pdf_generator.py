@@ -87,9 +87,6 @@ def header_info(c):
                       37-600 Lubaczów
                       sekwoja@sekwoja.pl
                       +48 16 632 93 30"""
-    
-    
-   
 
     header_paragraph = Paragraph(company_info,custom_style, bulletText=None)
 
@@ -104,13 +101,8 @@ def header_info(c):
     
 
 def generate_elemental_table(c, project_data, offset=0):
+
     #elemental table setup for displaying the New Project elements
-
-    stylesheet = getSampleStyleSheet()
-
-    
-   
-    
 
     elements_data = project_data["elements"]
   
@@ -159,6 +151,7 @@ def generate_elemental_table(c, project_data, offset=0):
     return table
 
 def generate_worktimes_table(c, project_data):
+
     #elemental table setup for displaying the New Project elements
 
     worktimes_data = project_data["worktimes"]
@@ -228,13 +221,13 @@ def generate_accesories_table(c, project_data, offset=0):
         data.append(row)
 
     table_data = [headers] + data
-    col_widths = [160, 100, 80, 80]
+    col_widths = [190, 110, 90, 90]
 
         
     table_width = 0
     for column, x in enumerate(col_widths):      
         table_width += x
-
+    
    
     table = Table(table_data, colWidths=col_widths)
     table.setStyle(TableStyle([

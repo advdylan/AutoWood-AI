@@ -16,7 +16,8 @@ export const useNewProjectStoreBeta = defineStore('newproject', {
     boxes: [],
     marginA: 0,
     marginB: 0,
-    marginC: 0
+    marginC: 0,
+
     
 
 
@@ -26,7 +27,7 @@ export const useNewProjectStoreBeta = defineStore('newproject', {
     accesoriesStore() {
       return this.accesories.map(accesory => ({
         ...accesory,
-        sum: accesory.type.price * accesory.quantity 
+        sum: accesory.type.price * accesory.quantity      
       }))
     },
     pricedElements() {

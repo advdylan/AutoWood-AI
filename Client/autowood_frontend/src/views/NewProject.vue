@@ -358,7 +358,7 @@ const elementStore = useNewProjectStoreBeta()
 const summaryStore = useSummaryStore()
 
 const { addElement, loadData, $resetBoxes } = elementStore
-const {summaryCosts, elementsMargin, accesoriesMargin, additionalMargin,summaryCostsWithMargin} = storeToRefs(summaryStore)
+const {summaryCosts, elementsMargin, accesoriesMargin, additionalMargin,summaryCostsWithMargin, elementsCost, accesoriesCost} = storeToRefs(summaryStore)
 
 loadData()
 
@@ -435,7 +435,9 @@ async function saveData() {
     accesories: accesories.value,
     percent_elements_margin: marginA.value,
     percent_accesories_margin: marginB.value,
-    percent_additional_margin: marginC.value
+    percent_additional_margin: marginC.value,
+    elements_cost: elementsCost.value,
+    accesories_cost: accesoriesCost.value,
 
 
     

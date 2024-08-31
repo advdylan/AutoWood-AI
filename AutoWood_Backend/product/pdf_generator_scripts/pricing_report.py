@@ -105,7 +105,6 @@ def generate_report(output_dir, raport_name, id):
     )
     doc.addPageTemplates([template])
 
-    
 
     elements = []
 
@@ -117,14 +116,20 @@ def generate_report(output_dir, raport_name, id):
     Setting page template below
     Tables with respected headers and data
     """
+    elements.append(Spacer(1,5))
     worktimes_header = table_header("Koszty pracy")
     elements.append(worktimes_header)
     elements.append(worktimes_table)
 
-    
     elements_header = table_header("Lista elementów")
     elements.append(elements_header)
     elements.append(elements_table)
+
+    accesories_header = table_header("Akcesoria")
+    elements.append(accesories_header)
+    elements.append(accesories_table)
+
+
     
     
     

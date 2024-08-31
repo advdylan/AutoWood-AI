@@ -8,6 +8,8 @@ export const useSummaryStore = defineStore('summary', {
       accesoriesMargin: 0,
       additionalMargin: 0,
       summaryCostsWithMargin: 0,
+      elementsCost: 0,
+      accesoriesCost: 0
     }),
     actions: {
       setSummaryCosts(value) {
@@ -23,9 +25,15 @@ export const useSummaryStore = defineStore('summary', {
         this.additionalMargin = value
       },
       calculateSummaryCostsWithMargin(value) {
-        this.summaryCostsWithMargin = value
-        
+        this.summaryCostsWithMargin = value      
       },
+      setElementsCost(value) {
+        this.elementsCost = value
+      },
+      setAccesoriesCost(value) {
+        this.accesoriesCost = value
+      }
+
     },
   })
 

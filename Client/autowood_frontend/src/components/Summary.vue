@@ -182,6 +182,7 @@
   
 
   const {elements, wood, pricedElements, accesoriesStore, worktimeCost, marginA, marginB, marginC} = storeToRefs(store)
+  const { accesoriesCost, elementsCost } = storeToRefs(summaryStore)
 
   watch(
   () => props.propElements,
@@ -274,6 +275,8 @@ summaryStore.setElementsMargin(elementsMargin.value)
 summaryStore.setAccesoriesMargin(accesoriesMargin.value)
 summaryStore.setAdditionalMargin(additionalMargin.value)
 summaryStore.calculateSummaryCostsWithMargin(summaryCostsWithMargin.value)
+summaryStore.setElementsCost(summElementCosts.value)
+summaryStore.setAccesoriesCost(summAccesoriesCosts.value)
 })
 
 
