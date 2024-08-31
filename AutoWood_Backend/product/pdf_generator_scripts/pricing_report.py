@@ -6,7 +6,7 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(
 
 from product.pdf_generator_scripts.pdf_generator import get_data, header, header_info, footer, generate_elemental_table, generate_accesories_table, generate_worktimes_table, X, Y
 from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
-from reportlab.lib.enums import TA_LEFT
+from reportlab.lib.enums import TA_LEFT, TA_CENTER, TA_JUSTIFY, TA_RIGHT
 from reportlab.platypus import SimpleDocTemplate, PageTemplate, Frame, Table, Spacer, Paragraph
 from reportlab.pdfgen import canvas
 from reportlab.pdfbase import pdfmetrics
@@ -15,6 +15,8 @@ from reportlab.lib.pagesizes import A4
 import os
 import requests
 import reportlab
+
+stylesheet = getSampleStyleSheet()
 
 
 
@@ -58,24 +60,37 @@ def header_and_info(canvas, doc, project_data):
         showBoundary=0, leftPadding=6, bottomPadding=6,
         rightPadding=6, topPadding=13
     )
+
     header_frame.addFromList([header_paragraph], canvas)
+
+
+def table_header(table_name="Table"):
+    custom_style = ParagraphStyle(
+        'CustomStyle',
+        parent=stylesheet['Normal'],
+        fontName='RobotoCondensed-Regular',
+        fontSize=14, 
+        leading=14,
+        alignment=TA_CENTER,
+        spaceAfter=10,
+        spaceBefore=10
+    )
+
+    table_name = table_name
+
+    table_header = Paragraph(table_name,custom_style, bulletText=None)
+
+    return table_header
 
 
 def generate_report(output_dir, raport_name, id):
 
-    
     project_data = get_data(id)   
     file_path = os.path.join(output_dir, raport_name)
   
     if not os.path.exists(output_dir):
         os.makedirs(output_dir)
     
- 
-    #footer(c)
-    #header(c, project_data)  
-    #header_info(c)
-    
-
     doc = SimpleDocTemplate(file_path, pagesize=(X, Y))
 
     usable_width = X
@@ -90,18 +105,28 @@ def generate_report(output_dir, raport_name, id):
     )
     doc.addPageTemplates([template])
 
+    
+
     elements = []
 
     worktimes_table  = generate_worktimes_table(doc, project_data)
     elements_table = generate_elemental_table(doc,project_data)
     accesories_table = generate_accesories_table(doc, project_data)
 
+    """
+    Setting page template below
+    Tables with respected headers and data
+    """
+    worktimes_header = table_header("Koszty pracy")
+    elements.append(worktimes_header)
     elements.append(worktimes_table)
-    elements.append(Spacer(1,10))
+
+    
+    elements_header = table_header("Lista elementów")
+    elements.append(elements_header)
     elements.append(elements_table)
-    elements.append(Spacer(1,10))
-    elements.append(accesories_table)
-    elements.append(Spacer(1,10))
+    
+    
     
 
     doc.build(elements)

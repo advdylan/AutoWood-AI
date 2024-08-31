@@ -1,7 +1,7 @@
 from reportlab.pdfgen import canvas
 from reportlab.pdfbase import pdfmetrics
 from reportlab.lib import colors
-from reportlab.lib.enums import TA_LEFT
+from reportlab.lib.enums import TA_LEFT, TA_CENTER
 from reportlab.lib.styles import ParagraphStyle, getSampleStyleSheet
 from reportlab.rl_config import defaultPageSize
 from reportlab.platypus import Paragraph, Frame, SimpleDocTemplate, Spacer, Table, TableStyle
@@ -105,11 +105,15 @@ def header_info(c):
 
 def generate_elemental_table(c, project_data, offset=0):
     #elemental table setup for displaying the New Project elements
+
+    stylesheet = getSampleStyleSheet()
+
+    
+   
     
 
     elements_data = project_data["elements"]
-    stylesheet = getSampleStyleSheet()
-    
+  
     headers = ['Nazwa', "Długość", 'Szerokość', 'Grubość', 'Ilość', 'Drewno']
     
     data = []
@@ -149,33 +153,16 @@ def generate_elemental_table(c, project_data, offset=0):
     ('FONTSIZE', (0, 0), (-1, 0), 12),  # Font size for the header
     ('FONTSIZE', (0, 1), (-1, -1), 10),  # Font size for the rest of the table
     ]))
+
     
-
-    #calculating the width and height to set the table. Table width and position set accordingly
-
-    row_height = 18
-    rows_number = len(table_data)
-    table_height = rows_number * row_height
-
-    """
-
-    if offset == 0:
-        y_position = Y - 130 - table_height
-    else:
-        y_position = Y - 130 - offset - table_height - 30
-
-    table.wrapOn(c, X, Y)  # Ensure the table wraps correctly within the page
-    table.drawOn(c, (X - table_width) / 2, y_position)  # Adjust x and y positions as necessary
-    """
-
+    
     return table
 
 def generate_worktimes_table(c, project_data):
     #elemental table setup for displaying the New Project elements
 
     worktimes_data = project_data["worktimes"]
-    stylesheet = getSampleStyleSheet()
-   
+
     headers = ['Dział','Ilość pracowników', 'Czas pracy', 'Koszty pracy', 'Suma']
     
     data = []
@@ -194,15 +181,12 @@ def generate_worktimes_table(c, project_data):
         data.append(row)
 
     table_data = [headers] + data
-    col_widths = [100, 100, 80, 80, 70]
+    col_widths = [150, 100, 80, 80, 70]
 
     table_width = 0
     for column, x in enumerate(col_widths):      
         table_width += x
 
-
-
-   
     table = Table(table_data, colWidths=col_widths)
     table.setStyle(TableStyle([
     ('BACKGROUND', (0, 0), (-1, 0), colors.grey),  # Header background color
@@ -217,24 +201,11 @@ def generate_worktimes_table(c, project_data):
     ('FONTSIZE', (0, 1), (-1, -1), 10),  # Font size for the rest of the table
     ]))
     
-
-    #calculating the width and height to set the table. Table width and position set accordingly
-    row_height = 18
-    rows_number = len(table_data)
-    table_height = rows_number * row_height
-    y_position = Y - 130 - table_height
-
-    #table.wrapOn(c, X, Y)  # Ensure the table wraps correctly within the page
-    #table.drawOn(c, (X - table_width) / 2, y_position)  # Adjust x and y positions as necessary
-
-    #c.setFont("RobotoCondensed-Regular", 16)
-    #c.line(0, y_position - 15, 595.27, y_position - 15)  
-    #c.drawCentredString(X/2, Y - 115 + 10, f"Koszty pracy")
-
     return table
 
 
 def generate_accesories_table(c, project_data, offset=0):
+
     #elemental table setup for displaying the New Project elements
 
     accesories_data = project_data["accessories"]
@@ -279,23 +250,6 @@ def generate_accesories_table(c, project_data, offset=0):
     ('FONTSIZE', (0, 1), (-1, -1), 10),  # Font size for the rest of the table
     ]))
     
-
-    #calculating the width and height to set the table. Table width and position set accordingly
-    row_height = 18
-    rows_number = len(table_data)
-    table_height = rows_number * row_height
-
-    """
-
-    if offset == 0:
-        y_position = Y - 115 - table_height
-    else:
-        y_position = Y - 125 - offset - table_height - 30 - 30
-
-    table.wrapOn(c, X, Y)  # Ensure the table wraps correctly within the page
-    table.drawOn(c, (X - table_width) / 2, y_position)  # Adjust x and y positions as necessary
-    """
-
     return table
 
 def main():
