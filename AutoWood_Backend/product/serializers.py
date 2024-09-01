@@ -122,5 +122,7 @@ class NewProjectSerializer(serializers.ModelSerializer):
             'summary_without_margin',
             'percent_elements_margin',
             'percent_accesories_margin',
-            'percent_additional_margin'
+            'percent_additional_margin',
+            'elements_cost',
+            'accesories_cost'
         ]

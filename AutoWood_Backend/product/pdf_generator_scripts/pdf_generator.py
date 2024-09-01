@@ -173,6 +173,10 @@ def generate_worktimes_table(c, project_data):
 
         data.append(row)
 
+    #calculating the summary cost of worktimes
+
+    print(data)
+
     table_data = [headers] + data
     col_widths = [150, 100, 80, 80, 70]
 
@@ -244,6 +248,28 @@ def generate_accesories_table(c, project_data, offset=0):
     ]))
     
     return table
+
+
+def generate_summary_table(c, project_data):
+
+    for item in project_data:
+        elements_cost = item["elements_cost"]
+        accesories_cost = item["accesories_cost"]
+        elements_margin = item["elements_margin"]
+        accesories_margin = item["accesories_margin"]
+        additional_margin = item["additional_margin"]
+        summary_with_margin = item["summary_with_margin"]
+        summary_without_margin = item["summary_without_margin"]    
+    return 0
+
+
+def calculate_costs(project_data):
+
+
+
+
+    return 0
+
 
 def main():
 
