@@ -429,7 +429,7 @@ async function saveData() {
     accesories_margin: parseFloat(accesoriesMargin.value.toFixed(2)),
     additional_margin: parseFloat(additionalMargin.value.toFixed(2)),
     summary_with_margin: parseFloat(summaryCostsWithMargin.value.toFixed(2)),
-    summary_without_margin: parseFloat(summaryCosts.value.toFixed(2)),
+    summary_without_margin: parseFloat(Number(summaryCosts.value).toFixed(2)),
     elements: elements.value,
     worktime: boxes.value,
     accesories: accesories.value,
