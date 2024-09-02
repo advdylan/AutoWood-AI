@@ -4,7 +4,7 @@ import os
 # Add the project root directory to the sys.path
 sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
 
-from product.pdf_generator_scripts.pdf_generator import get_data, header, header_info, footer, generate_elemental_table, generate_accesories_table, generate_worktimes_table, X, Y
+from product.pdf_generator_scripts.pdf_generator import *
 from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
 from reportlab.lib.enums import TA_LEFT, TA_CENTER, TA_JUSTIFY, TA_RIGHT
 from reportlab.platypus import SimpleDocTemplate, PageTemplate, Frame, Table, Spacer, Paragraph
@@ -111,6 +111,7 @@ def generate_report(output_dir, raport_name, id):
     worktimes_table  = generate_worktimes_table(doc, project_data)
     elements_table = generate_elemental_table(doc,project_data)
     accesories_table = generate_accesories_table(doc, project_data)
+    summary_table = generate_summary_table(project_data)
 
     """
     Setting page template below
@@ -129,10 +130,10 @@ def generate_report(output_dir, raport_name, id):
     elements.append(accesories_header)
     elements.append(accesories_table)
 
+    summary_header = table_header("Podsumiwanie")
+    elements.append(summary_header)
+    elements.append(summary_table)
 
-    
-    
-    
 
     doc.build(elements)
     

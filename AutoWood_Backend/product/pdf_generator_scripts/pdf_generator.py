@@ -175,8 +175,7 @@ def generate_worktimes_table(c, project_data):
 
     #calculating the summary cost of worktimes
 
-    print(data)
-
+    
     table_data = [headers] + data
     col_widths = [150, 100, 80, 80, 70]
 
@@ -250,26 +249,60 @@ def generate_accesories_table(c, project_data, offset=0):
     return table
 
 
-def generate_summary_table(c, project_data):
+def generate_summary_table(project_data):
 
-    for item in project_data:
-        elements_cost = item["elements_cost"]
-        accesories_cost = item["accesories_cost"]
-        elements_margin = item["elements_margin"]
-        accesories_margin = item["accesories_margin"]
-        additional_margin = item["additional_margin"]
-        summary_with_margin = item["summary_with_margin"]
-        summary_without_margin = item["summary_without_margin"]    
-    return 0
+    costs = calculate_costs(project_data)
+
+    headers = ['Przedmiot','Cena']
+    table_data = [headers] + costs
+    col_widths = [200,60]
+
+    table = Table(table_data, colWidths=col_widths)
+    table.setStyle(TableStyle([
+    ('BACKGROUND', (0, 0), (-1, 0), colors.grey),  # Header background color
+    ('TEXTCOLOR', (0, 0), (-1, 0), colors.whitesmoke),  # Header text color
+    ('ALIGN', (0, 0), (-1, -1), 'CENTER'),  # Center align all cells
+    ('FONTNAME', (0, 0), (-1, 0), 'RobotoCondensed-Regular'),  # Header font
+    ('FONTNAME', (0, 1), (-1, -1), 'RobotoCondensed-Regular'),
+    ('BOTTOMPADDING', (0, 0), (-1, 0), 12),  # Header padding
+    ('BACKGROUND', (0, 1), (-1, -1), colors.white),  # Cell background color
+    ('GRID', (0, 0), (-1, -1), 1, colors.black),  # Table grid
+    ('FONTSIZE', (0, 0), (-1, 0), 12),  # Font size for the header
+    ('FONTSIZE', (0, 1), (-1, -1), 10),  # Font size for the rest of the table
+    ]))
+    
+    return table
+
 
 
 def calculate_costs(project_data):
 
 
+    elements_cost = project_data["elements_cost"]
+    accesories_cost = project_data["accesories_cost"]
+    elements_margin = project_data["elements_margin"]
+    accesories_margin = project_data["accesories_margin"]
+    additional_margin = project_data["additional_margin"]
+    summary_with_margin = project_data["summary_with_margin"]
 
+    costs = [
+        {'Nazwa': 'Koszty elementów', 'value': elements_cost},
+        {'Nazwa': 'Marża elementów', 'value': elements_margin},
+        {'Nazwa': 'Koszty akcesoriów', 'value': accesories_cost},
+        {'Nazwa': 'Marża akcesoriów', 'value': accesories_margin},
+        {'Nazwa': 'Marża dodatkowa', 'value': additional_margin},
+        {'Nazwa': 'Suma', 'value': summary_with_margin},
+    ]
 
-    return 0
+    table_data = []
 
+    for cost in costs:
+        name = cost["Nazwa"]
+        value = cost["value"]
+
+        row = [name, value]
+        table_data.append(row)
+    return table_data
 
 def main():
 

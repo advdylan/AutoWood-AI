@@ -303,14 +303,25 @@ def generate_elements_production(request, pk):
     buffer = BytesIO()
     output_dir = f"/home/dylan/AutoWood/AutoWood_Backend/product/pdf_generator_scripts/reports/{id}"
     raport_name = f"rozpiska_produkcja_{id}.pdf"
-    generate_elements_productionpdf(output_dir, raport_name, id)
 
-    with open(f"{output_dir}/{raport_name}", "rb") as file:
-        buffer.write(file.read())
+    try:
+        generate_elements_productionpdf(output_dir, raport_name, id)
 
-    buffer.seek(0)
+        with open(f"{output_dir}/{raport_name}", "rb") as file:
+            buffer.write(file.read())
 
-    return FileResponse(buffer, as_attachment=True, filename=raport_name)
+        buffer.seek(0)
+
+        return FileResponse(buffer, as_attachment=True, filename=raport_name)
+    
+    except FileNotFoundError as e:
+        return JsonResponse({'error': 'Report file not found'}, status=status.HTTP_404_NOT_FOUND)
+    except RuntimeError as e:
+        return JsonResponse({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+    except Exception as e:
+        return JsonResponse({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+    
+    
 
 @api_view(['GET'])
 def generate_pricing__report(request, pk):
@@ -336,12 +347,9 @@ def generate_pricing__report(request, pk):
     except RuntimeError as e:
         return JsonResponse({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
     except Exception as e:
-        return JsonResponse({'error': 'An unexpected error occurred??????'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        return JsonResponse({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
-    
-    
- 
 def get_or_create_model_instance(model, name):
     instance, created = model.objects.get_or_create(name=name)
     return instance
