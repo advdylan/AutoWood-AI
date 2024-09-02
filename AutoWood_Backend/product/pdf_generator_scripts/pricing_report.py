@@ -130,7 +130,7 @@ def generate_report(output_dir, raport_name, id):
     elements.append(accesories_header)
     elements.append(accesories_table)
 
-    summary_header = table_header("Podsumiwanie")
+    summary_header = table_header("Podsumowanie")
     elements.append(summary_header)
     elements.append(summary_table)
 
