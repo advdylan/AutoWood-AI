@@ -133,6 +133,30 @@ export const useProjectsListStore = defineStore('projectslist', {
                 console.log("There was an error downloading the file", error)
             }) 
         },
+        async downloadPriceReport(id) {
+            axios({
+                url: `/api/v1/newproject/pricing-report/${id}`,
+                method: 'GET',
+                responseType: 'blob',
+            })
+            .then((response) => {
+                console.log(response)
+                const href = URL.createObjectURL(response.data)
+
+                const link = document.createElement('a')
+                link.href = href
+                link.setAttribute('download', `raport_wycena_${id}.pdf`)
+                document.body.appendChild(link)
+                link.click()
+
+                document.body.removeChild(link)
+                URL.revokeObjectURL(href)
+                
+            })
+            .catch(error => {
+                console.log("There was an error downloading the file", error)
+            }) 
+        },
 
         addElement(element) {
             this.detail_project.elements.push({

@@ -74,22 +74,18 @@
 
                   <b-button @click="submitUpdateForm" type="is-success" >
                     <i class="fa-solid fa-floppy-disk"></i>
-                    Zapisz zmiany
+                    Zapisz
                   </b-button>
 
                   <b-button type="is-danger" >
                     <i class="fa-solid fa-trash"></i>
-                    Usuń projekt
+                    Usuń wycenę
                   </b-button>
-                  <b-button class="button is-info"><i class="fa-regular fa-file">&nbsp;</i>Raport dla klienta</b-button>
-                  <b-button @click="downloadElementsTable(id)"  class="button is-info"><i class="fa-regular fa-file">&nbsp;</i>Wygeneruj rozpiskę</b-button>
+                  <b-button @click="downloadPriceReport(id)" class="button is-info"><i class="fa-regular fa-file">&nbsp;</i>Pobierz podsumowanie</b-button>
+                  <b-button @click="downloadElementsTable(id)"  class="button is-info"><i class="fa-regular fa-file">&nbsp;</i>Pobierz rozpiskę</b-button>
                   <button @click="showEditModal = true" data-target="newelement-modal" class="button is-dark"><i class="fa-regular fa-pen-to-square">&nbsp;</i>Edytuj marżę i koszty pracy</button>
-
-                  
-
                   </div>   
-            </div>
-            
+            </div>           
           </div>
         </div>
         
@@ -294,9 +290,7 @@
             :propElements="detail_project.elements"
             :propAccesories="detail_project.accessories"
             :propWorktimecosts="detail_project.worktimes" >
-
-            
-                      
+  
             </Summary>
           </section>
           
@@ -320,6 +314,7 @@
   <script setup>
   import { useNewProjectStoreBeta } from '@/store/newproject'
   import { useProjectsListStore } from '@/store/projectslist'
+  import { useSummaryStore } from '@/store/summary'
   import { storeToRefs } from 'pinia'
   import { ref, watchEffect, onUnmounted } from 'vue'
   import { useRoute } from 'vue-router'
@@ -353,9 +348,11 @@
   
   const ProjectsListStore = useProjectsListStore()
   const elementStore = useNewProjectStoreBeta()
+  const summaryStore = useSummaryStore()
 
 
-  const { loadDetailProject, updateProject, addElement, downloadElementsTable} = ProjectsListStore
+  const { loadDetailProject, updateProject, addElement, downloadElementsTable, downloadPriceReport} = ProjectsListStore
+  const {elementsCost, accesoriesCost} = storeToRefs(summaryStore)
 
   const {loadData, $reset } = elementStore
   loadData()
@@ -408,7 +405,9 @@ const submitForm = () => {
           accessories: detail_project.value.accessories,
           percent_elements_margin: parseInt(marginA.value),
           percent_accesories_margin: parseInt(marginB.value),
-          percent_additional_margin: parseInt(marginC.value)
+          percent_additional_margin: parseInt(marginC.value),
+          elements_cost: elementsCost.value,
+          accesories_cost: accesoriesCost.value,
           
   }
 
