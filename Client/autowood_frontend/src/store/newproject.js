@@ -17,9 +17,6 @@ export const useNewProjectStoreBeta = defineStore('newproject', {
     marginB: 0,
     marginC: 0,
 
-    
-
-
   }),
 
   getters: {

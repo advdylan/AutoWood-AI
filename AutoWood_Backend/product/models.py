@@ -115,6 +115,7 @@ class NewProject(models.Model):
     new_elements = models.ManyToManyField(Element, through='NewProjectElement',blank=True)
     wood = models.ForeignKey(Wood, on_delete=models.CASCADE)
     collection = models.ForeignKey(Collection, on_delete=models.CASCADE)
+    worktime_cost = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
     elements_cost = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
     elements_margin = models.DecimalField(max_digits=10,decimal_places=2, blank=True, null=True)
     accesories_cost = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)

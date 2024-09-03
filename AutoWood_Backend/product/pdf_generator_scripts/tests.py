@@ -9,7 +9,7 @@ from product.pdf_generator_scripts.elements_production import generate_elements_
 from product.pdf_generator_scripts.pricing_report import generate_report
 from io import BytesIO
 
-id = 58
+id = 61
 buffer = BytesIO()
 
 output_dir = f"/home/dylan/AutoWood/AutoWood_Backend/product/pdf_generator_scripts/reports/{id}"

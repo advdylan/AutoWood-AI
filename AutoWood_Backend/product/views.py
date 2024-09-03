@@ -134,6 +134,7 @@ class NewProjectDetailAPIView(
         new_project.summary_without_margin = summary_without_margin
         new_project.elements_cost = data["elements_cost"]
         new_project.accesories_cost = data["accesories_cost"]
+        new_project.worktime_cost = data["worktime_cost"]
 
         elements_data = data["elements"]
 
@@ -231,7 +232,8 @@ def save_data(request):
                 percent_accesories_margin=data["percent_accesories_margin"],
                 percent_additional_margin=data["percent_additional_margin"],
                 elements_cost = data["elements_cost"],
-                accesories_cost = data["accesories_cost"]
+                accesories_cost = data["accesories_cost"],
+                worktime_cost = data["worktime_cost"]
             )
             
             # Handle elements

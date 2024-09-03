@@ -273,17 +273,23 @@ def generate_summary_table(project_data):
 
 def calculate_costs(project_data):
 
+    print(project_data)
+
+    
+
 
     elements_cost = project_data["elements_cost"]
     accesories_cost = project_data["accesories_cost"]
+    worktime_cost = project_data["worktime_cost"]
     elements_margin = project_data["elements_margin"]
     accesories_margin = project_data["accesories_margin"]
     additional_margin = project_data["additional_margin"]
     summary_with_margin = project_data["summary_with_margin"]
 
+
     costs = [
         {'Nazwa': 'Koszty elementów', 'value': elements_cost},
-        #{'Nazwa': 'Marża elementów', 'value': elements_margin},
+        {'Nazwa': 'Koszty pracy', 'value': worktime_cost},
         {'Nazwa': 'Koszty akcesoriów', 'value': accesories_cost},
         #{'Nazwa': 'Marża akcesoriów', 'value': accesories_margin},
         #{'Nazwa': 'Marża dodatkowa', 'value': additional_margin},
