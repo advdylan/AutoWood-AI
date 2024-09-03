@@ -151,6 +151,11 @@ class ProjectWorktime(models.Model):
     worktime = models.ForeignKey(Worktimetype, on_delete=models.CASCADE)
     duration = models.FloatField(default=0)
     workers = models.IntegerField(blank=True, null=True)
+    cost = models.DecimalField(max_digits=10, decimal_places=2, default=10)
+
+    def save(self, *args, **kwargs):
+        self.cost = self.worktime.cost
+        super().save(*args, **kwargs)
     
 
 class AccessoryDetail(models.Model):

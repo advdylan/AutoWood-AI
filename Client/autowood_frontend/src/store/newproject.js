@@ -1,7 +1,6 @@
 import {defineStore} from 'pinia'
 import axios from 'axios'
 
-
 export const useNewProjectStoreBeta = defineStore('newproject', {
   state: () => ({
 
@@ -89,7 +88,7 @@ export const useNewProjectStoreBeta = defineStore('newproject', {
     setBoxesViaProps(props) {     
       this.boxes = props.map(item => {
         return { text: item.worktime.name,
-            value: item.worktime.cost,
+            value: item.cost,
             checked: false,
             hours: item.duration,
             workers: item.workers

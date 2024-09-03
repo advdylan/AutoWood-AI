@@ -146,8 +146,6 @@ def generate_elemental_table(c, project_data, offset=0):
     ('FONTSIZE', (0, 1), (-1, -1), 10),  # Font size for the rest of the table
     ]))
 
-    
-    
     return table
 
 def generate_worktimes_table(c, project_data):
@@ -273,8 +271,6 @@ def generate_summary_table(project_data):
     
     return table
 
-
-
 def calculate_costs(project_data):
 
 
@@ -287,10 +283,10 @@ def calculate_costs(project_data):
 
     costs = [
         {'Nazwa': 'Koszty elementów', 'value': elements_cost},
-        {'Nazwa': 'Marża elementów', 'value': elements_margin},
+        #{'Nazwa': 'Marża elementów', 'value': elements_margin},
         {'Nazwa': 'Koszty akcesoriów', 'value': accesories_cost},
-        {'Nazwa': 'Marża akcesoriów', 'value': accesories_margin},
-        {'Nazwa': 'Marża dodatkowa', 'value': additional_margin},
+        #{'Nazwa': 'Marża akcesoriów', 'value': accesories_margin},
+        #{'Nazwa': 'Marża dodatkowa', 'value': additional_margin},
         {'Nazwa': 'Suma', 'value': summary_with_margin},
     ]
 
