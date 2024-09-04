@@ -57,9 +57,11 @@
             <a class="navbar-item">
               Materiały
             </a>
-            <a class="navbar-item">
-              Koszty pracy
-          </a>    
+            
+              <router-link to="prices-setup" class="navbar-item">
+                Koszty pracy
+              </router-link>
+
           </div>
           <a class="navbar-item">
             <i class="fa-solid fa-screwdriver-wrench fa-lg"></i>
