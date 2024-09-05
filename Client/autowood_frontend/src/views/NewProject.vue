@@ -245,7 +245,7 @@
 
   </div>
 
-  <div v-bind:class="{'is-active': showAccModal}" id="newelement-modal" class="modal">
+  <div class="modal" v-bind:class="{'is-active': showAccModal}" id="newelement-modal" >
     <div class="modal-background"></div>
     <div class="modal-content">
 
@@ -526,9 +526,9 @@ async function saveData() {
 </script>
 
 <style>
-:root
+
 .modal{
-  --bulma-modal-content-width: 100rem;
+  --bulma-modal-content-width: 70%;
 }
 
 </style>

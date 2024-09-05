@@ -26,7 +26,8 @@
                         </div>
                     </div>
                     <div class="buttons">
-                        <button class="button is-dark"><i class="fa-solid fa-plus">&nbsp;</i>Dodaj dział</button>   
+                        <button @click="toggleSaveWindows = !toggleSaveWindows" class="button is-dark"><i class="fa-solid fa-plus">&nbsp;</i>Zapisz zmiany</button>  
+                        <button @click="toggleAddWorktype = !toggleAddWorktype" class="button is-dark"><i class="fa-solid fa-plus">&nbsp;</i>Dodaj dział</button>   
                         <button @click="toggleDisabled = !toggleDisabled" class="button is-dark"><i class="fa-regular fa-pen-to-square">&nbsp;</i>Edytuj koszty pracy</button>                       
                     </div>
                 </div>
@@ -41,6 +42,66 @@
         </div>
     </div>
 
+    <div v-bind:class="{'is-active': toggleSaveWindows}" class="modal" style="--bulma-modal-content-width: 30%;">
+        <div class="modal-background"></div>
+        <div class="modal-card">
+          <header class="modal-card-head">
+            <p class="modal-card-title">Zatwierdź zmiany</p>
+            <button @click="toggleSaveWindows = !toggleSaveWindows" class="delete" aria-label="close"></button>
+          </header>
+          <section class="modal-card-body has-text-centered">
+            Wprowadziłeś zmiany w kosztach pracy poszczególnych zespołów.
+            <br>
+            Czy chcesz zapisać?* 
+          </section>
+          <footer class="modal-card-foot">
+            <div class="buttons">
+              <button class="button is-success"><i class="fa-regular fa-floppy-disk">&nbsp;</i>Zapisz</button>
+              <button class="button"><i class="fa-solid fa-ban">&nbsp;</i>Anuluj</button>
+              <p class="has-text-left is-size-7">*Wprowadzone zmiany nie zmienią wcześniej zapisanych wycen</p>
+              
+              <p class="has-text-left is-size-7">Tylko nowe wyceny otrzymają wprowadzone wartości</p>
+            </div>
+          </footer>
+        </div>
+      </div>
+
+
+      <div v-bind:class="{'is-active': toggleAddWorktype}" class="modal" style="--bulma-modal-content-width: 30%;">
+        <div class="modal-background"></div>
+        <div class="modal-card">
+          <header class="modal-card-head">
+            <p class="modal-card-title">Dodaj nowy dział</p>
+            <button @click="toggleAddWorktype = !toggleAddWorktype" class="delete" aria-label="close"></button>
+          </header>
+          <section class="modal-card-body has-text-centered">
+
+           <div class="card-content">
+            <div class="columns">
+                <div class="column is-half">
+                    <label class="label">Nazwa działu</label>
+                    <input class="input" type="text" placeholder="Dział" />
+                </div>
+                <div class="column">
+                    <label class="label">Koszt pracy na godzinę</label>
+                    <input class="input" type="text" placeholder="Koszt" />
+                </div>
+            </div>
+        </div>
+            
+          </section>
+          <footer class="modal-card-foot">
+            <div class="buttons">
+              <button class="button is-success"><i class="fa-regular fa-floppy-disk">&nbsp;</i>Zapisz</button>
+              <button class="button"><i class="fa-solid fa-ban">&nbsp;</i>Anuluj</button>
+              <p class="has-text-left is-size-7">*Wprowadzone zmiany nie zmienią wcześniej zapisanych wycen</p>
+              
+              <p class="has-text-left is-size-7">Tylko nowe wyceny otrzymają wprowadzone wartości</p>
+            </div>
+          </footer>
+        </div>
+      </div>
+
 
 
 </template>
@@ -51,6 +112,8 @@ import { storeToRefs } from 'pinia';
 import {ref} from 'vue'
 
 const toggleDisabled = ref(true)
+const toggleSaveWindows = ref(false)
+const toggleAddWorktype = ref(false)
 
 const mainstore = useNewProjectStoreBeta()
 
@@ -59,6 +122,10 @@ const {worktimeCost} = storeToRefs(mainstore)
 
 loadData()
 
-
-
 </script>
+
+<style>
+.modal-prices{
+    --bulma-modal-content-width: 20%;
+  }
+</style>
