@@ -11,24 +11,27 @@
 
 
                         <div class="column is-two-thirds">
-                            <div v-for="worktime_name in worktimeCost" class="field">
+                            <div v-for="worktime_name in worktimetype" class="field">
                                 <div class="control">
-                                    <input  class="input" type="text" :placeholder="worktime_name.text" disabled/>
+                                    <input  class="input" type="text" :placeholder="worktime_name.name" disabled/>
                                 </div>
                             </div>
 
                         </div>
 
                         <div class="column">
-                            <div v-for="worktime_value in worktimeCost" class="field">
-                                <input class="input" type="text" placeholder="bind-to-" :value="worktime_value.value" :disabled="toggleDisabled"/>                                          
+                            <div v-for="worktime_value in worktimetype" class="field">
+                                <input class="input" type="text" placeholder="bind-to-" v-model=worktime_value.cost :disabled="toggleDisabled"/>                                          
                             </div>
                         </div>
                     </div>
                     <div class="buttons">
-                        <button @click="toggleSaveWindows = !toggleSaveWindows" class="button is-dark"><i class="fa-solid fa-plus">&nbsp;</i>Zapisz zmiany</button>  
+                        <button @click="
+                         updateWorktimetypes(worktimetype);                       
+                         "  
+                         class="button is-dark"><i class="fa-regular fa-floppy-disk">&nbsp;</i>Zapisz zmiany</button>  
                         <button @click="toggleAddWorktype = !toggleAddWorktype" class="button is-dark"><i class="fa-solid fa-plus">&nbsp;</i>Dodaj dział</button>   
-                        <button @click="toggleDisabled = !toggleDisabled" class="button is-dark"><i class="fa-regular fa-pen-to-square">&nbsp;</i>Edytuj koszty pracy</button>                       
+                        <button @click="handleEditButton()" class="button is-dark"><i class="fa-regular fa-pen-to-square">&nbsp;</i>Edytuj koszty pracy</button>                       
                     </div>
                 </div>
               </div>
@@ -102,11 +105,17 @@
         </div>
       </div>
 
+      <div class="box" v-for="worktime in worktimetype">
+        {{ worktime.name }}
+        {{ worktime.cost }}
+      </div>
+
 
 
 </template>
 <script setup>
 import { useNewProjectStoreBeta } from '@/store/newproject'
+import { usePricesSetup } from '@/store/pricessetup';
 import axios from 'axios'
 import { storeToRefs } from 'pinia';
 import {ref} from 'vue'
@@ -115,12 +124,33 @@ const toggleDisabled = ref(true)
 const toggleSaveWindows = ref(false)
 const toggleAddWorktype = ref(false)
 
+const temporaryWorktimetypes = ref()
+
+//MAIN STORE
 const mainstore = useNewProjectStoreBeta()
 
 const {loadData} = mainstore
-const {worktimeCost} = storeToRefs(mainstore)
+const {worktimeCost, worktimetype} = storeToRefs(mainstore)
+
+//PRICE SETUP STORE
+const pricesstore = usePricesSetup()
+
+const {updateWorktimetypes} = pricesstore
+const {newWorktimeCost} = storeToRefs(pricesstore)
 
 loadData()
+
+function handleEditButton() {
+  if (toggleDisabled.value === false) {
+    toggleDisabled.value = true
+    console.log("pt1")
+  }
+  else {
+    toggleDisabled.value = false
+    loadData()
+    console.log("pt2")
+  }
+}
 
 </script>
 
