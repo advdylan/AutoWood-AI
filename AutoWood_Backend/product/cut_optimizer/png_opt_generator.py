@@ -28,19 +28,19 @@ def generate_board(output_dir, optc_name,X,Y):
 
     project_data = get_data(id)
     formats = convert_elements(project_data)
+    
 
     i = 0
     j = 0
     start_position_x = 0
     start_position_y = 0
-    
-    #for format in formats:
-        
 
+    print(formats)
+    for format in formats:
+        print(f"X: {format[i]}, Y: {format[i+1]}")
 
-
-    
-
+        generate_rectangle(start_position_x, start_position_y,format[i], format[i+1])
+       
     plt.axis([0,X,0,Y])
     plt.savefig(file_path, format='png')
 
@@ -57,15 +57,14 @@ def convert_elements(project_data):
         thickness = element['element']['dimZ']
         quantity = element['quantity']
 
-        row = [length,width,thickness,quantity]
+        row = [length,width,thickness]
 
-        formats.append(row)
+        for _ in range(int(quantity)):
+            formats.append(row)
 
     return formats
 
    
-
-    
 def generate_rectangle(start_position_x, start_position_y, width, height):
   
     rect = patches.Rectangle(xy=(start_position_x,start_position_y), width=width, height=height)
