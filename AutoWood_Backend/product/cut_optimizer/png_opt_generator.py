@@ -4,13 +4,15 @@ import sys
 sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
 
 from product.pdf_generator_scripts.pdf_generator import get_data
+from or_tools_optimizer import pack_pieces_on_board
 import matplotlib.pyplot as plt
 import matplotlib.patches as patches
+from ortools.linear_solver import pywraplp
 import numpy as np
 
 
-X = 3000
-Y = 600
+X = 8000
+Y = 2000
 SAW = 3.2
 
 id = 60
@@ -40,8 +42,9 @@ def generate_board(output_dir, optc_name,X,Y):
     start_position_x = 0
     start_position_y = 0
     
-
-    calculate_rows(formats)
+    #print(formats)
+    pack_pieces_on_board(pieces=formats, board_length=X, board_width=Y, saw_thickness=SAW)
+    
 
     for format in formats:
         #print(f"X: {format[i]}, Y: {format[i+1]}")
@@ -60,10 +63,10 @@ def convert_elements(project_data):
     for element in elements:
         length = element['element']['dimX']
         width = element['element']['dimY']
-        thickness = element['element']['dimZ']
+        #thickness = element['element']['dimZ'] wyłączyłęś chwilowo grubośći
         quantity = element['quantity']
 
-        row = [length,width,thickness]
+        row = [length,width]
 
         for _ in range(int(quantity)):
             formats.append(row)
@@ -80,13 +83,25 @@ def generate_rectangle(start_position_x, start_position_y, width, height, ax):
 def calculate_rows(formats):
     i=0
     j=0
+    lengths = []
+    heigths = []
+    free_x = 0
+    free_y = 0
     for format in formats:
-        print(f"Format numer {j}")
-        
-        print(f"X: {format[i]}, Y: {format[i+1]}")
-
-
+        #print(f"Format numer {j}")       
+        #print(f"X: {format[i]}, Y: {format[i+1]}")
+        lengths.append(format[i])
+        heigths.append(format[i+1])
         j+=1
+
+    lengths.sort()
+    heigths.sort()
+    
+
+
+
+
+        
 
     
 generate_board(output_dir, optc_name, X, Y)
