@@ -9,10 +9,11 @@ import matplotlib.patches as patches
 import numpy as np
 
 
-X = 2000
+X = 3000
 Y = 600
+SAW = 3.2
 
-id = 61
+id = 60
 
 output_dir = f"/home/dylan/AutoWood/AutoWood_Backend/product/cut_optimizer/optimized_cuts/{id}"
 optc_name = f"optc_{id}.png"
@@ -28,20 +29,25 @@ def generate_board(output_dir, optc_name,X,Y):
 
     project_data = get_data(id)
     formats = convert_elements(project_data)
+
+    fig, ax = plt.subplots()
+    ax.set_xlim(0, X)
+    ax.set_ylim(0, Y)
     
 
     i = 0
     j = 0
     start_position_x = 0
     start_position_y = 0
+    
 
-    print(formats)
+    calculate_rows(formats)
+
     for format in formats:
-        print(f"X: {format[i]}, Y: {format[i+1]}")
+        #print(f"X: {format[i]}, Y: {format[i+1]}")
 
-        generate_rectangle(start_position_x, start_position_y,format[i], format[i+1])
+        generate_rectangle(start_position_x, start_position_y,format[i], format[i+1], ax)
        
-    plt.axis([0,X,0,Y])
     plt.savefig(file_path, format='png')
 
 
@@ -65,11 +71,24 @@ def convert_elements(project_data):
     return formats
 
    
-def generate_rectangle(start_position_x, start_position_y, width, height):
+def generate_rectangle(start_position_x, start_position_y, width, height, ax):
   
-    rect = patches.Rectangle(xy=(start_position_x,start_position_y), width=width, height=height)
+    rect = patches.Rectangle(xy=(start_position_x,start_position_y), width=width, height=height, edgecolor='#bed4d4', facecolor='#d3e2dc', antialiased=True, linewidth=None)
+    ax.add_patch(rect)
 
 
+def calculate_rows(formats):
+    i=0
+    j=0
+    for format in formats:
+        print(f"Format numer {j}")
+        
+        print(f"X: {format[i]}, Y: {format[i+1]}")
+
+
+        j+=1
+
+    
 generate_board(output_dir, optc_name, X, Y)
 
 
