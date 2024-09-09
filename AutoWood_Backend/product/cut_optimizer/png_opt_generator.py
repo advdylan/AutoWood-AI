@@ -4,7 +4,7 @@ import sys
 sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
 
 from product.pdf_generator_scripts.pdf_generator import get_data
-from or_tools_optimizer import pack_pieces_on_board
+from or_tools_mbo import pack_pieces_on_boards
 import matplotlib.pyplot as plt
 import matplotlib.patches as patches
 from ortools.linear_solver import pywraplp
@@ -41,10 +41,11 @@ def generate_board(output_dir, optc_name,X,Y):
     j = 0
     start_position_x = 0
     start_position_y = 0
+
+    define_starting_position(formats)
+
     
-    #print(formats)
-    pack_pieces_on_board(pieces=formats, board_length=X, board_width=Y, saw_thickness=SAW)
-    
+      
 
     for format in formats:
         #print(f"X: {format[i]}, Y: {format[i+1]}")
@@ -84,26 +85,57 @@ def calculate_rows(formats):
     i=0
     j=0
     lengths = []
-    heigths = []
+    heights = []
+    rows = []
     free_x = 0
     free_y = 0
     for format in formats:
         #print(f"Format numer {j}")       
         #print(f"X: {format[i]}, Y: {format[i+1]}")
         lengths.append(format[i])
-        heigths.append(format[i+1])
+        heights.append(format[i+1])
         j+=1
 
     lengths.sort()
-    heigths.sort()
+    heights.sort(reverse=True)
+    return lengths,heights
+ 
+def create_virtual_row(height, X, Y):
+    board = (X, height)
+    return board
+
+def control_board_capacity(format, board):
+    
+    capacity_left = tuple(x - y for x,y in zip(board, format))
+    positive = all(num > 0 for num in capacity_left)
+    if positive:
+        print("Wchodzi idelnie mój Panie")
+        return capacity_left
+    else:
+        print("Masz za dużego Panie")
+
+
+
+
+
+def define_starting_position(formats):
+
+    lengths, rows = calculate_rows(formats)
+    print(rows)
+    virtual_row = create_virtual_row(rows[0],X, Y)
+    print(virtual_row)
+    
+    i=0
+    for format in formats:
+        print(f"X: {format[i]}, Y: {format[i+1]}")
+
+
     
 
-
-
-
+    
         
 
-    
+  
 generate_board(output_dir, optc_name, X, Y)
 
 
