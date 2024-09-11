@@ -139,21 +139,21 @@ def define_starting_position(formats, ax):
     print(f"Virtual row:{virtual_row}")
     virtual_rows = []
     virtual_rows.append(virtual_row)
+    print(type(formats))
+    print(formats)
     
     i=0
     j=0
     start_position_x = 0  # Starting point for x
     start_position_y = 0  # Starting point for y
 
-    for format in formats:
+    while formats:
+        format = formats.pop(0)
+        width = format[0]
+        height = format[1]
 
-        width = format[j]
-        height = format[j + 1]
-        
-        space_left = (0,0)
-   
         capacity_left, free_space = control_board_capacity((width, height), virtual_row)
-        
+
         if free_space:
 
             format[2] = start_position_x
@@ -166,28 +166,27 @@ def define_starting_position(formats, ax):
             virtual_row = capacity_left
 
         else:
-            # If format doesn't fit horizontally, move to the next row
-            start_position_x = 0  # Reset x position to the start of the new row
-            start_position_y += rows[0] + SAW  # Move down to the next row
-            virtual_row = create_virtual_row(height, X, Y - start_position_y)  # New row height
-            print(f"Moving to new row at y = {start_position_y}")
-            
-            # Place format in the new row
-            format[2] = start_position_x
-            format[3] = start_position_y
-            #print(f"Placed format at ({start_position_x}, {start_position_y})")
 
-            generate_rectangle(start_position_x, start_position_y, width, height, ax)
+            start_position_x = 0
+            start_position_y += width + SAW
+            virtual_row = create_virtual_row(rows[i+1], X, start_position_y )
+            print(f"Jak się nie mieści: ")
 
-            # Update the next available position
-            start_position_x += width + SAW
-            virtual_row = control_board_capacity((width, height), virtual_row)[0]  # Update capacity
-            virtual_rows.append(virtual_row)
-            print(f"Virtual row in else: {virtual_row}")
-
-        i += 1
         
-    print(f"first loop end, virtual row: {virtual_rows}")
+
+    print(formats)
+
+
+
+    
+    
+        
+
+        
+        
+        
+        
+    #print(f"first loop end, virtual row: {virtual_rows}")
 
 
 
