@@ -4,15 +4,17 @@ def set_ticks(X,scale):
 
     x = 0
     tick = X / scale
-    print(tick)
-    ticks.append(0)
+ 
 
     while x <= X:
-        ticks.append(tick)
-        x+=tick
-        tick+=tick
+        if len(ticks) == 0:
+            ticks.append(0)
 
-  
+        elif len(ticks) >= 1:
+            ticks.append(x)
+
+        x+=scale
+
     return ticks
 
 

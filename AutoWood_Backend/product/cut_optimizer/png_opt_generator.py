@@ -19,7 +19,7 @@ SAW = 3.2
 X_IN = X / 25.4
 Y_IN = Y / 25.4
 
-id = 60
+id = 59
 
 output_dir = f"/home/dylan/AutoWood/AutoWood_Backend/product/cut_optimizer/optimized_cuts/{id}"
 optc_name = f"optc_{id}.png"
@@ -45,9 +45,10 @@ def generate_board(output_dir, optc_name,X,Y):
     ax.set_xlabel('Długość płyty')
     ax.set_ylabel('Wysokość płyty')
     ax.set_title(f"Rozkrój płyty o wymiarze {X} x {Y}")
-    x_ticks = set_ticks(X, 10)
-    print(x_ticks)
-    
+    x_ticks = set_ticks(X, 130)
+    y_ticks = set_ticks(Y, 100)
+    ax.set_xticks(x_ticks)
+    ax.set_yticks(y_ticks)
 
     i = 0
     j = 0
@@ -136,6 +137,8 @@ def define_starting_position(formats, ax):
     print(f"Rows: {rows}")
     virtual_row = create_virtual_row(rows[0],X, Y)
     print(f"Virtual row:{virtual_row}")
+    virtual_rows = []
+    virtual_rows.append(virtual_row)
     
     i=0
     j=0
@@ -148,13 +151,14 @@ def define_starting_position(formats, ax):
         height = format[j + 1]
         
         space_left = (0,0)
+   
         capacity_left, free_space = control_board_capacity((width, height), virtual_row)
         
         if free_space:
 
             format[2] = start_position_x
             format[3] = start_position_y
-            print(f"Position of format number {i} at: X: {format[2]}, Y: {format[3]}")
+            #print(f"Position of format number {i} at: X: {format[2]}, Y: {format[3]}")
     
             generate_rectangle(start_position_x, start_position_y, format[j], format[j+1], ax)
 
@@ -171,15 +175,19 @@ def define_starting_position(formats, ax):
             # Place format in the new row
             format[2] = start_position_x
             format[3] = start_position_y
-            print(f"Placed format at ({start_position_x}, {start_position_y})")
+            #print(f"Placed format at ({start_position_x}, {start_position_y})")
 
             generate_rectangle(start_position_x, start_position_y, width, height, ax)
 
             # Update the next available position
             start_position_x += width + SAW
             virtual_row = control_board_capacity((width, height), virtual_row)[0]  # Update capacity
+            virtual_rows.append(virtual_row)
+            print(f"Virtual row: {virtual_row}")
 
         i += 1
+        
+    print(virtual_rows)
 
 
 
