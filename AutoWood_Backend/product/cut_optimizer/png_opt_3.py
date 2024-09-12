@@ -136,6 +136,8 @@ def define_starting_position(formats, ax):
     virtual_rows = []  # List to hold all virtual rows
     start_position_y = 0  # Starting Y position for the first row
 
+    print(formats)
+
     while formats:
         format = formats.pop(0)
         width = format[0]
@@ -177,6 +179,12 @@ def define_starting_position(formats, ax):
                 start_position_y += height + SAW
             else:
                 print(f"No space left for piece {width}x{height}!")
+
+        # Re-check earlier rows for remaining space after placing in a new row
+        for row in virtual_rows:
+            remaining_width, row_height, row_start_y = row
+            if remaining_width > 0:
+                print(f"Remaining space in row starting at Y={row_start_y}: {remaining_width} mm")
 
 
 
