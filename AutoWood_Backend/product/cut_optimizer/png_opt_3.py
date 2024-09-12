@@ -133,57 +133,50 @@ def control_board_capacity(format, board):
 
 def define_starting_position(formats, ax):
     board = (X, Y)  # Board dimensions
-    lengths, heights = calculate_rows(formats)
-    
-    virtual_row = create_virtual_row(heights[0], X, Y)  # Virtual row based on the first piece's height
-    virtual_rows = [virtual_row]
-    
-    start_position_x = 0  # Starting X position
-    start_position_y = 0  # Starting Y position
-    current_row_height = heights[0]  # Set initial row height based on the first piece
+    virtual_rows = []  # List to hold all virtual rows
+    start_position_y = 0  # Starting Y position for the first row
 
     while formats:
         format = formats.pop(0)
         width = format[0]
         height = format[1]
 
-        # Check if the piece fits horizontally in the current row
-        if start_position_x + width <= X:
-            # Piece fits in the current row, place it
-            format[2] = start_position_x  # Update format start X position
-            format[3] = start_position_y  # Update format start Y position
+        # Try to place the piece in an existing row
+        placed = False
+        for row in virtual_rows:
+            remaining_width, row_height, row_start_y = row
+            if width <= remaining_width:
+                # The piece fits in this row
+                start_position_x = X - remaining_width  # Calculate the X position
+                format[2] = start_position_x  # Update format start X position
+                format[3] = row_start_y  # Set Y position based on the row's start Y position
+                
+                # Generate the rectangle at the current position
+                generate_rectangle(start_position_x, row_start_y, width, height, ax)
 
-            # Generate the rectangle at the current position
-            generate_rectangle(start_position_x, start_position_y, width, height, ax)
+                # Update the remaining width for the row
+                row[0] -= width + SAW
+                placed = True
+                break  # Exit the loop once the piece is placed
 
-            # Move start_position_x by the width of the placed piece + saw thickness
-            start_position_x += width + SAW
-        else:
-            # Piece doesn't fit in the current row, move to the next row
-            start_position_x = 0  # Reset X position for the new row
-            start_position_y += current_row_height + SAW  # Move Y position down by the height of the current row
-
-            # Update the row height to the new piece's height
-            current_row_height = height
-
-            # Now check if the piece fits in the new row
-            if start_position_x + width <= X:
+        if not placed:
+            # If the piece doesn't fit in any existing row, create a new row
+            if start_position_y + height <= Y:  # Check if we still have vertical space
+                start_position_x = 0  # New row starts at X=0
                 format[2] = start_position_x
                 format[3] = start_position_y
 
+                # Generate the rectangle at the new position
                 generate_rectangle(start_position_x, start_position_y, width, height, ax)
 
-                start_position_x += width + SAW  # Update start_position_x for the next piece in the row
+                # Add a new virtual row with the remaining space
+                new_row = [X - (width + SAW), height, start_position_y]
+                virtual_rows.append(new_row)
+
+                # Update the Y position for the next row
+                start_position_y += height + SAW
             else:
-                # In case the piece itself exceeds the width of the board (an edge case to handle)
-                print(f"Piece {width}x{height} is too large for the board width!")
-                # Handle this situation (either warn or adjust)
-
-
-
-
-        
-    #print(f"first loop end, virtual row: {virtual_rows}")
+                print(f"No space left for piece {width}x{height}!")
 
 
 
