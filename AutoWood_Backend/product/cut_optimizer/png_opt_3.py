@@ -8,7 +8,6 @@ from product.cut_optimizer.helpers import set_ticks
 from or_tools_mbo import pack_pieces_on_boards
 import matplotlib.pyplot as plt
 import matplotlib.patches as patches
-from ortools.linear_solver import pywraplp
 import numpy as np
 
 
