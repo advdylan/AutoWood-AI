@@ -3,7 +3,8 @@ import sys
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
 
-
+from product.pdf_generator_scripts.pdf_generator import get_data
+from product.cut_optimizer.helpers import set_ticks
 import matplotlib.pyplot as plt
 import matplotlib.patches as patches
 import numpy as np
@@ -33,8 +34,11 @@ class VirtualRow:
         self.start_x = x #pozycja startujaca x
         self.start_y = y #pozycja startujaca y
         self.formats = []
+        self.gaps = []
 
 
+    def add_gap(self, start_x, width):
+        self.gaps.append([start_x, width])
 
     def add_format(self, format_width, format_height):
 
@@ -51,9 +55,16 @@ class VirtualRow:
             
             self.formats.append([format_width, format_height, self.start_x])
             generate_rectangle(self.start_x,self.start_y, format_width, format_height, ax)
-            self.start_x = self.X + SAW
+            self.start_x = sum(item[0] for item in self.formats) + (len(self.formats)  * SAW)
             return True
-        return False
+        
+        else:
+            print("Not enough space in that raw. Proceed to next one >>")
+            self.add_gap(self, self.start_x, self.Y)
+            
+
+
+            return False
     
         #this needs to be implemented when there is no free space in row which is: create new vr and place item there
 
@@ -64,54 +75,29 @@ class VirtualRow:
         return "VirtualRow X: %f ,Y: %f, start_x: %f , start_y: %f, formats: %s" %(self.X,self.Y,self.start_x,self.start_y,self.formats)
 
 
-def set_ticks(X,scale):
-    ticks = []
-    x = 0
-    tick = x / scale
-    while x <= X:
-        if len(ticks) == 0:
-            ticks.append(0)
-
-        elif len(ticks) >= 1:
-            ticks.append(x)
-
-        x+=scale
-
-
-    return ticks
-
 
 def generate_board(X,Y):
-
-
-
-    
-
 
     ax.set_xlim(0, X)
     ax.set_ylim(0, Y)
     ax.set_xlabel('X')
     ax.set_ylabel('Y')
     ax.set_title("Rozkroje")
-    x_ticks = set_ticks(X, 100)
+    x_ticks = set_ticks(X, 120)
     y_ticks = set_ticks(Y, 100)
     ax.set_xticks(x_ticks)
     ax.set_yticks(y_ticks)
 
-    vr1 = VirtualRow(3000, 500, 0, 0)
+    project_data = get_data(id)
+    formats = convert_elements(project_data)
+    #
+
+    formats = [[1600, 500], [500, 500]]
+
+    place_elements(formats)
+    #print(formats)
 
     
-    vr1.add_format(1600,500)
-
-    
-    vr1.add_format(500,500)
-    
-
-    print(vr1)
-
-    
-
-
 
     plt.savefig(file_path, format='png', dpi=150)
 
@@ -123,6 +109,7 @@ def convert_elements(project_data):
     elements = project_data["elements"]
 
     formats = []
+
 
     for element in elements:
         length = element['element']['dimX']
@@ -137,8 +124,8 @@ def convert_elements(project_data):
         for _ in range(int(quantity)):
             formats.append(row)
 
+    formats.sort(reverse=True)
     return formats
-
 
 def generate_rectangle(start_position_x, start_position_y, width, height, ax):
 
@@ -151,7 +138,22 @@ def generate_rectangle(start_position_x, start_position_y, width, height, ax):
     #ax.text(text_x, text_y, '{width} x {height}',width,height, ha='center', va='center', fontsize=10, color='black')
 
 
+def place_elements(formats):
 
+    print(formats)
+
+    vrs = []
+    i=0
+
+    
+
+    for format in formats:
+        vr1 = VirtualRow(3000, 500, 0, 0)
+        vr1.add_format(format[0], format[1])
+        print(vr1)
+
+
+    return 0
 
 
 generate_board(X,Y)
