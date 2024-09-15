@@ -158,13 +158,15 @@ def place_elements(formats):
         if placed:
             continue
         else:
+
             new_vr = VirtualRow(X, 500, 0, 0)
             vrs.append(new_vr)
+            
         
 
         
 
-    print(gaps)
+    print(vrs[0])
 
     
 
