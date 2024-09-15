@@ -43,6 +43,7 @@ class VirtualRow:
     def add_format(self, format_width, format_height):
 
         if len(self.formats) == 0:
+
             self.X = self.X - format_width - SAW
             self.start_x = 0 + format_width + SAW
             self.formats.append([format_width,format_height, self.start_x])
@@ -52,8 +53,8 @@ class VirtualRow:
 
 
         elif format_height <= self.Y and format_width <= self.X:
-            self.X = self.X - format_width - SAW
-            
+
+            self.X = self.X - format_width - SAW   
             self.formats.append([format_width, format_height, self.start_x])
             generate_rectangle(self.start_x,self.start_y, format_width, format_height, ax)
             self.start_x = sum(item[0] for item in self.formats) + (len(self.formats)  * SAW)
@@ -67,7 +68,7 @@ class VirtualRow:
 
             return False
     
-        #this needs to be implemented when there is no free space in row which is: create new vr and place item there
+       
 
    
             
@@ -152,21 +153,18 @@ def place_elements(formats):
 
     vr1 = VirtualRow(3000, 500, 0, 0)
 
-    for format in formats:
- 
-        placed = vr1.add_format(format[0], format[1])
-        if placed:
-            continue
-        else:
+    while formats:
+        format = formats.pop(0)
+        width = format[0]
+        height = format[1]
 
-            new_vr = VirtualRow(X, 500, 0, 0)
-            vrs.append(new_vr)
+        placed = vr1.add_format(width, height)
+
+        if not placed:
             
-        
+            
 
-        
-
-    print(vrs[0])
+  
 
     
 
