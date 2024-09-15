@@ -27,56 +27,44 @@ fig, ax = plt.subplots(figsize=(12.8, 7.2))
 
 class VirtualRow:
 
-    def __init__(self, X,Y,x,y):
+    def __init__(self, X, Y, x, y):
+        self.X = X  # Remaining width of the row
+        self.Y = Y  # Height of the row
+        self.start_x = x  # Starting x position
+        self.start_y = y  # Starting y position
+        self.formats = []  # List of formats placed in this row
+       
 
-        self.X = X #rozmiar rzedu X
-        self.Y = Y #rozmiar rzedu Y
-        self.start_x = x #pozycja startujaca x
-        self.start_y = y #pozycja startujaca y
-        self.formats = []
-        self.gaps = []
-
-
-    def add_gap(self,size_x, start_x, width):
+    def add_gap(self, size_x, start_x, width):
         self.gaps.append([size_x, start_x, width])
 
     def add_format(self, format_width, format_height):
-
         if len(self.formats) == 0:
-
-            self.X = self.X - format_width - SAW
-            self.start_x = 0 + format_width + SAW
-            self.formats.append([format_width,format_height, self.start_x])
-            generate_rectangle(0,0, format_width, format_height, ax)
+            # Place the first format
+            self.X -= format_width + SAW
+            self.start_x = format_width + SAW
+            self.formats.append([format_width, format_height, 0, self.start_y])
+            generate_rectangle(0, self.start_y, format_width, format_height, ax)
             return True
-
-
 
         elif format_height <= self.Y and format_width <= self.X:
-
-            self.X = self.X - format_width - SAW   
-            self.formats.append([format_width, format_height, self.start_x])
-            generate_rectangle(self.start_x,self.start_y, format_width, format_height, ax)
-            self.start_x = sum(item[0] for item in self.formats) + (len(self.formats)  * SAW)
+            # There is enough space in the current row
+            self.X -= format_width + SAW
+            generate_rectangle(self.start_x, self.start_y, format_width, format_height, ax)
+            self.formats.append([format_width, format_height, self.start_x, self.start_y])
+            self.start_x += format_width + SAW
             return True
-        
+
         else:
-            print("Not enough space in that raw. Proceed to next one >>")
-            self.add_gap(self.X, self.start_x, self.Y)
+            print("Not enough space in that row. Proceed to next one >>")
             
-
-
             return False
-    
-       
 
-   
-            
-    
     def __str__(self):
-        virtual_row_report = f"VirtualRow X: {self.X} ,Y: {self.Y}, start_x: {self.start_x} , start_y: {self.start_y}, formats: {self.formats}"
-        new_gaps = f"Gaps created: {self.gaps}"
-        return virtual_row_report+new_gaps
+
+        virtual_row_report = f"VirtualRow X: {self.X}, Y: {self.Y}, start_x: {self.start_x}, start_y: {self.start_y}, formats: {self.formats}"
+        
+        return virtual_row_report
 
 
 
@@ -94,9 +82,9 @@ def generate_board(X,Y):
 
     #project_data = get_data(id)
     #formats = convert_elements(project_data)
-    #
+    #print(formats)
 
-    formats = [[1600, 500], [500, 500], [1000,500]]
+    formats = [[1600, 500], [500, 500], [1000,500], [200,500],[200,500],[200,500],[200,500]]
 
     place_elements(formats)
     #print(formats)
@@ -123,7 +111,7 @@ def convert_elements(project_data):
         starting_x = 0
         starting_y = 0
 
-        row = [length, width, starting_x, starting_y]
+        row = [length, width]
 
         for _ in range(int(quantity)):
             formats.append(row)
@@ -132,10 +120,18 @@ def convert_elements(project_data):
     return formats
 
 def generate_rectangle(start_position_x, start_position_y, width, height, ax):
-
-    rect = patches.Rectangle(xy=(start_position_x,start_position_y), width=width, height=height, edgecolor='black', facecolor='#d3e2dc', antialiased=True, linewidth=None)
+    rect = patches.Rectangle(
+        xy=(start_position_x, start_position_y),
+        width=width,
+        height=height,
+        edgecolor='black',
+        facecolor='#d3e2dc',
+        antialiased=True,
+        linewidth=None
+    )
     ax.add_patch(rect)
-    print(f"Placing rectangle in X:{start_position_x},Y:{start_position_y} format size:  X: {width} Y:{height}" )
+    print(f"Placing rectangle in X:{start_position_x}, Y:{start_position_y} format size: X: {width} Y: {height}")
+
 
     #text_x = start_position_x + width / 2
     #text_y = start_position_y + height / 2
@@ -143,33 +139,48 @@ def generate_rectangle(start_position_x, start_position_y, width, height, ax):
 
 
 def place_elements(formats):
-
-    print(formats)
-
-    vrs = []
-    gaps = []
-    placed = False
-    i=0
-
-    vr1 = VirtualRow(3000, 500, 0, 0)
+    vrs = []  # List of all VirtualRows (including gaps)
+    current_y_position = 0  # Keep track of the Y position for each new row
+    current_vr = VirtualRow(3000, 500, 0, current_y_position)  # Initial row
+    vrs.append(current_vr)
 
     while formats:
-        format = formats.pop(0)
-        width = format[0]
-        height = format[1]
+        width, height = formats.pop(0)
+        placed = False
 
-        placed = vr1.add_format(width, height)
+        # Try placing the format in any existing VirtualRow (including gaps)
+        for vr in vrs:
+            placed = vr.add_format(width, height)
+            if placed:
+                break  # Stop if the format fits in any existing row
 
+        # If the format could not be placed in any existing VirtualRow
         if not placed:
+            if current_vr.X > 0:
+                # Save the current row's remaining space as a gap (new VirtualRow)
+                new_gap_vr = VirtualRow(current_vr.X, current_vr.Y, current_vr.start_x, current_vr.start_y)
+                vrs.append(new_gap_vr)
+
+            # Move to the next row (increment the Y position by the current row height)
+            current_y_position += current_vr.Y + SAW
+
+            # Create a new VirtualRow for the next row
+            new_vr = VirtualRow(3000, 500, 0, current_y_position)  # Adjust Y position for new row
+            vrs.append(new_vr)
             
-            
+            # Place the format in the new VirtualRow
+            for vr in vrs:
+                placed = vr.add_format(width, height)
+                if placed:
+                    break  # Stop if the format fits in any existing row
 
-  
+    # Visualization: After all formats are placed
+    for vr in vrs:
+        print(vr)
 
-    
+    return vrs
 
 
-    return 0
 
 
 generate_board(X,Y)
