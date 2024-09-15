@@ -37,8 +37,8 @@ class VirtualRow:
         self.gaps = []
 
 
-    def add_gap(self, start_x, width):
-        self.gaps.append([start_x, width])
+    def add_gap(self,size_x, start_x, width):
+        self.gaps.append([size_x, start_x, width])
 
     def add_format(self, format_width, format_height):
 
@@ -47,6 +47,7 @@ class VirtualRow:
             self.start_x = 0 + format_width + SAW
             self.formats.append([format_width,format_height, self.start_x])
             generate_rectangle(0,0, format_width, format_height, ax)
+            return True
 
 
 
@@ -60,7 +61,7 @@ class VirtualRow:
         
         else:
             print("Not enough space in that raw. Proceed to next one >>")
-            self.add_gap(self, self.start_x, self.Y)
+            self.add_gap(self.X, self.start_x, self.Y)
             
 
 
@@ -72,7 +73,9 @@ class VirtualRow:
             
     
     def __str__(self):
-        return "VirtualRow X: %f ,Y: %f, start_x: %f , start_y: %f, formats: %s" %(self.X,self.Y,self.start_x,self.start_y,self.formats)
+        virtual_row_report = f"VirtualRow X: {self.X} ,Y: {self.Y}, start_x: {self.start_x} , start_y: {self.start_y}, formats: {self.formats}"
+        new_gaps = f"Gaps created: {self.gaps}"
+        return virtual_row_report+new_gaps
 
 
 
@@ -88,11 +91,11 @@ def generate_board(X,Y):
     ax.set_xticks(x_ticks)
     ax.set_yticks(y_ticks)
 
-    project_data = get_data(id)
-    formats = convert_elements(project_data)
+    #project_data = get_data(id)
+    #formats = convert_elements(project_data)
     #
 
-    formats = [[1600, 500], [500, 500]]
+    formats = [[1600, 500], [500, 500], [1000,500]]
 
     place_elements(formats)
     #print(formats)
@@ -143,14 +146,27 @@ def place_elements(formats):
     print(formats)
 
     vrs = []
+    gaps = []
+    placed = False
     i=0
 
-    
+    vr1 = VirtualRow(3000, 500, 0, 0)
 
     for format in formats:
-        vr1 = VirtualRow(3000, 500, 0, 0)
-        vr1.add_format(format[0], format[1])
-        print(vr1)
+ 
+        placed = vr1.add_format(format[0], format[1])
+        if placed:
+            continue
+        else:
+            new_vr = VirtualRow(X, 500, 0, 0)
+            vrs.append(new_vr)
+        
+
+        
+
+    print(gaps)
+
+    
 
 
     return 0
