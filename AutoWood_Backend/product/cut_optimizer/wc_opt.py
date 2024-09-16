@@ -35,9 +35,6 @@ class VirtualRow:
         self.formats = []  # List of formats placed in this row
        
 
-    def add_gap(self, size_x, start_x, width):
-        self.gaps.append([size_x, start_x, width])
-
     def add_format(self, format_width, format_height):
         if len(self.formats) == 0:
             # Place the first format
@@ -84,7 +81,7 @@ def generate_board(X,Y):
     #formats = convert_elements(project_data)
     #print(formats)
 
-    formats = [[1600, 500], [500, 500], [1000,500], [200,500],[200,500],[200,500],[200,500]]
+    formats = [[1600, 500], [500, 500], [1000,500]]
 
     place_elements(formats)
     #print(formats)

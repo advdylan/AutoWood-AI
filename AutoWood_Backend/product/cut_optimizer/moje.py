@@ -34,20 +34,19 @@ class VirtualRow:
         self.start_x = x #pozycja startujaca x
         self.start_y = y #pozycja startujaca y
         self.formats = []
-        self.gaps = []
-
-
-    def add_gap(self,size_x, start_x, width):
-        self.gaps.append([size_x, start_x, width])
+        
 
     def add_format(self, format_width, format_height):
 
         if len(self.formats) == 0:
-
+            format_start = 0
+            if format_width + SAW > self.X:
+                print(f"Not enough space in row. Width left: {self.X}, format width: {format_width}")
+                return False
             self.X = self.X - format_width - SAW
-            self.start_x = 0 + format_width + SAW
+            self.start_x = format_start + format_width + SAW
             self.formats.append([format_width,format_height, self.start_x])
-            generate_rectangle(0,0, format_width, format_height, ax)
+            generate_rectangle(0,self.start_y, format_width, format_height, ax)
             return True
 
 
@@ -62,19 +61,14 @@ class VirtualRow:
         
         else:
             print("Not enough space in that raw. Proceed to next one >>")
-            self.add_gap(self.X, self.start_x, self.Y)
             
-
-
             return False
     
        
     def __str__(self):
         virtual_row_report = f"VirtualRow X: {self.X} ,Y: {self.Y}, start_x: {self.start_x} , start_y: {self.start_y}, formats: {self.formats}"
-        new_gaps = f"Gaps created: {self.gaps}"
-        return virtual_row_report+new_gaps
-
-
+        
+        return virtual_row_report
 
 def generate_board(X,Y):
 
@@ -92,7 +86,7 @@ def generate_board(X,Y):
     #formats = convert_elements(project_data)
     #
 
-    formats = [[1600, 500], [500, 500], [1000,500]]
+    formats = [[1600, 500], [500, 500], [1000,500],[200,500], [200,95],[200,95],[200,95], [200,95] ]
 
     place_elements(formats)
     #print(formats)
@@ -114,7 +108,6 @@ def convert_elements(project_data):
     for element in elements:
         length = element['element']['dimX']
         width = element['element']['dimY']
-        #thickness = element['element']['dimZ'] wyÄąâ€šĂ„â€¦czyÄąâ€šĂ„â„˘Äąâ€ş chwilowo gruboÄąâ€şĂ„â€ˇi
         quantity = element['quantity']
         starting_x = 0
         starting_y = 0
@@ -139,21 +132,54 @@ def generate_rectangle(start_position_x, start_position_y, width, height, ax):
 
 
 def place_elements(formats):
-
     print(formats)
 
-    vrs = []
-    gaps = []
-    current_vr = VirtualRow(X, 500, 0, 0)
+    vrs = []  # List of all VirtualRows (including gaps)
+    current_y_position = 0  # Keep track of the Y position for each new row
+    current_vr = VirtualRow(X, 500, 0, 0)  # Initial row
     vrs.append(current_vr)
-    
-
-    vr1 = VirtualRow(3000, 500, 0, 0)
 
     while formats:
         width, height = formats.pop(0)
         placed = False
 
+        # Try placing the format in existing virtual rows
+        for vr in vrs:
+            placed = vr.add_format(width, height)
+            if placed:
+                print("Placed->break")
+                break
 
+        # If the format wasn't placed, create a new row
+        if not placed:
+            # Create a gap row based on the current virtual row
+            new_gap_vr = VirtualRow(current_vr.X, current_vr.Y, current_vr.start_x, current_vr.start_y)
+            vrs.append(new_gap_vr)
+
+            # Update Y position for the new row
+            current_y_position += current_vr.Y + SAW
+            print(f"Current Y position: {current_y_position}")
+
+            # Create a new virtual row with full width and the required height
+            new_vr = VirtualRow(X, height, 0, current_y_position)
+            print(f"New Virtual Row: {new_vr}")
+            vrs.append(new_vr)
+
+            # Try placing the format in the new row
+            placed = new_vr.add_format(width, height)
+            print(f"first try : {new_vr}")
+
+            if placed:
+                print("Format placed in new row")
+                
+            else:
+                print("Failed to place format in new row")
+
+    for vr in vrs:
+        print(vr)
+    
 
     return 0
+
+
+generate_board(X,Y)
