@@ -44,9 +44,12 @@ class VirtualRow:
                 print(f"Not enough space in row. Width left: {self.X}, format width: {format_width}")
                 return False
             self.X = self.X - format_width - SAW
-            self.start_x = format_start + format_width + SAW
+            
             self.formats.append([format_width,format_height, self.start_x])
-            generate_rectangle(0,self.start_y, format_width, format_height, ax)
+            print("IF LEN 0")
+
+            generate_rectangle(self.start_x,self.start_y, format_width, format_height, ax)
+            self.start_x += format_width + SAW
             return True
 
 
@@ -87,11 +90,10 @@ def generate_board(X,Y):
     #formats = convert_elements(project_data)
     #
 
-    formats = [[1600, 500], [500, 500], [1000,500],[200,500], [200,95],[200,95] ]
-    vrs = create_vrs()
-    print(vrs[0])
+    formats = [[1600, 500], [500, 500], [1000,500],[200,500], [200,95],[200,95], [200,95],[200,95], [200,95],[200,95], [200,95],[200,95], [200,95]]
+   
 
-    #place_elements(formats)
+    place_elements(formats)
     #print(formats)
 
     
@@ -99,13 +101,7 @@ def generate_board(X,Y):
     plt.savefig(file_path, format='png', dpi=150)
 
     
-def create_vrs():
-    vrs = []
-    for i in range(1,4):
-        vr = VirtualRow(300,50,0,0)
-        vrs.append(vr)
 
-    return vrs
 
 
 
@@ -137,9 +133,9 @@ def generate_rectangle(start_position_x, start_position_y, width, height, ax):
     ax.add_patch(rect)
     print(f"Placing rectangle in X:{start_position_x},Y:{start_position_y} format size:  X: {width} Y:{height}" )
 
-    #text_x = start_position_x + width / 2
-    #text_y = start_position_y + height / 2
-    #ax.text(text_x, text_y, '{width} x {height}',width,height, ha='center', va='center', fontsize=10, color='black')
+    text_x = start_position_x + width / 2
+    text_y = start_position_y + height / 2
+    ax.text(text_x, text_y, f'{width} x {height}', ha='center', va='center', fontsize=10, color='black')
 
 
 def place_elements(formats):
@@ -171,6 +167,8 @@ def place_elements(formats):
             # Update Y position for the new row
             current_y_position += current_vr.Y + SAW
             print(f"Current Y position: {current_y_position}")
+
+            vrs.remove(current_vr) #usuwamy stary rząd? 
 
             # Create a new virtual row with full width and the required height
             new_vr = VirtualRow(X, height, 0, current_y_position)
