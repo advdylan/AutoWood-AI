@@ -65,7 +65,7 @@ class VirtualRow:
         
         else:
             print("Not enough space in that raw. Proceed to next one >>")
-            self.
+        
             
             return False
     
@@ -93,7 +93,7 @@ def generate_board(X,Y):
     if not os.path.exists(output_dir):
         os.makedirs(output_dir)
 
-    formats = [[1600, 500], [500, 500], [1000,500],[200,500], [200,95],[200,95], [200,95],[200,95], [200,95],[200,95], [200,95],[200,95], [200,95]]
+    formats = [[1600, 500], [500, 500], [1000,500],[200,500], [200,95],[200,95], [200,95],[200,95], [200,95],[200,95], [200,95],[200,95], [200,95], [200,95]]
    
 
     place_elements(formats)
