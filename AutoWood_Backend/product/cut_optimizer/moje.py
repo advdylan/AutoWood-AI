@@ -19,7 +19,7 @@ Y_IN = Y / 25.4
 
 id = 62
 
-output_dir = f"/home/sekwoja/AutoWood/AutoWood_Backend/product/cut_optimizer/optimized_cuts/{id}"
+output_dir = f"/home/dylan/AutoWood/AutoWood_Backend/product/cut_optimizer/optimized_cuts/{id}"
 optc_name = f"optc_{id}.png"
 file_path = os.path.join(output_dir, optc_name)
 fig, ax = plt.subplots(figsize=(12.8, 7.2))
@@ -27,53 +27,53 @@ fig, ax = plt.subplots(figsize=(12.8, 7.2))
 
 class VirtualRow:
 
-    def __init__(self, X,Y,x,y):
-
-        self.X = X #rozmiar rzedu X
-        self.Y = Y #rozmiar rzedu Y
-        self.start_x = x #pozycja startujaca x
-        self.start_y = y #pozycja startujaca y
-        self.formats = []
-        
+    def __init__(self, X, Y, x, y):
+        self.X = X  # Width of the row
+        self.Y = Y  # Height of the row
+        self.start_x = x  # Starting x position
+        self.start_y = y  # Starting y position
+        self.formats = []  # List of placed formats
 
     def add_format(self, format_width, format_height):
-
+        # If first element in the row
         if len(self.formats) == 0:
-            format_start = self.start_x
             if format_width + SAW > self.X:
                 print(f"Not enough space in row. Width left: {self.X}, format width: {format_width}")
                 return False
-            self.X = self.X - format_width - SAW
             
-            self.formats.append([format_width,format_height, self.start_x])
-            print("IF LEN 0")
-
-            generate_rectangle(self.start_x,self.start_y, format_width, format_height, ax)
+            self.X -= format_width + SAW
+            self.formats.append([format_width, format_height, self.start_x])
+            print(f"Placing first format in row: start_x={self.start_x}")
+            generate_rectangle(self.start_x, self.start_y, format_width, format_height, ax)
             self.start_x += format_width + SAW
             return True
 
-
-
-        elif format_height <= self.Y and format_width <= self.X:
-
-            format_start = self.start_x
-            self.X = self.X - format_width - SAW   
-            self.formats.append([format_width, format_height, self.start_x])            
-            generate_rectangle(self.start_x,self.start_y, format_width, format_height, ax)
+        # If the format fits in both dimensions
+        elif format_width <= self.X and format_height <= self.Y:
+            self.X -= format_width + SAW
+            self.formats.append([format_width, format_height, self.start_x])
+            print(f"Placing format in row: start_x={self.start_x}")
+            generate_rectangle(self.start_x, self.start_y, format_width, format_height, ax)
             self.start_x += format_width + SAW
+
+            # If the format does not take the entire height, create a new row for the remaining height
+            if format_height < self.Y:
+                remaining_height = self.Y - format_height
+                new_row = VirtualRow(self.X, remaining_height, self.start_x - format_width - SAW , self.start_y + format_height + SAW)
+                print(f"Creating new row for remaining height: {remaining_height}")
+                return new_row  # Return the new row to append to vrs in place_elements()
+
             return True
-        
+
+        # If the format doesn't fit
         else:
-            print("Not enough space in that raw. Proceed to next one >>")
-        
-            
+            print("Not enough space in this row. Proceeding to the next one.")
             return False
+
+    def __str__(self):
+        return f"VirtualRow X: {self.X}, Y: {self.Y}, start_x: {self.start_x}, start_y: {self.start_y}, formats: {self.formats}"
     
        
-    def __str__(self):
-        virtual_row_report = f"VirtualRow X: {self.X} ,Y: {self.Y}, start_x: {self.start_x} , start_y: {self.start_y}, formats: {self.formats}"
-        
-        return virtual_row_report
 
 def generate_board(X,Y):
 
@@ -93,7 +93,7 @@ def generate_board(X,Y):
     if not os.path.exists(output_dir):
         os.makedirs(output_dir)
 
-    formats = [[1600, 500], [500, 500], [1000,500],[200,500], [200,95],[200,95], [200,95],[200,95], [200,95],[200,95], [200,95],[200,95], [200,95], [200,95]]
+    formats = [[1600, 500], [500, 500], [1000,500],[200,500], [200,95],[200,95], [200,95],[200,95], [200,95],[200,95], [200,95]]
    
 
     place_elements(formats)
@@ -142,54 +142,44 @@ def generate_rectangle(start_position_x, start_position_y, width, height, ax):
 
 
 def place_elements(formats):
-    print(formats)
-
-    vrs = []  # List of all VirtualRows (including gaps)
-    current_y_position = 0  # Keep track of the Y position for each new row
-    current_vr = VirtualRow(X, 500, 0, 0)  # Initial row
+    vrs = []  # List of VirtualRows
+    current_y_position = 0  # Y position tracker
+    current_vr = VirtualRow(X, 500, 0, 0)  # Create the first VirtualRow
     vrs.append(current_vr)
 
     while formats:
         width, height = formats.pop(0)
         placed = False
 
-        # Try placing the format in existing virtual rows
+        # Try placing the format in existing VirtualRows
         for vr in vrs:
-            print(f"Trying to place format at row {vr}, available width: {vr.X}, available height: {vr.Y}")
             placed = vr.add_format(width, height)
+            if isinstance(placed, VirtualRow):
+                # If a new row is returned, append it to vrs
+                print("New virtual row created from a gap.")
+                vrs.append(placed)
+                vrs.sort(key=lambda vr: vr.start_y)
+                placed = True
             if placed:
-                print("Placed->break")
                 break
 
-        # If the format wasn't placed, create a new row
+        # If the format wasn't placed, create a new VirtualRow
         if not placed:
-            # Create a gap row based on the current virtual row
-            new_gap_vr = VirtualRow(current_vr.X, current_vr.Y, current_vr.start_x, current_vr.start_y)
-            vrs.append(new_gap_vr)
-            
-            # Update Y position for the new row
-            current_y_position += current_vr.Y + SAW
-            print(f"Current Y position: {current_y_position}")
-
-            vrs.remove(current_vr) 
-            """#usuwamy stary rząd?  a może zredukuj mu X jakoś a zostaw Y??? w zależności od dodawanych przedmiotów
-            #może nowa funkcja klasy w której sie odejmie te wartości?  w else in add_format? reduce the Y and
-            """
-            # Create a new virtual row with full width and the required height
+            current_y_position += current_vr.Y + SAW  # Update Y position for new row
             new_vr = VirtualRow(X, height, 0, current_y_position)
-            print(f"New Virtual Row: {new_vr}")
             vrs.append(new_vr)
-
-            # Try placing the format in the new row
-            print(f"Trying to place format at row {vr}, available width: {vr.X}, available height: {vr.Y}")
-            placed = new_vr.add_format(width, height)
-            print(f"first try : {new_vr}")
-
-            if placed:
-                print("Format placed in new row")
-                
-            else:
-                print("Failed to place format in new row")
+            vrs.sort(key=lambda vr: vr.start_y)
+            
+            for vr in vrs:
+                placed = vr.add_format(width, height)
+                if isinstance(placed, VirtualRow):
+                    # If a new row is returned, append it to vrs
+                    print("New virtual row created from a gap.")
+                    vrs.append(placed)
+                    vrs.sort(key=lambda vr: vr.start_y)
+                    placed = True
+                if placed:
+                    break
 
     for vr in vrs:
         print(vr)
