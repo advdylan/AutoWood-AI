@@ -19,7 +19,7 @@ Y_IN = Y / 25.4
 
 id = 62
 
-output_dir = f"/home/dylan/AutoWood/AutoWood_Backend/product/cut_optimizer/optimized_cuts/{id}"
+output_dir = f"/home/sekwoja/AutoWood/AutoWood_Backend/product/cut_optimizer/optimized_cuts/{id}"
 optc_name = f"optc_{id}.png"
 file_path = os.path.join(output_dir, optc_name)
 fig, ax = plt.subplots(figsize=(12.8, 7.2))
@@ -80,6 +80,9 @@ def generate_board(X,Y):
     #project_data = get_data(id)
     #formats = convert_elements(project_data)
     #print(formats)
+
+    if not os.path.exists(output_dir):
+        os.makedirs(output_dir)
 
     formats = [[1600, 500], [500, 500], [1000,500]]
 

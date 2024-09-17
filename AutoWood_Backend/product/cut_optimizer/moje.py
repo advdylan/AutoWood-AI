@@ -19,7 +19,7 @@ Y_IN = Y / 25.4
 
 id = 62
 
-output_dir = f"/home/dylan/AutoWood/AutoWood_Backend/product/cut_optimizer/optimized_cuts/{id}"
+output_dir = f"/home/sekwoja/AutoWood/AutoWood_Backend/product/cut_optimizer/optimized_cuts/{id}"
 optc_name = f"optc_{id}.png"
 file_path = os.path.join(output_dir, optc_name)
 fig, ax = plt.subplots(figsize=(12.8, 7.2))
@@ -65,6 +65,7 @@ class VirtualRow:
         
         else:
             print("Not enough space in that raw. Proceed to next one >>")
+            self.
             
             return False
     
@@ -89,6 +90,8 @@ def generate_board(X,Y):
     #project_data = get_data(id)
     #formats = convert_elements(project_data)
     #
+    if not os.path.exists(output_dir):
+        os.makedirs(output_dir)
 
     formats = [[1600, 500], [500, 500], [1000,500],[200,500], [200,95],[200,95], [200,95],[200,95], [200,95],[200,95], [200,95],[200,95], [200,95]]
    
@@ -168,8 +171,10 @@ def place_elements(formats):
             current_y_position += current_vr.Y + SAW
             print(f"Current Y position: {current_y_position}")
 
-            vrs.remove(current_vr) #usuwamy stary rząd? 
-
+            vrs.remove(current_vr) 
+            """#usuwamy stary rząd?  a może zredukuj mu X jakoś a zostaw Y??? w zależności od dodawanych przedmiotów
+            #może nowa funkcja klasy w której sie odejmie te wartości?  w else in add_format? reduce the Y and
+            """
             # Create a new virtual row with full width and the required height
             new_vr = VirtualRow(X, height, 0, current_y_position)
             print(f"New Virtual Row: {new_vr}")
