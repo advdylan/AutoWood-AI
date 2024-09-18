@@ -149,6 +149,7 @@ def place_elements(formats):
 
     while formats:
         width, height = formats.pop(0)
+        #Może usuwaj dopiero po dodaniu elementu do vr po komendzie if placed?
         placed = False
 
         # Try placing the format in existing VirtualRows
