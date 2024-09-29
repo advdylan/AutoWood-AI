@@ -352,7 +352,7 @@
 
 
   const { loadDetailProject, updateProject, addElement, downloadElementsTable, downloadPriceReport} = ProjectsListStore
-  const {elementsCost, accesoriesCost} = storeToRefs(summaryStore)
+  const {elementsCost, accesoriesCost, worktimeCost , elementsMargin, accesoriesMargin, additionalMargin,summaryCostsWithMargin,summaryCosts} = storeToRefs(summaryStore)
 
   const {loadData, $reset } = elementStore
   loadData()
@@ -395,11 +395,11 @@ const submitForm = () => {
           wood: selectedWood.value,
           collection: selectedCollection.value,
           paints: selectedPaint.value,
-          elements_margin: detail_project.value.elements_margin,
-          accesories_margin: detail_project.value.accesories_margin,
-          additional_margin: detail_project.value.additional_margin,
-          summary_with_margin: detail_project.value.summary_with_margin,
-          summary_without_margin: detail_project.value.summary_without_margin,
+          elements_margin: elementsMargin.value,
+          accesories_margin: accesoriesMargin.value,
+          additional_margin: additionalMargin.value,
+          summary_with_margin: summaryCostsWithMargin.value,
+          summary_without_margin: summaryCosts.value,
           elements: detail_project.value.elements,
           worktime: boxes.value,
           accessories: detail_project.value.accessories,
@@ -408,6 +408,7 @@ const submitForm = () => {
           percent_additional_margin: parseInt(marginC.value),
           elements_cost: elementsCost.value,
           accesories_cost: accesoriesCost.value,
+          worktime_cost: worktimeCost.value
           
   }
 
