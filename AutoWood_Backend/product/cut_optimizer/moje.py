@@ -57,9 +57,12 @@ class VirtualRow:
             self.start_x += format_width + SAW
 
             # If the format does not take the entire height, create a new row for the remaining height
+            #on tworzy rzędy troche niepotrzebnie? 
+            #self. X ?
             if format_height < self.Y:
                 remaining_height = self.Y - format_height
                 new_row = VirtualRow(self.X, remaining_height, self.start_x - format_width - SAW , self.start_y + format_height + SAW)
+                
                 print(f"Creating new row for remaining height: {remaining_height}")
                 return new_row  # Return the new row to append to vrs in place_elements()
 
@@ -67,7 +70,7 @@ class VirtualRow:
 
         # If the format doesn't fit
         else:
-            print("Not enough space in this row. Proceeding to the next one.")
+            print(f"Not enough space in row X: {self.X}, Y: {self.Y}, start_x: {self.start_x}, start_y: {self.start_y}, formats: {self.formats} . Proceeding to the next one.")
             return False
 
     def __str__(self):
@@ -148,7 +151,9 @@ def place_elements(formats):
     vrs.append(current_vr)
 
     while formats:
-        width, height = formats.pop(0)
+        print(formats)
+        width, height = formats[0][0],formats[0][1]
+
         #Może usuwaj dopiero po dodaniu elementu do vr po komendzie if placed?
         placed = False
 
@@ -162,6 +167,8 @@ def place_elements(formats):
                 vrs.sort(key=lambda vr: vr.start_y)
                 placed = True
             if placed:
+                formats.pop(0)
+                plt.savefig(file_path, format='png', dpi=150)
                 break
 
         # If the format wasn't placed, create a new VirtualRow
@@ -180,6 +187,8 @@ def place_elements(formats):
                     vrs.sort(key=lambda vr: vr.start_y)
                     placed = True
                 if placed:
+                    formats.pop(0)
+                    plt.savefig(file_path, format='png', dpi=150)
                     break
 
     for vr in vrs:
