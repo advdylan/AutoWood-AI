@@ -74,6 +74,10 @@ class VirtualRow:
         return "VirtualRow X: %f ,Y: %f, start_x: %f , start_y: %f, formats: %s" %(self.X,self.Y,self.start_x,self.start_y,self.formats)
 
 
+
+
+
+
 def set_ticks(X,scale):
     ticks = []
     x = 0

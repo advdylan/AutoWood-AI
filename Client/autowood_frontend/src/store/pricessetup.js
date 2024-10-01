@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia'
 import { setTransitionHooks } from 'vue'
+import axios from 'axios'
 
 export const usePricesSetup = defineStore('pricessetup', {
     state: () => ({
@@ -13,18 +14,19 @@ export const usePricesSetup = defineStore('pricessetup', {
         this.newWorktimeCost = value
       },
       async updateWorktimetypes(editedData) {
-        try {
-            const response = await axios.patch(`/api/v1/newproject/update-worktimetypes/`, editedData, {
-                headers: {
-                    'Content-Type': 'application/json',                    
-                },
-            });
-            //console.log('Server response:', response);
-            //console.log('Project updated successfully:', response.data);
-        } catch (error) {
-            console.error('Error updating the project:', error);
-        }
-    },
+        await axios
+        .post(`/api/v1/newproject/update-worktimetypes/`, editedData, {
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        })
+        .then(response => {
+          console.log(JSON.stringify(response.data))
+        })
+        .catch(error => {
+          console.log(error)
+        })
+      } 
 
 
       

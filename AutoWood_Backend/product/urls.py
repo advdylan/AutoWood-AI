@@ -11,5 +11,6 @@ urlpatterns = [
     path('wood/<int:pk>/update', views.wood_retrieve_update_destroy_view, name="wood-update"),
     path('product/save', views.save_data, name="save-data"),
     path('newproject/elements-production/<int:pk>/', views.generate_elements_production, name="elements-production"),
-    path('newproject/pricing-report/<int:pk>/', views.generate_pricing__report, name="pricing-report")
+    path('newproject/pricing-report/<int:pk>/', views.generate_pricing__report, name="pricing-report"),
+    path('newproject/update-worktimetypes/', views.update_worktimetypes, name="update-worktimetypes")
 ]

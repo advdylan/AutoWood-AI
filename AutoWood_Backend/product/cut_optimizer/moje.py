@@ -76,7 +76,12 @@ class VirtualRow:
     def __str__(self):
         return f"VirtualRow X: {self.X}, Y: {self.Y}, start_x: {self.start_x}, start_y: {self.start_y}, formats: {self.formats}"
     
-       
+def check_vrs_start_y(current_vr, vrs):
+    
+    for vr in vrs:
+        if current_vr.start_y == vr.start_y and current_vr.start_x < vr.start_x:
+            return True
+                  
 
 def generate_board(X,Y):
 
@@ -97,7 +102,7 @@ def generate_board(X,Y):
         os.makedirs(output_dir)
 
     formats = [[1600, 500], [500, 500], [1000,500],[200,500], [200,95],[200,95], [200,95],[200,95], [200,95],[200,95], [200,95]]
-   
+    formats.sort(reverse=True)
 
     place_elements(formats)
     #print(formats)
@@ -174,6 +179,7 @@ def place_elements(formats):
         # If the format wasn't placed, create a new VirtualRow
         if not placed:
             current_y_position += current_vr.Y + SAW  # Update Y position for new row
+            #FIND ACTUAL X
             new_vr = VirtualRow(X, height, 0, current_y_position)
             vrs.append(new_vr)
             vrs.sort(key=lambda vr: vr.start_y)

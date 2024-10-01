@@ -351,19 +351,35 @@ def generate_pricing__report(request, pk):
     except Exception as e:
         return JsonResponse({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
-@api_view(['GET'])
-def update_worktypes(request):
+@api_view(['POST'])
+def update_worktimetypes(request):
 
+    
     try:
         data = json.loads(request.body)
     except json.JSONDecodeError:
         return JsonResponse({'error': 'Invalid JSON data'}, status=400)
     
-    print(data)
+    worktimetypes = []
+    try:
+        with transaction.atomic():
+            for object in data:
+                new_worktimetype = get_or_create_model_instance(Worktimetype, object["name"])
+                worktimetypes.append(new_worktimetype)
 
+            for worktimetype in worktimetypes:
+                
 
-    return 0
+ 
+    except:
+        pass
+
+    for worktimetype in worktimetypes:
+        print(worktimetype.cost)
+        print(worktimetype.name)
+    return JsonResponse({'message': 'Jobs done'}, status=200)
 
 def get_or_create_model_instance(model, name):
     instance, created = model.objects.get_or_create(name=name)
     return instance
+
