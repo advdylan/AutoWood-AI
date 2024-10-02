@@ -10,7 +10,7 @@ export const usePricesSetup = defineStore('pricessetup', {
     }),
     actions: {
 
-      updateWorktimetypes(value) {
+      updateLocalWorktimetypes(value) {
         this.newWorktimeCost = value
       },
       async updateWorktimetypes(editedData) {
@@ -21,16 +21,14 @@ export const usePricesSetup = defineStore('pricessetup', {
           }
         })
         .then(response => {
-          console.log(JSON.stringify(response.data))
+          console.log(JSON.stringify(response.data))   
+          return true   
         })
         .catch(error => {
           console.log(error)
+          return false
         })
       } 
-
-
-      
-
     },
   })
 

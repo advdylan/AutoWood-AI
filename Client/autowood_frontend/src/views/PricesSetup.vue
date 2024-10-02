@@ -26,9 +26,7 @@
                         </div>
                     </div>
                     <div class="buttons">
-                        <button @click="
-                         updateWorktimetypes(worktimetype);                       
-                         "  
+                        <button @click="toggleSaveWindows = !toggleSaveWindows"
                          class="button is-dark"><i class="fa-regular fa-floppy-disk">&nbsp;</i>Zapisz zmiany</button>  
                         <button @click="toggleAddWorktype = !toggleAddWorktype" class="button is-dark"><i class="fa-solid fa-plus">&nbsp;</i>Dodaj dział</button>   
                         <button @click="handleEditButton()" class="button is-dark"><i class="fa-regular fa-pen-to-square">&nbsp;</i>Edytuj koszty pracy</button>                       
@@ -59,7 +57,9 @@
           </section>
           <footer class="modal-card-foot">
             <div class="buttons">
-              <button class="button is-success"><i class="fa-regular fa-floppy-disk">&nbsp;</i>Zapisz</button>
+              <button @click="handleUpdateWorktimetypes(worktimetype);
+              toggleSaveWindows = !toggleSaveWindows;"     
+              class="button is-success"><i class="fa-regular fa-floppy-disk">&nbsp;</i>Zapisz</button>
               <button class="button"><i class="fa-solid fa-ban">&nbsp;</i>Anuluj</button>
               <p class="has-text-left is-size-7">*Wprowadzone zmiany nie zmienią wcześniej zapisanych wycen</p>
               
@@ -105,11 +105,6 @@
         </div>
       </div>
 
-      <div class="box" v-for="worktime in worktimetype">
-        {{ worktime.name }}
-        {{ worktime.cost }}
-      </div>
-
 
 
 </template>
@@ -119,6 +114,7 @@ import { usePricesSetup } from '@/store/pricessetup';
 import axios from 'axios'
 import { storeToRefs } from 'pinia';
 import {ref} from 'vue'
+import { toast } from 'bulma-toast';
 
 const toggleDisabled = ref(true)
 const toggleSaveWindows = ref(false)
@@ -149,6 +145,28 @@ function handleEditButton() {
     toggleDisabled.value = false
     loadData()
     console.log("pt2")
+  }
+}
+
+function handleUpdateWorktimetypes(worktimetype) {
+  const result = updateWorktimetypes(worktimetype)
+  if (result) {
+    toast({
+          message: `Czasy pracy zaktualizowane poprawnie`,
+          duration: 5000,
+          position: "top-center",
+          type: 'is-success',
+          animate: { in: 'backInDown', out: 'backOutUp' },
+        })
+  }
+  else {
+    toast({
+          message: `Czasy pracy nie zaktualizowane poprawnie`,
+          duration: 5000,
+          position: "top-center",
+          type: 'is-danger',
+          animate: { in: 'backInDown', out: 'backOutUp' },
+        })
   }
 }
 

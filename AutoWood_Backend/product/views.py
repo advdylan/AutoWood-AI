@@ -353,31 +353,33 @@ def generate_pricing__report(request, pk):
 
 @api_view(['POST'])
 def update_worktimetypes(request):
-
-    
+  
     try:
         data = json.loads(request.body)
     except json.JSONDecodeError:
         return JsonResponse({'error': 'Invalid JSON data'}, status=400)
     
-    worktimetypes = []
     try:
         with transaction.atomic():
             for object in data:
-                new_worktimetype = get_or_create_model_instance(Worktimetype, object["name"])
-                worktimetypes.append(new_worktimetype)
-
-            for worktimetype in worktimetypes:
+                print(f"Name: {object['name']}")
+                print(f"Cost: {object['cost']}")
                 
+                new_worktimetype, created = Worktimetype.objects.update_or_create(
+                    name=object["name"],
+                    defaults={'cost': object["cost"]}
+                )
+              
+            return JsonResponse({'message': 'DataSaved'}, status=200)
+                
+    except Exception as e:
+        return JsonResponse({'error': str(e)}, status=500)
 
- 
-    except:
-        pass
 
-    for worktimetype in worktimetypes:
-        print(worktimetype.cost)
-        print(worktimetype.name)
-    return JsonResponse({'message': 'Jobs done'}, status=200)
+    #for worktimetype in worktimetypes:
+        #print(worktimetype.cost)
+        #print(worktimetype.name)
+    #return JsonResponse({'message': 'Jobs done'}, status=200)
 
 def get_or_create_model_instance(model, name):
     instance, created = model.objects.get_or_create(name=name)
