@@ -53,12 +53,8 @@
               &nbsp;Koszty i stawki
             </div>
           </a>
-          <div class="navbar-dropdown is-dark fa-lg">
-            <a class="navbar-item">
-              Materiały
-            </a>
-            
-              <router-link to="prices-setup" class="navbar-item">
+          <div class="navbar-dropdown is-dark fa-lg">            
+              <router-link to="/prices-setup" class="navbar-item">
                 Koszty pracy
               </router-link>
 

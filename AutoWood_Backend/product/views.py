@@ -375,12 +375,6 @@ def update_worktimetypes(request):
     except Exception as e:
         return JsonResponse({'error': str(e)}, status=500)
 
-
-    #for worktimetype in worktimetypes:
-        #print(worktimetype.cost)
-        #print(worktimetype.name)
-    #return JsonResponse({'message': 'Jobs done'}, status=200)
-
 def get_or_create_model_instance(model, name):
     instance, created = model.objects.get_or_create(name=name)
     return instance
