@@ -131,12 +131,12 @@
            <div class="card-content">
             <div class="columns">
                 <div class="column is-half">
-                    <label class="label">Nazwa działu</label>
-                    <input class="input" type="text" placeholder="Dział" />
+                    <label  class="label">Nazwa działu</label>
+                    <input v-model="new_worktimetype_name" class="input" type="text" placeholder="Dział" />
                 </div>
                 <div class="column">
                     <label class="label">Koszt pracy na godzinę</label>
-                    <input class="input" type="text" placeholder="Koszt" />
+                    <input v-model="new_worktimetype_cost" class="input" type="text" placeholder="Koszt" />
                 </div>
             </div>
         </div>
@@ -144,7 +144,9 @@
           </section>
           <footer class="modal-card-foot">
             <div class="buttons">
-              <button class="button is-success"><i class="fa-regular fa-floppy-disk">&nbsp;</i>Zapisz</button>
+              <button
+              @click="addNewWorktimetype(new_worktimetype_name,new_worktimetype_cost);
+                      updateWorktimetypes(worktimetype)" class="button is-success"><i class="fa-regular fa-floppy-disk">&nbsp;</i>Zapisz</button>
               <button class="button"><i class="fa-solid fa-ban">&nbsp;</i>Anuluj</button>
               <p class="has-text-left is-size-7">*Wprowadzone zmiany nie zmienią wcześniej zapisanych wycen</p>
               
@@ -168,6 +170,8 @@ import { toast } from 'bulma-toast';
 const toggleDisabled = ref(true)
 const toggleSaveWindows = ref(false)
 const toggleAddWorktype = ref(false)
+const new_worktimetype_name = ref('')
+const new_worktimetype_cost = ref('')
 const errors = ref([])
 
 const temporaryWorktimetypes = ref()
@@ -196,6 +200,14 @@ function handleEditButton() {
     loadData()
     console.log("pt2")
   }
+}
+
+function addNewWorktimetype(new_worktimetype_name, new_worktimetype_cost) {
+  const new_worktimetype = {
+    name: new_worktimetype_name,
+    cost: new_worktimetype_cost
+  }
+  this.worktimetype.push(new_worktimetype)
 }
 
 function handleUpdateWorktimetypes(worktimetype) {

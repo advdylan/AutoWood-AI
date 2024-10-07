@@ -10,8 +10,8 @@ import matplotlib.patches as patches
 import numpy as np
 
 
-X = 3000
-Y = 2000
+X = 2000    
+Y = 1000
 SAW = 3.2
 
 X_IN = X / 25.4
