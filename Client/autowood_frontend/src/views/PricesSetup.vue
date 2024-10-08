@@ -1,6 +1,6 @@
 <template>
 
- <div class=columns>
+ <div class=columns >
   <div class="column is-full">
  
   <div class="container">
@@ -16,7 +16,7 @@
   </div>
 </div>
 
-    <div class="columns">
+    <div class="columns is-flex">
         <div class="column is-one-third">
             <div class="card">
                 <header class="card-header">
@@ -45,13 +45,13 @@
                         <button @click="toggleSaveWindows = !toggleSaveWindows"
                          class="button is-dark"><i class="fa-regular fa-floppy-disk">&nbsp;</i>Zapisz zmiany</button>  
                         <button @click="toggleAddWorktype = !toggleAddWorktype" class="button is-dark"><i class="fa-solid fa-plus">&nbsp;</i>Dodaj dział</button>   
-                        <button @click="handleEditButton()" class="button is-dark"><i class="fa-regular fa-pen-to-square">&nbsp;</i>Edytuj koszty pracy</button>                       
+                        <button @click="handleEditButton()" class="button is-dark"><i class="fa-regular fa-pen-to-square">&nbsp;</i>Edytuj</button>                       
                     </div>
                 </div>
               </div>
 
         </div>
-        <div class="column is-one-third">
+        <div class="column is-flex is-one-third">
 
           <div class="card">
             <header class="card-header">
@@ -79,8 +79,8 @@
                 <div class="buttons">
                     <button @click="toggleSaveWindows = !toggleSaveWindows"
                      class="button is-dark"><i class="fa-regular fa-floppy-disk">&nbsp;</i>Zapisz zmiany</button>  
-                    <button @click="toggleAddWorktype = !toggleAddWorktype" class="button is-dark"><i class="fa-solid fa-plus">&nbsp;</i>Dodaj dział</button>   
-                    <button @click="handleEditButton()" class="button is-dark"><i class="fa-regular fa-pen-to-square">&nbsp;</i>Edytuj koszty pracy</button>                       
+                    <button @click="toggleAddWorktype = !toggleAddWorktype" class="button is-dark"><i class="fa-solid fa-plus">&nbsp;</i>Dodaj nowy materiał</button>   
+                    <button @click="handleEditButton()" class="button is-dark"><i class="fa-regular fa-pen-to-square">&nbsp;</i>Edytuj</button>                       
                 </div>
             </div>
           </div>
@@ -275,4 +275,5 @@ function handleUpdateWorktimetypes(worktimetype) {
 .modal-prices{
     --bulma-modal-content-width: 20%;
   }
+
 </style>
