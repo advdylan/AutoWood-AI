@@ -41,7 +41,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="buttons">
+                    <div class="buttons is-flex-align-items-flex-end mt-auto">
                         <button @click="toggleSaveWindows = !toggleSaveWindows"
                          class="button is-dark"><i class="fa-regular fa-floppy-disk">&nbsp;</i>Zapisz</button>  
                         <button @click="toggleAddWorktype = !toggleAddWorktype" class="button is-dark"><i class="fa-solid fa-plus">&nbsp;</i>Dodaj</button>   
@@ -51,13 +51,13 @@
               </div>
 
         </div>
-        <div class="column is-flex is-one-third">
+        <div class="column is-flex is-one-third ">
 
           <div class="card">
             <header class="card-header">
               <p class="card-header-title is-centered">Koszty materiałów( zł / m3)</p>               
             </header>
-            <div class="card-content">
+            <div class="card-content is-flex is-flex-direction-column" style="height: 100%;">
                 <div class="columns">
 
 
@@ -70,13 +70,13 @@
 
                     </div>
 
-                    <div class="column">
+                    <div class="column  ">
                         <div v-for="wood_cost in wood" class="field">
                             <input class="input" type="number" placeholder="bind-to-" v-model=wood_cost.price :disabled="toggleWoodDisabled"/>                                          
                         </div>
                     </div>
                 </div>
-                <div class="buttons ">
+                <div class="buttons is-flex-align-items-flex-end mt-auto ">
                     <button @click="toggleSaveWindows = !toggleSaveWindows"
                      class="button is-dark "><i class="fa-regular fa-floppy-disk">&nbsp;</i>Zapisz</button>  
                     <button @click="toggleAddWorktype = !toggleAddWorktype" class="button is-dark"><i class="fa-solid fa-plus">&nbsp;</i>Dodaj</button>   
@@ -287,11 +287,6 @@ function handleUpdateWorktimetypes(worktimetype) {
     --bulma-modal-content-width: 20%;
   }
 
-html, body { 
-  height: 100vh; 
-}
+ 
 
-.columns buttons{
-    margin-top: auto;
-  }
 </style>
