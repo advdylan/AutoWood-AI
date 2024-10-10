@@ -43,8 +43,8 @@
                     </div>
                     <div class="buttons">
                         <button @click="toggleSaveWindows = !toggleSaveWindows"
-                         class="button is-dark"><i class="fa-regular fa-floppy-disk">&nbsp;</i>Zapisz zmiany</button>  
-                        <button @click="toggleAddWorktype = !toggleAddWorktype" class="button is-dark"><i class="fa-solid fa-plus">&nbsp;</i>Dodaj dział</button>   
+                         class="button is-dark"><i class="fa-regular fa-floppy-disk">&nbsp;</i>Zapisz</button>  
+                        <button @click="toggleAddWorktype = !toggleAddWorktype" class="button is-dark"><i class="fa-solid fa-plus">&nbsp;</i>Dodaj</button>   
                         <button @click="handleEditButton()" class="button is-dark"><i class="fa-regular fa-pen-to-square">&nbsp;</i>Edytuj</button>                       
                     </div>
                 </div>
@@ -72,15 +72,15 @@
 
                     <div class="column">
                         <div v-for="wood_cost in wood" class="field">
-                            <input class="input" type="number" placeholder="bind-to-" v-model=wood_cost.price :disabled="toggleDisabled"/>                                          
+                            <input class="input" type="number" placeholder="bind-to-" v-model=wood_cost.price :disabled="toggleWoodDisabled"/>                                          
                         </div>
                     </div>
                 </div>
-                <div class="buttons">
+                <div class="buttons ">
                     <button @click="toggleSaveWindows = !toggleSaveWindows"
-                     class="button is-dark"><i class="fa-regular fa-floppy-disk">&nbsp;</i>Zapisz zmiany</button>  
-                    <button @click="toggleAddWorktype = !toggleAddWorktype" class="button is-dark"><i class="fa-solid fa-plus">&nbsp;</i>Dodaj nowy materiał</button>   
-                    <button @click="handleEditButton()" class="button is-dark"><i class="fa-regular fa-pen-to-square">&nbsp;</i>Edytuj</button>                       
+                     class="button is-dark "><i class="fa-regular fa-floppy-disk">&nbsp;</i>Zapisz</button>  
+                    <button @click="toggleAddWorktype = !toggleAddWorktype" class="button is-dark"><i class="fa-solid fa-plus">&nbsp;</i>Dodaj</button>   
+                    <button @click="handleEditMaterialButton()" class="button is-dark"><i class="fa-regular fa-pen-to-square">&nbsp;</i>Edytuj</button>                       
                 </div>
             </div>
           </div>
@@ -168,6 +168,7 @@ import {ref} from 'vue'
 import { toast } from 'bulma-toast';
 
 const toggleDisabled = ref(true)
+const toggleWoodDisabled = ref(true)
 const toggleSaveWindows = ref(false)
 const toggleAddWorktype = ref(false)
 const new_worktimetype_name = ref('')
@@ -202,6 +203,18 @@ function handleEditButton() {
   }
 }
 
+function handleEditMaterialButton() {
+  if (toggleWoodDisabled.value === false) {
+    toggleWoodDisabled.value = true
+    console.log("pt1")
+  }
+  else {
+    toggleWoodDisabled.value = false
+    loadData()
+    console.log("pt2")
+  }
+}
+
 function addNewWorktimetype(new_worktimetype_name, new_worktimetype_cost) {
   const new_worktimetype = {
     name: new_worktimetype_name,
@@ -211,8 +224,6 @@ function addNewWorktimetype(new_worktimetype_name, new_worktimetype_cost) {
 }
 
 function handleUpdateWorktimetypes(worktimetype) {
-
-  
 
   for ( let type of worktimetype) {
     console.log(type.cost)
@@ -276,4 +287,11 @@ function handleUpdateWorktimetypes(worktimetype) {
     --bulma-modal-content-width: 20%;
   }
 
+html, body { 
+  height: 100vh; 
+}
+
+.columns buttons{
+    margin-top: auto;
+  }
 </style>

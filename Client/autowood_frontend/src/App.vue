@@ -3,7 +3,7 @@
     rel="stylesheet"
     href="https://cdn.jsdelivr.net/npm/animate.css@4.0.0/animate.min.css"
   />
-
+  <div class='container hero is-fullheight is-fullhd'>
   <nav class="navbar" role="navigation" aria-label="main navigation">
     <div class="navbar-brand">
       <a class="navbar-item" href="localhost:8080">
@@ -89,11 +89,16 @@
   </section>
 
   
-  <footer class="footer has-background-light">
-    <p class="has-text-centered is-size-5"> Copyrith (c) 2024 <div class="has-text-weight-bold is-underlined">Auto-Wood</div></p>
+  <footer class="has-text-centered is-flex-align-items-flex-end mt-auto">
+    <small>
+      <span>Copyright @2022</span>
+      <br />
+    </small>
+    <a href="/">About</a>
   </footer>
 
 
+</div>
 
  
 </template>
