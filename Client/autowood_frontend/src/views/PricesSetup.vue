@@ -22,7 +22,7 @@
                 <header class="card-header">
                   <p class="card-header-title is-centered">Koszty pracy zakładu</p>               
                 </header>
-                <div class="card-content">
+                <div class="card-content is-flex is-flex-direction-column" style="height: 100%;">
                     <div class="columns">
 
 
@@ -41,7 +41,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="buttons is-flex-align-items-flex-end mt-auto">
+                    <div class="buttons is-flex-align-items-flex-end mt-auto ">
                         <button @click="toggleSaveWindows = !toggleSaveWindows"
                          class="button is-dark"><i class="fa-regular fa-floppy-disk">&nbsp;</i>Zapisz</button>  
                         <button @click="toggleAddWorktype = !toggleAddWorktype" class="button is-dark"><i class="fa-solid fa-plus">&nbsp;</i>Dodaj</button>   
@@ -51,7 +51,7 @@
               </div>
 
         </div>
-        <div class="column is-flex is-one-third ">
+        <div class="column is-one-third ">
 
           <div class="card">
             <header class="card-header">
@@ -70,7 +70,7 @@
 
                     </div>
 
-                    <div class="column  ">
+                    <div class="column">
                         <div v-for="wood_cost in wood" class="field">
                             <input class="input" type="number" placeholder="bind-to-" v-model=wood_cost.price :disabled="toggleWoodDisabled"/>                                          
                         </div>
@@ -79,7 +79,7 @@
                 <div class="buttons is-flex-align-items-flex-end mt-auto ">
                     <button @click="toggleSaveWindows = !toggleSaveWindows"
                      class="button is-dark "><i class="fa-regular fa-floppy-disk">&nbsp;</i>Zapisz</button>  
-                    <button @click="toggleAddWorktype = !toggleAddWorktype" class="button is-dark"><i class="fa-solid fa-plus">&nbsp;</i>Dodaj</button>   
+                    <button @click="toggleAddWood = !toggleAddWood" class="button is-dark"><i class="fa-solid fa-plus">&nbsp;</i>Dodaj</button>   
                     <button @click="handleEditMaterialButton()" class="button is-dark"><i class="fa-regular fa-pen-to-square">&nbsp;</i>Edytuj</button>                       
                 </div>
             </div>
@@ -140,13 +140,48 @@
                 </div>
             </div>
         </div>
-            
           </section>
           <footer class="modal-card-foot">
             <div class="buttons">
               <button
               @click="addNewWorktimetype(new_worktimetype_name,new_worktimetype_cost);
-                      updateWorktimetypes(worktimetype)" class="button is-success"><i class="fa-regular fa-floppy-disk">&nbsp;</i>Zapisz</button>
+                      updateWorktimetypes(worktimetype,wood)" class="button is-success"><i class="fa-regular fa-floppy-disk">&nbsp;</i>Zapisz</button>
+              <button class="button"><i class="fa-solid fa-ban">&nbsp;</i>Anuluj</button>
+              <p class="has-text-left is-size-7">*Wprowadzone zmiany nie zmienią wcześniej zapisanych wycen</p>
+              
+              <p class="has-text-left is-size-7">Tylko nowe wyceny otrzymają wprowadzone wartości</p>
+            </div>
+          </footer>
+        </div>
+      </div>
+
+      <div v-bind:class="{'is-active': toggleAddWood}" class="modal" style="--bulma-modal-content-width: 30%;">
+        <div class="modal-background"></div>
+        <div class="modal-card">
+          <header class="modal-card-head">
+            <p class="modal-card-title">Dodaj nowy dział</p>
+            <button @click="toggleAddWood = !toggleAddWood" class="delete" aria-label="close"></button>
+          </header>
+          <section class="modal-card-body has-text-centered">
+
+           <div class="card-content">
+            <div class="columns">
+                <div class="column is-half">
+                    <label  class="label">Nazwa materiału</label>
+                    <input v-model="new_wood_name" class="input" type="text" placeholder="Dział" />
+                </div>
+                <div class="column">
+                    <label class="label">Koszt zł / m3</label>
+                    <input v-model="new_wood_cost" class="input" type="text" placeholder="Koszt" />
+                </div>
+            </div>
+        </div>
+          </section>
+          <footer class="modal-card-foot">
+            <div class="buttons">
+              <button
+              @click="addNewWood(new_wood_name,new_wood_cost);
+                      updateWorktimetypes(worktimetype, wood)" class="button is-success"><i class="fa-regular fa-floppy-disk">&nbsp;</i>Zapisz</button>
               <button class="button"><i class="fa-solid fa-ban">&nbsp;</i>Anuluj</button>
               <p class="has-text-left is-size-7">*Wprowadzone zmiany nie zmienią wcześniej zapisanych wycen</p>
               
@@ -171,8 +206,11 @@ const toggleDisabled = ref(true)
 const toggleWoodDisabled = ref(true)
 const toggleSaveWindows = ref(false)
 const toggleAddWorktype = ref(false)
+const toggleAddWood = ref(false)
 const new_worktimetype_name = ref('')
 const new_worktimetype_cost = ref('')
+const new_wood_cost = ref('')
+const new_wood_name = ref('')
 const errors = ref([])
 
 const temporaryWorktimetypes = ref()
@@ -223,20 +261,43 @@ function addNewWorktimetype(new_worktimetype_name, new_worktimetype_cost) {
   this.worktimetype.push(new_worktimetype)
 }
 
-function handleUpdateWorktimetypes(worktimetype) {
+function addNewWood(new_woood_name, new_wood_cost){
+  const new_wood = {
+    name: new_woood_name,
+    price: new_wood_cost
+  }
+  this.wood.push(new_wood)
+}
+
+function handleUpdateWorktimetypes(worktimetype, wood) {
 
   for ( let type of worktimetype) {
-    console.log(type.cost)
-    console.log(type.name)
+    //console.log(type.cost)
+    //console.log(type.name)
+
     if (typeof type.cost !== 'number' || type.cost < 0) {
       errors.value.push('Błędny koszt pracy. Podaj właściwą liczbę całkowitą')
     }
   }
 
+  console.log(wood)
+
+  for (let new_wood of wood) {
+    console.log(new_wood.name)
+    console.log(new_wood.cost)
+
+    if (typeof new_wood !== 'number' || new_wood < 0) {
+      errors.value.push('Błędny koszt nowego materiału. Podaj właściwą liczbę całkowitą')
+    }
+
+  }
+
 
   if(!errors.value.length) {
 
+    
     const result = updateWorktimetypes(worktimetype)
+    console.log(worktimetype)
 
     if (result) {
       toast({
