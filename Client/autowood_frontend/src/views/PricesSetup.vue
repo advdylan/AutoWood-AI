@@ -172,7 +172,7 @@
                 </div>
                 <div class="column">
                     <label class="label">Koszt zł / m3</label>
-                    <input v-model="new_wood_cost" class="input" type="text" placeholder="Koszt" />
+                    <input v-model="new_wood_cost" class="input" type="number" placeholder="Koszt" />
                 </div>
             </div>
         </div>
@@ -181,8 +181,11 @@
             <div class="buttons">
               <button
               @click="addNewWood(new_wood_name,new_wood_cost);
-                      updateWorktimetypes(worktimetype, wood)" class="button is-success"><i class="fa-regular fa-floppy-disk">&nbsp;</i>Zapisz</button>
-              <button class="button"><i class="fa-solid fa-ban">&nbsp;</i>Anuluj</button>
+              toggleAddWood = !toggleAddWood;
+              "
+              class="button is-success"><i class="fa-solid fa-plus">&nbsp;</i>Dodaj
+              </button>
+              <button @click="toggleAddWood = !toggleAddWood" class="button"><i class="fa-solid fa-ban">&nbsp;</i>Anuluj</button>
               <p class="has-text-left is-size-7">*Wprowadzone zmiany nie zmienią wcześniej zapisanych wycen</p>
               
               <p class="has-text-left is-size-7">Tylko nowe wyceny otrzymają wprowadzone wartości</p>
@@ -264,12 +267,46 @@ function addNewWorktimetype(new_worktimetype_name, new_worktimetype_cost) {
   this.worktimetype.push(new_worktimetype)
 }
 
-function addNewWood(new_woood_name, new_wood_cost){
-  const new_wood = {
-    name: new_woood_name,
-    price: new_wood_cost
+function addNewWood(new_wood_name, new_wood_cost){
+
+  if (typeof new_wood_name !== 'string' || new_wood_name.trim === ''){
+    errors.value.push('Podaj właściwą nazwę')
   }
+
+  if (typeof new_wood_cost !== 'number' || new_wood_cost <= 0) {
+    errors.value.push('Podaj właściwy koszt materiału')
+  }
+
+  if(!errors.value.length) {
+    const new_wood = {
+    name: new_wood_name,
+    density: 670,
+    price: String(new_wood_cost)
+  }
+
   this.wood.push(new_wood)
+
+  }
+
+  else {
+    let msg = ''
+
+    for (let i=0; i <errors.value.length; i++){
+      msg += errors.value[i] += "\n"
+    }
+
+    toast({
+        message: msg,
+        duration: 5000,
+        position: "top-center",
+        type: 'is-danger',
+        animate: { in: 'backInDown', out: 'backOutUp' },
+      })
+
+      errors.value = []
+}
+
+  
 }
 
 function handleUpdateWorktimetypes(worktimetype, wood) {
@@ -283,7 +320,7 @@ function handleUpdateWorktimetypes(worktimetype, wood) {
     }
   }
 
-
+ /*
   for (let new_wood of wood) {
     //console.log(new_wood.name)
     //console.log(new_wood.price)
@@ -293,6 +330,7 @@ function handleUpdateWorktimetypes(worktimetype, wood) {
     }
 
   }
+    */
 
 
   if(!errors.value.length) {      
@@ -303,7 +341,7 @@ function handleUpdateWorktimetypes(worktimetype, wood) {
     }
     console.log(updatedData)
     const result = updateWorktimetypes(updatedData)
-    //console.log(worktimetype)
+    
 
     if (result) {
       toast({

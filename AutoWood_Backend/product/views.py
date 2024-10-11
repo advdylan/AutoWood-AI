@@ -358,9 +358,9 @@ def update_worktimetypes(request):
         data = json.loads(request.body)
     except json.JSONDecodeError:
         return JsonResponse({'error': 'Invalid JSON data'}, status=400)
-    
+
     worktimetypes = data["worktimetype"]
-    
+    wood = data["wood"]
     try:
         with transaction.atomic():
             for object in worktimetypes:
@@ -371,12 +371,20 @@ def update_worktimetypes(request):
                     name=object["name"],
                     defaults={'cost': object["cost"]}
                 )
+
+            for object in wood:
+
+                new_wood, created = Wood.objects.update_or_create(
+                    name=object["name"],
+                    defaults={'price': object["price"]}
+                )
               
             return JsonResponse({'message': 'DataSaved'}, status=200)
-                
+        
     except Exception as e:
         return JsonResponse({'error': str(e)}, status=500)
-
+        
+                
 def get_or_create_model_instance(model, name):
     instance, created = model.objects.get_or_create(name=name)
     return instance
