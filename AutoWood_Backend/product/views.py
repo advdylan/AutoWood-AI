@@ -359,9 +359,11 @@ def update_worktimetypes(request):
     except json.JSONDecodeError:
         return JsonResponse({'error': 'Invalid JSON data'}, status=400)
     
+    worktimetypes = data["worktimetype"]
+    
     try:
         with transaction.atomic():
-            for object in data:
+            for object in worktimetypes:
                 print(f"Name: {object['name']}")
                 print(f"Cost: {object['cost']}")
                 

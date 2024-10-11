@@ -25,6 +25,7 @@ export const usePricesSetup = defineStore('pricessetup', {
           return true   
         })
         .catch(error => {
+          //console.log(JSON.stringify(response.data))  
           console.log(error)
           return false
         })

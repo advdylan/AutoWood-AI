@@ -106,7 +106,7 @@
           </section>
           <footer class="modal-card-foot">
             <div class="buttons">
-              <button @click="handleUpdateWorktimetypes(worktimetype);
+              <button @click="handleUpdateWorktimetypes(worktimetype, wood);
               toggleSaveWindows = !toggleSaveWindows;"     
               class="button is-success"><i class="fa-regular fa-floppy-disk">&nbsp;</i>Zapisz</button>
               <button class="button"><i class="fa-solid fa-ban">&nbsp;</i>Anuluj</button>
@@ -199,7 +199,7 @@ import { useNewProjectStoreBeta } from '@/store/newproject'
 import { usePricesSetup } from '@/store/pricessetup';
 import axios from 'axios'
 import { storeToRefs } from 'pinia';
-import {ref} from 'vue'
+import {ref, onMounted} from 'vue'
 import { toast } from 'bulma-toast';
 
 const toggleDisabled = ref(true)
@@ -227,7 +227,10 @@ const pricesstore = usePricesSetup()
 const {updateWorktimetypes} = pricesstore
 const {newWorktimeCost} = storeToRefs(pricesstore)
 
-loadData()
+onMounted(() => {
+  loadData()
+})
+
 
 function handleEditButton() {
   if (toggleDisabled.value === false) {
@@ -280,24 +283,27 @@ function handleUpdateWorktimetypes(worktimetype, wood) {
     }
   }
 
-  console.log(wood)
 
   for (let new_wood of wood) {
-    console.log(new_wood.name)
-    console.log(new_wood.cost)
+    //console.log(new_wood.name)
+    //console.log(new_wood.price)
 
-    if (typeof new_wood !== 'number' || new_wood < 0) {
+    if (typeof Number(parseFloat(new_wood.price)) !== 'number' || Number(parseFloat(new_wood.price)) < 0) {
       errors.value.push('Błędny koszt nowego materiału. Podaj właściwą liczbę całkowitą')
     }
 
   }
 
 
-  if(!errors.value.length) {
+  if(!errors.value.length) {      
 
-    
-    const result = updateWorktimetypes(worktimetype)
-    console.log(worktimetype)
+    let updatedData = {
+      worktimetype: worktimetype,
+      wood: wood
+    }
+    console.log(updatedData)
+    const result = updateWorktimetypes(updatedData)
+    //console.log(worktimetype)
 
     if (result) {
       toast({
