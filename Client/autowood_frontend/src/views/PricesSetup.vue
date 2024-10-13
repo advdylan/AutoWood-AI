@@ -45,7 +45,7 @@
                         <button @click="toggleSaveWindows = !toggleSaveWindows"
                          class="button is-dark"><i class="fa-regular fa-floppy-disk">&nbsp;</i>Zapisz</button>  
                         <button @click="toggleAddWorktype = !toggleAddWorktype" class="button is-dark"><i class="fa-solid fa-plus">&nbsp;</i>Dodaj</button>   
-                        <button @click="handleEditButton()" class="button is-dark"><i class="fa-regular fa-pen-to-square">&nbsp;</i>Edytuj</button>                       
+                        <button @click="handleToggle(toggleDisabled)" class="button is-dark"><i class="fa-regular fa-pen-to-square">&nbsp;</i>Edytuj</button>                       
                     </div>
                 </div>
               </div>
@@ -87,9 +87,47 @@
             
         </div>
         <div class="column is-one-third">
+
+          <div class="card">
+            <header class="card-header">
+              <p class="card-header-title is-centered">Koszty lakierów ( zł / m3)</p>               
+            </header>
+            <div class="card-content is-flex is-flex-direction-column" style="height: 100%;">
+                <div class="columns">
+
+
+                    <div class="column is-two-thirds">
+                        <div v-for="wood_name in wood" class="field">
+                            <div class="control">
+                                <input  class="input" type="text" :placeholder="wood_name.name" disabled/>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="column">
+                        <div v-for="wood_cost in wood" class="field">
+                            <input class="input" type="number" placeholder="bind-to-" v-model=wood_cost.price :disabled="togglePaintDisabled"/>                                          
+                        </div>
+                    </div>
+                </div>
+                <div class="buttons is-flex-align-items-flex-end mt-auto ">
+                    <button @click="toggleSaveWindows = !toggleSaveWindows"
+                     class="button is-dark "><i class="fa-regular fa-floppy-disk">&nbsp;</i>Zapisz</button>  
+                    <button @click="toggleAddPaint = !toggleAddPaint" class="button is-dark"><i class="fa-solid fa-plus">&nbsp;</i>Dodaj</button>   
+                    <button @click="handleEditMaterialButton()" class="button is-dark"><i class="fa-regular fa-pen-to-square">&nbsp;</i>Edytuj</button>                       
+                </div>
+            </div>
+          </div>
+
+
+
+
             
         </div>
     </div>
+
+    
 
 
     <div v-bind:class="{'is-active': toggleSaveWindows}" class="modal" style="--bulma-modal-content-width: 30%;">
@@ -207,9 +245,11 @@ import { toast } from 'bulma-toast';
 
 const toggleDisabled = ref(true)
 const toggleWoodDisabled = ref(true)
+const togglePaintDisabled = ref(true)
 const toggleSaveWindows = ref(false)
 const toggleAddWorktype = ref(false)
 const toggleAddWood = ref(false)
+const toggleAddPaint = ref(false)
 const new_worktimetype_name = ref('')
 const new_worktimetype_cost = ref('')
 const new_wood_cost = ref('')
@@ -222,7 +262,7 @@ const temporaryWorktimetypes = ref()
 const mainstore = useNewProjectStoreBeta()
 
 const {loadData} = mainstore
-const {worktimeCost, worktimetype, wood} = storeToRefs(mainstore)
+const {worktimeCost, worktimetype, wood, paints} = storeToRefs(mainstore)
 
 //PRICE SETUP STORE
 const pricesstore = usePricesSetup()
@@ -256,6 +296,19 @@ function handleEditMaterialButton() {
     toggleWoodDisabled.value = false
     loadData()
     console.log("pt2")
+  }
+}
+
+function handleToggle(toggleValue){
+  console.log(toggleValue)
+  if (!toggleValue) {
+    toggleValue = true
+    console.log('pt1')
+  }
+  else{
+    toggleValue = false
+    loadData()
+    console.log('pt2')
   }
 }
 

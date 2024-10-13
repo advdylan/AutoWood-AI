@@ -364,8 +364,8 @@ def update_worktimetypes(request):
     try:
         with transaction.atomic():
             for object in worktimetypes:
-                print(f"Name: {object['name']}")
-                print(f"Cost: {object['cost']}")
+                # print(f"Name: {object['name']}")
+                # print(f"Cost: {object['cost']}")
                 
                 new_worktimetype, created = Worktimetype.objects.update_or_create(
                     name=object["name"],
@@ -373,10 +373,14 @@ def update_worktimetypes(request):
                 )
 
             for object in wood:
+                # print(object["price"])
+                # print(object["name"])
+                # print(object["density"])
 
                 new_wood, created = Wood.objects.update_or_create(
                     name=object["name"],
-                    defaults={'price': object["price"]}
+                    defaults={'price': object["price"],
+                              'density': object["density"]}
                 )
               
             return JsonResponse({'message': 'DataSaved'}, status=200)
