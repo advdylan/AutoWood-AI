@@ -1,6 +1,16 @@
 <template>
   <div class="columns">
       <div class="column is-full">
+        <div class="container">
+          <div class="notification is-primary">
+            <div class="title is-centered is-size-4">
+              Nowa wycena  
+            </div>
+            <div class="text">
+              Moduł służący do tworzenia nowych wycen. Po zapisaniu projektu, pobierz raport lub zleć projekt bezpośrednio produkcji!
+            </div>
+          </div>
+        </div>
           <div class="card">
             <header class="card-header">
               <p class="card-header-title is-centered is-size-3">Szkic projektu</p>        

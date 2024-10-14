@@ -20,7 +20,7 @@
         <div class="column is-one-third">
             <div class="card">
                 <header class="card-header">
-                  <p class="card-header-title is-centered">Koszty pracy zakładu</p>               
+                  <p class="card-header-title is-centered"><i class="fa-solid fa-user"></i>&nbsp;Koszty pracy zakładu</p>               
                 </header>
                 <div class="card-content is-flex is-flex-direction-column" style="height: 100%;">
                     <div class="columns">
@@ -45,7 +45,7 @@
                         <button @click="toggleSaveWindows = !toggleSaveWindows"
                          class="button is-dark"><i class="fa-regular fa-floppy-disk">&nbsp;</i>Zapisz</button>  
                         <button @click="toggleAddWorktype = !toggleAddWorktype" class="button is-dark"><i class="fa-solid fa-plus">&nbsp;</i>Dodaj</button>   
-                        <button @click="handleToggle(toggleDisabled)" class="button is-dark"><i class="fa-regular fa-pen-to-square">&nbsp;</i>Edytuj</button>                       
+                        <button @click="toggleDisabled = !toggleDisabled" class="button is-dark"><i class="fa-regular fa-pen-to-square">&nbsp;</i>Edytuj</button>                       
                     </div>
                 </div>
               </div>
@@ -55,7 +55,7 @@
 
           <div class="card">
             <header class="card-header">
-              <p class="card-header-title is-centered">Koszty materiałów( zł / m3)</p>               
+              <p class="card-header-title is-centered"><i class="fa-solid fa-tree">&nbsp;</i>Koszty materiałów( zł / m3)</p>               
             </header>
             <div class="card-content is-flex is-flex-direction-column" style="height: 100%;">
                 <div class="columns">
@@ -90,7 +90,7 @@
 
           <div class="card">
             <header class="card-header">
-              <p class="card-header-title is-centered">Koszty lakierów ( zł / m3)</p>               
+              <p class="card-header-title is-centered"> <i class="fa-solid fa-fill-drip fa-lg"></i>&nbsp;Koszty lakierów ( zł / litr )</p>               
             </header>
             <div class="card-content is-flex is-flex-direction-column" style="height: 100%;">
                 <div class="columns">
@@ -240,7 +240,7 @@ import { useNewProjectStoreBeta } from '@/store/newproject'
 import { usePricesSetup } from '@/store/pricessetup';
 import axios from 'axios'
 import { storeToRefs } from 'pinia';
-import {ref, onMounted} from 'vue'
+import {ref, onMounted} from 'vue';
 import { toast } from 'bulma-toast';
 
 const toggleDisabled = ref(true)
@@ -299,16 +299,17 @@ function handleEditMaterialButton() {
   }
 }
 
-function handleToggle(toggleValue){
-  console.log(toggleValue)
-  if (!toggleValue) {
-    toggleValue = true
-    console.log('pt1')
-  }
-  else{
-    toggleValue = false
-    loadData()
-    console.log('pt2')
+function handleToggle(toggleRef) {
+  console.log('Before:', toggleRef.value);  // Log current ref value
+
+  // Toggle the ref's value
+  toggleRef.value = !toggleRef.value;
+
+  console.log('After:', toggleRef.value);   // Log new ref value
+
+  // Call your loadData function when toggling to false (example)
+  if (!toggleRef.value) {
+    loadData();
   }
 }
 
