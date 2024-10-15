@@ -102,6 +102,21 @@ class AccessoryType(models.Model):
         return f"{self.name}"
     class Meta:
         db_table = 'product_accesory_type'
+
+def documents_user_directory_path(instance, filename):
+    # This will save the documents in a directory named after the user's id
+    string = f'documents/new_project{instance.user.id}/{filename}'
+    return string
+class Customer(models.Model):
+
+    name = models.CharField(max_length=60, blank=True, null=True)
+    phone_number = models.IntegerField()
+    street = models.CharField(max_length=100, null=True)
+    code = models.CharField(max_length=15, null=True)
+    city = models.CharField(max_length = 40, null=True)
+    email = models.EmailField(max_length=60)
+
+
     
 
 
@@ -115,6 +130,7 @@ class NewProject(models.Model):
     new_elements = models.ManyToManyField(Element, through='NewProjectElement',blank=True)
     wood = models.ForeignKey(Wood, on_delete=models.CASCADE)
     collection = models.ForeignKey(Collection, on_delete=models.CASCADE)
+    customer = models.ForeignKey(Customer, on_delete=models.CASCADE )
     worktime_cost = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
     elements_cost = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
     elements_margin = models.DecimalField(max_digits=10,decimal_places=2, blank=True, null=True)
@@ -131,6 +147,13 @@ class NewProject(models.Model):
 
     def __str__(self):
         return self.name
+    
+class Document(models.Model):
+    name = models.CharField(max_length=100)
+    new_project = models.ForeignKey(NewProject, on_delete = models.CASCADE)
+    document = models.FileField(upload_to=documents_user_directory_path)
+    date = models.DateTimeField()
+    
 class Product(models.Model):
     name = models.CharField(max_length=100)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
