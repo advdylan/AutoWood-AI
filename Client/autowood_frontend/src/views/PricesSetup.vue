@@ -48,7 +48,7 @@
                         <button @click="toggleDisabled = !toggleDisabled;
                                   if (!toggleDisabled) {
                                     loadData()
-                                  }" class="button is-dark"><i class="fa-regular fa-pen-to-square">&nbsp;</i>Edytuj</button>                       
+                                  }" class="button is-dark"><i class="fa-regular fa-pen-to-square">&nbsp;</i>Edytuj</button>                                                  
                     </div>
                 </div>
               </div>
@@ -244,6 +244,50 @@
       </div>
 
 
+      <div v-bind:class="{'is-active': toggleAddPaint}" class="modal" style="--bulma-modal-content-width: 30%;">
+        <div class="modal-background"></div>
+        <div class="modal-card">
+          <header class="modal-card-head">
+            <p class="modal-card-title">Dodaj nowy dział</p>
+            <button @click="toggleAddPaint = !toggleAddPaint" class="delete" aria-label="close"></button>
+          </header>
+          <section class="modal-card-body has-text-centered">
+
+           <div class="card-content">
+            <div class="columns">
+                <div class="column is-one-third">
+                    <label  class="label">Nazwa materiału</label>
+                    <input v-model="new_paint_name" class="input" type="text" placeholder="Dział" />
+                </div>
+                <div class="column">
+                    <label class="label">Koszt zł / m3</label>
+                    <input v-model="new_paint_cost" class="input" type="number" placeholder="Koszt" />
+                </div>
+                <div class="column">
+                  <label class="label">Objętość w litrach</label>
+                  <input v-model="new_paint_volume" class="input" type="number" placeholder="Objętość" />
+              </div>
+            </div>
+        </div>
+          </section>
+          <footer class="modal-card-foot">
+            <div class="buttons">
+              <button
+              @click="addNewPaint(new_paint_name,new_paint_cost,new_paint_volume);
+              toggleAddPaint = !toggleAddPaint;
+              "
+              class="button is-success"><i class="fa-solid fa-plus">&nbsp;</i>Dodaj
+              </button>
+              <button @click="toggleAddPaint = !toggleAddPaint" class="button"><i class="fa-solid fa-ban">&nbsp;</i>Anuluj</button>
+              <p class="has-text-left is-size-7">*Wprowadzone zmiany nie zmienią wcześniej zapisanych wycen</p>
+              
+              <p class="has-text-left is-size-7">Tylko nowe wyceny otrzymają wprowadzone wartości</p>
+            </div>
+          </footer>
+        </div>
+      </div>
+
+
 
 </template>
 <script setup>
@@ -265,6 +309,9 @@ const new_worktimetype_name = ref('')
 const new_worktimetype_cost = ref('')
 const new_wood_cost = ref('')
 const new_wood_name = ref('')
+const new_paint_cost = ref('')
+const new_paint_name = ref('')
+const new_paint_volume = ref('')
 const errors = ref([])
 
 const temporaryWorktimetypes = ref()
@@ -282,10 +329,8 @@ const {updateWorktimetypes} = pricesstore
 const {newWorktimeCost} = storeToRefs(pricesstore)
 
 onMounted(() => {
- 
   loadData()
 })
-
 
 
 function addNewWorktimetype(new_worktimetype_name, new_worktimetype_cost) {
@@ -316,6 +361,7 @@ function addNewWood(new_wood_name, new_wood_cost){
   this.wood.push(new_wood)
 
   }
+  
 
   else {
     let msg = ''
@@ -334,7 +380,46 @@ function addNewWood(new_wood_name, new_wood_cost){
 
       errors.value = []
 }
+}
 
+function addNewPaint(new_paint_name, new_paint_cost,new_paint_volume){
+
+if (typeof new_paint_name !== 'string' || new_paint_name.trim === ''){
+  errors.value.push('Podaj właściwą nazwę')
+}
+
+if (typeof new_paint_cost !== 'number' || new_paint_cost <= 0) {
+  errors.value.push('Podaj właściwy koszt materiału')
+}
+
+if(!errors.value.length) {
+  const new_paint = {
+  name: new_paint_name,
+  cost: new_paint_cost,
+  volume: String(new_paint_volume)
+}
+
+this.paints.push(new_paint)
+
+}
+
+else {
+  let msg = ''
+
+  for (let i=0; i <errors.value.length; i++){
+    msg += errors.value[i] += "\n"
+  }
+
+  toast({
+      message: msg,
+      duration: 5000,
+      position: "top-center",
+      type: 'is-danger',
+      animate: { in: 'backInDown', out: 'backOutUp' },
+    })
+
+    errors.value = []
+}
   
 }
 
