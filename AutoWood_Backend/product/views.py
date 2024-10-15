@@ -12,7 +12,7 @@ from rest_framework.decorators import api_view
 from rest_framework.views import APIView
 from rest_framework.response import Response
 
-from django.db import transaction
+from django.db import transaction, IntegrityError, DatabaseError
 from django.http import JsonResponse, HttpResponse, FileResponse
 from django.shortcuts import get_object_or_404
 from io import BytesIO
@@ -361,6 +361,7 @@ def update_worktimetypes(request):
 
     worktimetypes = data["worktimetype"]
     wood = data["wood"]
+    paints = data["paints"]
     try:
         with transaction.atomic():
             for object in worktimetypes:
@@ -382,10 +383,17 @@ def update_worktimetypes(request):
                     defaults={'price': object["price"],
                               'density': object["density"]}
                 )
+
+            for object in paints:
+                new_paint, created = Paints.objects.update_or_create(
+                    name = object["name"],
+                    defaults={'cost' : object["cost"],
+                              'volume' :object["volume"]}
+                )
               
             return JsonResponse({'message': 'DataSaved'}, status=200)
         
-    except Exception as e:
+    except DatabaseError as e:
         return JsonResponse({'error': str(e)}, status=500)
         
                 

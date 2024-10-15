@@ -45,7 +45,10 @@
                         <button @click="toggleSaveWindows = !toggleSaveWindows"
                          class="button is-dark"><i class="fa-regular fa-floppy-disk">&nbsp;</i>Zapisz</button>  
                         <button @click="toggleAddWorktype = !toggleAddWorktype" class="button is-dark"><i class="fa-solid fa-plus">&nbsp;</i>Dodaj</button>   
-                        <button @click="toggleDisabled = !toggleDisabled" class="button is-dark"><i class="fa-regular fa-pen-to-square">&nbsp;</i>Edytuj</button>                       
+                        <button @click="toggleDisabled = !toggleDisabled;
+                                  if (!toggleDisabled) {
+                                    loadData()
+                                  }" class="button is-dark"><i class="fa-regular fa-pen-to-square">&nbsp;</i>Edytuj</button>                       
                     </div>
                 </div>
               </div>
@@ -80,7 +83,10 @@
                     <button @click="toggleSaveWindows = !toggleSaveWindows"
                      class="button is-dark "><i class="fa-regular fa-floppy-disk">&nbsp;</i>Zapisz</button>  
                     <button @click="toggleAddWood = !toggleAddWood" class="button is-dark"><i class="fa-solid fa-plus">&nbsp;</i>Dodaj</button>   
-                    <button @click="handleEditMaterialButton()" class="button is-dark"><i class="fa-regular fa-pen-to-square">&nbsp;</i>Edytuj</button>                       
+                    <button @click="toggleWoodDisabled = !toggleWoodDisabled;
+                            if (!toggleWoodDisabled){
+                              loadData()
+                            }" class="button is-dark"><i class="fa-regular fa-pen-to-square">&nbsp;</i>Edytuj</button>                       
                 </div>
             </div>
           </div>
@@ -97,25 +103,30 @@
 
 
                     <div class="column is-two-thirds">
-                        <div v-for="wood_name in wood" class="field">
+                        <div v-for="paint_name in paints" class="field">
                             <div class="control">
-                                <input  class="input" type="text" :placeholder="wood_name.name" disabled/>
+                                <input  class="input" type="text" :placeholder="paint_name.name" disabled/>
                             </div>
                         </div>
 
                     </div>
-
+                    
+                    
                     <div class="column">
-                        <div v-for="wood_cost in wood" class="field">
-                            <input class="input" type="number" placeholder="bind-to-" v-model=wood_cost.price :disabled="togglePaintDisabled"/>                                          
+                        <div v-for="paint_cost in paints" class="field">
+                            <input class="input" type="number" placeholder="bind-to-" v-model=paint_cost.cost :disabled="togglePaintDisabled"/>                                          
                         </div>
                     </div>
+                    
                 </div>
                 <div class="buttons is-flex-align-items-flex-end mt-auto ">
                     <button @click="toggleSaveWindows = !toggleSaveWindows"
                      class="button is-dark "><i class="fa-regular fa-floppy-disk">&nbsp;</i>Zapisz</button>  
                     <button @click="toggleAddPaint = !toggleAddPaint" class="button is-dark"><i class="fa-solid fa-plus">&nbsp;</i>Dodaj</button>   
-                    <button @click="handleEditMaterialButton()" class="button is-dark"><i class="fa-regular fa-pen-to-square">&nbsp;</i>Edytuj</button>                       
+                    <button @click="togglePaintDisabled = !togglePaintDisabled;
+                              if(!togglePaintDisabled){
+                                loadData()
+                              }" class="button is-dark"><i class="fa-regular fa-pen-to-square">&nbsp;</i>Edytuj</button>                       
                 </div>
             </div>
           </div>
@@ -144,7 +155,7 @@
           </section>
           <footer class="modal-card-foot">
             <div class="buttons">
-              <button @click="handleUpdateWorktimetypes(worktimetype, wood);
+              <button @click="handleUpdateWorktimetypes(worktimetype, wood, paints);
               toggleSaveWindows = !toggleSaveWindows;"     
               class="button is-success"><i class="fa-regular fa-floppy-disk">&nbsp;</i>Zapisz</button>
               <button class="button"><i class="fa-solid fa-ban">&nbsp;</i>Anuluj</button>
@@ -174,7 +185,7 @@
                 </div>
                 <div class="column">
                     <label class="label">Koszt pracy na godzinę</label>
-                    <input v-model="new_worktimetype_cost" class="input" type="text" placeholder="Koszt" />
+                    <input v-model="new_worktimetype_cost" class="input" type="number" placeholder="Koszt" />
                 </div>
             </div>
         </div>
@@ -183,7 +194,7 @@
             <div class="buttons">
               <button
               @click="addNewWorktimetype(new_worktimetype_name,new_worktimetype_cost);
-                      updateWorktimetypes(worktimetype,wood)" class="button is-success"><i class="fa-regular fa-floppy-disk">&nbsp;</i>Zapisz</button>
+                      toggleAddWorktype = !toggleAddWorktype" class="button is-success"><i class="fa-regular fa-floppy-disk">&nbsp;</i>Zapisz</button>
               <button class="button"><i class="fa-solid fa-ban">&nbsp;</i>Anuluj</button>
               <p class="has-text-left is-size-7">*Wprowadzone zmiany nie zmienią wcześniej zapisanych wycen</p>
               
@@ -271,47 +282,11 @@ const {updateWorktimetypes} = pricesstore
 const {newWorktimeCost} = storeToRefs(pricesstore)
 
 onMounted(() => {
+ 
   loadData()
 })
 
 
-function handleEditButton() {
-  if (toggleDisabled.value === false) {
-    toggleDisabled.value = true
-    console.log("pt1")
-  }
-  else {
-    toggleDisabled.value = false
-    loadData()
-    console.log("pt2")
-  }
-}
-
-function handleEditMaterialButton() {
-  if (toggleWoodDisabled.value === false) {
-    toggleWoodDisabled.value = true
-    console.log("pt1")
-  }
-  else {
-    toggleWoodDisabled.value = false
-    loadData()
-    console.log("pt2")
-  }
-}
-
-function handleToggle(toggleRef) {
-  console.log('Before:', toggleRef.value);  // Log current ref value
-
-  // Toggle the ref's value
-  toggleRef.value = !toggleRef.value;
-
-  console.log('After:', toggleRef.value);   // Log new ref value
-
-  // Call your loadData function when toggling to false (example)
-  if (!toggleRef.value) {
-    loadData();
-  }
-}
 
 function addNewWorktimetype(new_worktimetype_name, new_worktimetype_cost) {
   const new_worktimetype = {
@@ -363,7 +338,7 @@ function addNewWood(new_wood_name, new_wood_cost){
   
 }
 
-function handleUpdateWorktimetypes(worktimetype, wood) {
+function handleUpdateWorktimetypes(worktimetype, wood,paints) {
 
   for ( let type of worktimetype) {
     //console.log(type.cost)
@@ -391,7 +366,8 @@ function handleUpdateWorktimetypes(worktimetype, wood) {
 
     let updatedData = {
       worktimetype: worktimetype,
-      wood: wood
+      wood: wood,
+      paints: paints
     }
     console.log(updatedData)
     const result = updateWorktimetypes(updatedData)
