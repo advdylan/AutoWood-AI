@@ -103,9 +103,14 @@ class AccessoryType(models.Model):
     class Meta:
         db_table = 'product_accesory_type'
 
+def images_user_directory_path(instance, filename):
+    # This will save the image in a directory named after the user's id
+    string = f'images/new_project{instance.newproject.id}/{filename}'
+    return string
+
 def documents_user_directory_path(instance, filename):
     # This will save the documents in a directory named after the user's id
-    string = f'documents/new_project{instance.user.id}/{filename}'
+    string = f'documents/new_project{instance.newproject.id}/{filename}'
     return string
 class Customer(models.Model):
 
@@ -116,8 +121,17 @@ class Customer(models.Model):
     city = models.CharField(max_length = 40, null=True)
     email = models.EmailField(max_length=60)
 
-
+class Document(models.Model):
     
+    name = models.CharField(max_length=100)
+    document = models.ImageField(upload_to=documents_user_directory_path)
+    date = models.DateTimeField()
+
+class Image(models.Model):
+    
+    name = models.CharField(max_length=100)
+    image = models.FileField(upload_to=documents_user_directory_path)
+    date = models.DateTimeField()
 
 
 class NewProject(models.Model):
@@ -130,7 +144,9 @@ class NewProject(models.Model):
     new_elements = models.ManyToManyField(Element, through='NewProjectElement',blank=True)
     wood = models.ForeignKey(Wood, on_delete=models.CASCADE)
     collection = models.ForeignKey(Collection, on_delete=models.CASCADE)
-    customer = models.ForeignKey(Customer, on_delete=models.CASCADE )
+    customer = models.ForeignKey(Customer, on_delete=models.CASCADE, blank=True, null=True)
+    document = models.ManyToManyField(Document, blank=True)
+    image = models.ManyToManyField(Image,blank=True)
     worktime_cost = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
     elements_cost = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
     elements_margin = models.DecimalField(max_digits=10,decimal_places=2, blank=True, null=True)
@@ -148,11 +164,7 @@ class NewProject(models.Model):
     def __str__(self):
         return self.name
     
-class Document(models.Model):
-    name = models.CharField(max_length=100)
-    new_project = models.ForeignKey(NewProject, on_delete = models.CASCADE)
-    document = models.FileField(upload_to=documents_user_directory_path)
-    date = models.DateTimeField()
+
     
 class Product(models.Model):
     name = models.CharField(max_length=100)

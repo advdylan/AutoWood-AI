@@ -93,6 +93,8 @@ class NewProjectListCreateAPIView(
 new_project_list_create = NewProjectListCreateAPIView.as_view()
 
 
+
+
 class NewProjectDetailAPIView(
     generics.RetrieveUpdateDestroyAPIView
     ):

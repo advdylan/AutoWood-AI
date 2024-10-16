@@ -72,6 +72,24 @@ class CollectionSerializer(serializers.ModelSerializer):
         model = Collection
         fields = '__all__'
 
+class CustomerSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Customer
+        fields = '__all__'
+
+
+class ImageSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Image
+        fields = '__all__'
+
+class DocumentSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Document
+        fields = '__all__'
 
 
 class ProductSerializer(serializers.ModelSerializer): 
@@ -102,6 +120,8 @@ class NewProjectSerializer(serializers.ModelSerializer):
     paints = PaintsSerializer(read_only=True)
     category = CategorySerializer(read_only=True)
     collection = CollectionSerializer(read_only=True)
+    customer = CustomerSerializer(read_only=True)
+
 
     class Meta:
         model = NewProject
@@ -109,6 +129,7 @@ class NewProjectSerializer(serializers.ModelSerializer):
             'id',
             'name',
             'category',
+            'customer',
             'paints',
             'worktimes',
             'accessories',

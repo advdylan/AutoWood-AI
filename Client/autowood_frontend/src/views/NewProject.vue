@@ -11,6 +11,22 @@
             </div>
           </div>
         </div>
+
+        <div class="card">
+          <header class="card-header">
+            <p class="card-header-title is-centered is-size-3">Dane klienta | Dokumentacja</p>        
+          </header>
+          <div class="card-content">
+            <div class="content">
+              
+              
+
+
+            </div>
+          </div>
+          
+        </div>
+
           <div class="card">
             <header class="card-header">
               <p class="card-header-title is-centered is-size-3">Szkic projektu</p>        

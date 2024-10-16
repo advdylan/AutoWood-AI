@@ -63,6 +63,21 @@ class CategoryAdmin(admin.ModelAdmin):
 
 admin.site.register(Category, CategoryAdmin)
 
+class CustomerAdmin(admin.ModelAdmin):
+    list_display = ("name", "phone_number", "street", "code","city","email")
+
+admin.site.register(Customer, CustomerAdmin)
+
+class ImageAdmin(admin.ModelAdmin):
+    list_display = ("name", "image", "date")
+
+admin.site.register(Image, ImageAdmin)
+
+class DocumentAdmin(admin.ModelAdmin):
+    list_display = ("name", "document", "date")
+
+admin.site.register(Document, DocumentAdmin)
+
 class ProjectWorktimeInline(admin.TabularInline):
     model = ProjectWorktime
     extra = 1
