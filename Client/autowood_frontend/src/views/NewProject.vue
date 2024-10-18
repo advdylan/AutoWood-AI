@@ -1,4 +1,5 @@
 <template>
+  <div class="block">
   <div class="columns">
       <div class="column is-full">
         <div class="container">
@@ -10,26 +11,14 @@
               Moduł służący do tworzenia nowych wycen. Po zapisaniu projektu, pobierz raport lub zleć projekt bezpośrednio produkcji!
             </div>
           </div>
+          <ClientData></ClientData>
         </div>
 
-        <div class="card">
-          <header class="card-header">
-            <p class="card-header-title is-centered is-size-3">Dane klienta | Dokumentacja</p>        
-          </header>
-          <div class="card-content">
-            <div class="content">
-              
-              
-
-
-            </div>
-          </div>
-          
-        </div>
+        
 
           <div class="card">
             <header class="card-header">
-              <p class="card-header-title is-centered is-size-3">Szkic projektu</p>        
+              <p class="card-header-title is-centered is-size-3">Podstawowe dane projektu</p>        
             </header>
 
             <div class="columns">
@@ -181,7 +170,7 @@
     </div>                          
    </div>           
   </div>
-
+</div>
   <div v-bind:class="{'is-active': showElementModal}" id="newelement-modal" class="modal">
     <div class="modal-background"></div>
     <div class="modal-content">
@@ -345,6 +334,7 @@ import ElementsTable from '@/components/ElementsTable'
 import WorktimeType from '@/components/WorktimeType'
 import AccessoryTable from '@/components/AccessoryTable.vue'
 import Summary from '@/components/Summary.vue'
+import ClientData from '@/components/NewProjectComponents/ClientData.vue'
 
 import axios from 'axios'
 import { toast } from 'bulma-toast'
@@ -380,15 +370,15 @@ const newElement = ref({
   },
   quantity: 1
 })
-const elementStore = useNewProjectStoreBeta()
+const newProjectStore = useNewProjectStoreBeta()
 const summaryStore = useSummaryStore()
 
-const { addElement, loadData, $resetBoxes } = elementStore
+const { addElement, loadData, $resetBoxes } = newProjectStore
 const {summaryCosts, elementsMargin, accesoriesMargin, additionalMargin,summaryCostsWithMargin, elementsCost, accesoriesCost, worktimeCost} = storeToRefs(summaryStore)
 
 loadData()
 
-const {elements, wood, collection, paints, category, boxes, accesories, marginA, marginB, marginC} = storeToRefs(elementStore)
+const {elements, wood, collection, paints, category, boxes, accesories, marginA, marginB, marginC} = storeToRefs(newProjectStore)
 
 
 const submitForm = () => {
