@@ -217,6 +217,23 @@ def save_data(request):
             collection = get_or_create_model_instance(Collection, data["collection"])    
             paint = get_or_create_model_instance(Paints, data["paint"])
             category = get_or_create_model_instance(Category, data["category"])
+            #print(data["customer"])
+
+            #handle customer
+            customer_data = data.get("customer")
+
+            print(customer_data)
+
+            #print(f"{int(customer_data["phone_number"])}")
+            
+            customer, created = Customer.objects.get_or_create(
+                name=customer_data["name"],
+                phone_number=int(customer_data["phoneNumber"]),
+                street=customer_data["street"],
+                code=customer_data["code"],
+                city=customer_data["city"],
+                email=customer_data["email"]
+            )
 
             # Create the NewProject instance
             new_project = NewProject.objects.create(
@@ -235,7 +252,8 @@ def save_data(request):
                 percent_additional_margin=data["percent_additional_margin"],
                 elements_cost = data["elements_cost"],
                 accesories_cost = data["accesories_cost"],
-                worktime_cost = data["worktime_cost"]
+                worktime_cost = data["worktime_cost"],
+                customer = customer
             )
             
             # Handle elements
@@ -282,19 +300,24 @@ def save_data(request):
                 quantity = accessory["quantity"]
 
                 AccessoryDetail.objects.create(
-                    project=new_project,
-                    type=accessory_type,
-                    quantity=quantity
+                    project = new_project,
+                    type = accessory_type,
+                    quantity = quantity
                 )
 
                 new_project.accessories.add(accessory_type)
             
+
+            
+
+            
+
             # Save the final project instance
             new_project.save()
 
         return JsonResponse({'message': 'Data saved', 'project_id': new_project.id}, status=201)
 
-    except Exception as e:
+    except IntegrityError as e:
         # Log the error
         # logger.error(f"Error saving data: {e}")
         return JsonResponse({'error': str(e)}, status=500)

@@ -4,11 +4,13 @@
       <div class="column is-full">
         <div class="container">
           <div class="notification is-primary">
-            <div class="title is-centered is-size-4">
+            <div class="title is-centered is-size-3">
               Nowa wycena  
             </div>
             <div class="text">
-              Moduł służący do tworzenia nowych wycen. Po zapisaniu projektu, pobierz raport lub zleć projekt bezpośrednio produkcji!
+              Moduł służący do tworzenia nowych wycen. 
+              <br>
+              Po zapisaniu projektu, pobierz raport lub zleć projekt bezpośrednio produkcji!
             </div>
           </div>
           <ClientData></ClientData>
@@ -18,7 +20,7 @@
 
           <div class="card">
             <header class="card-header">
-              <p class="card-header-title is-centered is-size-3">Podstawowe dane projektu</p>        
+              <p class="card-header-title is-centered is-size-3">Dane projektu</p>        
             </header>
 
             <div class="columns">
@@ -378,7 +380,7 @@ const {summaryCosts, elementsMargin, accesoriesMargin, additionalMargin,summaryC
 
 loadData()
 
-const {elements, wood, collection, paints, category, boxes, accesories, marginA, marginB, marginC} = storeToRefs(newProjectStore)
+const {elements, wood, collection, paints, category, boxes, accesories, marginA, marginB, marginC, files, customer} = storeToRefs(newProjectStore)
 
 
 const submitForm = () => {
@@ -454,7 +456,8 @@ async function saveData() {
     percent_additional_margin: marginC.value,
     elements_cost: elementsCost.value,
     accesories_cost: accesoriesCost.value,
-    worktime_cost: worktimeCost.value
+    worktime_cost: worktimeCost.value,
+    customer: customer.value
 
   }
   let jsonProjectData = JSON.stringify(projectpostData)

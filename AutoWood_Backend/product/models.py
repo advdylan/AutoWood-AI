@@ -121,6 +121,9 @@ class Customer(models.Model):
     city = models.CharField(max_length = 40, null=True)
     email = models.EmailField(max_length=60)
 
+    def __str__(self):
+        return f"{self.name}"
+
 class Document(models.Model):
     
     name = models.CharField(max_length=100)
