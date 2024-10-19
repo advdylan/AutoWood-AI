@@ -13,7 +13,7 @@
               Po zapisaniu projektu, pobierz raport lub zleć projekt bezpośrednio produkcji!
             </div>
           </div>
-          <ClientData></ClientData>
+          <ClientData/>
         </div>
 
         

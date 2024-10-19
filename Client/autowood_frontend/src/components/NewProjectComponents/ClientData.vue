@@ -139,12 +139,12 @@
                                   
                                   </tfoot>
                                   <tbody>
-                                    <tr v-for="files in files" :key="files.name">
+                                    <tr v-for="(file,index) in files" :key="files.name">
                                       
-                                      <th>{{ files.name }}</th>
-                                      <td>{{ files.size }}</td>
-                                      <td>{{ files.type }}</td>
-                                      <td><b-button @click="deleteFile(file)" type="is-danger"><i class="fa-solid fa-xmark"></i></b-button></td>
+                                      <th>{{ file.name }}</th>
+                                      <td>{{ ((file.size)/100000).toFixed(2) }} mb</td>
+                                      <td>{{ (file.type).split('/')[1] }}</td>
+                                      <td><b-button class="delete-button" @click="deleteFile(file,index)" type="is-danger is-small"><i class="fa-solid fa-xmark"></i></b-button></td>
                                     </tr>
                                   </tbody>
                                   
@@ -186,6 +186,9 @@ import { storeToRefs } from 'pinia'
 import { ref } from 'vue'
 import axios from 'axios'
 import { toast } from 'bulma-toast'
+import 'core-js'
+
+
 
 const selectedFile = ref(null)
 
@@ -193,8 +196,9 @@ const newProjectStore = useNewProjectStoreBeta()
 
 const {customer, files} = storeToRefs(newProjectStore)
 
-function deleteFile(file){
-  files.value.pop(file)
+function deleteFile(file,index){
+
+  files.value.splice(index, 1)
 }
 
 function handleFileUpload(event) {
@@ -202,11 +206,13 @@ function handleFileUpload(event) {
     
 
     for (let file of event.target.files){
-      console.log(file)
-        files.value.push(file)
+      //console.log(file)
+      files.value.push(file)
     }
     selectedFile.value = event.target.files[0]
 }
 
 
 </script>
+<style>
+</style>
