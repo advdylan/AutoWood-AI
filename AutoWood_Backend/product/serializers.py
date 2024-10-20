@@ -121,6 +121,8 @@ class NewProjectSerializer(serializers.ModelSerializer):
     category = CategorySerializer(read_only=True)
     collection = CollectionSerializer(read_only=True)
     customer = CustomerSerializer(read_only=True)
+    image = ImageSerializer(many = True,read_only = True, source = 'images')
+    document = DocumentSerializer(many = True,read_only = True, source = 'documents')
 
 
     class Meta:
@@ -146,5 +148,7 @@ class NewProjectSerializer(serializers.ModelSerializer):
             'percent_additional_margin',
             'elements_cost',
             'accesories_cost',
-            'worktime_cost'
+            'worktime_cost',
+            'image',
+            'document'
         ]

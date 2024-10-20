@@ -69,12 +69,12 @@ class CustomerAdmin(admin.ModelAdmin):
 admin.site.register(Customer, CustomerAdmin)
 
 class ImageAdmin(admin.ModelAdmin):
-    list_display = ("name", "image", "date")
+    list_display = ("name",'project', "image", "date")
 
 admin.site.register(Image, ImageAdmin)
 
 class DocumentAdmin(admin.ModelAdmin):
-    list_display = ("name", "document", "date")
+    list_display = ("name",'project', "document", "date")
 
 admin.site.register(Document, DocumentAdmin)
 

@@ -13,11 +13,14 @@ from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework.response import Response
 
 from django.db import transaction, IntegrityError, DatabaseError
+from django.utils import timezone
 from django.http import JsonResponse, HttpResponse, FileResponse
 from django.shortcuts import get_object_or_404
 from io import BytesIO
 
 import json
+import mimetypes
+import datetime
 from .models import *
 from .serializers import *
 
@@ -253,17 +256,13 @@ def save_data(request):
         return JsonResponse({'status': 'error', 'message': 'Invalid JSON format for customer data'}, status=400)
     
 
-    uplaoded_files = []
+    uploaded_files = []
     for key in request.FILES:
-        uplaoded_files.append(request.FILES[key])
+        uploaded_files.append(request.FILES[key])
+
+    now = timezone.now()
 
 
-    for file in uplaoded_files:
-        print(file.name)
-    
-    
-
-           
     try:
         with transaction.atomic():
             # Get or create related models
@@ -300,8 +299,28 @@ def save_data(request):
                 elements_cost = elements_cost,
                 accesories_cost = accesories_cost,
                 worktime_cost = worktime_cost,
-                customer = customer
+                customer = customer,
+                
             )
+            #Handle files and images
+            for file in uploaded_files:
+                if(is_image(file)):
+                    print(f"Image detected: {file}")
+                    image = Image.objects.create(
+                        name = file.name,
+                        image = file,
+                        project = new_project,
+                        date = now
+                    )
+                else:
+                    print(f"Document detected: {file}")
+                    document= Document.objects.create(
+                        name = file.name,
+                        document = file,
+                        project = new_project,
+                        date = now
+                    )
+
             
             # Handle elements
             #elements_data = elements_data
@@ -468,3 +487,8 @@ def get_or_create_model_instance(model, name):
     instance, created = model.objects.get_or_create(name=name)
     return instance
 
+def is_image(file):
+    mime_type, _ = mimetypes.guess_type(file.name)
+    if mime_type and mime_type.startswith('image'):
+        return True
+    return False

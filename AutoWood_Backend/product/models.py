@@ -3,6 +3,7 @@ from decimal import Decimal, InvalidOperation
 
 
 
+
 class Wood(models.Model):
     name = models.CharField(max_length=20)
     density = models.FloatField(help_text="Density in kg/m3")
@@ -105,12 +106,12 @@ class AccessoryType(models.Model):
 
 def images_user_directory_path(instance, filename):
     # This will save the image in a directory named after the user's id
-    string = f'new_projects/{instance.newproject.id}/images/{filename}'
+    string = f'new_projects/{instance.project.id}/images/{filename}'
     return string
 
 def documents_user_directory_path(instance, filename):
     # This will save the documents in a directory named after the user's id
-    string = f'new_projects/{instance.newproject.id}/documents/{filename}'
+    string = f'new_projects/{instance.project.id}/documents/{filename}'
     return string
 class Customer(models.Model):
 
@@ -124,17 +125,7 @@ class Customer(models.Model):
     def __str__(self):
         return f"{self.name}"
 
-class Document(models.Model):
-    
-    name = models.CharField(max_length=100)
-    document = models.ImageField(upload_to=documents_user_directory_path)
-    date = models.DateTimeField()
 
-class Image(models.Model):
-    
-    name = models.CharField(max_length=100)
-    image = models.FileField(upload_to=documents_user_directory_path)
-    date = models.DateTimeField()
 
 
 class NewProject(models.Model):
@@ -148,8 +139,8 @@ class NewProject(models.Model):
     wood = models.ForeignKey(Wood, on_delete=models.CASCADE)
     collection = models.ForeignKey(Collection, on_delete=models.CASCADE)
     customer = models.ForeignKey(Customer, on_delete=models.CASCADE, blank=True, null=True)
-    document = models.ManyToManyField(Document, blank=True)
-    image = models.ManyToManyField(Image,blank=True)
+    document = models.ManyToManyField('Document', blank=True)
+    image = models.ManyToManyField('Image',blank=True)
     worktime_cost = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
     elements_cost = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
     elements_margin = models.DecimalField(max_digits=10,decimal_places=2, blank=True, null=True)
@@ -167,7 +158,19 @@ class NewProject(models.Model):
     def __str__(self):
         return self.name
     
+class Document(models.Model):
+    
+    name = models.CharField(max_length=100)
+    document = models.ImageField(upload_to=documents_user_directory_path)
+    project = models.ForeignKey(NewProject, on_delete=models.CASCADE, related_name='documents', null=True)
+    date = models.DateTimeField()
 
+class Image(models.Model):
+    
+    name = models.CharField(max_length=100)
+    image = models.FileField(upload_to=documents_user_directory_path)
+    project = models.ForeignKey(NewProject, on_delete=models.CASCADE, related_name='images', null=True)
+    date = models.DateTimeField()
     
 class Product(models.Model):
     name = models.CharField(max_length=100)
