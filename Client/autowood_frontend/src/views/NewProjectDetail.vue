@@ -1,4 +1,11 @@
 <template>
+  <ClientData v-if="detail_project"
+  :customer-props = "detail_project.customer"
+  >
+  </ClientData>
+  
+  
+
   <div class="card">
     <header class="card-header">
       <p v-if="detail_project" class="card-header-title is-centered is-size-4">Wycena zamówienia "{{ detail_project.name}}"</p>
@@ -156,6 +163,14 @@
         </div>
       </div>
       </div>
+
+      
+
+
+
+
+
+
 
         <div v-bind:class="{'is-active': showAccModal}" id="newelement-modal" class="modal">
           <div class="modal-background"></div>
@@ -321,6 +336,7 @@
   import ElementsTable from '@/components/ElementsTable'
   import AccessoryTable from '@/components/AccessoryTable.vue'
   import NewProject from './NewProject.vue'
+  import ClientData from '@/components/NewProjectComponents/ClientData.vue'
   import Summary from '@/components/Summary.vue'
 
   const projectName = ref()

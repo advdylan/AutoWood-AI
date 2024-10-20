@@ -156,14 +156,6 @@
                           </div>
                           
                         </div>
-
-                        
-
-                        
-
-
-                        
-
                       </div>
                     </div>               
                 </div>
@@ -178,14 +170,17 @@
     
   </div>
 
+  
+
 </template>
 
 <script setup>
 import { useNewProjectStoreBeta } from '@/store/newproject'
 import { storeToRefs } from 'pinia'
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 import axios from 'axios'
 import { toast } from 'bulma-toast'
+
 
 
 
@@ -195,6 +190,28 @@ const selectedFile = ref(null)
 const newProjectStore = useNewProjectStoreBeta()
 
 const {customer, files} = storeToRefs(newProjectStore)
+
+
+const props = defineProps({
+  customerProps: Object,
+  files: Array
+})
+
+
+
+
+
+watch(
+  () => props.customer,
+  (newCustomer) => {
+    if (newCustomer && Array.isArray(newCustomer)) {
+      customer.value = newCustomer
+    }
+  },
+  { immediate: true }
+);
+
+console.log(customer.value)
 
 function deleteFile(file,index){
 
