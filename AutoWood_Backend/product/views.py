@@ -3,13 +3,13 @@ import os
 # Add the project root directory to the sys.path
 sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
 
-# Now you can import as expected
 from product.pdf_generator_scripts.pdf_generator import get_data, header, header_info, footer, X, Y
 from product.pdf_generator_scripts.elements_production import generate_elements_productionpdf
 from product.pdf_generator_scripts.pricing_report import generate_report
 from rest_framework import authentication, generics, mixins, permissions, status
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, parser_classes
 from rest_framework.views import APIView
+from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework.response import Response
 
 from django.db import transaction, IntegrityError, DatabaseError
@@ -202,29 +202,68 @@ new_project_detail_view= NewProjectDetailAPIView.as_view()
    
 
 @api_view(['POST'])
+@parser_classes([MultiPartParser, FormParser])
 def save_data(request):
 
+
+    name = request.POST.get('name')
+    category = request.POST.get('category')
+    wood = request.POST.get('wood')
+    collection = request.POST.get('collection')
+    paint = request.POST.get('paint')
+    elements_margin = request.POST.get('elements_margin')
+    accesories_margin = request.POST.get('accesories_margin')
+    additional_margin = request.POST.get('additional_margin')
+    summary_with_margin = request.POST.get('summary_with_margin')
+    summary_without_margin = request.POST.get('summary_without_margin')
+
+
+    elements_post = request.POST.get('elements')
     try:
-        data = json.loads(request.body)
+        elements_data = json.loads(elements_post)
     except json.JSONDecodeError:
-        return JsonResponse({'error': 'Invalid JSON data'}, status=400)
+        return JsonResponse({'status': 'error', 'message': 'Invalid JSON format for elements'}, status=400)
+    
+    worktime_post = request.POST.get('worktime')
+    try:
+        worktime_data = json.loads(worktime_post)
+    except json.JSONDecodeError:
+        return JsonResponse({'status': 'error', 'message': 'Invalid JSON format for worktime'}, status=400)
+    
+    accesories_post = request.POST.get('accesories')
+    try:
+        accesories_data = json.loads(accesories_post)
+    except json.JSONDecodeError:
+        return JsonResponse({'status': 'error', 'message': 'Invalid JSON format for accesories'}, status=400)
+
+
+    percent_elements_margin = request.POST.get('percent_elements_margin')
+    percent_accesories_margin = request.POST.get('percent_accesories_margin')
+    percent_additional_margin = request.POST.get('percent_additional_margin')
+    elements_cost = request.POST.get('elements_cost')
+    accesories_cost = request.POST.get('accesories_cost')
+    worktime_cost =  request.POST.get('worktime_cost')
+
+
+    customer_post = request.POST.get('customer')
+
+    try:
+        customer_data = json.loads(customer_post)
+    except json.JSONDecodeError:
+        return JsonResponse({'status': 'error', 'message': 'Invalid JSON format for customer data'}, status=400)
     
 
+    print(customer_data["name"])
+
+        
     try:
         with transaction.atomic():
             # Get or create related models
-            wood = get_or_create_model_instance(Wood, data["wood"])
-            collection = get_or_create_model_instance(Collection, data["collection"])    
-            paint = get_or_create_model_instance(Paints, data["paint"])
-            category = get_or_create_model_instance(Category, data["category"])
-            #print(data["customer"])
+            wood = get_or_create_model_instance(Wood, wood)
+            collection = get_or_create_model_instance(Collection, collection)    
+            paint = get_or_create_model_instance(Paints, paint)
+            category = get_or_create_model_instance(Category, category)
 
-            #handle customer
-            customer_data = data.get("customer")
-
-            print(customer_data)
-
-            #print(f"{int(customer_data["phone_number"])}")
             
             customer, created = Customer.objects.get_or_create(
                 name=customer_data["name"],
@@ -237,27 +276,27 @@ def save_data(request):
 
             # Create the NewProject instance
             new_project = NewProject.objects.create(
-                name=data["name"],    
+                name=name,    
                 category=category,
                 paints=paint,
                 collection=collection,
                 wood=wood,
-                elements_margin=data["elements_margin"],
-                accesories_margin=data["accesories_margin"],
-                additional_margin=data["additional_margin"],
-                summary_with_margin=data["summary_with_margin"],
-                summary_without_margin=data["summary_without_margin"],
-                percent_elements_margin=data["percent_elements_margin"],
-                percent_accesories_margin=data["percent_accesories_margin"],
-                percent_additional_margin=data["percent_additional_margin"],
-                elements_cost = data["elements_cost"],
-                accesories_cost = data["accesories_cost"],
-                worktime_cost = data["worktime_cost"],
+                elements_margin=elements_margin,
+                accesories_margin=accesories_margin,
+                additional_margin=additional_margin,
+                summary_with_margin=summary_with_margin,
+                summary_without_margin=summary_without_margin,
+                percent_elements_margin=percent_elements_margin,
+                percent_accesories_margin=percent_accesories_margin,
+                percent_additional_margin=percent_additional_margin,
+                elements_cost = elements_cost,
+                accesories_cost = accesories_cost,
+                worktime_cost = worktime_cost,
                 customer = customer
             )
             
             # Handle elements
-            elements_data = data.get("elements", [])
+            #elements_data = elements_data
             for element_data in elements_data:
                 wood_type = get_or_create_model_instance(Wood, element_data["element"]["wood_type"]["name"])
 
@@ -280,7 +319,7 @@ def save_data(request):
                 new_project.new_elements.add(element)
             
             # Handle worktime
-            worktime_data = data.get("worktime", [])
+            
             for worktime in worktime_data:
                 worktimetype = get_or_create_model_instance(Worktimetype, worktime["text"])
                 duration = worktime.get("hours", 0) or 0
@@ -294,8 +333,8 @@ def save_data(request):
                 )
             
             # Handle accessories
-            accessories_data = data.get("accesories", [])
-            for accessory in accessories_data:
+            
+            for accessory in accesories_data:
                 accessory_type = get_or_create_model_instance(AccessoryType, accessory["type"]["name"])
                 quantity = accessory["quantity"]
 
@@ -319,7 +358,7 @@ def save_data(request):
 
     except IntegrityError as e:
         # Log the error
-        # logger.error(f"Error saving data: {e}")
+        print(e)
         return JsonResponse({'error': str(e)}, status=500)
         
 
@@ -390,19 +429,14 @@ def update_worktimetypes(request):
     try:
         with transaction.atomic():
             for object in worktimetypes:
-                # print(f"Name: {object['name']}")
-                # print(f"Cost: {object['cost']}")
-                
+                              
                 new_worktimetype, created = Worktimetype.objects.update_or_create(
                     name=object["name"],
                     defaults={'cost': object["cost"]}
                 )
 
             for object in wood:
-                # print(object["price"])
-                # print(object["name"])
-                # print(object["density"])
-
+            
                 new_wood, created = Wood.objects.update_or_create(
                     name=object["name"],
                     defaults={'price': object["price"],

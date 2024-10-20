@@ -436,69 +436,79 @@ const submitForm = () => {
   }
 
 
-async function saveData() {
-  const projectpostData = {
-    name: projectName.value,
-    category: selectedCategory.value,
-    wood: selectedWood.value,
-    collection: selectedCollection.value,
-    paint: selectedPaint.value,
-    elements_margin: parseFloat(elementsMargin.value.toFixed(2)),
-    accesories_margin: parseFloat(accesoriesMargin.value.toFixed(2)),
-    additional_margin: parseFloat(additionalMargin.value.toFixed(2)),
-    summary_with_margin: parseFloat(summaryCostsWithMargin.value.toFixed(2)),
-    summary_without_margin: parseFloat(Number(summaryCosts.value).toFixed(2)),
-    elements: elements.value,
-    worktime: boxes.value,
-    accesories: accesories.value,
-    percent_elements_margin: marginA.value,
-    percent_accesories_margin: marginB.value,
-    percent_additional_margin: marginC.value,
-    elements_cost: elementsCost.value,
-    accesories_cost: accesoriesCost.value,
-    worktime_cost: worktimeCost.value,
-    customer: customer.value
 
+  async function saveData() {
+
+  const formData = new FormData();
+
+  // Add regular project data
+  formData.append('name', projectName.value)
+  formData.append('category', selectedCategory.value)
+  formData.append('wood', selectedWood.value)
+  formData.append('collection', selectedCollection.value)
+  formData.append('paint', selectedPaint.value)
+  formData.append('elements_margin', parseFloat(elementsMargin.value.toFixed(2)))
+  formData.append('accesories_margin', parseFloat(accesoriesMargin.value.toFixed(2)))
+  formData.append('additional_margin', parseFloat(additionalMargin.value.toFixed(2)))
+  formData.append('summary_with_margin', parseFloat(summaryCostsWithMargin.value.toFixed(2)))
+  formData.append('summary_without_margin', parseFloat(Number(summaryCosts.value).toFixed(2)))
+  formData.append('elements', JSON.stringify(elements.value))
+  formData.append('worktime', JSON.stringify(boxes.value))
+  formData.append('accesories', JSON.stringify(accesories.value))
+  formData.append('percent_elements_margin', marginA.value)
+  formData.append('percent_accesories_margin', marginB.value)
+  formData.append('percent_additional_margin', marginC.value)
+  formData.append('elements_cost', elementsCost.value)
+  formData.append('accesories_cost', accesoriesCost.value)
+  formData.append('worktime_cost', worktimeCost.value)
+  formData.append('customer', JSON.stringify(customer.value))
+
+  if (files.value) {
+    for (let i = 0; i < files.value.length; i++) {
+      formData.append('files', files.value[i])
+    }
   }
-  let jsonProjectData = JSON.stringify(projectpostData)
-  let parsedProjectData = JSON.parse(jsonProjectData)
-  console.log(parsedProjectData.name)
+
+  /* let jsonProjectData = JSON.stringify(projectpostData)
+  let parsedProjectData = JSON.parse(jsonProjectData) */
+  
+  for (let pair of formData.entries()) {
+    console.log(pair[0], pair[1])
+  }
   
 
-  if (typeof parsedProjectData.name !== 'string' || parsedProjectData.name.trim() === '') {
+  if (!formData.get('name') || formData.get('name').trim() === '') {
     errors.value.push('Podaj właściwą nazwę wyceny w oknie "Nazwa projektu"')
     //inputClass.value = 'input is-danger'
   }
-  if (typeof parsedProjectData.category !== 'string' || parsedProjectData.name.trim() === '') {
+  if (!formData.get('category') || formData.get('category').trim() === '') {
     errors.value.push('Podaj właściwą nazwę w oknie "Kategoria"')
   }
-  if (typeof parsedProjectData.wood !== 'string' || parsedProjectData.name.trim() === '') {
+  if (!formData.get('wood') || formData.get('wood').trim() === '') {
     errors.value.push('Podaj właściwą nazwę w oknie "Materiał"')
   }
-  if (typeof parsedProjectData.collection !== 'string' || parsedProjectData.name.trim() === '') {
+  if (!formData.get('collection') || formData.get('collection').trim() === '') {
     errors.value.push('Podaj właściwą nazwę w oknie "Kolekcja"')
   }
-  if (typeof parsedProjectData.paint !== 'string' || parsedProjectData.name.trim() === '') {
+  if (!formData.get('paint') || formData.get('paint').trim() === '') {
     errors.value.push('Podaj właściwą nazwę w oknie "Malowanie"')
   }
 
 
   if (!errors.value.length) {
-      await axios
-          .post(`api/v1/product/save`, jsonProjectData)
-          .then(response => {  
-            toast({
-              message: `Wycena ${parsedProjectData.name} dodane poprawnie`,
-              duration: 5000,
-              position: "top-center",
-              type: 'is-success',
-              animate: { in: 'backInDown', out: 'backOutUp' },
-            })        
-          })
-          .catch(error => {
-            console.log(error)
-          })
-      }
+
+    try {
+      const response = await axios.post('api/v1/product/save', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+      console.log('Server response:', response);
+      console.log('Project updated successfully:', response.data);
+    } catch (error) {
+      console.error('Error saving the project:', error);
+    }
+  } 
 
   else {
         let msg = ''
@@ -518,6 +528,7 @@ async function saveData() {
         }
 
   }
+
     
 
 

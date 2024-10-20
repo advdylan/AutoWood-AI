@@ -186,7 +186,7 @@ import { storeToRefs } from 'pinia'
 import { ref } from 'vue'
 import axios from 'axios'
 import { toast } from 'bulma-toast'
-import 'core-js'
+
 
 
 

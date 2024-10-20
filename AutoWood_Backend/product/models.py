@@ -105,12 +105,12 @@ class AccessoryType(models.Model):
 
 def images_user_directory_path(instance, filename):
     # This will save the image in a directory named after the user's id
-    string = f'images/new_project{instance.newproject.id}/{filename}'
+    string = f'new_projects/{instance.newproject.id}/images/{filename}'
     return string
 
 def documents_user_directory_path(instance, filename):
     # This will save the documents in a directory named after the user's id
-    string = f'documents/new_project{instance.newproject.id}/{filename}'
+    string = f'new_projects/{instance.newproject.id}/documents/{filename}'
     return string
 class Customer(models.Model):
 

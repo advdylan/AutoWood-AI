@@ -410,6 +410,7 @@ const submitForm = () => {
           accesories_cost: accesoriesCost.value,
           worktime_cost: worktimeCost.value
           
+          
   }
 
   console.log('Form Data before sending:', formData)
