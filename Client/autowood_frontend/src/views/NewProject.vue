@@ -331,12 +331,14 @@ import { useNewProjectStoreBeta } from '@/store/newproject'
 import { useSummaryStore } from '@/store/summary'
 import {ref, computed, onUnmounted, watch, watchEffect} from 'vue'
 import { storeToRefs } from 'pinia'
+import {validateFormData} from '@/validators/Validators.js'
 
 import ElementsTable from '@/components/ElementsTable'
 import WorktimeType from '@/components/WorktimeType'
 import AccessoryTable from '@/components/AccessoryTable.vue'
 import Summary from '@/components/Summary.vue'
 import ClientData from '@/components/NewProjectComponents/ClientData.vue'
+
 
 import axios from 'axios'
 import { toast } from 'bulma-toast'
@@ -441,6 +443,10 @@ const submitForm = () => {
 
   const formData = new FormData();
 
+  //console.log(formData.get('name').trim())
+
+
+
   // Add regular project data
   formData.append('name', projectName.value)
   formData.append('category', selectedCategory.value)
@@ -462,38 +468,15 @@ const submitForm = () => {
   formData.append('accesories_cost', accesoriesCost.value)
   formData.append('worktime_cost', worktimeCost.value)
   formData.append('customer', JSON.stringify(customer.value))
+  files.value.forEach((file, index) => {
+  formData.append(`files[${index}]`, file)
+})
+ 
 
-  if (files.value) {
-    for (let i = 0; i < files.value.length; i++) {
-      formData.append('files', files.value[i])
-    }
-  }
-
-  /* let jsonProjectData = JSON.stringify(projectpostData)
-  let parsedProjectData = JSON.parse(jsonProjectData) */
-  
-  for (let pair of formData.entries()) {
-    console.log(pair[0], pair[1])
-  }
   
 
-  if (!formData.get('name') || formData.get('name').trim() === '') {
-    errors.value.push('Podaj właściwą nazwę wyceny w oknie "Nazwa projektu"')
-    //inputClass.value = 'input is-danger'
-  }
-  if (!formData.get('category') || formData.get('category').trim() === '') {
-    errors.value.push('Podaj właściwą nazwę w oknie "Kategoria"')
-  }
-  if (!formData.get('wood') || formData.get('wood').trim() === '') {
-    errors.value.push('Podaj właściwą nazwę w oknie "Materiał"')
-  }
-  if (!formData.get('collection') || formData.get('collection').trim() === '') {
-    errors.value.push('Podaj właściwą nazwę w oknie "Kolekcja"')
-  }
-  if (!formData.get('paint') || formData.get('paint').trim() === '') {
-    errors.value.push('Podaj właściwą nazwę w oknie "Malowanie"')
-  }
-
+ //ERROR CHECKING FUNCTIONS
+ validateFormData(formData, errors)
 
   if (!errors.value.length) {
 

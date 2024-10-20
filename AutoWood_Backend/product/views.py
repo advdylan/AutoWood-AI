@@ -253,9 +253,17 @@ def save_data(request):
         return JsonResponse({'status': 'error', 'message': 'Invalid JSON format for customer data'}, status=400)
     
 
-    print(customer_data["name"])
+    uplaoded_files = []
+    for key in request.FILES:
+        uplaoded_files.append(request.FILES[key])
 
-        
+
+    for file in uplaoded_files:
+        print(file.name)
+    
+    
+
+           
     try:
         with transaction.atomic():
             # Get or create related models
