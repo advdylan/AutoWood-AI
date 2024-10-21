@@ -4,6 +4,7 @@ import NewProject from '../views/NewProject.vue'
 import ProjectsList from '../views/ProjectsList.vue'
 import NewProjectDetail from '../views/NewProjectDetail.vue'
 import PricesSetup from '@/views/PricesSetup.vue'
+import Accesories from '@/views/Accesories.vue'
 
 
 const routes = [
@@ -29,6 +30,11 @@ const routes = [
     path: '/prices-setup',
     name: 'PriceSetup',
     component: PricesSetup
+  },
+  {
+    path: '/accesories',
+    name: 'Accesories',
+    component: Accesories
   }
   
  

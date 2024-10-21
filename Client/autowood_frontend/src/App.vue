@@ -61,12 +61,13 @@
           </div>
           
         </div>
-        <a class="navbar-item">
+        <router-link to="/accesories" class="navbar-item">      
           <i class="fa-solid fa-screwdriver-wrench fa-lg"></i>
           <div class="is-size-5">
             &nbsp;Akcesoria
           </div>
-        </a>
+        </router-link>
+
         <a class="navbar-item">
           <i class="fa-solid fa-fill-drip fa-lg"></i>
           <div class="is-size-5">
