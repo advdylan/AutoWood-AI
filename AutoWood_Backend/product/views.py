@@ -306,7 +306,7 @@ def save_data(request):
             for file in uploaded_files:
                 if(is_image(file)):
                     #print(f"Image detected: {file}")
-                    type = file.name.split('.')[1]
+                    
                     
 
                     image = Image.objects.create(
@@ -314,11 +314,13 @@ def save_data(request):
                         image = file,
                         project = new_project,
                         date = now,
-                        type = file.name.split('.')[1]
+                        file_type = file.name.split('.')[1],
+                        size = round((file.size)/1000000, 2)
                         
                     )
                 else:
-                    type = file.name.split('.')[1]
+                    
+                    
                     
                     #print(f"Document detected: {file}")
                     document= Document.objects.create(
@@ -326,7 +328,8 @@ def save_data(request):
                         document = file,
                         project = new_project,
                         date = now,
-                        type = file.name.split('.')[1]
+                        file_type = file.name.split('.')[1],
+                        size = round((file.size)/1000000, 2)
                     )
 
             

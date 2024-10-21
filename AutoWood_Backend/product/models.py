@@ -164,7 +164,8 @@ class Document(models.Model):
     document = models.ImageField(upload_to=documents_user_directory_path)
     project = models.ForeignKey(NewProject, on_delete=models.CASCADE, related_name='documents', null=True)
     date = models.DateTimeField()
-    type = models.CharField(max_length=3,null=True)
+    file_type = models.CharField(max_length=3,null=True)
+    size = models.DecimalField(decimal_places=2, max_digits=7, null=True)
 
 
 
@@ -174,7 +175,8 @@ class Image(models.Model):
     image = models.FileField(upload_to=documents_user_directory_path)
     project = models.ForeignKey(NewProject, on_delete=models.CASCADE, related_name='images', null=True)
     date = models.DateTimeField()
-    type = models.CharField(max_length=3, null=3)
+    file_type = models.CharField(max_length=3, null=3)
+    size = models.DecimalField(decimal_places=2, max_digits=7, null=True)
     
 class Product(models.Model):
     name = models.CharField(max_length=100)

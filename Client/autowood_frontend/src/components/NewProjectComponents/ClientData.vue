@@ -142,9 +142,9 @@
                                     <tr v-for="(file,index) in files" :key="files.name">
                                       
                                       <th>{{ file.name }}</th>
-                                      <td>{{ ((file.size)/1000000).toFixed(2) }} mb</td>
-                                      <td>{{ (file.type) }}</td>
-                                      <td><b-button class="delete-button" @click="deleteFile(file,index)" type="is-danger is-small"><i class="fa-solid fa-xmark"></i></b-button></td>
+                                      <td>{{ (file.size)}} mb</td>
+                                      <td>{{ (file.file_type) }}</td>
+                                      <td><b-button class="delete-button" @click="deleteFile(file,index)" type="is-danger"><i class="fa-solid fa-xmark"></i></b-button></td>
                                     </tr>
                                   </tbody>
                                   

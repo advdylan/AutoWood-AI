@@ -14,14 +14,14 @@
     <div class="card-content">
       <div class="columns">
 
-        <div class="column is-three-fifths">
+        <div class="column is-half">
           <div class="card">
             <div class="card-header">
               <p class="card-header-title is-size-5">Szczegóły</p>
             </div>
               <div class="card-content">
                 <div class="columns">
-                  <div class="column is-one-third">
+                  <div class="column">
          
                   <div class="content">
                     <div class="field">
