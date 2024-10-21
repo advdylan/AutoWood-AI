@@ -30,7 +30,7 @@
 
                 <label class="label is-size-5">Numer telefonu</label>
                 <p class="control has-icons-left">
-                    <input v-model="customer.phoneNumber" class="input" type="text" placeholder="Numer telefonu"/>
+                    <input v-model="customer.phone_number" class="input" type="number" placeholder="Numer telefonu"/>
                         <span class="icon is-small is-left">
                             <i class="fa-solid fa-phone"></i>
                         </span>
@@ -142,7 +142,7 @@
                                     <tr v-for="(file,index) in files" :key="files.name">
                                       
                                       <th>{{ file.name }}</th>
-                                      <td>{{ ((file.size)/100000).toFixed(2) }} mb</td>
+                                      <td>{{ ((file.size)/1000000).toFixed(2) }} mb</td>
                                       <td>{{ (file.type).split('/')[1] }}</td>
                                       <td><b-button class="delete-button" @click="deleteFile(file,index)" type="is-danger is-small"><i class="fa-solid fa-xmark"></i></b-button></td>
                                     </tr>
@@ -194,24 +194,32 @@ const {customer, files} = storeToRefs(newProjectStore)
 
 const props = defineProps({
   customerProps: Object,
-  files: Array
+  documentsProps: Array,
+  imagesProps: Array
 })
 
-
-
-
-
 watch(
-  () => props.customer,
+  () => props.customerProps,
   (newCustomer) => {
-    if (newCustomer && Array.isArray(newCustomer)) {
+    if (newCustomer)  {
+    console.log(newCustomer)
       customer.value = newCustomer
     }
   },
   { immediate: true }
-);
+)
 
-console.log(customer.value)
+/* watch (
+  () => props.documentsProps,
+  (filesTogether) => {
+    if (filesTogether)
+    files.value = filesTogether
+
+  },
+  { immediate: true }
+) */
+
+console.log(files.value)
 
 function deleteFile(file,index){
 

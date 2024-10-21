@@ -1,6 +1,7 @@
 <template>
   <ClientData v-if="detail_project"
   :customer-props = "detail_project.customer"
+  :documents-props = "detail_project.document"
   >
   </ClientData>
   

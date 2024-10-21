@@ -61,6 +61,13 @@ export const useProjectsListStore = defineStore('projectslist', {
         }
     },
 
+/*     linkFiles(){
+        for (let img of this.detail_project.image){
+            return 0
+        } */
+
+    
+
     actions: {
 
         setProjects(data) {

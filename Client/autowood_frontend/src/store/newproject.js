@@ -188,6 +188,15 @@ export const useNewProjectStoreBeta = defineStore('newproject', {
       this.marginA = 0
       this.marginB = 0
       this.marginC = 0
+      this.customer = {
+        name: '',
+        phoneNumber: '',
+        street: '',
+        code: '',
+        city: '',
+        email: ''
+      }
+      this.files = []
     },
 
    
