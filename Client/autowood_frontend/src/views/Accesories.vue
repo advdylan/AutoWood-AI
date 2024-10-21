@@ -27,6 +27,24 @@
             <div class="card-content">
               <div class="content">
                 
+                <nav class="level">
+                    <div class="level-item has-text-centered">
+                        <input v-model="accesory.name" class="input" type="text" placeholder="Nazwa"/>
+                    </div>
+                    <div class="level-item has-text-centered">
+                        <input v-model="accesory.type" class="input" type="text" placeholder="Typ"/>
+                    </div>
+                    <div class="level-item has-text-centered">
+                        <input v-model="accesory.weight" class="input" type="text" placeholder="Waga"/>
+                    </div>
+                    <div class="level-item has-text-centered">
+                        <input v-model="accesory.price" class="input" type="text" placeholder="Cena"/>
+                    </div>
+                    <div class="level-item has-text-centered">
+                        <button class="button is-success">Dodaj</button>
+                    </div>
+                </nav>
+                
                 
                             
                 </div>
@@ -113,6 +131,7 @@ import AccessoryTable from '@/components/AccessoryTable.vue'
 
 const newProjectStore = useNewProjectStoreBeta()
 const data = ref([])
+const accesory = ref([])
 let isPaginated = true
 let isPaginationSimple = true
 let isPaginationRounded = false
