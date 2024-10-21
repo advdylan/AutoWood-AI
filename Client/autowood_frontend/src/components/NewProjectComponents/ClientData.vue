@@ -143,7 +143,7 @@
                                       
                                       <th>{{ file.name }}</th>
                                       <td>{{ ((file.size)/1000000).toFixed(2) }} mb</td>
-                                      <td>{{ (file.type).split('/')[1] }}</td>
+                                      <td>{{ (file.type) }}</td>
                                       <td><b-button class="delete-button" @click="deleteFile(file,index)" type="is-danger is-small"><i class="fa-solid fa-xmark"></i></b-button></td>
                                     </tr>
                                   </tbody>
@@ -202,14 +202,13 @@ watch(
   () => props.customerProps,
   (newCustomer) => {
     if (newCustomer)  {
-    console.log(newCustomer)
       customer.value = newCustomer
     }
   },
   { immediate: true }
 )
 
-/* watch (
+watch (
   () => props.documentsProps,
   (filesTogether) => {
     if (filesTogether)
@@ -217,7 +216,7 @@ watch(
 
   },
   { immediate: true }
-) */
+) 
 
 console.log(files.value)
 

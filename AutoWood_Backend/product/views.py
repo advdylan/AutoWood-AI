@@ -305,20 +305,28 @@ def save_data(request):
             #Handle files and images
             for file in uploaded_files:
                 if(is_image(file)):
-                    print(f"Image detected: {file}")
+                    #print(f"Image detected: {file}")
+                    type = file.name.split('.')[1]
+                    
+
                     image = Image.objects.create(
                         name = file.name,
                         image = file,
                         project = new_project,
-                        date = now
+                        date = now,
+                        type = file.name.split('.')[1]
+                        
                     )
                 else:
-                    print(f"Document detected: {file}")
+                    type = file.name.split('.')[1]
+                    
+                    #print(f"Document detected: {file}")
                     document= Document.objects.create(
                         name = file.name,
                         document = file,
                         project = new_project,
-                        date = now
+                        date = now,
+                        type = file.name.split('.')[1]
                     )
 
             
@@ -489,6 +497,7 @@ def get_or_create_model_instance(model, name):
 
 def is_image(file):
     mime_type, _ = mimetypes.guess_type(file.name)
+    
     if mime_type and mime_type.startswith('image'):
         return True
     return False
