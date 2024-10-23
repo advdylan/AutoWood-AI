@@ -29,9 +29,14 @@ class WorktimeSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class AccessoryTypeSerializer(serializers.ModelSerializer):
+
+    type_choices = serializers.SerializerMethodField()
     class Meta:
         model = AccessoryType
         fields = '__all__'
+
+    def get_type_choices(self, obj):
+        return AccessoryType.choices
 
 class AccessorySerializer(serializers.ModelSerializer):
 

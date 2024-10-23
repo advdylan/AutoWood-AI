@@ -8,7 +8,7 @@
               Dział zarządzania akcesoriami     
             </div>
             <div class="text">
-              Każdorazowa zmiana poniższych kosztów akcesorii nie działa wstecz. Tylko nowe projekty otrzymają nowe, poniższe wartości.
+              Każdorazowa zmiana poniższych kosztów akcesorii nie działa wstecz. Tylko nowe projekty otrzymają nowe wartości.
             </div>
           </div>
         </div>
@@ -32,7 +32,13 @@
                         <input v-model="accesory.name" class="input" type="text" placeholder="Nazwa"/>
                     </div>
                     <div class="level-item has-text-centered">
-                        <input v-model="accesory.type" class="input" type="text" placeholder="Typ"/>
+                      <div class="select">
+                        <select v-model="accesorytype.type">
+                          <option v-for="type in accesorytype.type_choices" :value="type">
+                            {{ type }}                    
+                          </option>
+                        </select>
+                      </div>
                     </div>
                     <div class="level-item has-text-centered">
                         <input v-model="accesory.weight" class="input" type="text" placeholder="Waga"/>
@@ -41,7 +47,7 @@
                         <input v-model="accesory.price" class="input" type="text" placeholder="Cena"/>
                     </div>
                     <div class="level-item has-text-centered">
-                        <button class="button is-success">Dodaj</button>
+                        <button v-on:click="addAccesorytype" class="button is-success">Dodaj</button>
                     </div>
                 </nav>
                 
@@ -114,9 +120,6 @@
                   </div>
                 </div>               
             </div>
-
-        
-
 </template>
 
 <script setup>
@@ -131,7 +134,15 @@ import AccessoryTable from '@/components/AccessoryTable.vue'
 
 const newProjectStore = useNewProjectStoreBeta()
 const data = ref([])
-const accesory = ref([])
+const accesory = ref({
+  description: '',
+  id: 0,
+  name: '',
+  price: '',
+  type: '',
+  weight: ''
+})
+const typeChoices = ref([])
 let isPaginated = true
 let isPaginationSimple = true
 let isPaginationRounded = false
@@ -149,6 +160,32 @@ const {loadData} = newProjectStore
 const {accesories, accesorytype} = storeToRefs(newProjectStore)
 
 
+
+const accesorytypes = computed(() => {
+
+  typeChoices.value = accesorytype.value.type_choices.map(choice => choice[0])
+
+})
+
+function addAccesorytype() {      
+
+  console.log(accesorytype.value.type_choices)
+      /* const newAccesory = {
+        id: accesory.id,
+        project: 0,
+        quantity: accesory.quantity,
+        type: {
+            description: accesory.description,
+            id: accesory.id,
+            name: accesory.name,
+            price: accesory.price,
+            type: accesory.type,
+            weight: accesory.weight
+        }
+    } */
+    //console.log("NewAcc:" , newAccesory)
+   /*  this.accesories.push(newAccesory) */
+    }
 
 let columns = [
     { 

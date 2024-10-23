@@ -149,9 +149,6 @@ export const useNewProjectStoreBeta = defineStore('newproject', {
     }
     //console.log("NewAcc:" , newAccesory)
     this.accesories.push(newAccesory)
-        
-
-      
     },
     deleteAccesory(accesory) {
       
