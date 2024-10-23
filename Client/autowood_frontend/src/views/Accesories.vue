@@ -33,8 +33,8 @@
                     </div>
                     <div class="level-item has-text-centered">
                       <div class="select">
-                        <select v-model="accesorytype.type">
-                          <option v-for="type in accesorytype.type_choices" :value="type">
+                        <select v-model="accesory.type">
+                          <option v-for="type in accesorytypes" :value="type">
                             {{ type }}                    
                           </option>
                         </select>
@@ -47,12 +47,10 @@
                         <input v-model="accesory.price" class="input" type="text" placeholder="Cena"/>
                     </div>
                     <div class="level-item has-text-centered">
-                        <button v-on:click="addAccesorytype" class="button is-success">Dodaj</button>
+                        <button v-on:click="showAccModal = !showAccModal" class="button is-success">Dodaj</button>
                     </div>
                 </nav>
-                
-                
-                            
+
                 </div>
               </div>
             </div>               
@@ -120,6 +118,80 @@
                   </div>
                 </div>               
             </div>
+
+
+
+
+<div class="modal" v-bind:class="{'is-active': showAccModal}" id="newelement-modal" style="--bulma-modal-content-width: 50%;" >
+  <div class="modal-background"></div>
+  <div class="modal-content">
+
+    <div class="modal-card">
+      <header class="modal-card-head">
+            <p class="modal-card-title is-centered is-size-2">Dodaj nowe akcesorium</p>
+            <button class="delete" aria-label="close" @click="showAccModal = false"></button>        
+          </header>
+          <section class="modal-card-body has-text-centered">
+            <div class="notification is-success">
+              <button class="delete"></button>
+              Sprawdź poprawność i dodaj opis nowego akcesorium
+            </div>
+            <nav class="level">
+              <div class="level-item has-text-centered">
+                  <input v-model="accesory.name" class="input" type="text" placeholder="Nazwa"/>
+              </div>
+              <div class="level-item has-text-centered">
+                <div class="select">
+                  <select v-model="accesory.type">
+                    <option v-for="type in accesorytypes" :value="type">
+                      {{ type }}                    
+                    </option>
+                  </select>
+                </div>
+              </div>
+              <div class="level-item has-text-centered">
+                  <input v-model="accesory.weight" class="input" type="text" placeholder="Waga"/>
+              </div>
+              <div class="level-item has-text-centered">
+                  <input v-model="accesory.price" class="input" type="text" placeholder="Cena"/>
+              </div>
+              
+          </nav>  
+
+          <div class="label">Opis</div>
+                <input
+                v-model="accesory.description"
+                class="input"
+                type="text"
+                placeholder="Opis"
+                />
+
+        </section>
+
+            <footer class="modal-card-foot">
+              
+              <div class="buttons">
+              <button
+              @click="addAccesorytype(accesory);
+              showAccModal = !showAccModal;"
+              class="button is-success"><i class="fa-solid fa-plus">&nbsp;</i>Dodaj
+              </button>
+              <button @click="showAccModal = !showAccModal;
+                " class="button"><i class="fa-solid fa-ban">&nbsp;</i>Anuluj</button>
+            </div>
+
+            </footer>
+            
+           
+              
+         
+            
+          
+
+  </div>
+  </div>
+</div>
+
 </template>
 
 <script setup>
@@ -131,12 +203,11 @@ import { toast } from 'bulma-toast'
 
 import AccessoryTable from '@/components/AccessoryTable.vue'
 
-
+const showAccModal = ref(false)
 const newProjectStore = useNewProjectStoreBeta()
 const data = ref([])
 const accesory = ref({
   description: '',
-  id: 0,
   name: '',
   price: '',
   type: '',
@@ -161,30 +232,24 @@ const {accesories, accesorytype} = storeToRefs(newProjectStore)
 
 
 
-const accesorytypes = computed(() => {
+function getAccessoryTypes(accesoryList) {
+  return [...new Set(accesoryList.flatMap(item => item.type_choices.map(choice => choice[0])))];
+}
 
-  typeChoices.value = accesorytype.value.type_choices.map(choice => choice[0])
-
-})
+const accesorytypes = getAccessoryTypes(accesorytype.value)
 
 function addAccesorytype() {      
 
-  console.log(accesorytype.value.type_choices)
-      /* const newAccesory = {
-        id: accesory.id,
-        project: 0,
-        quantity: accesory.quantity,
-        type: {
-            description: accesory.description,
-            id: accesory.id,
-            name: accesory.name,
-            price: accesory.price,
-            type: accesory.type,
-            weight: accesory.weight
-        }
-    } */
-    //console.log("NewAcc:" , newAccesory)
-   /*  this.accesories.push(newAccesory) */
+
+      const newAccesory = {
+        description: accesory.value.description,
+        name: accesory.value.name,
+        price: accesory.value.price,
+        type: accesory.value.type,
+        weight: accesory.value.weight
+    }
+    console.log("NewAcc:" , newAccesory)
+    this.accesorytype.push(newAccesory)
     }
 
 let columns = [
@@ -216,6 +281,8 @@ let columns = [
 
 onMounted(() => {
     loadData()
+    
+   
     
 })
 
