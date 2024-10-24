@@ -20,3 +20,8 @@ export function validateFormData(formData, errors) {
             console.log(pair[0], pair[1])
         }
 }
+
+export function validateNewAccesory(formData, errors) {
+  
+  return 0
+}

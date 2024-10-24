@@ -29,7 +29,8 @@ export const usePricesSetup = defineStore('pricessetup', {
           console.log(error)
           return false
         })
-      } 
+      },
+      
     },
   })
 

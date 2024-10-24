@@ -494,7 +494,7 @@ def update_worktimetypes(request):
         return JsonResponse({'error': str(e)}, status=500)
         
 @api_view(['POST'])
-def update_accesorietype(request):
+def update_accesorytype(request):
 
     try:
         data = json.loads(request.body)

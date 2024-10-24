@@ -115,6 +115,24 @@ export const useNewProjectStoreBeta = defineStore('newproject', {
       })
     },
 
+    async updateAccesories(editedData) {
+      await axios
+      .post(`/api/v1/newproject/update-accesorytype/`, editedData, {
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      })
+      .then(response => {
+        console.log(JSON.stringify(response.data))   
+        return true   
+      })
+      .catch(error => {
+        //console.log(JSON.stringify(response.data))  
+        console.log(error)
+        return false
+      })
+    },
+
 
     addElement(element) {   
       this.elements.push({
@@ -149,6 +167,9 @@ export const useNewProjectStoreBeta = defineStore('newproject', {
     }
     //console.log("NewAcc:" , newAccesory)
     this.accesories.push(newAccesory)
+    },
+    addAccesorytype(accesory) {
+      this.accesorytype.push(accesory)
     },
     deleteAccesory(accesory) {
       

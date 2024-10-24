@@ -486,10 +486,10 @@ const submitForm = () => {
           'Content-Type': 'multipart/form-data',
         },
       });
-      console.log('Server response:', response);
-      console.log('Project updated successfully:', response.data);
+      console.log('Server response:', response)
+      console.log('Project updated successfully:', response.data)
     } catch (error) {
-      console.error('Error saving the project:', error);
+      console.error('Error saving the project:', error)
     }
   } 
 

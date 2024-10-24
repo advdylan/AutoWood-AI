@@ -1,4 +1,5 @@
 <template>
+  
     <div class=columns >
         <div class="column is-full">
        
@@ -14,6 +15,66 @@
         </div>
         </div>
       </div>
+      <div class="column">
+
+        <div class="card">
+            <header class="card-header">
+              <p class="card-header-title is-centered is-size-4">Akcesoria
+                <span>&nbsp;<i class="fa-solid fa-screwdriver-wrench fa-lg"></i></span>
+              </p>
+              
+            </header>
+            <div class="card-content">
+              <div class="content">
+                <div class="projects-list-container">
+                    <b-table :key="tableKey" :data="accesorytype"
+                    :paginated="isPaginated"
+                    :per-page="perPage"
+                    :current-page.sync="currentPage"
+                    :pagination-simple="isPaginationSimple"
+                    :pagination-position="paginationPosition"
+                    :default-sort-direction="defaultSortDirection"
+                    :pagination-rounded="isPaginationRounded"
+                    :sort-icon="sortIcon"
+                    :sort-icon-size="sortIconSize"
+                    default-sort="user.first_name"
+                    aria-next-label="Next page"
+                    aria-previous-label="Previous page"
+                    aria-page-label="Page"
+                    aria-current-label="Current page"
+                    :page-input="hasInput"
+                    :pagination-order="paginationOrder"
+                    :page-input-position="inputPosition"
+                    :debounce-page-input="inputDebounce"
+                    >                    
+                        <template v-for="column in columns" :key="column.id">
+                            <b-table-column v-bind="column">
+                                <template v-if="column.searchable && !column.numeric" #searchable="props">
+                                    <b-input
+                                        v-model="props.filters[props.column.field]"
+                                        placeholder="Wyszukaj"
+                                        icon="magnify"/>
+                                </template>
+                                <template v-slot="props">
+                                    
+                                    <template v-if="column.field === 'nawigacja'">
+                                        <router-link :to="{ name: 'NewProjectDetail', params: { id: props.row.id } }">
+                                            <b-button icon-right="circle-info">Szczegóły</b-button>                               
+                                        </router-link>
+                                        
+                                    </template>
+                                    <template v-else>
+                                    {{ props.row[column.field] }}
+                                </template>
+                            </template>
+                            </b-table-column>
+                        </template>
+                    </b-table>
+                </div>
+                </div>
+              </div>
+            </div>               
+        </div>
 
       <div class="column">
 
@@ -56,68 +117,7 @@
             </div>               
         </div>
 
-        <div class="column">
 
-            <div class="card">
-                <header class="card-header">
-                  <p class="card-header-title is-centered is-size-4">Akcesoria
-                    <span>&nbsp;<i class="fa-solid fa-screwdriver-wrench fa-lg"></i></span>
-                  </p>
-                  
-                </header>
-                <div class="card-content">
-                  <div class="content">
-                    <div class="projects-list-container">
-                        <b-table :data="accesorytype"
-                        :paginated="isPaginated"
-                        :per-page="perPage"
-                        :current-page.sync="currentPage"
-                        :pagination-simple="isPaginationSimple"
-                        :pagination-position="paginationPosition"
-                        :default-sort-direction="defaultSortDirection"
-                        :pagination-rounded="isPaginationRounded"
-                        :sort-icon="sortIcon"
-                        :sort-icon-size="sortIconSize"
-                        default-sort="user.first_name"
-                        aria-next-label="Next page"
-                        aria-previous-label="Previous page"
-                        aria-page-label="Page"
-                        aria-current-label="Current page"
-                        :page-input="hasInput"
-                        :pagination-order="paginationOrder"
-                        :page-input-position="inputPosition"
-                        :debounce-page-input="inputDebounce">
-                            <template v-for="column in columns" :key="column.id">
-                                <b-table-column v-bind="column">
-                                    <template v-if="column.searchable && !column.numeric" #searchable="props">
-                                        <b-input
-                                            v-model="props.filters[props.column.field]"
-                                            placeholder="Wyszukaj"
-                                            icon="magnify"/>
-                                    </template>
-                                    <template v-slot="props">
-                                        
-                                        <template v-if="column.field === 'nawigacja'">
-                                            <router-link :to="{ name: 'NewProjectDetail', params: { id: props.row.id } }">
-                                                <b-button icon-right="circle-info">Szczegóły</b-button>                               
-                                            </router-link>
-                                            
-                                        </template>
-                                        <template v-else>
-                                        {{ props.row[column.field] }}
-                                    </template>
-                                </template>
-                                </b-table-column>
-                            </template>
-                        </b-table>
-                    </div>
-                    
-                    
-                                
-                    </div>
-                  </div>
-                </div>               
-            </div>
 
 
 
@@ -168,8 +168,8 @@
               
               <div class="buttons">
               <button
-              @click="addAccesorytype(accesory);
-              showAccModal = !showAccModal;"
+              @click="handleAddButton(accesory);
+              "
               class="button is-success"><i class="fa-solid fa-plus">&nbsp;</i>Dodaj
               </button>
               <button @click="showAccModal = !showAccModal;
@@ -197,11 +197,12 @@ import { onMounted, ref, watch, computed } from 'vue'
 import axios from 'axios'
 import { toast } from 'bulma-toast'
 
-import AccessoryTable from '@/components/AccessoryTable.vue'
+import {validateFormData} from '@/validators/Validators.js'
 
 const showAccModal = ref(false)
 const newProjectStore = useNewProjectStoreBeta()
 const data = ref([])
+const tableKey = ref(0)
 const accesory = ref({
   description: '',
   name: '',
@@ -210,6 +211,7 @@ const accesory = ref({
   weight: ''
 })
 const typeChoices = ref([])
+const errors = ref([])
 let isPaginated = true
 let isPaginationSimple = true
 let isPaginationRounded = false
@@ -218,12 +220,12 @@ let defaultSortDirection = 'asc'
 let sortIcon= 'arrow-up'
 let sortIconSize= 'is-small'
 let currentPage= 1
-let perPage= 5
+let perPage= 10
 let hasInput= false
 let paginationOrder= ''
 let inputPosition= ''
 let inputDebounce= ''
-const {loadData} = newProjectStore
+const {loadData, addAccesorytype} = newProjectStore
 const {accesories, accesorytype} = storeToRefs(newProjectStore)
 
 
@@ -234,19 +236,102 @@ function getAccessoryTypes(accesoryList) {
 
 const accesorytypes = getAccessoryTypes(accesorytype.value)
 
-function addAccesorytype() {      
-
+function handleAddButton() {      
+    let tempId = -1 //temporary ID for frontend new accesories
+    const allTypeChoices = accesorytype.value.flatMap(item => item.type_choices) 
+    const uniqueTypeChoices = [...new Set(allTypeChoices.map(JSON.stringify))].map(JSON.parse)
 
       const newAccesory = {
         description: accesory.value.description,
+        id: tempId--,
         name: accesory.value.name,
         price: accesory.value.price,
         type: accesory.value.type,
-        weight: accesory.value.weight
+        weight: accesory.value.weight,
+        type_choices: uniqueTypeChoices
     }
-    console.log("NewAcc:" , newAccesory)
-    this.accesorytype.push(newAccesory)
+    /* console.log("Accesorytype: ", accesorytype.value)
+    console.log("NewAcc:" , newAccesory) */
+
+    addAccesorytype(newAccesory)   
+    this.tableKey += 1 //Refreshing table data
     }
+
+function handleUpdateAccesories(accesorytype) {
+
+for ( let accesory of accesorytype) {
+  console.log(accesory)
+
+  /* if (typeof type.cost !== 'number' || type.cost < 0) {
+    errors.value.push('Błędny koszt pracy. Podaj właściwą liczbę całkowitą')
+  }
+} */
+
+/*
+for (let new_wood of wood) {
+  //console.log(new_wood.name)
+  //console.log(new_wood.price)
+
+  if (typeof Number(parseFloat(new_wood.price)) !== 'number' || Number(parseFloat(new_wood.price)) < 0) {
+    errors.value.push('Błędny koszt nowego materiału. Podaj właściwą liczbę całkowitą')
+  }
+
+}
+  */
+
+
+if(!errors.value.length) {      
+
+  let updatedData = {
+    worktimetype: worktimetype,
+    wood: wood,
+    paints: paints
+  }
+  console.log(updatedData)
+  const result = updateWorktimetypes(updatedData)
+  
+
+  if (result) {
+    toast({
+          message: `Czasy pracy zaktualizowane poprawnie`,
+          duration: 5000,
+          position: "top-center",
+          type: 'is-success',
+          animate: { in: 'backInDown', out: 'backOutUp' },
+        })
+  }
+
+  else {
+    toast({
+          message: `Czasy pracy nie zaktualizowane poprawnie`,
+          duration: 5000,
+          position: "top-center",
+          type: 'is-danger',
+          animate: { in: 'backInDown', out: 'backOutUp' },
+        })
+  }
+}
+
+else {
+  let msg = ''
+
+  for (let i=0; i <errors.value.length; i++){
+    msg += errors.value[i] += "\n"
+  }
+
+  toast({
+      message: msg,
+      duration: 5000,
+      position: "top-center",
+      type: 'is-danger',
+      animate: { in: 'backInDown', out: 'backOutUp' },
+    })
+
+    errors.value = []
+}
+
+}
+}
 
 let columns = [
     { 
@@ -264,7 +349,7 @@ let columns = [
     label: 'Waga',
     searchable: true
     },
-    { 
+    {  
     field: 'price', 
     label: 'Cena',
     searchable: true 
