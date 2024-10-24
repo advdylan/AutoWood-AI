@@ -158,13 +158,9 @@
               
           </nav>  
 
+          
           <div class="label">Opis</div>
-                <input
-                v-model="accesory.description"
-                class="input"
-                type="text"
-                placeholder="Opis"
-                />
+          <textarea v-model="accesory.description" placeholder="Opis" class="textarea"></textarea>
 
         </section>
 
