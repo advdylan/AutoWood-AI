@@ -2,7 +2,8 @@
     
     <section class="hero is-small is-primary mb-6" style="background-color: rgb(242, 248, 254);">
         <div class="hero-body">
-          <p class="title" style="color: rgb(120, 157, 188);">| Auto Wood |</p>
+          <p class="title" style="color: rgb(120, 157, 188);">Dzień dobry! Od czego dzisiaj zaczniesz?  
+          </p>
           
         </div>
       </section>
@@ -12,7 +13,7 @@
         <div class="column is-half is-offset-one-quarter">
           <div class="card">
             <header  class="card-header" style="background-color: rgb(242, 248, 254) ;">
-              <p class="card-header-title is-centered is-size-4" style="color: rgb(120, 157, 188);">Od czego dzisiaj zaczniesz? &nbsp;<i class="fa-solid fa-arrow-up-right-from-square"></i></p>
+              <p class="card-header-title is-centered is-size-4" style="color: rgb(120, 157, 188);">Na skróty &nbsp;<i class="fa-solid fa-arrow-up-right-from-square"></i></p>
               
             </header>
 

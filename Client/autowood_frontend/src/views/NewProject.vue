@@ -399,6 +399,7 @@ const submitForm = () => {
   if (newElement.value.element.dimZ <= 0) {
     errors.value.push('Podaj grubość większą niż 0')
   }
+  console.log(newElement.value.element.wood_type)
   if (newElement.value.element.wood_type == '') {
     errors.value.push('Wybierz materiał')
   }
