@@ -1,17 +1,17 @@
 <template>
-
+  <div class="block">
  <div class=columns >
   <div class="column is-full">
  
-  <div class="container">
+  
     <div class="notification is-warning">
-      <div class="title is-centered is-size-4">
+      <div class="title is-centered is-size-3">
         Dział edytowania kosztów usług       
       </div>
       <div class="text">
         Każdorazowa zmiana poniższych kosztów pracy nie działa wstecz. Tylko nowe projekty otrzymają nowe, poniższe wartości.
       </div>
-    </div>
+ 
   </div>
   </div>
 </div>
@@ -138,7 +138,7 @@
         </div>
     </div>
 
-    
+  </div>
 
 
     <div v-bind:class="{'is-active': toggleSaveWindows}" class="modal" style="--bulma-modal-content-width: 30%;">

@@ -5,6 +5,7 @@ import ProjectsList from '../views/ProjectsList.vue'
 import NewProjectDetail from '../views/NewProjectDetail.vue'
 import PricesSetup from '@/views/PricesSetup.vue'
 import Accesories from '@/views/Accesories.vue'
+import Home from '@/views/Home.vue'
 
 
 const routes = [
@@ -12,7 +13,10 @@ const routes = [
   {
     path: '/new-project',
     name: 'NewProject',
-    component: NewProject
+    component: NewProject,
+    meta: {
+      title: '| Auto-Wood |'
+    }
   },
 
   {
@@ -35,6 +39,15 @@ const routes = [
     path: '/accesories',
     name: 'Accesories',
     component: Accesories
+  },
+  {
+    path: '/',
+    name: 'Home',
+    component: Home,
+    meta: {
+      title: '| Auto-Wood |'
+    }
+
   }
   
  

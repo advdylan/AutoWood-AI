@@ -2,7 +2,7 @@
   <div class="block">
   <div class="columns">
       <div class="column is-full">
-        <div class="container">
+        
           <div class="notification is-primary">
             <div class="title is-centered is-size-3">
               Nowa wycena  
@@ -14,7 +14,7 @@
             </div>
           </div>
           <ClientData/>
-        </div>
+      
 
         
 
