@@ -25,7 +25,10 @@
                     <div class="container">
                       <ul class="is-size-5">
                         <li class="is-size-5">
-                          <router-link to="/new-project">Lista projektów i wycen</router-link>
+                          <router-link to="/projects-list">Lista projektów i wycen</router-link>
+                        </li>
+                        <li >
+                          <router-link to="/new-project">Nowa wycena</router-link>
                         </li>
                       </ul>
                     </div>
@@ -34,14 +37,12 @@
                   <div class="column is-half">
                     <div class="container">
                       <ul class="is-size-5">
+                        
                         <li >
-                          <router-link to="/new-project">Nowa wycena</router-link>
+                          <router-link to="/accesories">Zarządzaj akcesoriami</router-link>
                         </li>
                         <li >
-                          <router-link to="/new-project">Zarządzaj akcesoriami</router-link>
-                        </li>
-                        <li >
-                          <router-link to="/new-project">Zarządzaj kosztami pracy</router-link>
+                          <router-link to="/prices-setup">Zarządzaj kosztami pracy</router-link>
                         </li>
                       </ul>
                     </div>

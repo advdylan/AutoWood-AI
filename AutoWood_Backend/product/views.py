@@ -503,7 +503,7 @@ def update_accesorytype(request):
     
     print(data)
 
-    return JsonResponse({'message': 'DataSaved'}, status=200)
+    return JsonResponse({'message': 'Accesories succesfully updated'}, status=200)
 
 
                 

@@ -3,7 +3,7 @@
     <div class=columns >
         <div class="column is-full">
        
-        <div class="container">
+  
           <div class="notification is-text">
             <div class="title is-centered is-size-4">
               Dział zarządzania akcesoriami     
@@ -12,7 +12,7 @@
               Każdorazowa zmiana poniższych kosztów akcesorii nie działa wstecz. Tylko nowe projekty otrzymają nowe wartości.
             </div>
           </div>
-        </div>
+        
         </div>
       </div>
       <div class="column">
@@ -225,7 +225,7 @@ let hasInput= false
 let paginationOrder= ''
 let inputPosition= ''
 let inputDebounce= ''
-const {loadData, addAccesorytype} = newProjectStore
+const {loadData, addAccesorytype, updateAccesories} = newProjectStore
 const {accesories, accesorytype} = storeToRefs(newProjectStore)
 
 
@@ -236,59 +236,16 @@ function getAccessoryTypes(accesoryList) {
 
 const accesorytypes = getAccessoryTypes(accesorytype.value)
 
-function handleAddButton() {      
-    let tempId = -1 //temporary ID for frontend new accesories
-    const allTypeChoices = accesorytype.value.flatMap(item => item.type_choices) 
-    const uniqueTypeChoices = [...new Set(allTypeChoices.map(JSON.stringify))].map(JSON.parse)
-
-      const newAccesory = {
-        description: accesory.value.description,
-        id: tempId--,
-        name: accesory.value.name,
-        price: accesory.value.price,
-        type: accesory.value.type,
-        weight: accesory.value.weight,
-        type_choices: uniqueTypeChoices
-    }
-    /* console.log("Accesorytype: ", accesorytype.value)
-    console.log("NewAcc:" , newAccesory) */
-
-    addAccesorytype(newAccesory)   
-    this.tableKey += 1 //Refreshing table data
-    }
-
 function handleUpdateAccesories(accesorytype) {
 
 for ( let accesory of accesorytype) {
   console.log(accesory)
-
-  /* if (typeof type.cost !== 'number' || type.cost < 0) {
-    errors.value.push('Błędny koszt pracy. Podaj właściwą liczbę całkowitą')
-  }
-} */
-
-/*
-for (let new_wood of wood) {
-  //console.log(new_wood.name)
-  //console.log(new_wood.price)
-
-  if (typeof Number(parseFloat(new_wood.price)) !== 'number' || Number(parseFloat(new_wood.price)) < 0) {
-    errors.value.push('Błędny koszt nowego materiału. Podaj właściwą liczbę całkowitą')
-  }
-
 }
-  */
-
 
 if(!errors.value.length) {      
 
-  let updatedData = {
-    worktimetype: worktimetype,
-    wood: wood,
-    paints: paints
-  }
-  console.log(updatedData)
-  const result = updateWorktimetypes(updatedData)
+
+  const result = updateAccesories(accesorytype)
   
 
   if (result) {
@@ -330,8 +287,34 @@ else {
     errors.value = []
 }
 
+
 }
-}
+
+function handleAddButton() {      
+    let tempId = -1 //temporary ID for frontend new accesories
+    const allTypeChoices = accesorytype.value.flatMap(item => item.type_choices) 
+    const uniqueTypeChoices = [...new Set(allTypeChoices.map(JSON.stringify))].map(JSON.parse)
+
+      const newAccesory = {
+        description: accesory.value.description,
+        id: tempId--,
+        name: accesory.value.name,
+        price: accesory.value.price,
+        type: accesory.value.type,
+        weight: accesory.value.weight,
+        type_choices: uniqueTypeChoices
+    }
+    /* console.log("Accesorytype: ", accesorytype.value)
+    console.log("NewAcc:" , newAccesory) */
+
+    addAccesorytype(newAccesory)   
+    this.tableKey += 1 //Refreshing table data
+    handleUpdateAccesories(accesorytype.value)
+    }
+
+    
+
+
 
 let columns = [
     { 
