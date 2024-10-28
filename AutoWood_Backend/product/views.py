@@ -501,8 +501,21 @@ def update_accesorytype(request):
     except json.JSONDecodeError:
         return JsonResponse({'error': 'Invalid JSON data'}, status=400)
     
-    print(data)
+    try:
+        with transaction.atomic():
+            for object in data:
+                new_acc, created = AccessoryType.objects.update_or_create(
+                    name = object["name"],
+                    defaults={'description': object['description'],
+                              'weight': object["weight"],
+                              'price' : object["price"],
+                              'type': object["type"]}
 
+                )
+            return JsonResponse({'message': 'Accesories succesfully updated'}, status=200)
+    except DatabaseError as e:
+        return JsonResponse({'error': str(e)}, status=500)
+  
     return JsonResponse({'message': 'Accesories succesfully updated'}, status=200)
 
 

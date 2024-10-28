@@ -21,7 +21,7 @@ export function validateFormData(formData, errors) {
         }
 }
 
-export function validateNewAccesory(formData, errors) {
+export function validateNewAccesory(accesorytype, errors) {
   
   return 0
 }

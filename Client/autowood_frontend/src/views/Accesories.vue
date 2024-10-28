@@ -58,10 +58,11 @@
                                 <template v-slot="props">
                                     
                                     <template v-if="column.field === 'nawigacja'">
-                                        <router-link :to="{ name: 'NewProjectDetail', params: { id: props.row.id } }">
-                                            <b-button icon-right="circle-info">Szczegóły</b-button>                               
-                                        </router-link>
-                                        
+                                      <b-button type="is-danger"
+                                      icon-left="x">
+                                      Usuń
+                                  </b-button>                            
+
                                     </template>
                                     <template v-else>
                                     {{ props.row[column.field] }}
@@ -108,7 +109,7 @@
                         <input v-model="accesory.price" class="input" type="text" placeholder="Cena"/>
                     </div>
                     <div class="level-item has-text-centered">
-                        <button v-on:click="showAccModal = !showAccModal" class="button is-success">Dodaj</button>
+                        <button v-on:click="handleAddButton()" class="button is-success">Dodaj</button>
                     </div>
                 </nav>
 
@@ -153,7 +154,7 @@
                   <input v-model="accesory.weight" class="input" type="text" placeholder="Waga"/>
               </div>
               <div class="level-item has-text-centered">
-                  <input v-model="accesory.price" class="input" type="text" placeholder="Cena"/>
+                  <input v-model="accesory.price" class="input" type="text" placeholder="Cena zł"/>
               </div>
               
           </nav>  
@@ -168,7 +169,7 @@
               
               <div class="buttons">
               <button
-              @click="handleAddButton(accesory);
+              @click="handleUpdateAccesories(accesorytype);
               "
               class="button is-success"><i class="fa-solid fa-plus">&nbsp;</i>Dodaj
               </button>
@@ -239,7 +240,9 @@ const accesorytypes = getAccessoryTypes(accesorytype.value)
 function handleUpdateAccesories(accesorytype) {
 
 for ( let accesory of accesorytype) {
-  console.log(accesory)
+  console.log(accesory.name)
+
+
 }
 
 if(!errors.value.length) {      
@@ -250,7 +253,7 @@ if(!errors.value.length) {
 
   if (result) {
     toast({
-          message: `Czasy pracy zaktualizowane poprawnie`,
+          message: `Poprawnie dodane nowe akcesoria`,
           duration: 5000,
           position: "top-center",
           type: 'is-success',
@@ -291,6 +294,7 @@ else {
 }
 
 function handleAddButton() {      
+
     let tempId = -1 //temporary ID for frontend new accesories
     const allTypeChoices = accesorytype.value.flatMap(item => item.type_choices) 
     const uniqueTypeChoices = [...new Set(allTypeChoices.map(JSON.stringify))].map(JSON.parse)
@@ -307,9 +311,48 @@ function handleAddButton() {
     /* console.log("Accesorytype: ", accesorytype.value)
     console.log("NewAcc:" , newAccesory) */
 
-    addAccesorytype(newAccesory)   
-    this.tableKey += 1 //Refreshing table data
-    handleUpdateAccesories(accesorytype.value)
+    //error CHECKING HERE
+
+    if (newAccesory.name.trim() === '') {
+      errors.value.push("Błędna nazwa")
+    }
+    if (newAccesory.type.trim() === '') {
+      errors.value.push("Błędna typ")
+    }
+    if (newAccesory.weight.trim() === '' || newAccesory.weight.trim() <= 0) {
+      errors.value.push("Błędna waga")
+    }
+    if (newAccesory.price.trim() === '' || newAccesory.price.trim() <= 0) {
+      errors.value.push("Błędna cena")
+    }
+
+    if (!errors.value.length) {
+      addAccesorytype(newAccesory)
+      this.tableKey += 1 //Refreshing table data 
+    }
+
+    else {
+
+      let msg = ''
+
+      for (let i=0; i <errors.value.length; i++){
+        msg += errors.value[i] += "\n"
+      }
+
+      toast({
+        message: msg,
+        duration: 5000,
+        position: "top-center",
+        type: 'is-danger',
+        animate: { in: 'backInDown', out: 'backOutUp' },
+      })
+
+      errors.value = []
+    }
+    }
+
+    function handleDeleteButton(accesory){
+      return 0
     }
 
     
