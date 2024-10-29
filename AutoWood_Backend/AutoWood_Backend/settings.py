@@ -31,7 +31,7 @@ SECRET_KEY = 'django-insecure-ro)rh@c+mhz9^l5-z7^26s5%et%krbbq4gaqa_op8@%nmc&1@y
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["autowood.onrender.com"]
 
 
 # Application definition

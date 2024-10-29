@@ -15,7 +15,7 @@ import requests
 X = 595.27 #standard width of A4 document format
 Y = 841.89 #standard height of A4 document format
 
-pdfmetrics.registerFont(TTFont('RobotoCondensed-Regular', 'RobotoCondensed-Regular.ttf'))
+pdfmetrics.registerFont(TTFont('RobotoCondensed-Regular', 'AutoWood_Backend/product/pdf_generator_scripts/assets/fonts/RobotoCondensed-Regular.ttf'))
 
 
 """
