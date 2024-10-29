@@ -11,6 +11,7 @@ from rest_framework.decorators import api_view, parser_classes
 from rest_framework.views import APIView
 from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework.response import Response
+from django.conf import settings
 
 from django.db import transaction, IntegrityError, DatabaseError
 from django.utils import timezone
@@ -405,7 +406,9 @@ def generate_elements_production(request, pk):
 
     id = pk
     buffer = BytesIO()
-    output_dir = f"/home/dylan/AutoWood/AutoWood_Backend/product/pdf_generator_scripts/reports/{id}"
+
+    output_dir = os.path.join(settings.BASE_DIR, f'AutoWood_Backend/product/pdf_generator_scripts/reports/{id}')
+    #output_dir = f"/home/dylan/AutoWood/AutoWood_Backend/product/pdf_generator_scripts/reports/{id}" #for local deploy
     raport_name = f"rozpiska_produkcja_{id}.pdf"
 
     try:
@@ -433,7 +436,8 @@ def generate_pricing__report(request, pk):
     id = pk
     buffer = BytesIO()
 
-    output_dir = f"/home/dylan/AutoWood/AutoWood_Backend/product/pdf_generator_scripts/reports/{id}"
+    output_dir = os.path.join(settings.BASE_DIR, f'AutoWood_Backend/product/pdf_generator_scripts/reports/{id}')
+    #output_dir = f"/home/dylan/AutoWood/AutoWood_Backend/product/pdf_generator_scripts/reports/{id}" #for local deploy
     raport_name = f"wycena_{id}.pdf"
 
     try:
