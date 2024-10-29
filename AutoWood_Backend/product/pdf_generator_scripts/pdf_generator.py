@@ -6,6 +6,7 @@ from reportlab.lib.styles import ParagraphStyle, getSampleStyleSheet
 from reportlab.rl_config import defaultPageSize
 from reportlab.platypus import Paragraph, Frame, SimpleDocTemplate, Spacer, Table, TableStyle
 from reportlab.pdfbase.ttfonts import TTFont
+from django.conf import settings
 
 
 import reportlab
@@ -15,7 +16,8 @@ import requests
 X = 595.27 #standard width of A4 document format
 Y = 841.89 #standard height of A4 document format
 
-pdfmetrics.registerFont(TTFont('RobotoCondensed-Regular', 'AutoWood_Backend/product/pdf_generator_scripts/assets/fonts/RobotoCondensed-Regular.ttf'))
+font_path = os.path.join(settings.BASE_DIR, 'AutoWood_Backend/assets/fonts/RobotoCondensed-Regular.ttf')
+pdfmetrics.registerFont(TTFont('RobotoCondensed-Regular', font_path))
 
 
 """

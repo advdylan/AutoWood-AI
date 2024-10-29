@@ -31,7 +31,8 @@ SECRET_KEY = 'django-insecure-ro)rh@c+mhz9^l5-z7^26s5%et%krbbq4gaqa_op8@%nmc&1@y
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["autowood.onrender.com"]
+ALLOWED_HOSTS = ["autowood.onrender.com",
+                 "127.0.0.1"]
 
 
 # Application definition
@@ -50,7 +51,7 @@ INSTALLED_APPS = [
 
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:8080",
-    "https://auto-wood-git-master-jakubs-projects-901e278c.vercel.app/"
+    "https://auto-wood-git-master-jakubs-projects-901e278c.vercel.app"
 ]
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
