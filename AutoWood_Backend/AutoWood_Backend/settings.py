@@ -49,7 +49,8 @@ INSTALLED_APPS = [
 ]
 
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:8080"
+    "http://localhost:8080",
+    "https://auto-wood-git-master-jakubs-projects-901e278c.vercel.app/"
 ]
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
