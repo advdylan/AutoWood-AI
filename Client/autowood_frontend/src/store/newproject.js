@@ -171,6 +171,7 @@ export const useNewProjectStoreBeta = defineStore('newproject', {
     addAccesorytype(accesory) {
       this.accesorytype.push(accesory)
     },
+
     deleteAccesory(accesory) {
       
       this.accesories.pop({

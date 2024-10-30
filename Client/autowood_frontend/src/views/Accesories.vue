@@ -47,7 +47,7 @@
                     :page-input-position="inputPosition"
                     :debounce-page-input="inputDebounce"
                     >                    
-                        <template v-for="column in columns" :key="column.id">
+                        <template v-for="(column, index) in columns" :key="column.id">
                             <b-table-column v-bind="column">
                                 <template v-if="column.searchable && !column.numeric" #searchable="props">
                                     <b-input
@@ -58,7 +58,7 @@
                                 <template v-slot="props">
                                     
                                     <template v-if="column.field === 'nawigacja'">
-                                      <b-button type="is-danger"
+                                      <b-button @click="handleDeleteButton(index)" type="is-danger"
                                       icon-left="x">
                                       Usuń
                                   </b-button>                            
@@ -169,7 +169,9 @@
               
               <div class="buttons">
               <button
-              @click="handleUpdateAccesories(accesorytype);
+              @click="handleAddButton();
+              handleUpdateAccesories(accesorytype);
+              showAccModal = !showAccModal;
               "
               class="button is-success"><i class="fa-solid fa-plus">&nbsp;</i>Dodaj
               </button>
@@ -351,8 +353,10 @@ function handleAddButton() {
     }
     }
 
-    function handleDeleteButton(accesory){
-      return 0
+    function handleDeleteButton(id){
+      console.log(id)
+      accesorytype.value.splice(id, 1)
+      tableKey.value += 1
     }
 
     
