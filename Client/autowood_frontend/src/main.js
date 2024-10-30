@@ -11,7 +11,7 @@ import axios from 'axios'
 
 
 //axios.defaults.baseURL = "https://autowood.onrender.com/"
-axios.defaults.baseURL = "http://localhost:8080/"
+axios.defaults.baseURL = "http://127.0.0.1:8000"
 
 
 const app = createApp(App)
