@@ -411,7 +411,6 @@ def generate_elements_production(request, pk):
     #output_dir = f"/home/dylan/AutoWood/AutoWood_Backend/product/pdf_generator_scripts/reports/{id}" #for local deploy
     raport_name = f"rozpiska_produkcja_{id}.pdf"
 
-    
     try:
         generate_elements_productionpdf(output_dir, raport_name, id)
 

@@ -328,7 +328,7 @@ function handleAddButton() {
 
     if (!errors.value.length) {
       addAccesorytype(newAccesory)
-      this.tableKey += 1 //Refreshing table data 
+      tableKey.value += 1 //Refreshing table data 
     }
 
     else {
