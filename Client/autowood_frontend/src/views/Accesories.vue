@@ -109,7 +109,7 @@
                         <input v-model="accesory.price" class="input" type="text" placeholder="Cena"/>
                     </div>
                     <div class="level-item has-text-centered">
-                        <button v-on:click="handleAddButton()" class="button is-success">Dodaj</button>
+                        <button @click="showAccModal = !showAccModal" class="button is-success">Dodaj</button>
                     </div>
                 </nav>
 
