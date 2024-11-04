@@ -104,15 +104,9 @@
                         <ElementsTable :elements="elements" />
                     </div>
 
-                      
-
                       <div class="buttons">
 
                         <button @click="showElementModal = true" data-target="newelement-modal" class="button is-dark"><i class="fa-solid fa-plus">&nbsp;</i>Dodaj element</button>
-
-                       
-                        <button class="button is-dark"><i class="fa-regular fa-pen-to-square">&nbsp;</i>Edytuj tabelę</button>
-                        <button class="button is-dark"><i class="fa-regular fa-file">&nbsp;</i>Wygeneruj rozpiskę</button>
                       </div>
                       </div>
                     
@@ -312,9 +306,6 @@
         </span>
       </p>
       <p class="card-footer-item">
-        <span>
-          Wydrukuj podsumowanie dla klienta
-        </span>
       </p>
       
     </footer>
