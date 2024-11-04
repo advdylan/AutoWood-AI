@@ -408,6 +408,9 @@ def generate_elements_production(request, pk):
     buffer = BytesIO()
 
     output_dir = os.path.join(settings.BASE_DIR, f'AutoWood_Backend/product/pdf_generator_scripts/reports/{id}')
+
+    print("Output Directory Path:", output_dir)
+
     #output_dir = f"/home/dylan/AutoWood/AutoWood_Backend/product/pdf_generator_scripts/reports/{id}" #for local deploy
     raport_name = f"rozpiska_produkcja_{id}.pdf"
 
@@ -426,6 +429,7 @@ def generate_elements_production(request, pk):
     except RuntimeError as e:
         return JsonResponse({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
     except Exception as e:
+        print("Error occurred:", str(e))
         return JsonResponse({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
     
     
