@@ -53,6 +53,9 @@ CORS_ALLOWED_ORIGINS = [
     "http://localhost:8080",
     "https://auto-wood-git-master-jakubs-projects-901e278c.vercel.app"
 ]
+
+CORS_ALLOW_CREDENTIALS = True
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
