@@ -432,10 +432,10 @@ def generate_elements_production(request, pk):
     except FileNotFoundError as e:
         return JsonResponse({'error': 'Report file not found'}, status=status.HTTP_404_NOT_FOUND)
     except RuntimeError as e:
-        return JsonResponse({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        return JsonResponse({'error': str(e), 'outpit_dir' : output_dir}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
     except Exception as e:
         print("Error occurred:", str(e))
-        return JsonResponse({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        return JsonResponse({'error': str(e), 'outpit_dir' : output_dir}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
     
     
 
