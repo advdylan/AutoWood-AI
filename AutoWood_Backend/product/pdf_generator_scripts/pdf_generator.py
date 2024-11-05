@@ -7,6 +7,9 @@ from reportlab.rl_config import defaultPageSize
 from reportlab.platypus import Paragraph, Frame, SimpleDocTemplate, Spacer, Table, TableStyle
 from reportlab.pdfbase.ttfonts import TTFont
 from django.conf import settings
+import requests
+from requests.adapters import HTTPAdapter
+from urllib3.util import Retry
 
 
 import reportlab
@@ -42,7 +45,7 @@ End of font scripts
 def get_data(id):
     #getting the detail data of New Project from Django
 
-    try:
+    """ try:
         response = requests.get(f'https://autowood.onrender.com/api/v1/newproject/{id}')
         response.raise_for_status()
         project_data = response.json()
@@ -51,6 +54,20 @@ def get_data(id):
     
     except requests.exceptions.RequestException as e:
         print(f"Error fetching project data: {e}")
+        return None """
+    
+    url = f'https://autowood.onrender.com/api/v1/newproject/{id}'
+    session = requests.Session()
+    retries = Retry(total=3, backoff_factor=1, status_forcelist=[502, 503, 504])
+    session.mount('https://', HTTPAdapter(max_retries=retries))
+
+    try:
+        response = session.get(url, timeout=10)
+        response.raise_for_status()
+        return response.json()
+    except requests.exceptions.RequestException as e:
+        print(f"Error fetching project data: {e}")
+        # Log the error and handle it appropriately
         return None
 
 def footer(c):
