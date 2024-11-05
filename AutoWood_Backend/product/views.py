@@ -444,8 +444,18 @@ def generate_elements_production(request, pk):
     report_name = f"rozpiska_produkcja_{id}.pdf"
     full_path = os.path.join(output_dir, report_name)
 
-    # Return the full path in the response to verify it.
-    return JsonResponse({"output_dir": output_dir, "full_path": full_path})
+    try:
+        generate_elements_productionpdf(output_dir, report_name, id)
+
+        # Check if the file now exists at the expected path
+        if os.path.exists(full_path):
+            return JsonResponse({'message': 'File successfully created', 'path': full_path}, status=status.HTTP_200_OK)
+        else:
+            return JsonResponse({'error': 'File not created at expected location'}, status=status.HTTP_404_NOT_FOUND)
+
+    except Exception as e:
+        print("Error occurred:", str(e))
+        return JsonResponse({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
     
     
 
