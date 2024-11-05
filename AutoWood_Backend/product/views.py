@@ -402,7 +402,7 @@ def save_data(request):
         return JsonResponse({'error': str(e)}, status=500)
         
 
-@api_view(['GET'])
+""" @api_view(['GET'])
 def generate_elements_production(request, pk):
 
     id = pk
@@ -435,7 +435,17 @@ def generate_elements_production(request, pk):
         return JsonResponse({'error': str(e), 'outpit_dir' : output_dir}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
     except Exception as e:
         print("Error occurred:", str(e))
-        return JsonResponse({'error': str(e), 'outpit_dir' : output_dir}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        return JsonResponse({'error': str(e), 'outpit_dir' : output_dir}, status=status.HTTP_500_INTERNAL_SERVER_ERROR) """
+
+@api_view(['GET'])
+def generate_elements_production(request, pk):
+    id = pk
+    output_dir = os.path.join(settings.BASE_DIR, f'AutoWood_Backend/product/pdf_generator_scripts/reports/{id}')
+    report_name = f"rozpiska_produkcja_{id}.pdf"
+    full_path = os.path.join(output_dir, report_name)
+
+    # Return the full path in the response to verify it.
+    return JsonResponse({"output_dir": output_dir, "full_path": full_path})
     
     
 
