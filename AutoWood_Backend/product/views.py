@@ -17,6 +17,7 @@ from django.db import transaction, IntegrityError, DatabaseError
 from django.utils import timezone
 from django.http import JsonResponse, HttpResponse, FileResponse
 from django.shortcuts import get_object_or_404
+from django.utils.decorators import decorator_from_middleware
 from io import BytesIO
 
 import json
@@ -422,7 +423,11 @@ def generate_elements_production(request, pk):
 
         buffer.seek(0)
 
-        return FileResponse(buffer, as_attachment=True, filename=raport_name, content_type='application/pdf')
+        response = FileResponse(buffer, as_attachment=True, filename=raport_name)
+        response['Content-Type'] = 'application/pdf'
+        response['Access-Control-Allow-Origin'] = '*'  # Allow cross-origin requests
+        response['Access-Control-Allow-Headers'] = 'Content-Type, Authorization, Accept'
+        return response
     
     except FileNotFoundError as e:
         return JsonResponse({'error': 'Report file not found'}, status=status.HTTP_404_NOT_FOUND)
