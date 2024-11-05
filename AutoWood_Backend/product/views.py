@@ -422,7 +422,7 @@ def generate_elements_production(request, pk):
 
         buffer.seek(0)
 
-        return FileResponse(buffer, as_attachment=True, filename=raport_name)
+        return FileResponse(buffer, as_attachment=True, filename=raport_name, content_type='application/pdf')
     
     except FileNotFoundError as e:
         return JsonResponse({'error': 'Report file not found'}, status=status.HTTP_404_NOT_FOUND)
