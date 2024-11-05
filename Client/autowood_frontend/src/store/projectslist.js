@@ -120,29 +120,39 @@ export const useProjectsListStore = defineStore('projectslist', {
             axios({
                 url: `/api/v1/newproject/elements-production/${id}`,
                 method: 'GET',
-                responseType: 'blob',
-                headers: {
-                    'Accept': 'application/pdf',
-                    // 'Authorization': `Bearer ${token}`,  // Uncomment if your API requires a token
-                }
+                responseType: 'json',  // Expect JSON response
             })
             .then((response) => {
-                console.log(response)
-                const href = URL.createObjectURL(response.data)
-
-                const link = document.createElement('a')
-                link.href = href
-                link.setAttribute('download', `rozpiska_produkcja_${id}.pdf`)
-                document.body.appendChild(link)
-                link.click()
-
-                document.body.removeChild(link)
-                URL.revokeObjectURL(href)
-                
+                // Check if the response includes the path to the generated PDF
+                if (response.data && response.data.path) {
+                    const filePath = response.data.path;
+        
+                    // Make a second request to download the file as a PDF
+                    axios({
+                        url: filePath,
+                        method: 'GET',
+                        responseType: 'blob',
+                    })
+                    .then((fileResponse) => {
+                        const href = URL.createObjectURL(fileResponse.data);
+                        const link = document.createElement('a');
+                        link.href = href;
+                        link.setAttribute('download', `rozpiska_produkcja_${id}.pdf`);
+                        document.body.appendChild(link);
+                        link.click();
+                        document.body.removeChild(link);
+                        URL.revokeObjectURL(href);
+                    })
+                    .catch(error => {
+                        console.error("There was an error downloading the file", error);
+                    });
+                } else {
+                    console.error("File path not found in response");
+                }
             })
             .catch(error => {
-                console.log("There was an error downloading the file", error)
-            }) 
+                console.error("There was an error fetching the file path", error);
+            });
         },
         async downloadPriceReport(id) {
             axios({
