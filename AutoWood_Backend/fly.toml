@@ -17,7 +17,7 @@ source="autowooddb"
 destination="/AutoWood_Backend"
 
 [processes]
-  app = 'gunicorn --bind :8000 --workers 2 AutoWood_Backend.wsgi'
+  app = 'gunicorn --bind :8000 --workers 2 AutoWood_Backend.wsgi:application'
   celery = 'celery -A AutoWood_Backend worker --loglevel=INFO'
 
 [http_service]
