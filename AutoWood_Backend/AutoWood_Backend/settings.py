@@ -54,7 +54,13 @@ INSTALLED_APPS = [
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:8080",
     "https://auto-wood-git-master-jakubs-projects-901e278c.vercel.app",
-    "https://auto-wood-jakubs-projects-901e278c.vercel.app"
+    "https://auto-wood-jakubs-projects-901e278c.vercel.app",
+    "autowood.fly.dev"
+]
+
+CSRF_TRUSTED_ORIGINS = [
+    "https://autowood.fly.dev",
+    # add other trusted origins if needed
 ]
 
 CORS_ALLOW_CREDENTIALS = True
