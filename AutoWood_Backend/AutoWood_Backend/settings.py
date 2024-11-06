@@ -59,6 +59,11 @@ CORS_ALLOWED_ORIGINS = [
 
 ]
 
+CSRF_TRUSTED_ORIGINS = [
+    "https://autowood.fly.dev",
+    # add other trusted origins if needed
+]
+
 CORS_ALLOW_CREDENTIALS = True
 
 MIDDLEWARE = [
