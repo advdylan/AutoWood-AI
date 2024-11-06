@@ -19,3 +19,5 @@ COPY . /code
 EXPOSE 8000
 
 CMD ["gunicorn","--bind",":8000","--workers","2","AutoWood_Backend.wsgi"]
+CMD ["python manage.py migrate"]
+
