@@ -12,6 +12,10 @@ console_command = '/code/manage.py shell'
 [env]
   PORT = '8000'
 
+[mounts]
+source="autowooddb"
+destination="/AutoWood_Backend"
+
 [processes]
   app = 'gunicorn --bind :8000 --workers 2 AutoWood_Backend.wsgi'
   celery = 'celery -A AutoWood_Backend worker --loglevel=INFO'
