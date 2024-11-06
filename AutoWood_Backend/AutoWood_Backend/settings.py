@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
 from pathlib import Path
+from environs import Env
 import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -107,6 +108,11 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
+
+env = Env()
+env.read_env()
+SECRET_KEY = env.str("SECRET_KEY", "default-secret-key-if-none")
+
 
 
 # Password validation
