@@ -56,6 +56,8 @@ CORS_ALLOWED_ORIGINS = [
     "http://localhost:8080",
     "https://auto-wood-git-master-jakubs-projects-901e278c.vercel.app",
     "https://auto-wood-jakubs-projects-901e278c.vercel.app",
+    "https://autowood.fly.dev/",
+    "autowood.fly.dev/"
 
 ]
 
