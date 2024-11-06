@@ -33,7 +33,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = ["autowood.onrender.com",
                  "127.0.0.1",
-                 "autowood.fly.dev/"
+                 "autowood.fly.dev"
                  ]
 
 
