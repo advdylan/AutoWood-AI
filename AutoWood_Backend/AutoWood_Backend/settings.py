@@ -33,7 +33,6 @@ DEBUG = True
 
 ALLOWED_HOSTS = ["autowood.onrender.com",
                  "127.0.0.1",
-                 "https://autowood.fly.dev/",
                  "autowood.fly.dev/"
                  ]
 
@@ -57,7 +56,6 @@ CORS_ALLOWED_ORIGINS = [
     "https://auto-wood-git-master-jakubs-projects-901e278c.vercel.app",
     "https://auto-wood-jakubs-projects-901e278c.vercel.app",
     "https://autowood.fly.dev/",
-    "autowood.fly.dev/"
 
 ]
 
