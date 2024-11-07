@@ -437,7 +437,7 @@ def generate_elements_production(request, pk):
         print("Error occurred:", str(e))
         return JsonResponse({'error': str(e), 'outpit_dir' : output_dir}, status=status.HTTP_500_INTERNAL_SERVER_ERROR) """
 
-@api_view(['GET'])
+""" @api_view(['GET'])
 def generate_elements_production(request, pk):
     id = pk
     output_dir = os.path.join(settings.BASE_DIR, f'AutoWood_Backend/product/pdf_generator_scripts/reports/{id}')
@@ -455,8 +455,33 @@ def generate_elements_production(request, pk):
 
     except Exception as e:
         print("Error occurred:", str(e))
-        return JsonResponse({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        return JsonResponse({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR) """
+@api_view(['GET'])
+def generate_elements_production(request, pk):
+
+    id = pk
+    buffer = BytesIO()
+
+    output_dir = os.path.join(settings.BASE_DIR, f'AutoWood_Backend/product/pdf_generator_scripts/reports/{id}')
+    #output_dir = f"/home/dylan/AutoWood/AutoWood_Backend/product/pdf_generator_scripts/reports/{id}" #for local deploy
+    raport_name = f"rozpiska_produkcja_{id}.pdf"
+
+    try:
+        generate_elements_productionpdf(output_dir, raport_name, id)
+
+        with open(f"{output_dir}/{raport_name}", "rb") as file:
+            buffer.write(file.read())
+
+        buffer.seek(0)
+
+        return FileResponse(buffer, as_attachment=True, filename=raport_name)
     
+    except FileNotFoundError as e:
+        return JsonResponse({'error': 'Report file not found'}, status=status.HTTP_404_NOT_FOUND)
+    except RuntimeError as e:
+        return JsonResponse({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+    except Exception as e:
+        return JsonResponse({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
     
 
 @api_view(['GET'])
