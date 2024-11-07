@@ -465,12 +465,16 @@ def generate_pricing__report(request, pk):
     id = pk
     buffer = BytesIO()
 
-    #output_dir = os.path.join(settings.BASE_DIR, f'AutoWood_Backend/product/pdf_generator_scripts/reports/{id}')
-    output_dir = f"AutoWood_Backend/product/pdf_generator_scripts/reports/{id}" #for local deploy
+    output_dir = os.path.join(settings.BASE_DIR, f'AutoWood_Backend/product/pdf_generator_scripts/reports/{id}')
+    output_dir_2 = f"AutoWood_Backend/product/pdf_generator_scripts/reports/{id}" #for local deploy
     raport_name = f"wycena_{id}.pdf"
+
+    print(f"output_dir: {output_dir}")
+    print(f"output_dir_2: {output_dir_2}")
 
     try:
         generate_report(output_dir, raport_name, id)
+        print(f"open : {output_dir}/{raport_name}")
 
         with open(f"{output_dir}/{raport_name}", "rb") as file:
             buffer.write(file.read())
