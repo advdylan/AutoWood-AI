@@ -159,10 +159,6 @@ export const useProjectsListStore = defineStore('projectslist', {
                 url: `/api/v1/newproject/pricing-report/${id}`,
                 method: 'GET',
                 responseType: 'blob',
-                headers: {
-                    'Accept': 'application/pdf',
-                    // 'Authorization': `Bearer ${token}`,  // Uncomment if your API requires a token
-                }
             })
             .then((response) => {
                 console.log(response)
