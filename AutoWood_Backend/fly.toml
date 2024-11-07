@@ -14,7 +14,7 @@ console_command = '/code/manage.py shell'
 
 [mounts]
 source="autowooddb"
-destination="/AutoWood_Backend"
+destination="/app/AutoWood_Backend"
 
 [processes]
   app = 'gunicorn --bind :8000 --workers 2 AutoWood_Backend.wsgi:application'
