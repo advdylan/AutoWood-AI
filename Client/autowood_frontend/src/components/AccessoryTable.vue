@@ -26,7 +26,7 @@
 
         </tfoot>
         <tbody>
-          <tr v-for="accesory in filteredAccesories.slice(0, 3)" :key="accesory.name">
+          <tr v-for="accesory in filteredAccesories.slice(0, 10)" :key="accesory.name">
             
             <th>{{ accesory.name }}</th>
             <td>{{ accesory.price }}</td>
