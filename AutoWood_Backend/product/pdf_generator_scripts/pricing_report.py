@@ -87,6 +87,7 @@ def generate_report(output_dir, raport_name, id):
 
     project_data = get_data(id)   
     file_path = os.path.join(output_dir, raport_name)
+    print(f"File path at generate_report: {file_path}" )
   
     if not os.path.exists(output_dir):
         os.makedirs(output_dir)
