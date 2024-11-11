@@ -20,9 +20,9 @@
                     </header>
                     <div class="card-content">
                       <div class="content">
-                        <label class="label is-size-5">{{$t("name")}}</label>
+                        <label class="label is-size-5">{{$t("client_name")}}</label>
                 <p class="control has-icons-left">
-                    <input v-model="customer.name" class="input" type="text" :placeholder="$t('name')"/>
+                    <input v-model="customer.name" class="input" type="text" :placeholder="$t('client_name')"/>
                         <span class="icon is-small is-left">
                             <i class="fa-solid fa-user"></i>
                         </span>
@@ -82,7 +82,7 @@
 
                 <div class="card">
                     <header class="card-header">
-                      <p class="card-header-title is-centered is-size-4">Prześlij pliki
+                      <p class="card-header-title is-centered is-size-4">{{$t("send_files")}}
                         <span>&nbsp;<i class="fa-solid fa-upload"></i></span>
                       </p>
                       
@@ -100,7 +100,7 @@
                                         <span class="file-icon">
                                           <i class="fas fa-upload"></i>
                                         </span>
-                                        <span class="file-label"> Wybierz plik </span>
+                                        <span class="file-label"> {{$t("choose_files")}} </span>
                                       </span>
                                     </label>
                                   </div>
@@ -112,7 +112,7 @@
 
                         <div class="card">
                           <header class="card-header">
-                            <p class="card-header-title is-centered is-size-4">Pliki</p>  
+                            <p class="card-header-title is-centered is-size-4">{{$t("files")}}</p>  
                           </header>
                           <div class="card-content">
                             <div class="content">
@@ -121,10 +121,10 @@
                                 <table v-if="files.length > 0" class="table is-bordered is-striped is-hoverable is-fullwidth">
                                   <thead>
                                     <tr>
-                                      <th>Nazwa</th>
-                                      <th>Rozmiar</th>
-                                      <th>Typ</th>
-                                      <th>Nav</th>
+                                      <th>{{$t("file_name")}}</th>
+                                      <th>{{$t("size")}}</th>
+                                      <th>{{$t("typ")}}</th>
+                                      <th>{{$t("Nav")}}</th>
       
                                     </tr>
                           
@@ -218,7 +218,7 @@ watch (
   { immediate: true }
 ) 
 
-console.log(files.value)
+
 
 function deleteFile(file,index){
 
@@ -230,7 +230,7 @@ function handleFileUpload(event) {
     
 
     for (let file of event.target.files){
-      //console.log(file)
+      
       files.value.push(file)
     }
     selectedFile.value = event.target.files[0]

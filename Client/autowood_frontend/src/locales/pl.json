@@ -9,7 +9,7 @@
     "labor_costs": "Koszty pracy",
     "basic_info": "Podstawowe informacje",
     "client_data": "Dane klienta",
-    "name": "Imię i nazwisko / Nazwa firmy",
+    "client_name": "Imię i nazwisko / Nazwa firmy",
     "number": "Numer telefonu",
     "street": "Ulica",
     "zip_code": "Kod pocztowy",
@@ -21,5 +21,28 @@
     "file_name": "Nazwa pliku",
     "size": "Rozmiar",
     "typ": "Type",
-    "Nav": "Nav"
+    "Nav": "Nav",
+    "name": "Nazwa",
+
+    "new_estimate": "Nowa wycena",
+    "estimate_module": "Moduł służący do tworzenia nowych wycen.",
+    "save_info": "Po zapisaniu projektu, pobierz raport lub zleć projekt bezpośrednio produkcji!",
+    "project_data": "Dane projektu",
+    "project_name": "Nazwa projektu",
+    "wood_type": "Materiał",
+    "category": "Kategoria",
+    "collection": "Kolekcja",
+    "painting": "Malowanie",
+    "elements_list": "Lista elementów",
+    "add_element": "Dodaj element",
+    "accessories": "Akcesoria",
+    "search_accessories": "Przeszukaj akcesoria",
+    "length": "Długość",
+    "width": "Szerokość",
+    "thickness": "Grubość",
+    "quantity": "Ilość"
+
+    
+    
+    
 }               

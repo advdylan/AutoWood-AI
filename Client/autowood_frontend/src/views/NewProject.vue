@@ -5,13 +5,12 @@
         
           <div class="notification is-primary">
             <div class="title is-centered is-size-3">
-              Nowa wycena  
+              {{$t("new_estimate")}}
             </div>
             <div class="text">
-              Moduł służący do tworzenia nowych wycen. 
+              {{$t("estimate_module")}}
               <br>
-              Po zapisaniu projektu, pobierz raport lub zleć projekt bezpośrednio produkcji!
-            </div>
+              {{$t("save_info")}}            </div>
           </div>
           <ClientData/>
       
@@ -20,7 +19,7 @@
 
           <div class="card">
             <header class="card-header">
-              <p class="card-header-title is-centered is-size-3">Dane projektu</p>        
+              <p class="card-header-title is-centered is-size-3">{{$t("project_data")}}</p>        
             </header>
 
             <div class="columns">
@@ -28,14 +27,14 @@
               <div class="card-content">               
                 <div class="content">
                   <div class="field">
-                    <label class="label is-size-5">Nazwa projektu</label>
+                    <label class="label is-size-5">{{$t("project_name")}}</label>
                     <div class="control">
                       <input v-model="projectName" :class="inputClass" type="text" placeholder="Nazwa projektu">
                     </div>
                   </div>
 
                   <div class="field">
-                    <label class="label is-size-5">Materiał</label>
+                    <label class="label is-size-5">{{$t("wood_type")}}</label>
                     <div class="control">
                       <div class="select">
                         <select v-model="selectedWood">
@@ -46,7 +45,7 @@
                   </div>
 
                   <div class="field">
-                    <label class="label is-size-5">Kategoria</label>
+                    <label class="label is-size-5">{{$t("category")}}</label>
                     <div class="control">
                       <div class="select">
                         <select v-model="selectedCategory">
@@ -57,7 +56,7 @@
                   </div>
 
                   <div class="field">
-                    <label class="label is-size-5">Kolekcja</label>
+                    <label class="label is-size-5">{{$t("collection")}}</label>
                     <div class="control">
                       <div class="select">
                         <select v-model="selectedCollection">
@@ -68,7 +67,7 @@
                     </div>
 
                     <div class="field">
-                      <label class="label is-size-5">Malowanie</label>
+                      <label class="label is-size-5">{{$t("painting")}}</label>
                       <div class="control">
                         <div class="select">
                           <select v-model="selectedPaint">
@@ -89,7 +88,7 @@
                     <div class="card">
                       <header class="card-header" @click="isCollapsedelements = !isCollapsedelements">
                         <p class="card-header-title is-size-5">
-                          Lista elementów
+                          {{$t("elements_list")}}
                         </p>
                         <a href="#collapsible-card" data-action="collapse" class="card-header-icon is-hidden-fullscreen" aria-label="more options">
                           <span class="icon">
@@ -106,7 +105,7 @@
 
                       <div class="buttons">
 
-                        <button @click="showElementModal = true" data-target="newelement-modal" class="button is-dark"><i class="fa-solid fa-plus">&nbsp;</i>Dodaj element</button>
+                        <button @click="showElementModal = true" data-target="newelement-modal" class="button is-dark"><i class="fa-solid fa-plus">&nbsp;</i>{{$t("add_element")}}</button>
                       </div>
                       </div>
                     
@@ -118,8 +117,8 @@
          
          <div class="card">
           <header class="card-header" @click="isCollapsedpaints = !isCollapsedpaints">
-            "<p class="card-header-title is-size-5">
-              Koszty pracy
+            <p class="card-header-title is-size-5">
+              {{$t("labor_costs")}}
             </p>"
             <a href="#collapsible-card" data-action="collapse" class="card-header-icon is-hidden-fullscreen" aria-label="more options">
               <span class="icon">
@@ -139,7 +138,7 @@
               <div class="card">
                 <header class="card-header" @click="isCollapsedacc = !isCollapsedacc">
                   <p class="card-header-title is-size-5">
-                    Akcesoria
+                    {{$t("accesories")}}
                   </p>
                   <a href="#collapsible-card" data-action="collapse" class="card-header-icon is-hidden-fullscreen" aria-label="more options">
                     <span class="icon">
@@ -150,7 +149,7 @@
       
                 <div id="collapsible-card" class="is-collapsible" v-show="isCollapsedacc">
                   <div class="card-content">
-                    <button @click="showAccModal = true" data-target="newelement-modal" class="button is-dark"><i class="fa-solid fa-plus">&nbsp;</i>Przeszukaj akcesoria</button>
+                    <button @click="showAccModal = true" data-target="newelement-modal" class="button is-dark"><i class="fa-solid fa-plus">&nbsp;</i>{{$t("search_accessories")}}</button>
 
                     
                     </div>
@@ -174,7 +173,7 @@
 
       <div class="modal-card">
         <header class="modal-card-head">
-              <p class="modal-card-title is-centered is-size-3">Dodaj element</p>
+              <p class="modal-card-title is-centered is-size-3">{{$t("add_element")}}</p>
               <button class="delete" aria-label="close" @click="showElementModal = false"></button>        
             </header>
             
