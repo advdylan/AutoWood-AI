@@ -338,7 +338,7 @@ function addNewWorktimetype(new_worktimetype_name, new_worktimetype_cost) {
     name: new_worktimetype_name,
     cost: new_worktimetype_cost
   }
-  this.worktimetype.push(new_worktimetype)
+  worktimetype.value.push(new_worktimetype)
 }
 
 function addNewWood(new_wood_name, new_wood_cost){
@@ -358,7 +358,7 @@ function addNewWood(new_wood_name, new_wood_cost){
     price: String(new_wood_cost)
   }
 
-  this.wood.push(new_wood)
+  wood.value.push(new_wood)
 
   }
   
@@ -399,7 +399,7 @@ if(!errors.value.length) {
   volume: String(new_paint_volume)
 }
 
-this.paints.push(new_paint)
+paints.value.push(new_paint)
 
 }
 
