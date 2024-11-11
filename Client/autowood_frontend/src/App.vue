@@ -32,16 +32,16 @@
           <i class="fa-solid fa-file-pen fa-lg">
           </i>
           <div class="is-size-5"> 
-            &nbsp;Projekty          
+            &nbsp; {{ $t("projects")}}         
           </div>
         </router-link>
         <div class="navbar-dropdown is-dark fa-lg">
           <router-link to="/new-project" class="navbar-item">
-            Nowy projekt 
+            {{ $t("new_project")}}   
           </router-link>
           <hr class="navbar-divider">
           <router-link to="/projects-list" class="navbar-item">
-            Lista projektów
+            {{ $t("projects_list")}}   
           </router-link>
         </div>       
         </div>
@@ -52,12 +52,12 @@
             <i class="fa-solid fa-coins fa-lg">
             </i>
             <div class="is-size-5"> 
-              &nbsp;Koszty i stawki
+              &nbsp; {{ $t("prices_setup")}}
             </div>
           </a>
           <div class="navbar-dropdown is-dark fa-lg">            
               <router-link to="/prices-setup" class="navbar-item">
-                Koszty pracy
+                {{ $t("labor_costs")}}
               </router-link>
 
           </div>
@@ -66,22 +66,36 @@
         <router-link to="/accesories" class="navbar-item">      
           <i class="fa-solid fa-screwdriver-wrench fa-lg"></i>
           <div class="is-size-5">
-            &nbsp;Akcesoria
+            &nbsp;{{ $t("accesories")}}
           </div>
         </router-link>
 
         <a class="navbar-item">
           <i class="fa-solid fa-fill-drip fa-lg"></i>
           <div class="is-size-5">
-            &nbsp;Lakiery
+            &nbsp;{{ $t("paints")}}
           </div>
         </a>
         <a class="navbar-item">
           <i class="fa-solid fa-warehouse fa-lg"></i>
           <div class="is-size-5">
-            &nbsp;Magazyn
+            &nbsp;{{ $t("warehouse")}}
           </div>
         </a>
+      </div>
+      <div class="navbar-end">
+        <div class="navbar-item">
+          <figure class="image is-32x32">
+            <img  @click="changeLanguage('pl')" class="is-rounded" :src="`${publicPath}poland.png`"/>
+          </figure>
+        </div>
+        <div class="navbar-item">
+          <figure class="image is-32x32">
+            <img @click="changeLanguage('en')" class="is-rounded" :src="`${publicPath}united-kingdom.png`"/>
+          </figure>
+        </div>
+        
+
       </div>
   
       
@@ -113,11 +127,20 @@
 </template>
 
 <script>
+import { useI18n } from 'vue-i18n'
 
 export default {
   data() {
+    const { locale } = useI18n()
+
+    function changeLanguage(language) {
+      locale.value = language
+    }
+
     return {
-      showMobile: false
+      showMobile: false,
+      publicPath: process.env.BASE_URL,
+      changeLanguage
     }
   }
 }

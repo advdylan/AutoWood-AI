@@ -1,0 +1,27 @@
+{      
+    "projects": "Projects",
+    "new_project": "New project",
+    "projects_list": "Projects list",
+    "prices_setup": "Prices Setup",
+    "accesories": "Accessories",
+    "paints": "Paints",
+    "warehouse": "Warehouse",
+    "labor_costs": "Labor costs",
+    "basic_info": "Basic Information",
+    "client_data": "Client Data",
+    "name": "Name / Company Name",
+    "number": "Phone Number",
+    "street": "Street",
+    "zip_code": "Zip Code",
+    "city": "City",
+    "e-mail": "E-mail",
+    "send_files": "Send Files",
+    "choose_files": "Choose File",
+    "files": "Files",
+    "file_name": "File Name",
+    "size": "Size",
+    "typ": "Type",
+    "Nav": "Nav"
+    
+    
+}

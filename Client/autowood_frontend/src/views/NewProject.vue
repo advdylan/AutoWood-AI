@@ -118,9 +118,9 @@
          
          <div class="card">
           <header class="card-header" @click="isCollapsedpaints = !isCollapsedpaints">
-            <p class="card-header-title is-size-5">
+            "<p class="card-header-title is-size-5">
               Koszty pracy
-            </p>
+            </p>"
             <a href="#collapsible-card" data-action="collapse" class="card-header-icon is-hidden-fullscreen" aria-label="more options">
               <span class="icon">
                 <i class="fas fa-angle-down" aria-hidden="true"></i>

@@ -2,7 +2,7 @@
 <template>
 <div class="card">
     <header class="card-header">
-      <p class="card-header-title is-centered is-size-3">Podstawowe informacje
+      <p class="card-header-title is-centered is-size-3">{{$t("basic_info")}}
         <span>&nbsp;<i class="fa-solid fa-circle-info"></i></span>
       </p>
               
@@ -13,56 +13,56 @@
             <div class="column is-half">
                 <div class="card">
                     <header class="card-header">
-                      <p class="card-header-title is-centered is-size-4">Dane klienta
+                      <p class="card-header-title is-centered is-size-4">{{$t("client_data")}}
                         <span>&nbsp;<i class="fa-solid fa-id-card"></i></span>
                       </p>
                       
                     </header>
                     <div class="card-content">
                       <div class="content">
-                        <label class="label is-size-5">Imię i nazwiska / Nazwa firmy</label>
+                        <label class="label is-size-5">{{$t("name")}}</label>
                 <p class="control has-icons-left">
-                    <input v-model="customer.name" class="input" type="text" placeholder="Imię i nazwisko"/>
+                    <input v-model="customer.name" class="input" type="text" :placeholder="$t('name')"/>
                         <span class="icon is-small is-left">
                             <i class="fa-solid fa-user"></i>
                         </span>
                 </p>
 
-                <label class="label is-size-5">Numer telefonu</label>
+                <label class="label is-size-5">{{$t("number")}}</label>
                 <p class="control has-icons-left">
-                    <input v-model="customer.phone_number" class="input" type="number" placeholder="Numer telefonu"/>
+                    <input v-model="customer.phone_number" class="input" type="number" :placeholder="$t('number')"/>
                         <span class="icon is-small is-left">
                             <i class="fa-solid fa-phone"></i>
                         </span>
                 </p>
 
-                <label class="label is-size-5">Ulica</label>
+                <label class="label is-size-5">{{$t("street")}}</label>
                 <p class="control has-icons-left">
-                    <input v-model="customer.street" class="input" type="text" placeholder="Ulica"/>
+                    <input v-model="customer.street" class="input" type="text" :placeholder="$t('street')"/>
                         <span class="icon is-small is-left">
                             <i class="fa-solid fa-signs-post"></i>
                         </span>
                 </p>
 
-                <label class="label is-size-5">Kod pocztowy</label>
+                <label class="label is-size-5">{{$t("zip_code")}}</label>
                 <p class="control has-icons-left">
-                    <input v-model="customer.code"  class="input" type="text" placeholder="Kod pocztowy"/>
+                    <input v-model="customer.code"  class="input" type="text" :placeholder="$t('zip_code')"/>
                         <span class="icon is-small is-left">
                             <i class="fa-solid fa-map"></i>
                         </span>
                 </p>
 
-                <label class="label is-size-5">Miejscowość</label>
+                <label class="label is-size-5">{{$t("city")}}</label>
                 <p class="control has-icons-left">
-                    <input v-model="customer.city" class="input" type="text" placeholder="Miejscowość"/>
+                    <input v-model="customer.city" class="input" type="text" :placeholder="$t('city')"/>
                         <span class="icon is-small is-left">
                             <i class="fa-solid fa-house"></i>
                         </span>
                 </p>
 
-                <label class="label is-size-5">E-mail</label>
+                <label class="label is-size-5">{{$t("e-mail")}}</label>
                 <p class="control has-icons-left">
-                    <input v-model="customer.email" class="input" type="text" placeholder="Adres e-mail"/>
+                    <input v-model="customer.email" class="input" type="text" :placeholder="$t('e-mail')"/>
                         <span class="icon is-small is-left">
                             <i class="fa-solid fa-envelope"></i>
                         </span>
