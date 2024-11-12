@@ -3,11 +3,11 @@
       <table class="table is-bordered is-striped is-hoverable is-fullwidth">
         <thead>
           <tr>
-            <th>Name</th>
-            <th>Długość</th>
-            <th>Wysokość</th>
-            <th>Grubość</th>
-            <th>Materiał</th>
+            <th>{{ $t("name")}}</th>
+            <th>{{ $t("length")}}</th>
+            <th>{{ $t("width")}}</th>
+            <th>{{ $t("thickness")}}</th>
+            <th>{{ $t("wood_type")}}</th>
             <th>Ilość</th>
             <th class="delete-column">Usuń</th>
             

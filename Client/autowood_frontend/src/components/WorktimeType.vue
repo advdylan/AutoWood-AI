@@ -11,16 +11,16 @@
         <div class="block">
 
           <div class="control">
-          <label v-if="box.checked">Czas pracy</label>
-        <input  class="input" type="number" v-if="box.checked" v-model="box.hours" placeholder="Godziny" />
+          <label v-if="box.checked">{{ $t("worktime")}}</label>
+        <input  class="input" type="number" v-if="box.checked" v-model="box.hours" :placeholder="$t('hours')" />
           </div>
-        <label v-if="box.checked">Liczba pracowników</label>
-        <input class="input" type="number" v-if="box.checked" v-model="box.workers"placeholder="Liczba pracowników">
+        <label v-if="box.checked">{{ $t("workers")}}</label>
+        <input class="input" type="number" v-if="box.checked" v-model="box.workers" :placeholder="$t('workers')">
         </div>
       </div>
       <div class="column is-one-third">
-        <label>Koszt pracy działu {{ box.text}}</label>
-        <input  class="input" type="text" :placeholder=box.value v-model="box.value" disabled />
+        <label>{{ $t("section_cost")}} {{ box.text}}</label>
+        <input  class="input" type="text" :placeholder="$t('section_cost')" v-model="box.value" disabled />
       </div>
       </div>
       </div>

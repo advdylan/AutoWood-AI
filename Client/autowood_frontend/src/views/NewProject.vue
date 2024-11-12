@@ -29,7 +29,7 @@
                   <div class="field">
                     <label class="label is-size-5">{{$t("project_name")}}</label>
                     <div class="control">
-                      <input v-model="projectName" :class="inputClass" type="text" placeholder="Nazwa projektu">
+                      <input v-model="projectName" :class="inputClass" type="text" :placeholder="$t('project_name')">
                     </div>
                   </div>
 
@@ -185,42 +185,42 @@
           <form @submit.prevent="submitForm">
 
           <div class="field">
-            <label class="label">Nazwa</label>
+            <label class="label">{{ $t("name")}}</label>
             <div class="control">
               <input class="input" type="text" placeholder="Nazwa" v-model="newElement.element.name">             
             </div>
           </div>
 
           <div class="field">
-            <label class="label">Długość</label>
+            <label class="label">{{ $t("length") }}</label>
             <div class="control">
               <input class="input" type="number" placeholder="Długość" v-model="newElement.element.dimX">           
             </div>
           </div>
 
           <div class="field">
-            <label class="label">Szerokość</label>
+            <label class="label">{{ $t("width")}}</label>
             <div class="control">
               <input class="input" type="number" placeholder="Szerokosć" v-model="newElement.element.dimY" >             
             </div>
           </div>
 
           <div class="field">
-            <label class="label">Grubość</label>
+            <label class="label">{{ $t("thickness")}}</label>
             <div class="control">
               <input class="input" type="number" placeholder="Grubość" v-model="newElement.element.dimZ">             
             </div>
           </div>
 
           <div class="field">
-            <label class="label">Ilość</label>
+            <label class="label">{{ $t("quantity")}}</label>
             <div class="control">
               <input class="input" type="number" placeholder="Ilość" v-model="newElement.quantity" >             
             </div>
           </div>
 
           <div class="field">
-            <label class="label">Materiał</label>
+            <label class="label">{{ $t("wood_type")}}</label>
             <div class="control">
               <div class="select">
                 <select v-model="newElement.element.wood_type">
@@ -234,7 +234,7 @@
  
         <footer class="modal-card-foot">
           <div class="buttons">
-            <button type="submit" class="button is-success">Dodaj element</button>
+            <button type="submit" class="button is-success">{{ $t("add_element")}}</button>
            
           </div>
         </footer>
@@ -261,7 +261,7 @@
 
       <div class="modal-card">
         <header class="modal-card-head">
-              <p class="modal-card-title is-centered is-size-3">Akcesoria</p>
+              <p class="modal-card-title is-centered is-size-3">{{ $t("accessories")}}</p>
               <button class="delete" aria-label="close" @click="showAccModal = false"></button>        
             </header>
             <section class="modal-card-body">
@@ -276,7 +276,7 @@
   <div class="card">
     <div class="card-content">
       <p class="title">
-        Podsumowanie
+        {{ $t("summary")}}
       </p>
      
     </div>
@@ -288,11 +288,11 @@
       <div class="buttons">
         <b-button @click="saveData" type="is-success" >
           <i class="fa-solid fa-floppy-disk"></i>
-          Zapisz projekt
+          {{ $t("save")}}
         </b-button>
         <b-button @click="resetInput" type="is-danger" >
           <i class="fa-solid fa-xmark"></i>
-          Wyczyść projekt
+          {{ $t("clear")}}
         </b-button>
       </div>
     </Summary>

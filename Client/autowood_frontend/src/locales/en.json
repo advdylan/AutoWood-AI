@@ -22,6 +22,8 @@
     "size": "Size",
     "typ": "Type",
     "Nav": "Nav",
+    "name": "Name",
+    "delete": "Delete",
 
     
     "new_estimate": "New estimate",
@@ -29,19 +31,47 @@
     "save_info": "After saving the project, download the report or assign the project directly to production!",
     "project_data": "Project data",
     "project_name": "Project name",
-    "wood_type": "Material",
+    "wood_type": "Wood Type",
     "category": "Category",
     "collection": "Collection",
     "painting": "Painting",
     "elements_list": "Elements list",
     "add_element": "Add element",
+    "add": "Add",
     "accessories": "Accessories",
     "search_accessories": "Search accessories",
     "length": "Length",
     "width": "Width",
     "thickness": "Thickness",
-    "quantity": "Quantity"
-    
+    "quantity": "Quantity",
+    "save": "Save",
+    "clear": "Clear",
+    "summary": "Summary",
+    "price": "Price",
+    "accessories_list": "Accessories list",
+    "runner_systems": "Runner systems",
+    "fittings": "Fittings",
+    "hinges": "Hinges",
+    "cost_summary": "Summary",
+    "elements_costs": "Elements costs",
+    "accessories_costs": "Accessories costs",
+    "section": "Section",
+    "time": "Time",
+    "rate": "Rate",
+    "elements_margin": "Elements margin",
+    "accessories_margin": "Accesories margin",
+    "additional_margin": "Additional_margin",
+    "summary_with_margin": "Summary with margin",
+    "margin_%": "All margins expressed in percentages",
+    "apply_warning": "Applies to every part of the estimate",
+    "sum": "Sum",
+
+    "worktime": "Worktime",
+    "workers": "Amount of workers",
+    "section_cost": "Section cost",
+    "hours": "Hours"
+ 
+
     
     
     

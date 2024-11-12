@@ -1,19 +1,19 @@
 <template>
     <div class="acc-table-container">
     <div class="buttons">
-    <button class="button is-dark" @click="setFilterType('Prowadnice')">Prowadnice</button>
-    <button class="button is-dark" @click="setFilterType('Złącza')">Złącza</button>
-    <button class="button is-dark" @click="setFilterType('Zawiasy')">Zawiasy</button>
+    <button class="button is-dark" @click="setFilterType('Prowadnice')">{{ $t("runner_systems")}}</button>
+    <button class="button is-dark" @click="setFilterType('Złącza')">{{ $t("fittings")}}</button>
+    <button class="button is-dark" @click="setFilterType('Zawiasy')">{{ $t("hinges")}}</button>
     </div>
     <input v-model="searchQuery" class="input" type="text" placeholder="Search...">
     <table class="table is-bordered is-striped is-hoverable is-fullwidth">
         <thead>
           <tr>
-            <th>Name</th>
-            <th>Cena</th>
-            <th>Typ</th>
-            <th class="input-column">Ilość</th>
-            <th class="delete-column">Dodaj</th>
+            <th>{{ $t("name")}}</th>
+            <th>{{ $t("price")}}</th>
+            <th>{{ $t("typ")}}</th>
+            <th class="input-column">{{ $t("quantity")}}</th>
+            <th class="delete-column">{{ $t("add")}}</th>
             
           </tr>
 
@@ -39,7 +39,7 @@
             </div>
             &nbsp;
             <div class="control">     
-            <input v-model="accesory.quantity" class="input is-height-matched" type="text" placeholder="Ilość"/>
+            <input v-model="accesory.quantity" class="input is-height-matched" type="text" :placeholder="$t('quantity')"/>
             </div>
             &nbsp;
             <div class="control"> 
@@ -55,17 +55,17 @@
         
       </table>
 
-      <p class="title is-centered is-size-3">Dodane akcesoria</p>
+      <p class="title is-centered is-size-3">{{ $t("accessories_list")}}</p>
 
       <table v-if="propsAccesories" class="table is-bordered is-striped is-hoverable is-fullwidth">
         <thead>
           <tr>
-            <th>Name</th>
-            <th>Cena</th>
-            <th>Typ</th>
-            <th >Ilość</th>
-            <th>Suma</th>
-            <th class="delete-column">Usuń</th>
+            <th>{{ $t("name")}}</th>
+            <th>{{ $t("price")}}</th>
+            <th>{{ $t("typ")}}</th>
+            <th >{{ $t("quantity")}}</th>
+            <th>{{ $t("sumary")}}</th>
+            <th class="delete-column">{{ $t("delete")}}</th>
           </tr>
   
         </thead>
@@ -96,12 +96,12 @@
       <table v-else class="table is-bordered is-striped is-hoverable is-fullwidth">
         <thead>
           <tr>
-            <th>Name</th>
-            <th>Cena</th>
-            <th>Typ</th>
-            <th>Ilość</th>  
-            <th>Suma</th>
-            <th class="delete-column">Usuń</th>
+            <th>{{ $t("name")}}</th>
+            <th>{{ $t("price")}}</th>
+            <th>{{ $t("typ")}}</th>
+            <th>{{ $t("quantity")}}</th>  
+            <th>{{ $t("quantity")}}</th>
+            <th class="delete-column">{{ $t("delete")}}</th>
           </tr>
 
         </thead>

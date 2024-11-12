@@ -23,6 +23,7 @@
     "typ": "Type",
     "Nav": "Nav",
     "name": "Nazwa",
+    "delete": "Usuń",
 
     "new_estimate": "Nowa wycena",
     "estimate_module": "Moduł służący do tworzenia nowych wycen.",
@@ -35,12 +36,47 @@
     "painting": "Malowanie",
     "elements_list": "Lista elementów",
     "add_element": "Dodaj element",
+    "add": "Dodaj",
     "accessories": "Akcesoria",
     "search_accessories": "Przeszukaj akcesoria",
     "length": "Długość",
     "width": "Szerokość",
     "thickness": "Grubość",
-    "quantity": "Ilość"
+    "quantity": "Ilość",
+    "save": "Zapisz",
+    "clear": "Wyczyść",
+    "summary": "Podsumowanie",
+    "price": "Cena",
+    "accessories_list": "Dodane akcesoria",
+    "runner_systems": "Prowadnice",
+    "fittings": "Złącza",
+    "hinges": "Zawiasy",
+    "cost_summary": "Suma kosztów",
+    "elements_costs": "Koszty elementów",
+    "accessories_costs": "Koszty akcesoriów",
+    "section": "Dział",
+    "time": "Czas",
+    "rate": "Stawka",
+    "elements_margin": "Marża na materiał",
+    "accessories_margin": "Marża na akcesoria",
+    "additional_margin": "Marża dodatkowa",
+    "summary_with_margin": "Suma z marżami",
+    "margin_%": "Marże wyrażane w %",
+    "apply_warning": "Dotyczy wszystkich elementów wyceny",
+    "sum": "Suma",
+
+    "worktime": "Czas pracy",
+    "workers": "Liczba pracowników",
+    "section_cost": "Koszty pracy działu",
+    "hours": "Godziny"
+
+
+
+
+    
+
+
+
 
     
     

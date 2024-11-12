@@ -8,7 +8,7 @@
 
           <div class="card">
             <header class="card-header">
-              <p class="card-header-title is-size-5">Suma kosztów</p>
+              <p class="card-header-title is-size-5">{{ $t("cost_summary")}}</p>
     
             </header>
             <div class="card-content">
@@ -18,7 +18,7 @@
                 <table class="table is-bordered is-striped is-hoverable is-fullwidth">
                   <thead>
                     <tr>
-                      <th class="title is-size-6">Koszty elementów</th>        
+                      <th class="title is-size-6">{{ $t("elements_costs") }}</th>        
                     </tr>    
                   </thead>
                   
@@ -26,7 +26,7 @@
      
                   </tfoot>
                   <tbody>
-                    <th class="title is-size-6">Suma: {{ summElementCosts }} zł </th>
+                    <th class="title is-size-6">{{ $t("sum") }}: {{ summElementCosts }} zł </th>
                     
                   </tbody>
                   
@@ -35,7 +35,7 @@
                 <table class="table is-bordered is-striped is-hoverable is-fullwidth">
                   <thead>
                     <tr>
-                      <th class="title is-size-6">Koszty akcesorii</th>
+                      <th class="title is-size-6">{{ $t("accessories_margin") }}</th>
                       </tr>
                   </thead>
                   
@@ -44,7 +44,7 @@
                                  
                   </tfoot>
                   <tbody>
-                    <th class="title is-size-6">Suma: {{ summAccesoriesCosts }} zł </th>
+                    <th class="title is-size-6">{{ $t("sum") }}: {{ summAccesoriesCosts }} zł </th>
                               
                     
                   </tbody>
@@ -53,10 +53,10 @@
   
                 <table class="table is-bordered is-striped is-hoverable is-fullwidth">
                   <thead>
-                    <th class="title is-size-6">Dział</th>
-                    <th class="title is-size-6">Czas</th>
-                    <th class="title is-size-6">Stawka</th>
-                    <th class="title is-size-6">Suma</th>
+                    <th class="title is-size-6">{{ $t("section") }}</th>
+                    <th class="title is-size-6">{{ $t("time") }}</th>
+                    <th class="title is-size-6">{{ $t("rate") }}</th>
+                    <th class="title is-size-6">{{ $t("summary") }}</th>
 
                   </thead>
                   <tbody>
@@ -68,7 +68,7 @@
                         <th> {{worktime.sum}} zł</th>
                       </tr>
                       <tr>
-                        <th>Suma </th>
+                        <th>{{ $t("summary") }} </th>
                         <th></th>
                         <th></th>
                         <th> {{ summWorktimeCosts }} zł</th>
@@ -79,26 +79,26 @@
                 <table class="table is-bordered is-striped is-hoverable is-fullwidth">
                   <thead>
                     <tr>
-                      <th class="title is-size-6">Łącznie</th>        
+                      <th class="title is-size-6">{{ $t("summary") }}</th>        
                     </tr>    
                   </thead>
                   <tbody>
                     <tr>
-                      <th> Suma: {{ summaryCosts}}</th>
+                      <th> {{ $t("sum") }}: {{ summaryCosts}}</th>
                     </tr>
                     <tr>
-                      <th v-if="marginA"> Marża na materiał : {{ parseFloat(elementsMargin).toFixed(2) }}
+                      <th v-if="marginA"> {{ $t("elements_margin") }} : {{ parseFloat(elementsMargin).toFixed(2) }}
                       
                       </th>
                     </tr>
                     <tr>
-                      <th v-if="marginB"> Marża na akcesoria: {{ parseFloat(accesoriesMargin).toFixed(2)}}</th>
+                      <th v-if="marginB"> {{ $t("accessories_margin") }}: {{ parseFloat(accesoriesMargin).toFixed(2)}}</th>
                     </tr>
                     <tr>
-                      <th v-if="marginC">Marża dodatkowa: {{ parseFloat(additionalMargin).toFixed(2) }}</th>
+                      <th v-if="marginC">{{ $t("additional_margin") }}: {{ parseFloat(additionalMargin).toFixed(2) }}</th>
                     </tr>
                     <tr>
-                      <th v-if="marginC || marginB || marginA">Suma z marżami: {{ parseFloat(summaryCostsWithMargin).toFixed(2) }}</th>
+                      <th v-if="marginC || marginB || marginA">{{ $t("summary_with_margin") }}: {{ parseFloat(summaryCostsWithMargin).toFixed(2) }}</th>
                     </tr>
 
                   </tbody>
@@ -120,22 +120,22 @@
         <div class="column">
           <div class="card">
             <header class="card-header">
-              <p class="card-header-title is-size-5">Marże wyrażane w %</p>           
+              <p class="card-header-title is-size-5">{{ $t("margin_%") }}</p>           
             </header>
             <div class="card-content">
               <div class="content">
                 <div class="field">
-                  <label class="label">Marża materiałowa</label>
+                  <label class="label">{{ $t("elements_margin") }}</label>
                   <div class="control">
-                    <input v-model="marginA" class="input" type="text" placeholder="Marża wyrażana w %">                  
+                    <input v-model="marginA" class="input" type="text" :placeholder="$t('margin_%')">                  
                   </div>           
-                  <label class="label">Marża akcesorii</label>
+                  <label class="label">{{ $t("accessories_margin") }}</label>
                   <div class="control">
-                    <input v-model="marginB" class="input" type="text" placeholder="Marża wyrażana w %">                  
+                    <input v-model="marginB" class="input" type="text" :placeholder="$t('margin_%')">                  
                   </div>
-                  <label  class="label">Marża dodatkowa <strong class="is-underlined">(Dotyczy wszystkich elementów wyceny)</strong></label>
+                  <label  class="label">{{ $t("additional_margin") }}<strong class="is-underlined">({{ $t("apply_warning") }})</strong></label>
                   <div class="control">
-                    <input v-model="marginC" class="input" type="text" placeholder="Marża wyrażana w %">                  
+                    <input v-model="marginC" class="input" type="text" :placeholder="$t('margin_%')">                  
                   </div>
                 </div>
               </div>
