@@ -8,8 +8,8 @@
             <th>{{ $t("width")}}</th>
             <th>{{ $t("thickness")}}</th>
             <th>{{ $t("wood_type")}}</th>
-            <th>Ilość</th>
-            <th class="delete-column">Usuń</th>
+            <th>{{$t("quantity")}}</th>
+            <th class="delete-column">{{$t("delete")}}</th>
             
           </tr>
 

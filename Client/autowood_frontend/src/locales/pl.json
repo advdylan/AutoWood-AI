@@ -68,7 +68,68 @@
     "worktime": "Czas pracy",
     "workers": "Liczba pracowników",
     "section_cost": "Koszty pracy działu",
-    "hours": "Godziny"
+    "hours": "Godziny",
+
+    "good_morning": "Dzień dobry! Od czego dzisiaj zaczniesz?",
+    "shortcuts": "Na skróty",
+    "projects_list_and_estimates": "Lista projektów i wycen",
+    "new_estimate": "Nowa wycena",
+    "manage_accessories": "Zarządzaj akcesoriami",
+    "manage_labor_costs": "Zarządzaj kosztami pracy",
+    "details": "Szczegóły",
+    "search": "Wyszukaj",
+    
+    "edit_costs_section": "Dział edytowania kosztów usług",
+    "cost_change_info": "Każdorazowa zmiana poniższych kosztów pracy nie działa wstecz. Tylko nowe projekty otrzymają nowe, poniższe wartości.",
+    "work_costs": "Koszty pracy zakładu",
+    "save": "Zapisz",
+    "add": "Dodaj",
+    "edit": "Edytuj",
+    "material_costs": "Koszty materiałów (zł / m3)",
+    "paint_costs": "Koszty lakierów (zł / litr)",
+
+    
+    "confirm_changes": "Zatwierdź zmiany",
+    "you_made_changes": "Wprowadziłeś zmiany w kosztach pracy poszczególnych zespołów.",
+    "do_you_want_to_save": "Czy chcesz zapisać?",
+    "save": "Zapisz",
+    "cancel": "Anuluj",
+    "changes_note": "*Wprowadzone zmiany nie zmienią wcześniej zapisanych wycen",
+    "only_new_estimates": "Tylko nowe wyceny otrzymają wprowadzone wartości",
+    "add_new_section": "Dodaj nowy dział",
+    "add_new_paint": "Dodaj nowy lakier",
+    "add_new_woodtype": "Dodaj nowy typ materiału",
+    "section_name": "Nazwa działu",
+    "hourly_cost": "Koszt pracy na godzinę",
+    "material_name": "Nazwa materiału",
+    "material_cost": "Koszt zł / m3",
+    "volume": "Objętość w litrach",
+    "paint_name": "Nazwa lakieru",
+
+    
+    "accessory_management": "Dział zarządzania akcesoriami",
+    "cost_change_info": "Każdorazowa zmiana poniższych kosztów akcesorii nie działa wstecz. Tylko nowe projekty otrzymają nowe wartości.",
+    "accessories": "Akcesoria",
+    "add_new_accessories": "Dodaj nowe akcesoria",
+    "search": "Wyszukaj",
+    "delete": "Usuń",
+    "add": "Dodaj",
+    "name": "Nazwa",
+    "type": "Typ",
+    "weight": "Waga",
+    "price": "Cena",
+    "description": "Opis",
+    "confirm_add_accessory": "Dodaj nowe akcesorium",
+    "check_correctness": "Sprawdź poprawność i dodaj opis nowego akcesorium",
+    "price_pln": "Cena zł",
+    "cancel": "Anuluj"
+
+    
+    
+    
+    
+    
+    
 
 
 

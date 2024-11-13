@@ -6,10 +6,10 @@
   
     <div class="notification is-warning">
       <div class="title is-centered is-size-3">
-        Dział edytowania kosztów usług       
+        {{ $t('edit_costs_section') }}     
       </div>
       <div class="text">
-        Każdorazowa zmiana poniższych kosztów pracy nie działa wstecz. Tylko nowe projekty otrzymają nowe, poniższe wartości.
+        {{ $t('cost_change_info') }}
       </div>
  
   </div>
@@ -20,7 +20,7 @@
         <div class="column is-one-third">
             <div class="card">
                 <header class="card-header">
-                  <p class="card-header-title is-centered"><i class="fa-solid fa-user"></i>&nbsp;Koszty pracy zakładu</p>               
+                  <p class="card-header-title is-centered"><i class="fa-solid fa-user"></i>&nbsp; {{ $t('work_costs') }}</p>               
                 </header>
                 <div class="card-content is-flex is-flex-direction-column" style="height: 100%;">
                     <div class="columns">
@@ -43,12 +43,12 @@
                     </div>
                     <div class="buttons is-flex-align-items-flex-end mt-auto ">
                         <button @click="toggleSaveWindows = !toggleSaveWindows"
-                         class="button is-dark"><i class="fa-regular fa-floppy-disk">&nbsp;</i>Zapisz</button>  
-                        <button @click="toggleAddWorktype = !toggleAddWorktype" class="button is-dark"><i class="fa-solid fa-plus">&nbsp;</i>Dodaj</button>   
+                         class="button is-dark"><i class="fa-regular fa-floppy-disk">&nbsp;</i>{{ $t('save') }}</button>  
+                        <button @click="toggleAddWorktype = !toggleAddWorktype" class="button is-dark"><i class="fa-solid fa-plus">&nbsp;</i>{{ $t('add') }}</button>   
                         <button @click="toggleDisabled = !toggleDisabled;
                                   if (!toggleDisabled) {
                                     loadData()
-                                  }" class="button is-dark"><i class="fa-regular fa-pen-to-square">&nbsp;</i>Edytuj</button>                                                  
+                                  }" class="button is-dark"><i class="fa-regular fa-pen-to-square">&nbsp;</i>{{ $t('edit') }}</button>                                                  
                     </div>
                 </div>
               </div>
@@ -58,7 +58,7 @@
 
           <div class="card">
             <header class="card-header">
-              <p class="card-header-title is-centered"><i class="fa-solid fa-tree">&nbsp;</i>Koszty materiałów( zł / m3)</p>               
+              <p class="card-header-title is-centered"><i class="fa-solid fa-tree">&nbsp;</i>{{ $t('material_costs') }}</p>               
             </header>
             <div class="card-content is-flex is-flex-direction-column" style="height: 100%;">
                 <div class="columns">
@@ -81,12 +81,12 @@
                 </div>
                 <div class="buttons is-flex-align-items-flex-end mt-auto ">
                     <button @click="toggleSaveWindows = !toggleSaveWindows"
-                     class="button is-dark "><i class="fa-regular fa-floppy-disk">&nbsp;</i>Zapisz</button>  
-                    <button @click="toggleAddWood = !toggleAddWood" class="button is-dark"><i class="fa-solid fa-plus">&nbsp;</i>Dodaj</button>   
+                     class="button is-dark "><i class="fa-regular fa-floppy-disk">&nbsp;</i>{{ $t('save') }}</button>  
+                    <button @click="toggleAddWood = !toggleAddWood" class="button is-dark"><i class="fa-solid fa-plus">&nbsp;</i>{{ $t('add') }}</button>   
                     <button @click="toggleWoodDisabled = !toggleWoodDisabled;
                             if (!toggleWoodDisabled){
                               loadData()
-                            }" class="button is-dark"><i class="fa-regular fa-pen-to-square">&nbsp;</i>Edytuj</button>                       
+                            }" class="button is-dark"><i class="fa-regular fa-pen-to-square">&nbsp;</i>{{ $t('edit') }}</button>                       
                 </div>
             </div>
           </div>
@@ -96,7 +96,7 @@
 
           <div class="card">
             <header class="card-header">
-              <p class="card-header-title is-centered"> <i class="fa-solid fa-fill-drip fa-lg"></i>&nbsp;Koszty lakierów ( zł / litr )</p>               
+              <p class="card-header-title is-centered"> <i class="fa-solid fa-fill-drip fa-lg"></i>&nbsp;{{ $t('paint_costs') }}</p>               
             </header>
             <div class="card-content is-flex is-flex-direction-column" style="height: 100%;">
                 <div class="columns">
@@ -121,12 +121,12 @@
                 </div>
                 <div class="buttons is-flex-align-items-flex-end mt-auto ">
                     <button @click="toggleSaveWindows = !toggleSaveWindows"
-                     class="button is-dark "><i class="fa-regular fa-floppy-disk">&nbsp;</i>Zapisz</button>  
-                    <button @click="toggleAddPaint = !toggleAddPaint" class="button is-dark"><i class="fa-solid fa-plus">&nbsp;</i>Dodaj</button>   
+                     class="button is-dark "><i class="fa-regular fa-floppy-disk">&nbsp;</i>{{ $t('save') }}</button>  
+                    <button @click="toggleAddPaint = !toggleAddPaint" class="button is-dark"><i class="fa-solid fa-plus">&nbsp;</i>{{ $t('add') }}</button>   
                     <button @click="togglePaintDisabled = !togglePaintDisabled;
                               if(!togglePaintDisabled){
                                 loadData()
-                              }" class="button is-dark"><i class="fa-regular fa-pen-to-square">&nbsp;</i>Edytuj</button>                       
+                              }" class="button is-dark"><i class="fa-regular fa-pen-to-square">&nbsp;</i>{{ $t('edit') }}</button>                       
                 </div>
             </div>
           </div>
@@ -145,23 +145,23 @@
         <div class="modal-background"></div>
         <div class="modal-card">
           <header class="modal-card-head">
-            <p class="modal-card-title">Zatwierdź zmiany</p>
+            <p class="modal-card-title">{{ $t('confirm_changes') }}</p>
             <button @click="toggleSaveWindows = !toggleSaveWindows" class="delete" aria-label="close"></button>
           </header>
           <section class="modal-card-body has-text-centered">
-            Wprowadziłeś zmiany w kosztach pracy poszczególnych zespołów.
+            {{ $t('you_made_changes') }}
             <br>
-            Czy chcesz zapisać?* 
+            {{ $t('do_you_want_to_save') }}
           </section>
           <footer class="modal-card-foot">
             <div class="buttons">
               <button @click="handleUpdateWorktimetypes(worktimetype, wood, paints);
               toggleSaveWindows = !toggleSaveWindows;"     
-              class="button is-success"><i class="fa-regular fa-floppy-disk">&nbsp;</i>Zapisz</button>
-              <button class="button"><i class="fa-solid fa-ban">&nbsp;</i>Anuluj</button>
-              <p class="has-text-left is-size-7">*Wprowadzone zmiany nie zmienią wcześniej zapisanych wycen</p>
+              class="button is-success"><i class="fa-regular fa-floppy-disk">&nbsp;</i>{{ $t('save') }}</button>
+              <button class="button"><i class="fa-solid fa-ban">&nbsp;</i>{{ $t('cancel') }}</button>
+              <p class="has-text-left is-size-7">{{ $t('changes_note') }}</p>
               
-              <p class="has-text-left is-size-7">Tylko nowe wyceny otrzymają wprowadzone wartości</p>
+              <p class="has-text-left is-size-7">{{ $t('only_new_estimates') }}</p>
             </div>
           </footer>
         </div>
@@ -172,7 +172,7 @@
         <div class="modal-background"></div>
         <div class="modal-card">
           <header class="modal-card-head">
-            <p class="modal-card-title">Dodaj nowy dział</p>
+            <p class="modal-card-title">{{ $t('add_new_section') }}</p>
             <button @click="toggleAddWorktype = !toggleAddWorktype" class="delete" aria-label="close"></button>
           </header>
           <section class="modal-card-body has-text-centered">
@@ -180,12 +180,12 @@
            <div class="card-content">
             <div class="columns">
                 <div class="column is-half">
-                    <label  class="label">Nazwa działu</label>
-                    <input v-model="new_worktimetype_name" class="input" type="text" placeholder="Dział" />
+                    <label  class="label">{{ $t('section_name') }}</label>
+                    <input v-model="new_worktimetype_name" class="input" type="text" :placeholder="$t('section_name')" />
                 </div>
                 <div class="column">
-                    <label class="label">Koszt pracy na godzinę</label>
-                    <input v-model="new_worktimetype_cost" class="input" type="number" placeholder="Koszt" />
+                    <label class="label">{{ $t('hourly_cost') }}</label>
+                    <input v-model="new_worktimetype_cost" class="input" type="number" :placeholder="$t('hourly_cost')" />
                 </div>
             </div>
         </div>
@@ -194,11 +194,11 @@
             <div class="buttons">
               <button
               @click="addNewWorktimetype(new_worktimetype_name,new_worktimetype_cost);
-                      toggleAddWorktype = !toggleAddWorktype" class="button is-success"><i class="fa-regular fa-floppy-disk">&nbsp;</i>Zapisz</button>
-              <button class="button"><i class="fa-solid fa-ban">&nbsp;</i>Anuluj</button>
-              <p class="has-text-left is-size-7">*Wprowadzone zmiany nie zmienią wcześniej zapisanych wycen</p>
+                      toggleAddWorktype = !toggleAddWorktype" class="button is-success"><i class="fa-regular fa-floppy-disk">&nbsp;</i>{{ $t('save') }}</button>
+              <button class="button"><i class="fa-solid fa-ban">&nbsp;</i>{{ $t('cancel') }}</button>
+              <p class="has-text-left is-size-7">{{ $t('changes_note') }}</p>
               
-              <p class="has-text-left is-size-7">Tylko nowe wyceny otrzymają wprowadzone wartości</p>
+              <p class="has-text-left is-size-7">{{ $t('only_new_estimates') }}</p>
             </div>
           </footer>
         </div>
@@ -208,7 +208,7 @@
         <div class="modal-background"></div>
         <div class="modal-card">
           <header class="modal-card-head">
-            <p class="modal-card-title">Dodaj nowy dział</p>
+            <p class="modal-card-title">{{ $t('add_new_woodtype') }}</p>
             <button @click="toggleAddWood = !toggleAddWood" class="delete" aria-label="close"></button>
           </header>
           <section class="modal-card-body has-text-centered">
@@ -216,12 +216,12 @@
            <div class="card-content">
             <div class="columns">
                 <div class="column is-half">
-                    <label  class="label">Nazwa materiału</label>
-                    <input v-model="new_wood_name" class="input" type="text" placeholder="Dział" />
+                    <label  class="label">{{ $t('wood_type') }}</label>
+                    <input v-model="new_wood_name" class="input" type="text" :placeholder="$t('wood_type')" />
                 </div>
                 <div class="column">
-                    <label class="label">Koszt zł / m3</label>
-                    <input v-model="new_wood_cost" class="input" type="number" placeholder="Koszt" />
+                    <label class="label">{{ $t('material_cost') }}</label>
+                    <input v-model="new_wood_cost" class="input" type="number" :placeholder="$t('material_cost')" />
                 </div>
             </div>
         </div>
@@ -232,12 +232,12 @@
               @click="addNewWood(new_wood_name,new_wood_cost);
               toggleAddWood = !toggleAddWood;
               "
-              class="button is-success"><i class="fa-solid fa-plus">&nbsp;</i>Dodaj
+              class="button is-success"><i class="fa-solid fa-plus">&nbsp;</i>{{ $t('add') }}
               </button>
-              <button @click="toggleAddWood = !toggleAddWood" class="button"><i class="fa-solid fa-ban">&nbsp;</i>Anuluj</button>
-              <p class="has-text-left is-size-7">*Wprowadzone zmiany nie zmienią wcześniej zapisanych wycen</p>
+              <button @click="toggleAddWood = !toggleAddWood" class="button"><i class="fa-solid fa-ban">&nbsp;</i>{{ $t('cancel') }}</button>
+              <p class="has-text-left is-size-7">{{ $t('changes_note') }}</p>
               
-              <p class="has-text-left is-size-7">Tylko nowe wyceny otrzymają wprowadzone wartości</p>
+              <p class="has-text-left is-size-7">{{ $t('only_new_estimates') }}</p>
             </div>
           </footer>
         </div>
@@ -248,7 +248,7 @@
         <div class="modal-background"></div>
         <div class="modal-card">
           <header class="modal-card-head">
-            <p class="modal-card-title">Dodaj nowy dział</p>
+            <p class="modal-card-title">{{$t('add_new_paint')}}</p>
             <button @click="toggleAddPaint = !toggleAddPaint" class="delete" aria-label="close"></button>
           </header>
           <section class="modal-card-body has-text-centered">
@@ -256,16 +256,16 @@
            <div class="card-content">
             <div class="columns">
                 <div class="column is-one-third">
-                    <label  class="label">Nazwa materiału</label>
-                    <input v-model="new_paint_name" class="input" type="text" placeholder="Dział" />
+                    <label  class="label">{{$t('paint_name')}}</label>
+                    <input v-model="new_paint_name" class="input" type="text" :placeholder="$t('paint_name')" />
                 </div>
                 <div class="column">
-                    <label class="label">Koszt zł / m3</label>
-                    <input v-model="new_paint_cost" class="input" type="number" placeholder="Koszt" />
+                    <label class="label">{{$t('material_cost')}}</label>
+                    <input v-model="new_paint_cost" class="input" type="number" :placeholder="$t('material_cost')" />
                 </div>
                 <div class="column">
-                  <label class="label">Objętość w litrach</label>
-                  <input v-model="new_paint_volume" class="input" type="number" placeholder="Objętość" />
+                  <label class="label">{{$t('volume')}}</label>
+                  <input v-model="new_paint_volume" class="input" type="number" :placeholder="$t('volume')" />
               </div>
             </div>
         </div>
@@ -276,12 +276,12 @@
               @click="addNewPaint(new_paint_name,new_paint_cost,new_paint_volume);
               toggleAddPaint = !toggleAddPaint;
               "
-              class="button is-success"><i class="fa-solid fa-plus">&nbsp;</i>Dodaj
+              class="button is-success"><i class="fa-solid fa-plus">&nbsp;</i>{{$t('add')}}
               </button>
-              <button @click="toggleAddPaint = !toggleAddPaint" class="button"><i class="fa-solid fa-ban">&nbsp;</i>Anuluj</button>
-              <p class="has-text-left is-size-7">*Wprowadzone zmiany nie zmienią wcześniej zapisanych wycen</p>
+              <button @click="toggleAddPaint = !toggleAddPaint" class="button"><i class="fa-solid fa-ban">&nbsp;</i>{{$t('cancel')}}</button>
+              <p class="has-text-left is-size-7">{{$t('changes_note')}}</p>
               
-              <p class="has-text-left is-size-7">Tylko nowe wyceny otrzymają wprowadzone wartości</p>
+              <p class="has-text-left is-size-7">{{$t('only_new_estimates')}}</p>
             </div>
           </footer>
         </div>

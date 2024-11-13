@@ -1,6 +1,8 @@
 import {defineStore} from 'pinia'
 import axios from 'axios'
 import { useLink } from 'vue-router';
+import { i18n } from '@/locales/i18n';
+
 
 
 
@@ -9,9 +11,11 @@ export const useProjectsListStore = defineStore('projectslist', {
     state: () => ({
         projectlist: null,
         detail_project: null,
-
+       
+        
     }),
     getters: {
+
         data() {
             return this.projectlist ? this.projectlist.map(item => ({
                 id: item.id,
@@ -24,37 +28,37 @@ export const useProjectsListStore = defineStore('projectslist', {
                 nawigacja: 'nawigacja'
             })) : [];
         },
-
-        columns() {
+        
+        columns() {         
             let columns = [
                 { 
                 field: 'name', 
-                label: 'Nazwa',
+                label: i18n.t('name'),
                 searchable: true
                 },
                 { 
                 field: 'category', 
-                label: 'Kategoria',
+                label: i18n.t('category'),
                 searchable: true 
                 },
                 { 
                 field: 'collection', 
-                label: 'Kolekcja',
+                label: i18n.t('collection'),
                 searchable: true
                 },
                 { 
                 field: 'wood', 
-                label: 'Materiał',
+                label: i18n.t('wood_type'),
                 searchable: true 
                 },
                 { 
                 field: 'paints',
-                label: 'Malowanie',
+                label: i18n.t('paints'),
                 searchable: true 
                 },
                 {
                 field: 'nawigacja',
-                label: 'Nawigacja'
+                label: i18n.t('Nav')
                 }
             ]
             return columns
@@ -195,6 +199,6 @@ export const useProjectsListStore = defineStore('projectslist', {
                     }
                 }
                 this.detail_project.accessories.push(newAccesory)
-            }
+            },
     },
 })

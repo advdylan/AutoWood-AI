@@ -24,7 +24,6 @@
     "Nav": "Nav",
     "name": "Name",
     "delete": "Delete",
-
     
     "new_estimate": "New estimate",
     "estimate_module": "Module used to create new estimates.",
@@ -60,7 +59,7 @@
     "rate": "Rate",
     "elements_margin": "Elements margin",
     "accessories_margin": "Accesories margin",
-    "additional_margin": "Additional_margin",
+    "additional_margin": "Additional margin",
     "summary_with_margin": "Summary with margin",
     "margin_%": "All margins expressed in percentages",
     "apply_warning": "Applies to every part of the estimate",
@@ -69,7 +68,68 @@
     "worktime": "Worktime",
     "workers": "Amount of workers",
     "section_cost": "Section cost",
-    "hours": "Hours"
+    "hours": "Hours",
+    
+    "good_morning": "Good morning! What are you up to today?",
+    "shortcuts": "Shortcuts",
+    "projects_list_and_estimates": "Projects list and estimates",
+    "new_estimate": "New estimate",
+    "manage_accessories": "Manage accessories",
+    "manage_labor_costs": "Manage labor costs",
+    "details": "Details",
+    "search": "Search",
+    "edit_costs_section": "Prices Setup",
+    "cost_change_info": "Any change in the following labor costs does not work retroactively. Only new projects will receive the new, below values.",
+    "work_costs": "Workshop labor costs",
+    "save": "Save",
+    "add": "Add",
+    "edit": "Edit",
+    "material_costs": "Material costs (PLN / m3)",
+    "paint_costs": "Paint costs (PLN / liter)",
+
+    
+    "confirm_changes": "Confirm changes",
+    "you_made_changes": "You have made changes to the labor costs of individual teams.",
+    "do_you_want_to_save": "Do you want to save?",
+    "save": "Save",
+    "cancel": "Cancel",
+    "changes_note": "The changes made will not affect previously saved estimates.",
+    "only_new_estimates": "Only new estimates will receive the introduced values.",
+    "add_new_section": "Add new section",
+    "add_new_paint": "Add new paint",
+    "add_new_woodtype": "Add new woodtype",
+    "section_name": "Section name",
+    "hourly_cost": "Hourly labor cost",
+    "material_name": "Material name",
+    "material_cost": "Cost PLN / m3",
+    "volume": "Volume in liters",
+    "paint_name": "Paint name",
+    
+    "accessory_management": "Accessory management section",
+    "cost_change_info": "Any change in the following accessory costs does not work retroactively. Only new projects will receive new values.",
+    "accessories": "Accessories",
+    "add_new_accessories": "Add new accessories",
+    "search": "Search",
+    "delete": "Delete",
+    "add": "Add",
+    "name": "Name",
+    "type": "Type",
+    "weight": "Weight",
+    "price": "Price",
+    "description": "Description",
+    "confirm_add_accessory": "Add new accessory",
+    "check_correctness": "Check correctness and add description of the new accessory",
+    "price_pln": "Price PLN",
+    "cancel": "Cancel"
+    
+    
+    
+    
+    
+
+    
+    
+    
  
 
     

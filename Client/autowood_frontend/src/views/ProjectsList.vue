@@ -6,14 +6,14 @@
                     <template v-if="column.searchable && !column.numeric" #searchable="props">
                         <b-input
                             v-model="props.filters[props.column.field]"
-                            placeholder="Wyszukaj"
+                            :placeholder="$t('search')"
                             icon="magnify"/>
                     </template>
                     <template v-slot="props">
                         
                         <template v-if="column.field === 'nawigacja'">
                             <router-link :to="{ name: 'NewProjectDetail', params: { id: props.row.id } }">
-                                <b-button icon-right="circle-info">Szczegóły</b-button>                               
+                                <b-button icon-right="circle-info">{{$t("details")}}</b-button>                               
                             </router-link>
                             
                         </template>
