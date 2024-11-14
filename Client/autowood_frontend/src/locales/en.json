@@ -24,6 +24,8 @@
     "Nav": "Nav",
     "name": "Name",
     "delete": "Delete",
+    "estimate_order": "Estimate of order",
+    "details": "Details",
     
     "new_estimate": "New estimate",
     "estimate_module": "Module used to create new estimates.",
@@ -120,7 +122,15 @@
     "confirm_add_accessory": "Add new accessory",
     "check_correctness": "Check correctness and add description of the new accessory",
     "price_pln": "Price PLN",
-    "cancel": "Cancel"
+    "cancel": "Cancel",
+
+    "download_pricing_report": "Download pricing report ",
+    "download_elements_list": "Download elements",
+    "edit_margin": "Edit margins",
+    "edit_elements": "Edit elements",
+    "edit_accessories": "Edit accessories",
+    "margins": "Margin and prices setup"
+    
     
     
     

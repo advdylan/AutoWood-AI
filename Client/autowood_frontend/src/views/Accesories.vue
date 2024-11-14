@@ -78,7 +78,11 @@
                         </div>
                         <div class="level-item has-text-centered">
                             <button @click="showAccModal = !showAccModal" class="button is-success">
+                                
+                                <i class="fa-solid fa-plus"></i>
+                                &nbsp;
                                 {{ $t('add') }}
+                                
                             </button>
                         </div>
                     </nav>
@@ -128,9 +132,13 @@
                 <footer class="modal-card-foot">
                     <div class="buttons">
                         <button @click="handleAddButton(); handleUpdateAccesories(accesorytype); showAccModal = !showAccModal;" class="button is-success">
+                            <i class="fa-solid fa-plus"></i>
+                            &nbsp;
                             {{ $t('add') }}
                         </button>
                         <button @click="showAccModal = !showAccModal;" class="button">
+                            <i class="fa-solid fa-ban"></i>
+                            &nbsp;
                             {{ $t('cancel') }}
                         </button>
                     </div>

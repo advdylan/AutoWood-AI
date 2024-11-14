@@ -24,6 +24,8 @@
     "Nav": "Nav",
     "name": "Nazwa",
     "delete": "Usuń",
+    "estimate_order": "Wycena zamówienia",
+    "details": "Szczegóły",
 
     "new_estimate": "Nowa wycena",
     "estimate_module": "Moduł służący do tworzenia nowych wycen.",
@@ -122,7 +124,15 @@
     "confirm_add_accessory": "Dodaj nowe akcesorium",
     "check_correctness": "Sprawdź poprawność i dodaj opis nowego akcesorium",
     "price_pln": "Cena zł",
-    "cancel": "Anuluj"
+
+    "cancel": "Anuluj",
+    "download_pricing_report": "Pobierz podsumowanie",
+    "download_elements_list": "Pobierz rozpiskę produkcyjną",
+    "edit_margin": "Edytuj marże i koszty pracy",
+    "edit_elements": "Edytuj tabelę",
+    "edit_accessories": "Edytuj akcesoria",
+    "margins": "Marże i koszty pracy"
+
 
     
     

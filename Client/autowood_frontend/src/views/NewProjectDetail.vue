@@ -9,7 +9,7 @@
 
   <div class="card">
     <header class="card-header">
-      <p v-if="detail_project" class="card-header-title is-centered is-size-4">Wycena zamówienia "{{ detail_project.name}}"</p>
+      <p v-if="detail_project" class="card-header-title is-centered is-size-4">{{ $t('estimate_order') }} "{{ detail_project.name}}"</p>
     </header>
     <div class="card-content">
       <div class="columns">
@@ -17,7 +17,7 @@
         <div class="column is-half">
           <div class="card">
             <div class="card-header">
-              <p class="card-header-title is-size-5">Szczegóły</p>
+              <p class="card-header-title is-size-5">{{ $t('details') }}</p>
             </div>
               <div class="card-content">
                 <div class="columns">
@@ -25,14 +25,14 @@
          
                   <div class="content">
                     <div class="field">
-                      <label class="label is-size-5">Nazwa projektu</label>
+                      <label class="label is-size-5">{{ $t('project_name') }}</label>
                       <div class="control">
                         <input v-model="projectName" class="input" type="text" placeholder="Nazwa projektu">
                       </div>
                     </div>
   
                     <div class="field" v-if="selectedWood">
-                      <label class="label is-size-5">Materiał</label>
+                      <label class="label is-size-5">{{ $t('wood_type') }}</label>
                       <div class="control">
                         <div class="select">
                           <select v-model="selectedWood">
@@ -43,7 +43,7 @@
                     </div>
   
                     <div class="field">
-                      <label class="label is-size-5">Kategoria</label>
+                      <label class="label is-size-5">{{ $t('category') }}</label>
                       <div class="control">
                         <div class="select">
                           <select v-model="selectedCategory">
@@ -54,7 +54,7 @@
                     </div>
   
                     <div class="field">
-                      <label class="label is-size-5">Kolekcja</label>
+                      <label class="label is-size-5">{{ $t('collection') }}</label>
                       <div class="control">
                         <div class="select">
                           <select v-model="selectedCollection">
@@ -65,7 +65,7 @@
                       </div>
   
                       <div class="field">
-                        <label class="label is-size-5">Malowanie</label>
+                        <label class="label is-size-5">{{ $t('painting') }}</label>
                         <div class="control">
                           <div class="select">
                             <select v-model="selectedPaint">
@@ -82,16 +82,15 @@
 
                   <b-button @click="submitUpdateForm" type="is-success" >
                     <i class="fa-solid fa-floppy-disk"></i>
-                    Zapisz
+                    {{ $t('save') }}
                   </b-button>
 
                   <b-button type="is-danger" >
                     <i class="fa-solid fa-trash"></i>
-                    Usuń wycenę
-                  </b-button>
-                  <b-button @click="downloadPriceReport(id)" class="button is-info"><i class="fa-regular fa-file">&nbsp;</i>Pobierz podsumowanie</b-button>
-                  <b-button @click="downloadElementsTable(id)"  class="button is-info"><i class="fa-regular fa-file">&nbsp;</i>Pobierz rozpiskę</b-button>
-                  <button @click="showEditModal = true" data-target="newelement-modal" class="button is-dark"><i class="fa-regular fa-pen-to-square">&nbsp;</i>Edytuj marżę i koszty pracy</button>
+                    {{ $t('delete') }}                  </b-button>
+                  <b-button @click="downloadPriceReport(id)" class="button is-info"><i class="fa-regular fa-file">&nbsp;</i>{{$t("download_pricing_report")}}</b-button>
+                  <b-button @click="downloadElementsTable(id)"  class="button is-info"><i class="fa-regular fa-file">&nbsp;</i>{{$t("download_elements_list")}}</b-button>
+                  <button @click="showEditModal = true" data-target="newelement-modal" class="button is-dark"><i class="fa-regular fa-pen-to-square">&nbsp;</i>{{$t("edit_margin")}}</button>
                   </div>   
             </div>           
           </div>
@@ -102,7 +101,7 @@
           <div class="card">
             <header class="card-header" @click="isCollapsedelements = !isCollapsedelements">
               <p class="card-header-title is-size-5">
-                Lista elementów
+                {{ $t('elements_list') }}
               </p>
             </header>
           <div class="card-content">
@@ -123,7 +122,7 @@
           <div class="card">
             <header class="card-header">
               <p class="card-header-title is-size-5">
-                Akcesoria
+                {{$t("accessories")}}
               </p>
             </header>
 
@@ -134,10 +133,10 @@
             <table class="table is-bordered is-striped is-hoverable is-fullwidth">
               <thead>
                 <tr>
-                  <th>Nazwa</th>
-                  <th>Typ</th>
-                  <th>Waga</th>
-                  <th>Cena</th>
+                  <th>{{$t("name")}}</th>
+                  <th>{{$t("type")}}</th>
+                  <th>{{$t("weight")}}</th>
+                  <th>{{$t("price")}}</th>
                   
                 </tr>
               </thead>
@@ -160,7 +159,7 @@
               </tbody>
               
             </table>
-            <button @click="showAccModal = true" data-target="newelement-modal" class="button is-dark"><i class="fa-regular fa-pen-to-square">&nbsp;</i>Edytuj listę akcesorii</button>
+            <button @click="showAccModal = true" data-target="newelement-modal" class="button is-dark"><i class="fa-regular fa-pen-to-square">&nbsp;</i>{{$t("edit_accessories")}}</button>
         </div>
       </div>
       </div>
@@ -179,7 +178,7 @@
       
             <div class="modal-card">
               <header class="modal-card-head">
-                    <p class="modal-card-title is-centered is-size-3">Akcesoria</p>
+                    <p class="modal-card-title is-centered is-size-3">{{$t("accessories")}}</p>
                     <button class="delete" aria-label="close" @click="showAccModal = false"></button>        
                   </header>
                   <section class="modal-card-body">
@@ -207,7 +206,7 @@
 
     <div class="modal-card">
       <header class="modal-card-head">
-            <p class="modal-card-title is-centered is-size-3">Dodaj element</p>
+            <p class="modal-card-title is-centered is-size-3">{{$t("add_element")}}</p>
             <button class="delete" aria-label="close" @click="showElementModal = false"></button>        
           </header>
           
@@ -219,42 +218,42 @@
         <form @submit.prevent="submitForm">
 
         <div class="field">
-          <label class="label">Nazwa</label>
+          <label class="label">{{$t("name")}}</label>
           <div class="control">
             <input class="input" type="text" placeholder="Nazwa" v-model="newElement.element.name">             
           </div>
         </div>
 
         <div class="field">
-          <label class="label">Długość</label>
+          <label class="label">{{$t("length")}}</label>
           <div class="control">
             <input class="input" type="number" placeholder="Długość" v-model="newElement.element.dimX">           
           </div>
         </div>
 
         <div class="field">
-          <label class="label">Szerokość</label>
+          <label class="label">{{$t("width")}}</label>
           <div class="control">
             <input class="input" type="number" placeholder="Szerokosć" v-model="newElement.element.dimY" >             
           </div>
         </div>
 
         <div class="field">
-          <label class="label">Grubość</label>
+          <label class="label">{{$t("thickness")}}</label>
           <div class="control">
             <input class="input" type="number" placeholder="Grubość" v-model="newElement.element.dimZ">             
           </div>
         </div>
 
         <div class="field">
-          <label class="label">Ilość</label>
+          <label class="label">{{$t("quantity")}}</label>
           <div class="control">
             <input class="input" type="number" placeholder="Ilość" v-model="newElement.quantity" >             
           </div>
         </div>
 
         <div class="field">
-          <label class="label">Materiał</label>
+          <label class="label">{{$t("wood_type")}}</label>
           <div class="control">
             <div class="select">
               <select v-model="newElement.element.wood_type">
@@ -268,7 +267,7 @@
 
       <footer class="modal-card-foot">
         <div class="buttons">
-          <button type="submit" class="button is-success">Dodaj element</button>
+          <button type="submit" class="button is-success">{{$t("add_element")}}</button>
          
         </div>
       </footer>
@@ -295,7 +294,7 @@
 
     <div class="modal-card">
       <header class="modal-card-head">
-            <p class="modal-card-title is-centered is-size-3">Marże i koszty pracy</p>
+            <p class="modal-card-title is-centered is-size-3">{{$t("margins")}}</p>
             <button class="delete" aria-label="close" @click="showEditModal = false"></button>        
           </header>
           <section class="modal-card-body">
