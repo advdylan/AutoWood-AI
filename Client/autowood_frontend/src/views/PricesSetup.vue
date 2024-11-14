@@ -195,7 +195,7 @@
               <button
               @click="addNewWorktimetype(new_worktimetype_name,new_worktimetype_cost);
                       toggleAddWorktype = !toggleAddWorktype" class="button is-success"><i class="fa-regular fa-floppy-disk">&nbsp;</i>{{ $t('save') }}</button>
-              <button class="button"><i class="fa-solid fa-ban">&nbsp;</i>{{ $t('cancel') }}</button>
+              <button @click = "toggleAddWorktype = !toggleAddWorktype"  class="button"><i class="fa-solid fa-ban">&nbsp;</i>{{ $t('cancel') }}</button>
               <p class="has-text-left is-size-7">{{ $t('changes_note') }}</p>
               
               <p class="has-text-left is-size-7">{{ $t('only_new_estimates') }}</p>
