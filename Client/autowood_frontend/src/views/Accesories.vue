@@ -28,19 +28,30 @@
                                     <template v-if="column.searchable && !column.numeric" #searchable="props">
                                         <b-input v-model="props.filters[props.column.field]" :placeholder="$t('search')" icon="magnify"/>
                                     </template>
+                                    <template v-if="column.field === 'nawigacja'" #header>
+                                    <b-switch v-model="navigationSwitch" :aria-label="$t('Toggle Navigation')">
+                                        {{ navigationSwitch ? $t('On') : $t('Off') }}
+                                    </b-switch>
+                                    </template>
                                     <template v-slot="props">
                                         <template v-if="column.field === 'nawigacja'">
-                                            <b-button @click="handleDeleteButton(index)" type="is-danger" icon-left="x">
+                                            <b-button @click="handleDeleteButton(props.row)" type="is-danger" icon-left="x">
                                                 {{ $t('delete') }}
                                             </b-button>
                                         </template>
                                         <template v-else>
                                             {{ props.row[column.field] }}
                                         </template>
+                                        <template v-if="editMode">
+
+                                            <b-input v-model="props.row[column.field]"></b-input>
+                                        </template>
                                     </template>
                                 </b-table-column>
+
                             </template>
                         </b-table>
+                        
                     </div>
                 </div>
             </div>
@@ -152,12 +163,13 @@
 <script setup>
 import { useNewProjectStoreBeta } from '@/store/newproject'
 import { storeToRefs } from 'pinia'
-import { onMounted, ref, watch, computed } from 'vue'
+import { onMounted, ref, watch, computed, onBeforeUnmount, useRouter } from 'vue'
 import axios from 'axios'
 import { toast } from 'bulma-toast'
 
 import {validateFormData} from '@/validators/Validators.js'
 
+const editMode = ref(false)
 const showAccModal = ref(false)
 const newProjectStore = useNewProjectStoreBeta()
 const data = ref([])
@@ -187,7 +199,7 @@ let inputDebounce= ''
 const {loadData, addAccesorytype, updateAccesories} = newProjectStore
 const {accesories, accesorytype} = storeToRefs(newProjectStore)
 
-
+const router = useRouter
 
 function getAccessoryTypes(accesoryList) {
   return [...new Set(accesoryList.flatMap(item => item.type_choices.map(choice => choice[0])))];
@@ -309,13 +321,11 @@ function handleAddButton() {
     }
     }
 
-    function handleDeleteButton(id){
-      console.log(id)
-      accesorytype.value.splice(id, 1)
-      tableKey.value += 1
+    function handleDeleteButton(row){
+      const index = accesorytype.value.findIndex(item => item.id === row.id)
+      accesorytype.value.splice(index, 1)
+      tableKey.value += 1 //refreshing the table
     }
-
-    
 
 
 
@@ -348,10 +358,24 @@ let columns = [
 
 onMounted(() => {
     loadData()
-    
-   
-    
 })
+
+watch(
+    accesorytype,
+        (newItems, oldItems) => {
+            console.log('Array changed from', oldItems, 'to', newItems)
+        },
+        {deep: true,
+        immediate: true
+        }
+        
+)
+
+onBeforeUnmount (() => {
+    console.log("Before unmount")
+})
+
+
 
 </script>
 
