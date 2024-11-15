@@ -29,23 +29,24 @@
                                         <b-input v-model="props.filters[props.column.field]" :placeholder="$t('search')" icon="magnify"/>
                                     </template>
                                     <template v-if="column.field === 'nawigacja'" #header>
-                                    <b-switch v-model="navigationSwitch" :aria-label="$t('Toggle Navigation')">
-                                        {{ navigationSwitch ? $t('On') : $t('Off') }}
+                                    <b-switch v-model="editMode">
+                                        {{  $t('edit_mode') }}
                                     </b-switch>
                                     </template>
                                     <template v-slot="props">
                                         <template v-if="column.field === 'nawigacja'">
                                             <b-button @click="handleDeleteButton(props.row)" type="is-danger" icon-left="x">
-                                                {{ $t('delete') }}
+                                                
                                             </b-button>
+                                        </template>
+                                        
+                                        <template v-if="editMode && column.searchable">
+                                            <b-input @input="markAsEdited(props.row)"  v-model="props.row[column.field]"></b-input>
                                         </template>
                                         <template v-else>
                                             {{ props.row[column.field] }}
                                         </template>
-                                        <template v-if="editMode">
 
-                                            <b-input v-model="props.row[column.field]"></b-input>
-                                        </template>
                                     </template>
                                 </b-table-column>
 
@@ -56,6 +57,11 @@
                 </div>
             </div>
         </div>
+        <button @click="saveReminder = !saveReminder;" class="button">
+            <i class="fa-solid fa-plus"></i>
+            &nbsp;
+            {{ $t('save') }}
+        </button>
     </div>
 
     <div class="column">
@@ -157,20 +163,68 @@
             </div>
         </div>
     </div>
+
+    <div class="modal" v-bind:class="{'is-active': saveReminder}" id="newelement-modal" style="--bulma-modal-content-width: 50%;">
+        <div class="modal-background"></div>
+        <div class="modal-content">
+            <div class="modal-card">
+                <header class="modal-card-head">
+                    <p class="modal-card-title is-centered is-size-2">{{ $t('confirm_add_accessory') }}</p>
+                    <button class="delete" aria-label="close" @click="saveReminder = false"></button>
+                </header>
+                <section class="modal-card-body has-text-centered">
+                    <div class="notification is-success">
+                        <button class="delete"></button>
+                        {{ $t('check_correctness') }}
+                    </div>
+                    
+                    <div class="label">{{ $t('description') }}</div>
+                    <textarea v-model="accesory.description" :placeholder="$t('description')" class="textarea"></textarea>
+                </section>
+
+                <footer class="modal-card-foot">
+                    <div class="buttons">
+                        <button @click="handleAddButton(); handleUpdateAccesories(accesorytype); saveReminder = !saveReminder;" class="button is-success">
+                            <i class="fa-solid fa-plus"></i>
+                            &nbsp;
+                            {{ $t('add') }}
+                        </button>
+                        <button @click="saveReminder = !saveReminder;" class="button">
+                            <i class="fa-solid fa-ban"></i>
+                            &nbsp;
+                            {{ $t('cancel') }}
+                        </button>
+                    </div>
+                </footer>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
 </template>
 
 
 <script setup>
 import { useNewProjectStoreBeta } from '@/store/newproject'
 import { storeToRefs } from 'pinia'
-import { onMounted, ref, watch, computed, onBeforeUnmount, useRouter } from 'vue'
+import { onMounted, ref, watch, onBeforeUnmount, reactive } from 'vue'
 import axios from 'axios'
 import { toast } from 'bulma-toast'
-
 import {validateFormData} from '@/validators/Validators.js'
 
+import { useRouter, useRoute } from 'vue-router'
+const router = useRouter()
+const route = useRoute()
+
+
+
 const editMode = ref(false)
+const editedAcc = ref(false)
 const showAccModal = ref(false)
+const saveReminder = ref(false)
 const newProjectStore = useNewProjectStoreBeta()
 const data = ref([])
 const tableKey = ref(0)
@@ -183,6 +237,10 @@ const accesory = ref({
 })
 const typeChoices = ref([])
 const errors = ref([])
+
+
+
+//table variables
 let isPaginated = true
 let isPaginationSimple = true
 let isPaginationRounded = false
@@ -196,10 +254,12 @@ let hasInput= false
 let paginationOrder= ''
 let inputPosition= ''
 let inputDebounce= ''
+
+
+
 const {loadData, addAccesorytype, updateAccesories} = newProjectStore
 const {accesories, accesorytype} = storeToRefs(newProjectStore)
 
-const router = useRouter
 
 function getAccessoryTypes(accesoryList) {
   return [...new Set(accesoryList.flatMap(item => item.type_choices.map(choice => choice[0])))];
@@ -358,18 +418,29 @@ let columns = [
 
 onMounted(() => {
     loadData()
+    editedAcc.value = false
 })
 
-watch(
+let originalArray = [...accesorytype.value]
+
+const editedRows = ref(new Set())
+
+const markAsEdited = (row) => {
+    editedRows.value.add(row);
+};
+
+
+/* watch(
     accesorytype,
         (newItems, oldItems) => {
-            console.log('Array changed from', oldItems, 'to', newItems)
+        
+            console.log(oldItems)
+
         },
         {deep: true,
         immediate: true
-        }
-        
-)
+        }        
+) */
 
 onBeforeUnmount (() => {
     console.log("Before unmount")
