@@ -21,7 +21,28 @@ export function validateFormData(formData, errors) {
         }
 }
 
-export function validateNewAccesory(accesorytype, errors) {
+export function validateNewAccesory(accesorytype, errors,accesorytypes) {
+
+  const accesoryList = Array.isArray(accesorytype) ? accesorytype : [accesorytype]
   
+  for ( let accesory of accesoryList) {
+
+    if (accesory.name.trim() === '') {
+      errors.value.push('Niewłaściwa nazwa akcesorii')
+    }
+    
+    const isCorrectType = accesorytypes.includes(accesory.type)
+    if (!isCorrectType) {
+      errors.value.push(`Wybrano niepoprawny typ akcesorii ${accesory.type}. Wybierz z istniejących typów`,)
+    }
+
+    if (isNaN(accesory.price)) {
+      errors.value.push('Niepoprawna cena')
+    }
+
+    if (isNaN(accesory.weight)) {
+      errors.value.push('Niepoprawna waga')
+    }
+  }
   return 0
 }

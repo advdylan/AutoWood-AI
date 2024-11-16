@@ -148,7 +148,7 @@
 
                 <footer class="modal-card-foot">
                     <div class="buttons">
-                        <button @click="handleAddButton(); handleUpdateAccesories(accesorytype); showAccModal = !showAccModal;" class="button is-success">
+                        <button @click="handleAddButton(); showAccModal = !showAccModal;" class="button is-success">
                             <i class="fa-solid fa-plus"></i>
                             &nbsp;
                             {{ $t('add') }}
@@ -169,7 +169,7 @@
         <div class="modal-content">
             <div class="modal-card">
                 <header class="modal-card-head">
-                    <p class="modal-card-title is-centered is-size-3">Zanim wyjdziesz</p>
+                    <p class="modal-card-title is-centered is-size-3">Zanim wyjdziesz!</p>
                     <button class="delete" aria-label="close" @click="saveReminder = false"></button>
                 </header>
                 <section class="modal-card-body has-text-centered is-size-5">
@@ -192,18 +192,37 @@
                 </section>
 
                 <footer class="modal-card-foot">
-                    <div class="buttons">
-                        <button @click="handleAddButton(); handleUpdateAccesories(accesorytype); saveReminder = !saveReminder;" class="button is-success">
-                            <i class="fa-solid fa-plus"></i>
-                            &nbsp;
-                            {{ $t('save') }}
-                        </button>
-                        <button @click="saveReminder = !saveReminder;" class="button">
-                            <i class="fa-solid fa-ban"></i>
-                            &nbsp;
-                            {{ $t('cancel') }}
-                        </button>
-                    </div>
+                    <nav class="level is-mobile" style="width: 100%;">
+
+                        <!-- Left Section -->
+                        <div class="level-left">
+                            <div class="level-item">
+                                <button @click="handleUpdateAccesories(accesorytype);" 
+                                        class="button is-success">
+                                    <i class="fa-solid fa-floppy-disk"></i>
+                                    &nbsp;
+                                    {{ $t('save') }}
+                                </button>
+                            </div>
+                            <div class="level-item">
+                                <button @click="saveReminder = !saveReminder;" class="button">
+                                    <i class="fa-solid fa-ban"></i>
+                                    &nbsp;
+                                    {{ $t('cancel') }}
+                                </button>
+                            </div>
+                        </div>
+                
+                        <!-- Right Section -->
+                        <div class="level-right">
+                            <div class="level-item">
+                                <button @click="discardChanges()" class="button is-danger">
+                                    Nie zapisuj i wyjdź&nbsp;
+                                    <i class="fa-solid fa-arrow-right"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </nav>
                 </footer>
             </div>
         </div>
@@ -222,7 +241,7 @@ import { storeToRefs } from 'pinia'
 import { onMounted, ref, watch, onBeforeUnmount, reactive, computed, nextTick } from 'vue'
 import axios from 'axios'
 import { toast } from 'bulma-toast'
-import {validateFormData} from '@/validators/Validators.js'
+import {validateFormData, validateNewAccesory} from '@/validators/Validators.js'
 
 import { useRouter, useRoute, onBeforeRouteLeave, onBeforeRouteUpdate } from 'vue-router'
 
@@ -279,11 +298,17 @@ const accesorytypes = getAccessoryTypes(accesorytype.value)
 
 function handleUpdateAccesories(accesorytype) {
 
-for ( let accesory of accesorytype) {
+validateNewAccesory(accesorytype,errors,accesorytypes)
+
+
+
+/* for ( let accesory of accesorytype) {
   console.log(accesory.name)
-
-
 }
+ */
+
+
+
 
 if(!errors.value.length) {      
 
@@ -299,6 +324,7 @@ if(!errors.value.length) {
           type: 'is-success',
           animate: { in: 'backInDown', out: 'backOutUp' },
         })
+        saveReminder.value = false
   }
 
   else {
@@ -333,6 +359,10 @@ else {
 
 }
 
+function handleSaveReminder() {
+
+}
+
 function handleAddButton() {      
 
     let tempId = -1 //temporary ID for frontend new accesories
@@ -352,6 +382,8 @@ function handleAddButton() {
     console.log("NewAcc:" , newAccesory) */
 
     //error CHECKING HERE
+    console.log(accesorytypes)
+    validateNewAccesory(newAccesory,errors,accesorytypes)
 
     if (newAccesory.name.trim() === '') {
       errors.value.push("Błędna nazwa")
@@ -397,6 +429,75 @@ function handleAddButton() {
       tableKey.value += 1 //refreshing the table
     }
 
+
+
+
+
+
+let originalArray = [...accesorytype.value]
+
+const editedRows = ref(new Set())
+const pendingRoute = ref(null)
+
+const editedRowsArray = computed(()=> [...editedRows.value])
+const markAsEdited = (row) => {
+    editedRows.value.add(row)
+}
+
+
+function discardChanges() {
+    console.log('Discarding changes')
+    saveReminder.value = false
+    if (pendingRoute.value) {
+        router.push(pendingRoute.value.fullPath)
+        pendingRoute.value = null
+    }
+}
+
+
+onBeforeRouteLeave(async (to, from) => {
+
+    //console.log("editedRows value:", editedRows.value);
+    //console.log("Before if",editedRows.value.size)
+    
+    if (editedRows.value.size > 0) 
+    {
+    console.log("After if ", editedRows.value.size)
+    saveReminder.value = true // open modal
+    pendingRoute.value = to;
+    return new Promise((resolve, reject) => {
+        const unwatch = watch(saveReminder, (val)=> {
+            if (!val) {
+                unwatch()
+                reject()
+            } else {
+                unwatch()
+                resolve()
+            }
+        })
+    }) 
+  }  
+  else if(editedRows.value.size === 0) {
+        next()
+    }
+})
+
+const preventNavigation = (event) => {
+    if (editedRows.value) {
+        event.preventDefault();
+        event.returnValue = ''; // Trigger browser confirmation dialog
+    }
+};
+
+onMounted(() => {
+    loadData()
+    window.addEventListener('beforeunload', preventNavigation);
+})
+
+onBeforeUnmount (() => {
+    window.removeEventListener('beforeunload', preventNavigation);
+    console.log("Before unmount")
+})
 
 
 let columns = [
@@ -451,75 +552,7 @@ let columns_reminder = [
 
 
 ]
-
-
-
-let originalArray = [...accesorytype.value]
-
-const editedRows = ref(new Set())
-const editedRowsArray = computed(()=> [...editedRows.value])
-
-const markAsEdited = (row) => {
-    editedRows.value.add(row)
-}
-
-
-/* watch(
-    accesorytype,
-        (newItems, oldItems) => {
-        
-            console.log(oldItems)
-
-        },
-        {deep: true,
-        immediate: true
-        }        
-) */
-
-onBeforeRouteLeave(async (to, from) => {
-
-  if (editedRows.value.length > 0) {
-    saveReminder.value = true
-
-    return new Promise((resolve, reject) => {
-        const unwatch = watch(saveReminder, (val)=> {
-            if (!val) {
-                unwatch()
-                reject()
-            } else {
-                unwatch()
-                resolve()
-            }
-        })
-    }) 
-  }  
-  else {
-        next()
-    }
-})
-
-const preventNavigation = (event) => {
-    if (editedRows.value) {
-        event.preventDefault();
-        event.returnValue = ''; // Trigger browser confirmation dialog
-    }
-};
-
-onMounted(() => {
-    loadData()
-    window.addEventListener('beforeunload', preventNavigation);
-})
-
-onBeforeUnmount (() => {
-    window.removeEventListener('beforeunload', preventNavigation);
-    console.log("Before unmount")
-})
-
-
-
 </script>
-
-
 <style>
 
 </style>
