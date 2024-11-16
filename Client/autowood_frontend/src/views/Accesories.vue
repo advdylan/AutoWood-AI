@@ -60,7 +60,7 @@
         <button @click="saveReminder = !saveReminder;" class="button">
             <i class="fa-solid fa-plus"></i>
             &nbsp;
-            {{ $t('save') }}
+            save reminder check {{  $t('save') }}
         </button>
     </div>
 
@@ -164,22 +164,31 @@
         </div>
     </div>
 
-    <div class="modal" v-bind:class="{'is-active': saveReminder}" id="newelement-modal" style="--bulma-modal-content-width: 50%;">
+    <div class="modal" v-bind:class="{'is-active': saveReminder}" id="newelement-modal" style="--bulma-modal-content-width: 40%;">
         <div class="modal-background"></div>
         <div class="modal-content">
             <div class="modal-card">
                 <header class="modal-card-head">
-                    <p class="modal-card-title is-centered is-size-2">{{ $t('confirm_add_accessory') }}</p>
+                    <p class="modal-card-title is-centered is-size-3">Zanim wyjdziesz</p>
                     <button class="delete" aria-label="close" @click="saveReminder = false"></button>
                 </header>
-                <section class="modal-card-body has-text-centered">
-                    <div class="notification is-success">
+                <section class="modal-card-body has-text-centered is-size-5">
+                    <div class="notification is-warning">
                         <button class="delete"></button>
-                        {{ $t('check_correctness') }}
+                        Masz niezapisane zmiany w dziale akcesorii.
+                        <br>
+                        Poniższe akcesoria zostały zmienione:
+                        
                     </div>
+
+                   
+                        <b-table :data="editedRowsArray" :columns="columns_reminder"></b-table>
                     
-                    <div class="label">{{ $t('description') }}</div>
-                    <textarea v-model="accesory.description" :placeholder="$t('description')" class="textarea"></textarea>
+                    
+                    
+
+
+
                 </section>
 
                 <footer class="modal-card-foot">
@@ -187,7 +196,7 @@
                         <button @click="handleAddButton(); handleUpdateAccesories(accesorytype); saveReminder = !saveReminder;" class="button is-success">
                             <i class="fa-solid fa-plus"></i>
                             &nbsp;
-                            {{ $t('add') }}
+                            {{ $t('save') }}
                         </button>
                         <button @click="saveReminder = !saveReminder;" class="button">
                             <i class="fa-solid fa-ban"></i>
@@ -210,12 +219,13 @@
 <script setup>
 import { useNewProjectStoreBeta } from '@/store/newproject'
 import { storeToRefs } from 'pinia'
-import { onMounted, ref, watch, onBeforeUnmount, reactive } from 'vue'
+import { onMounted, ref, watch, onBeforeUnmount, reactive, computed, nextTick } from 'vue'
 import axios from 'axios'
 import { toast } from 'bulma-toast'
 import {validateFormData} from '@/validators/Validators.js'
 
-import { useRouter, useRoute } from 'vue-router'
+import { useRouter, useRoute, onBeforeRouteLeave, onBeforeRouteUpdate } from 'vue-router'
+
 const router = useRouter()
 const route = useRoute()
 
@@ -412,22 +422,46 @@ let columns = [
     },
     {
     field: 'nawigacja',
-    label: 'Nawigacja'
+    label: 'Nawigacja',
+    centered: true
     }
 ]
 
-onMounted(() => {
-    loadData()
-    editedAcc.value = false
-})
+let columns_reminder = [
+    { 
+    field: 'name', 
+    label: 'Nazwa',
+ 
+    },
+    { 
+    field: 'type', 
+    label: 'Typ',
+
+    },
+    { 
+    field: 'weight', 
+    label: 'Waga',
+
+    },
+    {  
+    field: 'price', 
+    label: 'Cena',
+
+    },
+
+
+]
+
+
 
 let originalArray = [...accesorytype.value]
 
 const editedRows = ref(new Set())
+const editedRowsArray = computed(()=> [...editedRows.value])
 
 const markAsEdited = (row) => {
-    editedRows.value.add(row);
-};
+    editedRows.value.add(row)
+}
 
 
 /* watch(
@@ -442,7 +476,42 @@ const markAsEdited = (row) => {
         }        
 ) */
 
+onBeforeRouteLeave(async (to, from) => {
+
+  if (editedRows.value.length > 0) {
+    saveReminder.value = true
+
+    return new Promise((resolve, reject) => {
+        const unwatch = watch(saveReminder, (val)=> {
+            if (!val) {
+                unwatch()
+                reject()
+            } else {
+                unwatch()
+                resolve()
+            }
+        })
+    }) 
+  }  
+  else {
+        next()
+    }
+})
+
+const preventNavigation = (event) => {
+    if (editedRows.value) {
+        event.preventDefault();
+        event.returnValue = ''; // Trigger browser confirmation dialog
+    }
+};
+
+onMounted(() => {
+    loadData()
+    window.addEventListener('beforeunload', preventNavigation);
+})
+
 onBeforeUnmount (() => {
+    window.removeEventListener('beforeunload', preventNavigation);
     console.log("Before unmount")
 })
 
