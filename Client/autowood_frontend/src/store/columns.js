@@ -6,32 +6,32 @@ export function useColumns() {
   const columns = [
     { 
       field: 'name', 
-      label: t('name'), // Use i18n translation
+      label: t('name'), 
       searchable: true
     },
     { 
       field: 'category', 
-      label: t('category'), // Use i18n translation
+      label: t('category'), 
       searchable: true 
     },
     { 
       field: 'collection', 
-      label: t('collection'), // Use i18n translation
+      label: t('collection'),
       searchable: true
     },
     { 
       field: 'wood', 
-      label: t('wood_type'), // Use i18n translation
+      label: t('wood_type'), 
       searchable: true 
     },
     { 
       field: 'paints',
-      label: t('painting'), // Use i18n translation
+      label: t('painting'), 
       searchable: true 
     },
     {
       field: 'nawigacja',
-      label: t('Nav') // Use i18n translation
+      label: t('Nav') 
     }
   ];
 

@@ -360,10 +360,6 @@ else {
 
 }
 
-function handleSaveReminder() {
-
-}
-
 function handleAddButton() {      
 
     let tempId = -1 //temporary ID for frontend new accesories
@@ -506,11 +502,11 @@ const preventNavigation = (event) => {
 
 onMounted(() => {
     loadData()
-    window.addEventListener('beforeunload', preventNavigation);
+    /* window.addEventListener('beforeunload', preventNavigation); */
 })
 
 onBeforeUnmount (() => {
-    window.removeEventListener('beforeunload', preventNavigation);
+   /*  window.removeEventListener('beforeunload', preventNavigation); */
     console.log("Before unmount")
 })
 

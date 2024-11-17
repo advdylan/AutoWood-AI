@@ -38,6 +38,28 @@
         
       </table>
     </div>
+
+
+    <b-table :data="elements" :columns="columns">
+      <template v-for="(column, index) in columns" :key="column.id">
+        <b-table-column v-bind="column">
+          <template v-slot="props">
+            <template v-if="column.label === 'nav'">
+              <b-button @click="deleteElement(props.row)" type="is-danger" icon-left="x">X</b-button>
+          </template>
+          
+          </template>
+
+        </b-table-column>
+
+        
+              
+          
+        
+      </template>
+      
+    </b-table>
+  
     
 </template>
 
@@ -49,7 +71,9 @@ export default {
 
 
 <script setup>
+import { computed } from 'vue'
 import { useNewProjectStoreBeta } from '@/store/newproject'
+import { useI18n } from 'vue-i18n';
 
 const store = useNewProjectStoreBeta()
 const {deleteElement} = store
@@ -59,13 +83,58 @@ const props = defineProps({
   required: true
 })
 
+const { t } = useI18n();
+ 
+const columns = computed(() => [
+  {
+    field: 'element.name',
+    label: t('name'), 
+    
+    sortable: true,
+  },
+  {
+    field: 'element.dimX',
+    label: t("length"), 
+    
+    sortable: true,
+  },
+  {
+    field: 'element.dimY',
+    label: t("width"), 
+   
+    sortable: true,
+  },
+  {
+    field: 'element.dimZ',
+    label: t('thickness'), 
+    
+    sortable: true,
+  },
+  {
+    field: 'element.wood_type.name',
+    label: t('wood_type'),
+    
+    sortable: true,
+  },
+  {
+    field: 'quantity',
+    label: t('quantity'), 
+    sortable: true,
+  },
+  {
+    field: 'nav',
+    label: t('Nav'), 
+    sortable: true,
+  },
+  
+])
 
 
 
 </script>
 <style>
 .delete-column {
-  width: 10px; /* Adjust this width to fit your icon */
+  width: 10px; 
   text-align: center;
 }
 
