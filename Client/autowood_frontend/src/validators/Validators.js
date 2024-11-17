@@ -31,6 +31,7 @@ export function validateNewAccesory(accesorytype, errors,accesorytypes) {
       errors.value.push('Niewłaściwa nazwa akcesorii')
     }
     
+    
     const isCorrectType = accesorytypes.includes(accesory.type)
     if (!isCorrectType) {
       errors.value.push(`Wybrano niepoprawny typ akcesorii ${accesory.type}. Wybierz z istniejących typów`,)

@@ -148,7 +148,7 @@
 
                 <footer class="modal-card-foot">
                     <div class="buttons">
-                        <button @click="handleAddButton(); showAccModal = !showAccModal;" class="button is-success">
+                        <button @click="handleAddButton();" class="button is-success">
                             <i class="fa-solid fa-plus"></i>
                             &nbsp;
                             {{ $t('add') }}
@@ -298,6 +298,7 @@ const accesorytypes = getAccessoryTypes(accesorytype.value)
 
 function handleUpdateAccesories(accesorytype) {
 
+const accesorytypes = getAccessoryTypes(accesorytype)
 validateNewAccesory(accesorytype,errors,accesorytypes)
 
 
@@ -401,6 +402,7 @@ function handleAddButton() {
     if (!errors.value.length) {
       addAccesorytype(newAccesory)
       tableKey.value += 1 //Refreshing table data 
+      showAccModal = false
     }
 
     else {
@@ -445,42 +447,55 @@ const markAsEdited = (row) => {
 }
 
 
-function discardChanges() {
-    console.log('Discarding changes')
-    saveReminder.value = false
-    if (pendingRoute.value) {
-        router.push(pendingRoute.value.fullPath)
-        pendingRoute.value = null
-    }
-}
+
 
 
 onBeforeRouteLeave(async (to, from) => {
 
-    //console.log("editedRows value:", editedRows.value);
-    //console.log("Before if",editedRows.value.size)
-    
-    if (editedRows.value.size > 0) 
-    {
-    console.log("After if ", editedRows.value.size)
-    saveReminder.value = true // open modal
-    pendingRoute.value = to;
-    return new Promise((resolve, reject) => {
-        const unwatch = watch(saveReminder, (val)=> {
-            if (!val) {
-                unwatch()
-                reject()
-            } else {
-                unwatch()
-                resolve()
-            }
-        })
-    }) 
-  }  
-  else if(editedRows.value.size === 0) {
-        next()
-    }
+//console.log("editedRows value:", editedRows.value);
+//console.log("Before if",editedRows.value.size)
+
+if (editedRows.value.size > 0) 
+{
+console.log("After if ", editedRows.value.size)
+saveReminder.value = true // open modal
+pendingRoute.value = to;
+return new Promise((resolve, reject) => {
+    const unwatch = watch(saveReminder, (val)=> {
+        if (!val) {
+            unwatch()
+            reject()
+            editedRows.value = new Set()
+            router.push(pendingRoute.value.fullPath)
+            pendingRoute.value = null
+
+            console.log("CLEARING if!val")
+        } else {
+            unwatch()
+            resolve()
+            editedRows.value = new Set()
+            router.push(pendingRoute.value.fullPath)
+            console.log("CLEARING else")
+        }
+    })
+}) 
+}  
+
+/* else if(editedRows.value.size === 0) {
+editedRows.value = new Set()
+console.log("CLEARING elif")
+
+} */
+
 })
+
+function discardChanges() {
+
+console.log('Discarding changes')
+saveReminder.value = false
+router.push(pendingRoute.value.fullPath)
+
+}
 
 const preventNavigation = (event) => {
     if (editedRows.value) {
@@ -504,22 +519,26 @@ let columns = [
     { 
     field: 'name', 
     label: 'Nazwa',
-    searchable: true
+    searchable: true,
+    sortable: true
     },
     { 
     field: 'type', 
     label: 'Typ',
-    searchable: true 
+    searchable: true,
+    sortable: true
     },
     { 
     field: 'weight', 
     label: 'Waga',
-    searchable: true
+    searchable: true,
+    sortable: true
     },
     {  
     field: 'price', 
     label: 'Cena',
-    searchable: true 
+    searchable: true,
+    sortable: true
     },
     {
     field: 'nawigacja',
@@ -547,6 +566,7 @@ let columns_reminder = [
     {  
     field: 'price', 
     label: 'Cena',
+    sortable: true
 
     },
 
