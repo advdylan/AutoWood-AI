@@ -1,4 +1,12 @@
 <template>
+  
+  <section class="hero is-primary is-small">
+  <div class="hero-body">
+    <p class="title">Elementy</p>
+
+  </div>
+</section>
+
 
   <div v-if="elements.length">
   <b-table :key="tableKey" :data="elements" :paginated="isPaginated" :per-page="perPage" :current-page.sync="currentPage" :pagination-simple="isPaginationSimple" :pagination-position="paginationPosition" :default-sort-direction="defaultSortDirection" :pagination-rounded="isPaginationRounded" :sort-icon="sortIcon" :sort-icon-size="sortIconSize" default-sort="user.first_name" aria-next-label="Next page" aria-previous-label="Previous page" aria-page-label="Page" aria-current-label="Current page" :page-input="hasInput" :pagination-order="paginationOrder" :page-input-position="inputPosition" :debounce-page-input="inputDebounce">
@@ -43,14 +51,13 @@
       <b-select v-model="props.row.element.wood_type.name" :placeholder="$t('wood_type')">
         <option
           v-for="wood in wood"
-          :value="wood.id"
+          :value="wood.name"
           :key="wood.id"
-          :selected="props.row.element.wood_type.name"
+          
         >
         {{ wood.name }}</option>
 
       </b-select>
-      <b-input  v-model="props.row.element.wood_type.name"/>
     </template> 
     <template #default="props">
       {{ props.row.element.wood_type.name }}
@@ -79,6 +86,7 @@
   </b-table-column>
 </b-table>                            
 </div>
+
 </template>
 
 

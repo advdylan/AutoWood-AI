@@ -182,7 +182,7 @@
           
 
           <form @submit.prevent="submitForm">
-
+            <section class="section">
             <nav class="level">
 
  
@@ -243,15 +243,20 @@
        
     
             </nav>    
+          </section>
+
 
           
 
 
       </form>
-    
+      <section class="section">
     <div class="column">
+
+
       <ElementsTable :elements="elements" />
     </div>
+    </section>
     
 
     </section>
@@ -409,7 +414,7 @@ const submitForm = () => {
       dimX: 2500,
       dimY: 250,
       dimZ: 25,
-      wood_type: 'Sosna'
+      wood_type: ''
             },
     quantity: 1
     }
