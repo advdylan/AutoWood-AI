@@ -179,11 +179,13 @@
             
         
         <section class="modal-card-body">
-          <div class="columns">
-            <div class="column is-two-fifths">
+          
 
           <form @submit.prevent="submitForm">
 
+            <nav class="level">
+
+ 
           <div class="field">
             <label class="label">{{ $t("name")}}</label>
             <div class="control">
@@ -231,21 +233,26 @@
               </div>
             </div>
           </div>
- 
-        <footer class="modal-card-foot">
-          <div class="buttons">
-            <button type="submit" class="button is-success">{{ $t("add_element")}}</button>
+
+
+            <div class="field">
+              <button type="submit" class="button is-success">{{ $t("add_element")}}</button>
            
-          </div>
-        </footer>
-        
+            </div>
+            
+       
+    
+            </nav>    
+
+          
+
 
       </form>
-    </div>
+    
     <div class="column">
       <ElementsTable :elements="elements" />
     </div>
-    </div>
+    
 
     </section>
 

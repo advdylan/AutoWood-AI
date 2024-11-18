@@ -1,37 +1,87 @@
 <template>
-<div v-if="elements.length">
-<b-table :key="tableKey" :data="elements" :paginated="isPaginated" :per-page="perPage" :current-page.sync="currentPage" :pagination-simple="isPaginationSimple" :pagination-position="paginationPosition" :default-sort-direction="defaultSortDirection" :pagination-rounded="isPaginationRounded" :sort-icon="sortIcon" :sort-icon-size="sortIconSize" default-sort="user.first_name" aria-next-label="Next page" aria-previous-label="Previous page" aria-page-label="Page" aria-current-label="Current page" :page-input="hasInput" :pagination-order="paginationOrder" :page-input-position="inputPosition" :debounce-page-input="inputDebounce">
-                            <template v-for="(column, index) in columns" :key="column.id">
-                                <b-table-column v-bind="column">
-                                    <template v-if="column.searchable && !column.numeric" #searchable="props">
-                                        <b-input v-model="props.filters[props.column.field]" :placeholder="$t('search')" icon="magnify"/>
-                                    </template>
-                                    <template v-if="column.field === 'nav'" #header>
-                                    <b-switch v-model="editMode">
-                                        {{  $t('edit_mode') }}
-                                    </b-switch>
-                                    </template>
-                                    <template v-slot="props">
-                                        <template v-if="column.field === 'nav'">
-                                            <b-button @click="handleDeleteButton(props.row)" type="is-danger" icon-left="x">
-                                                
-                                            </b-button>
-                                        </template>
-                                        
-                                        <template v-if="editMode && column.searchable">
-                                            <b-input @input="markAsEdited(props.row)"  v-model="props.row[column.field]"></b-input>
-                                        </template>
-                                        <template v-else>
-                                          {{ getNestedValue(props.row, column.field) || 'N/A' }}
-                                        </template>
 
-                                    </template>
-                                </b-table-column>
+  <div v-if="elements.length">
+  <b-table :key="tableKey" :data="elements" :paginated="isPaginated" :per-page="perPage" :current-page.sync="currentPage" :pagination-simple="isPaginationSimple" :pagination-position="paginationPosition" :default-sort-direction="defaultSortDirection" :pagination-rounded="isPaginationRounded" :sort-icon="sortIcon" :sort-icon-size="sortIconSize" default-sort="user.first_name" aria-next-label="Next page" aria-previous-label="Previous page" aria-page-label="Page" aria-current-label="Current page" :page-input="hasInput" :pagination-order="paginationOrder" :page-input-position="inputPosition" :debounce-page-input="inputDebounce">
 
-                            </template>
-                        </b-table>
-                      </div>
+  <b-table-column :label="$t('name')"> 
+    <template v-if="editMode" #default="props">
+      <b-input  v-model="props.row.element.name"/>
+    </template> 
+    <template v-else #default="props">
+      {{ props.row.element.name }}
+    </template>
+  </b-table-column>
+
+  <b-table-column :label="$t('length')">
+    <template v-if="editMode" #default="props">
+      <b-input  v-model="props.row.element.dimX"/>
+    </template> 
+    <template #default="props">
+      {{ props.row.element.dimX }}
+    </template>
+  </b-table-column>
+
+  <b-table-column :label="$t('width')">
+    <template v-if="editMode" #default="props">
+      <b-input  v-model="props.row.element.dimY"/>
+    </template> 
+    <template #default="props">
+      {{ props.row.element.dimY }}
+    </template>
+  </b-table-column>
+  <b-table-column :label="$t('thickness')">
+    <template v-if="editMode" #default="props">
+      <b-input  v-model="props.row.element.dimZ"/>
+    </template> 
+    <template #default="props">
+      {{ props.row.element.dimZ }}
+    </template>
+  </b-table-column>
+
+  <b-table-column :label="$t('wood_type')">
+    <template v-if="editMode" #default="props">
+      <b-select v-model="props.row.element.wood_type.name" :placeholder="$t('wood_type')">
+        <option
+          v-for="wood in wood"
+          :value="wood.id"
+          :key="wood.id"
+          :selected="props.row.element.wood_type.name"
+        >
+        {{ wood.name }}</option>
+
+      </b-select>
+      <b-input  v-model="props.row.element.wood_type.name"/>
+    </template> 
+    <template #default="props">
+      {{ props.row.element.wood_type.name }}
+    </template>
+  </b-table-column>
+
+  <b-table-column :label="$t('quantity')">
+    <template v-if="editMode" #default="props">
+      <b-input  v-model="props.row.quantity"/>
+    </template> 
+    <template #default="props">
+      {{ props.row.quantity }}
+    </template>
+  </b-table-column>
+
+  <b-table-column :label="$t('Nav')">
+    <template #header>
+      <b-switch v-model="editMode">
+        Edit
+      </b-switch>
+    </template>
+  <b-button @click="handleDeleteButton(props.row)" type="is-danger" icon-left="x">    
+  </b-button>
+
+
+  </b-table-column>
+</b-table>                            
+</div>
 </template>
+
+
 
 <script>
 export default {
@@ -47,7 +97,7 @@ import { useI18n } from 'vue-i18n';
 import { storeToRefs } from 'pinia';
 
 const store = useNewProjectStoreBeta()
-const { elements} = storeToRefs(store)
+const { elements,wood} = storeToRefs(store)
 const {deleteElement} = store
 
 //table variables
@@ -88,7 +138,7 @@ const columns = computed(() => [
   { field: 'element.dimZ', label: t('thickness'), sortable: true, searchable: true, },
   { field: 'element.wood_type.name', label: t('wood_type'), sortable: true, searchable: true, },
   { field: 'quantity', label: t('quantity'), sortable: true },
-  { field: 'nav', label: 'nav', sortable: false },
+  { field: 'nav', label: 'nav', sortable: false, centered: true },
 ]);
 
 console.log('Columns:', columns.value); // Debugging
