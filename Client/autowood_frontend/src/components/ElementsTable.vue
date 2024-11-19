@@ -37,6 +37,7 @@
       {{ props.row.element.dimY }}
     </template>
   </b-table-column>
+  
   <b-table-column :label="$t('thickness')">
     <template v-if="editMode" #default="props">
       <b-input  v-model="props.row.element.dimZ"/>
@@ -48,15 +49,15 @@
 
   <b-table-column :label="$t('wood_type')">
     <template v-if="editMode" #default="props">
-      <b-select v-model="props.row.element.wood_type.name" :placeholder="$t('wood_type')">
+      <b-select v-model="props.row.element.wood_type" :placeholder="$t('wood_type')">
         <option
-          v-for="wood in wood"
-          :value="props.row.element.wood_type.name"
-          :key="wood.id">
-        {{ wood.name }}</option>
-
+          v-for="woodItem in wood"
+          :value="woodItem"
+          :key="woodItem.id">
+        {{ woodItem.name }}</option>
       </b-select>
-    </template> 
+    </template>
+
     <template #default="props">
       {{ props.row.element.wood_type.name }}
     </template>

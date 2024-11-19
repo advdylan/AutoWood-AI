@@ -146,9 +146,38 @@
                     </span>
                   </a>
                 </header>
-      
                 <div id="collapsible-card" class="is-collapsible" v-show="isCollapsedacc">
                   <div class="card-content">
+                    <table class="table is-bordered is-striped is-hoverable is-fullwidth">
+              <thead>
+                <tr>
+                  <th>{{$t("name")}}</th>
+                  <th>{{$t("type")}}</th>
+                  <th>{{$t("weight")}}</th>
+                  <th>{{$t("price")}}</th>
+                  
+                </tr>
+              </thead>
+              <tfoot>   
+                <tr>       
+                </tr>
+
+              </tfoot>
+              <tbody>
+                
+                <tr v-if="accesories" v-for="akc in accesories">
+  
+                  <th>{{ akc.type.name }}</th>
+                  <td>{{ akc.type.type }}</td>
+                  <td>{{ akc.type.weight }}</td>
+                  <td>{{ akc.type.price }}</td>
+
+                </tr>
+                
+              </tbody>
+              
+            </table>
+                    
                     <button @click="showAccModal = true" data-target="newelement-modal" class="button is-dark"><i class="fa-solid fa-plus">&nbsp;</i>{{$t("search_accessories")}}</button>
 
                     
