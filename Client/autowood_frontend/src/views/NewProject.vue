@@ -389,6 +389,11 @@ const {elements, wood, collection, paints, category, boxes, accesories, marginA,
 
 const submitForm = () => {
 
+  console.log(newElement.value)
+  for ( let accName in newElement.value){
+    console.log(accName.element)
+  }
+
   if (newElement.value.element.dimX <= 0) {
     errors.value.push('Podaj długość większą niż 0')
   }
