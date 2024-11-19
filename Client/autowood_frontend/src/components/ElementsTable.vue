@@ -51,10 +51,8 @@
       <b-select v-model="props.row.element.wood_type.name" :placeholder="$t('wood_type')">
         <option
           v-for="wood in wood"
-          :value="wood.name"
-          :key="wood.id"
-          
-        >
+          :value="props.row.element.wood_type.name"
+          :key="wood.id">
         {{ wood.name }}</option>
 
       </b-select>
@@ -149,9 +147,7 @@ const columns = computed(() => [
   { field: 'nav', label: 'nav', sortable: false, centered: true },
 ]);
 
-console.log('Columns:', columns.value); // Debugging
 
-console.log("Columns:", columns);
 
 </script>
 <style>

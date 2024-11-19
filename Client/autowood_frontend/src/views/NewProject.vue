@@ -389,10 +389,16 @@ const {elements, wood, collection, paints, category, boxes, accesories, marginA,
 
 const submitForm = () => {
 
-  console.log(newElement.value)
-  for ( let accName in newElement.value){
-    console.log(accName.element)
-  }
+ 
+
+  if( elements.value.length > 0) {
+    for ( let accName of elements.value){
+      if(newElement.value.element.name === accName.element.name) {
+        errors.value.push('Projekt zawiera element o takiej nazwie. Zmień nazwę')
+      }
+    }
+  } 
+
 
   if (newElement.value.element.dimX <= 0) {
     errors.value.push('Podaj długość większą niż 0')
