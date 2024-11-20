@@ -6,6 +6,7 @@ import NewProjectDetail from '../views/NewProjectDetail.vue'
 import PricesSetup from '@/views/PricesSetup.vue'
 import Accesories from '@/views/Accesories.vue'
 import Home from '@/views/Home.vue'
+import NewProjectProgress from '@/views/NewProjectProgress.vue'
 
 
 const routes = [
@@ -21,7 +22,7 @@ const routes = [
   {
     path: '/new-project-progress',
     name: 'NewProjectProgress',
-    component: NewProject,
+    component: NewProjectProgress,
     meta: {
       title: '| Auto-Wood |'
     }

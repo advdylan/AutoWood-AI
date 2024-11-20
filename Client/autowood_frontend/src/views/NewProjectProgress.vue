@@ -1,6 +1,56 @@
 <template>
-   
-<h1>JADZIEM</h1>
+   <b-steps
+            v-model="activeStep"
+            :animated="isAnimated"
+            :rounded="isRounded"
+            :has-navigation="hasNavigation"
+            :icon-prev="prevIcon"
+            :icon-next="nextIcon"
+            :label-position="labelPosition"
+            :mobile-mode="mobileMode">
+            <b-step-item step="1" label="Account" :clickable="isStepsClickable">
+                <h1 class="title has-text-centered">Account</h1>
+                Lorem ipsum dolor sit amet.
+            </b-step-item>
+
+            <b-step-item step="2" label="Profile" :clickable="isStepsClickable" :type="{'is-success': isProfileSuccess}">
+                <h1 class="title has-text-centered">Profile</h1>
+                Lorem ipsum dolor sit amet.
+            </b-step-item>
+
+            <b-step-item step="3" :visible="showSocial" label="Social" :clickable="isStepsClickable">
+                <h1 class="title has-text-centered">Social</h1>
+                Lorem ipsum dolor sit amet.
+            </b-step-item>
+
+            <b-step-item :step="showSocial ? '4' : '3'" label="Finish" :clickable="isStepsClickable" disabled>
+                <h1 class="title has-text-centered">Finish</h1>
+                Lorem ipsum dolor sit amet.
+            </b-step-item>
+
+            <template
+                v-if="customNavigation"
+                #navigation="{previous, next}">
+                <b-button
+                    outlined
+                    type="is-danger"
+                    icon-pack="fas"
+                    icon-left="backward"
+                    :disabled="previous.disabled"
+                    @click.prevent="previous.action">
+                    Previous
+                </b-button>
+                <b-button
+                    outlined
+                    type="is-success"
+                    icon-pack="fas"
+                    icon-right="forward"
+                    :disabled="next.disabled"
+                    @click.prevent="next.action">
+                    Next
+                </b-button>
+            </template>
+        </b-steps>
 
 
 
@@ -23,6 +73,29 @@
   
   import axios from 'axios'
   import { toast } from 'bulma-toast'
+
+
+// b-steps variables
+let activeStep = ref(0);
+let showSocial = ref(false);
+let isAnimated = ref(true);
+let isRounded = ref(true);
+let isStepsClickable = ref(true);
+let hasNavigation = ref(true);
+let customNavigation = ref(false);
+let isProfileSuccess = ref(true);
+let prevIcon = ref('chevron-left');
+let nextIcon = ref('chevron-right');
+let labelPosition = ref('bottom');
+let mobileMode = ref('minimalist');
+
+
+function onStepUpdate(newStep) {
+  // Add logic to handle step updates
+  activeStep.value = newStep; // This avoids direct recursion
+}
+// end of  b-steps variables 
+
   
   const showElementModal = ref(false)
   const showElementModalTable = ref(false)
