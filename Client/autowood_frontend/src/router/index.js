@@ -18,6 +18,14 @@ const routes = [
       title: '| Auto-Wood |'
     }
   },
+  {
+    path: '/new-project-progress',
+    name: 'NewProjectProgress',
+    component: NewProject,
+    meta: {
+      title: '| Auto-Wood |'
+    }
+  },
 
   {
     path: '/new-project/:id',

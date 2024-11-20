@@ -263,37 +263,23 @@
             </div>
           </div>
 
-
             <div class="field">
               <button type="submit" class="button is-success">{{ $t("add_element")}}</button>
            
             </div>
-            
-       
-    
             </nav>    
           </section>
-
-
-          
-
-
       </form>
+
       <section class="section">
     <div class="column">
 
-
       <ElementsTable :elements="elements" />
-    </div>
-    </section>
-    
-
-    </section>
 
     </div>
+    </section></section>
     </div>
-
-
+    </div>
   </div>
 
   <div class="modal" v-bind:class="{'is-active': showAccModal}" id="newelement-modal" >
@@ -363,6 +349,7 @@ import { useSummaryStore } from '@/store/summary'
 import {ref, computed, onUnmounted, watch, watchEffect} from 'vue'
 import { storeToRefs } from 'pinia'
 import {validateFormData} from '@/validators/Validators.js'
+import { useI18n } from 'vue-i18n';
 
 import ElementsTable from '@/components/ElementsTable'
 import WorktimeType from '@/components/WorktimeType'
@@ -384,6 +371,7 @@ const isCollapsedelements = ref(false)
 
 const project = ref({})
 const errors = ref([])
+const { t } = useI18n();
 
 
 const projectName = ref()
@@ -534,6 +522,14 @@ const submitForm = () => {
     } catch (error) {
       console.error('Error saving the project:', error)
     }
+    toast({
+            message: t('save_msg'),
+            duration: 5000,
+            position: "top-center",
+            type: 'is-success',
+            animate: { in: 'backInDown', out: 'backOutUp' },
+          })
+    resetInput()
   } 
 
   else {
@@ -586,5 +582,7 @@ const submitForm = () => {
 .modal{
   --bulma-modal-content-width: 70%;
 }
+
+
 
 </style>

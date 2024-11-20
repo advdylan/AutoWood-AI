@@ -1,9 +1,12 @@
 <template>
   
-  <section class="hero is-success is-small">
+  <section v-if="elements.length" class="hero is-primary is-small">
   <div class="hero-body">
-    <p class="title">Elementy</p>
-
+    <div class="columns">
+      <div class="column is-half is-centered">
+        <p class="title">Elementy</p>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -135,12 +138,6 @@ const props = defineProps({
 
 const { t } = useI18n();
 
-console.log("Elements Data:", elements);
-
-function getNestedValue(obj, path) {
-  return path.split('.').reduce((acc, part) => acc && acc[part], obj);
-}
-
 const columns = computed(() => [
   { field: 'element.name', label: t('name'), sortable: true, searchable: true, },
   { field: 'element.dimX', label: t("length"), sortable: true, searchable: true, },
@@ -161,6 +158,7 @@ function handleDeleteButton(row){
 
 </script>
 <style>
+
 .delete-column {
   width: 10px; 
   text-align: center;
@@ -168,6 +166,23 @@ function handleDeleteButton(row){
 
 .delete-column b-button {
   padding: 0;
-}</style>
+}
+
+.rectangle-title {
+  height: 50px;
+  width: 500px;
+  background-image: linear-gradient(khaki, rgb(93, 139, 115) );
+}
+
+.hero.is-primary {
+  background-color:rgb(141, 188, 164);
+  border-radius: 5px;
+}
+
+
+
+
+
+</style>
 
 
