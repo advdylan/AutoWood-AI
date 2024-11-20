@@ -3,7 +3,7 @@ import sys
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
 
-from product.pdf_generator_scripts.pdf_generator import get_data
+#from product.pdf_generator_scripts.pdf_generator import get_data
 from product.cut_optimizer.helpers import set_ticks
 import matplotlib.pyplot as plt
 import matplotlib.patches as patches
@@ -101,7 +101,7 @@ def generate_board(X,Y):
     if not os.path.exists(output_dir):
         os.makedirs(output_dir)
 
-    formats = [[1600, 500], [500, 500], [1000,500],[200,500], [200,95],[200,95], [200,95],[200,95], [200,95],[200,95], [200,95]]
+    formats = [[1600, 500], [500, 500], [1000,500],[200,500], [200,95],[200,95], [200,95], [200,95]]
     formats.sort(reverse=True)
 
     place_elements(formats)
