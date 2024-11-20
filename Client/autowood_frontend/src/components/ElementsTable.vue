@@ -1,6 +1,6 @@
 <template>
   
-  <section class="hero is-primary is-small">
+  <section class="hero is-success is-small">
   <div class="hero-body">
     <p class="title">Elementy</p>
 
@@ -78,8 +78,11 @@
         Edit
       </b-switch>
     </template>
-  <b-button @click="handleDeleteButton(props.row)" type="is-danger" icon-left="x">    
-  </b-button>
+    <template #default="props">
+      <b-button @click="handleDeleteButton(props.row)" type="is-danger" icon-left="x">    
+      </b-button>
+    </template>
+ 
 
 
   </b-table-column>
@@ -148,6 +151,12 @@ const columns = computed(() => [
   { field: 'nav', label: 'nav', sortable: false, centered: true },
 ]);
 
+function handleDeleteButton(row){
+      console.log(row)
+      const index = elements.value.findIndex(item => item.element.name === row.element.name)
+      elements.value.splice(index, 1)
+      tableKey.value += 1 //refreshing the table
+    }
 
 
 </script>
