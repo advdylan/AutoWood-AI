@@ -22,7 +22,7 @@
               <p class="card-header-title is-centered is-size-3">{{$t("project_data")}}</p>        
             </header>
 
-            <div class="columns">
+          <div class="columns">
             <div class="column is-two-fifths">
               <div class="card-content">               
                 <div class="content">

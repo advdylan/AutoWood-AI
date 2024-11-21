@@ -11,8 +11,10 @@
       <div class="content">
         <div class="columns">
             <div class="column is-half">
-                
-                    <header class="card-header">
+              <div class="columns">
+                <div class="column is-half">
+
+                  <header class="card-header">
                       <p class="card-header-title is-centered is-size-4">{{$t("client_data")}}
                         <span>&nbsp;<i class="fa-solid fa-id-card"></i></span>
                       </p>
@@ -28,9 +30,9 @@
                         </span>
                 </p>
 
-                <label class="label is-size-5">{{$t("number")}}</label>
+                <label class="label is-size-6">{{$t("number")}}</label>
                 <p class="control has-icons-left">
-                    <input v-model="customer.phone_number" class="input" type="number" :placeholder="$t('number')"/>
+                    <input v-model="customer.phone_number" class="input is-small" type="number" :placeholder="$t('number')"/>
                         <span class="icon is-small is-left">
                             <i class="fa-solid fa-phone"></i>
                         </span>
@@ -38,7 +40,7 @@
 
                 <label class="label is-size-5">{{$t("street")}}</label>
                 <p class="control has-icons-left">
-                    <input v-model="customer.street" class="input" type="text" :placeholder="$t('street')"/>
+                    <input v-model="customer.street" class="input is-small" type="text" :placeholder="$t('street')"/>
                         <span class="icon is-small is-left">
                             <i class="fa-solid fa-signs-post"></i>
                         </span>
@@ -46,7 +48,7 @@
 
                 <label class="label is-size-5">{{$t("zip_code")}}</label>
                 <p class="control has-icons-left">
-                    <input v-model="customer.code"  class="input" type="text" :placeholder="$t('zip_code')"/>
+                    <input v-model="customer.code"  class="input is-small" type="text" :placeholder="$t('zip_code')"/>
                         <span class="icon is-small is-left">
                             <i class="fa-solid fa-map"></i>
                         </span>
@@ -54,7 +56,7 @@
 
                 <label class="label is-size-5">{{$t("city")}}</label>
                 <p class="control has-icons-left">
-                    <input v-model="customer.city" class="input" type="text" :placeholder="$t('city')"/>
+                    <input v-model="customer.city" class="input is-small" type="text" :placeholder="$t('city')"/>
                         <span class="icon is-small is-left">
                             <i class="fa-solid fa-house"></i>
                         </span>
@@ -62,19 +64,24 @@
 
                 <label class="label is-size-5">{{$t("e-mail")}}</label>
                 <p class="control has-icons-left">
-                    <input v-model="customer.email" class="input" type="text" :placeholder="$t('e-mail')"/>
+                    <input v-model="customer.email" class="input is-small" type="text" :placeholder="$t('e-mail')"/>
                         <span class="icon is-small is-left">
                             <i class="fa-solid fa-envelope"></i>
                         </span>
                 </p>
-                        
-
                       </div>
                     </div>               
                 
 
                 
                 
+
+
+
+                </div>
+              </div>
+                
+                   
 
 
             </div>
