@@ -1,17 +1,17 @@
 
 <template>
+
 <div class="card">
-    <header class="card-header">
+    <header v-if="showCardTitle" class="card-header">
       <p class="card-header-title is-centered is-size-3">{{$t("basic_info")}}
         <span>&nbsp;<i class="fa-solid fa-circle-info"></i></span>
-      </p>
-              
+      </p>             
     </header>
     <div class="card-content">
       <div class="content">
         <div class="columns">
             <div class="column is-half">
-                <div class="card">
+                
                     <header class="card-header">
                       <p class="card-header-title is-centered is-size-4">{{$t("client_data")}}
                         <span>&nbsp;<i class="fa-solid fa-id-card"></i></span>
@@ -20,9 +20,9 @@
                     </header>
                     <div class="card-content">
                       <div class="content">
-                        <label class="label is-size-5">{{$t("client_name")}}</label>
+                        <label class="label is-size-6">{{$t("client_name")}}</label>
                 <p class="control has-icons-left">
-                    <input v-model="customer.name" class="input" type="text" :placeholder="$t('client_name')"/>
+                    <input v-model="customer.name" class="input is-small" type="text" :placeholder="$t('client_name')"/>
                         <span class="icon is-small is-left">
                             <i class="fa-solid fa-user"></i>
                         </span>
@@ -71,7 +71,7 @@
 
                       </div>
                     </div>               
-                </div>
+                
 
                 
                 
@@ -177,7 +177,7 @@
 <script setup>
 import { useNewProjectStoreBeta } from '@/store/newproject'
 import { storeToRefs } from 'pinia'
-import { ref, watch } from 'vue'
+import { ref, watch, computed } from 'vue'
 import axios from 'axios'
 import { toast } from 'bulma-toast'
 
@@ -195,8 +195,13 @@ const {customer, files} = storeToRefs(newProjectStore)
 const props = defineProps({
   customerProps: Object,
   documentsProps: Array,
-  imagesProps: Array
+  imagesProps: Array,
+  showCardTitle: Boolean
 })
+
+const showCardTitle = computed(() => props.showCardTitle);
+
+
 
 watch(
   () => props.customerProps,
