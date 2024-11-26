@@ -4,7 +4,7 @@ import sys
 sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
 
 from product.pdf_generator_scripts.pdf_generator import get_data
-from or_tools_mbo import pack_pieces_on_boards
+from AutoWood_Backend.product.cut_optimizer.old_test.or_tools_mbo import pack_pieces_on_boards
 import matplotlib.pyplot as plt
 import matplotlib.patches as patches
 from ortools.linear_solver import pywraplp

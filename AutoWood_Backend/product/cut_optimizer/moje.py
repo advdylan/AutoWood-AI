@@ -34,7 +34,7 @@ class VirtualRow:
         self.start_y = y  # Starting y position
         self.formats = []  # List of placed formats
 
-    def add_format(self, format_width, format_height):
+    def add_format(self, format_width, format_height, vrs):
         # If first element in the row
         if len(self.formats) == 0:
             if format_width + SAW > self.X:
@@ -57,21 +57,34 @@ class VirtualRow:
             self.start_x += format_width + SAW
 
             # If the format does not take the entire height, create a new row for the remaining height
-            #on tworzy rzędy troche niepotrzebnie? 
+            # check for vrs collision? 
+
+            for vr in vrs:
+
+                print(f"Collision Check >> vr.start_x: {vr.start_x}\n vr.start_y: {vr.start_y}\n vr.X: {vr.X}, vr.Y: {vr.Y}")
+                len_format = len(vr.formats)
+                for format in vr.formats:
+                    width, height = vr.formats[0][0],vr.formats[0][1]
+                    print(f"Width: {width}, height: {height}")
+
             #self. X ?
             if format_height < self.Y:
 
+                    
+                nr_height = format_width
                 remaining_height = self.Y - format_height
-                remaining_width = X- self.X       
-                new_row = VirtualRow((X - self.X), remaining_height, self.start_x - format_width - SAW , self.start_y + format_height + SAW)
+                remaining_width = X- self.X
                 
-                print(f"Creating new row for remaining height: {remaining_height}")
+
+                new_row = VirtualRow((remaining_width), format_width, self.start_x - format_width - SAW , self.start_y + format_height + SAW)
+                
+                print(f"Creating new row for remaining height: {remaining_height}, at start_x: {new_row.start_x}, start_y: {new_row.start_y}, X:{new_row.X}, y: {new_row.Y}   ")
                 
                 return new_row  # Return the new row to append to vrs in place_elements()
 
             return True
 
-        # If the format doesn't fit
+        # If the format doesn't fit``
         else:
             print(f"Not enough space in row X: {self.X}, Y: {self.Y}, start_x: {self.start_x}, start_y: {self.start_y}, formats: {self.formats} . Proceeding to the next one.")
             return False
@@ -79,6 +92,20 @@ class VirtualRow:
     def __str__(self):
         return f"VirtualRow X: {self.X}, Y: {self.Y}, start_x: {self.start_x}, start_y: {self.start_y}, formats: {self.formats}"
     
+    def check_collision(self, new_x, new_y, new_width, new_height):
+        for fmt in self.formats:
+            fmt_x, fmt_y = fmt[2], self.start_y  # format start_x and parent row's start_y
+            fmt_width, fmt_height = fmt[0], fmt[1]
+
+            # Check if the new rectangle overlaps with any existing rectangle
+            if not (
+                new_x + new_width <= fmt_x or  # New is left of existing
+                new_x >= fmt_x + fmt_width or  # New is right of existing
+                new_y + new_height <= fmt_y or  # New is above existing
+                new_y >= fmt_y + fmt_height    # New is below existing
+            ):
+                return True  # Collision detected
+        return False  # No collision
                   
 
 def generate_board(X,Y):
@@ -88,7 +115,7 @@ def generate_board(X,Y):
     ax.set_xlabel('X')
     ax.set_ylabel('Y')
     ax.set_title("Rozkroje")
-    x_ticks = set_ticks(X, 120)
+    x_ticks = set_ticks(X, 100)
     y_ticks = set_ticks(Y, 100)
     ax.set_xticks(x_ticks)
     ax.set_yticks(y_ticks)
@@ -181,12 +208,12 @@ def place_elements(formats):
 
         # Try placing the format in existing VirtualRows
         for vr in vrs:
-            placed = vr.add_format(width, height)
+            placed = vr.add_format(width, height,vrs)
             draw_virtual_rows(vrs, ax)
             plt.savefig(file_path, format='png', dpi=150)
             if isinstance(placed, VirtualRow):
                 # If a new row is returned, append it to vrs
-                print("New virtual row created from a gap.")
+                print(f"New virtual row created from a gap. Placed :{placed}, width: {width}, heigh: {height}" )
                 vrs.append(placed)
                 draw_virtual_rows(vrs, ax)
                 plt.savefig(file_path, format='png', dpi=150)
