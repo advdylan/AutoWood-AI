@@ -70,11 +70,14 @@ class VirtualRow:
             #self. X ?
             if format_height < self.Y:
 
-                    
-                nr_height = format_width
                 remaining_height = self.Y - format_height
                 remaining_width = X- self.X
                 
+                # wyszukiwanie nowej pozycji virtual row jest bez sensu
+                # jak znaleźć początek wolnego rzedu? 
+                # jeżeli kończy mu się miejsce w rzędzie musi znaleźć je w wolnej przestrzeni
+                # ustawienia Y w tej linijce jest prymitywne: ( current_y_position += current_vr.Y + SAW  # Update Y position for new row )
+                # to trzeba szukać w zupełnie inny sposób, zadanie na weekend 
 
                 new_row = VirtualRow((remaining_width), format_width, self.start_x - format_width - SAW , self.start_y + format_height + SAW)
                 
@@ -91,21 +94,6 @@ class VirtualRow:
 
     def __str__(self):
         return f"VirtualRow X: {self.X}, Y: {self.Y}, start_x: {self.start_x}, start_y: {self.start_y}, formats: {self.formats}"
-    
-    def check_collision(self, new_x, new_y, new_width, new_height):
-        for fmt in self.formats:
-            fmt_x, fmt_y = fmt[2], self.start_y  # format start_x and parent row's start_y
-            fmt_width, fmt_height = fmt[0], fmt[1]
-
-            # Check if the new rectangle overlaps with any existing rectangle
-            if not (
-                new_x + new_width <= fmt_x or  # New is left of existing
-                new_x >= fmt_x + fmt_width or  # New is right of existing
-                new_y + new_height <= fmt_y or  # New is above existing
-                new_y >= fmt_y + fmt_height    # New is below existing
-            ):
-                return True  # Collision detected
-        return False  # No collision
                   
 
 def generate_board(X,Y):
