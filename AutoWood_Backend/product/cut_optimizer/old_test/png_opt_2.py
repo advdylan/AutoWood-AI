@@ -5,7 +5,7 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(
 
 from product.pdf_generator_scripts.pdf_generator import get_data
 from product.cut_optimizer.helpers import set_ticks
-from or_tools_mbo import pack_pieces_on_boards
+from AutoWood_Backend.product.cut_optimizer.old_test.or_tools_mbo import pack_pieces_on_boards
 import matplotlib.pyplot as plt
 import matplotlib.patches as patches
 from ortools.linear_solver import pywraplp
@@ -19,7 +19,8 @@ SAW = 3.2
 X_IN = X / 25.4
 Y_IN = Y / 25.4
 
-id = 60
+id = 62
+
 
 output_dir = f"/home/dylan/AutoWood/AutoWood_Backend/product/cut_optimizer/optimized_cuts/{id}"
 optc_name = f"optc_{id}.png"
@@ -131,63 +132,58 @@ def control_board_capacity(format, board):
 
 
 def define_starting_position(formats, ax):
+    board = (X, Y)  # Board dimensions
+    lengths, heights = calculate_rows(formats)
     
-    board = (X,Y)
-    lengths, rows = calculate_rows(formats)
-    print(f"Rows: {rows}")
-    virtual_row = create_virtual_row(rows[0],X, Y)
-    print(f"Virtual row:{virtual_row}")
-    virtual_rows = []
-    virtual_rows.append(virtual_row)
+    virtual_row = create_virtual_row(heights[0], X, Y)  # Virtual row based on the first piece's height
+    virtual_rows = [virtual_row]
     
-    i=0
-    j=0
-    start_position_x = 0  # Starting point for x
-    start_position_y = 0  # Starting point for y
+    start_position_x = 0  # Starting X position
+    start_position_y = 0  # Starting Y position
+    current_row_height = heights[0]  # Set initial row height based on the first piece
 
-    for format in formats:
+    while formats:
+        format = formats.pop(0)
+        width = format[0]
+        height = format[1]
 
-        width = format[j]
-        height = format[j + 1]
-        
-        space_left = (0,0)
-   
-        capacity_left, free_space = control_board_capacity((width, height), virtual_row)
-        
-        if free_space:
+        # Check if the piece fits horizontally in the current row
+        if start_position_x + width <= X:
+            # Piece fits in the current row, place it
+            format[2] = start_position_x  # Update format start X position
+            format[3] = start_position_y  # Update format start Y position
 
-            format[2] = start_position_x
-            format[3] = start_position_y
-            #print(f"Position of format number {i} at: X: {format[2]}, Y: {format[3]}")
-    
-            generate_rectangle(start_position_x, start_position_y, format[j], format[j+1], ax)
-
-            start_position_x += width + SAW
-            virtual_row = capacity_left
-
-        else:
-            # If format doesn't fit horizontally, move to the next row
-            start_position_x = 0  # Reset x position to the start of the new row
-            start_position_y += rows[0] + SAW  # Move down to the next row
-            virtual_row = create_virtual_row(height, X, Y - start_position_y)  # New row height
-            print(f"Moving to new row at y = {start_position_y}")
-            
-            # Place format in the new row
-            format[2] = start_position_x
-            format[3] = start_position_y
-            #print(f"Placed format at ({start_position_x}, {start_position_y})")
-
+            # Generate the rectangle at the current position
             generate_rectangle(start_position_x, start_position_y, width, height, ax)
 
-            # Update the next available position
+            # Move start_position_x by the width of the placed piece + saw thickness
             start_position_x += width + SAW
-            virtual_row = control_board_capacity((width, height), virtual_row)[0]  # Update capacity
-            virtual_rows.append(virtual_row)
-            print(f"Virtual row in else: {virtual_row}")
+        else:
+            # Piece doesn't fit in the current row, move to the next row
+            start_position_x = 0  # Reset X position for the new row
+            start_position_y += current_row_height + SAW  # Move Y position down by the height of the current row
 
-        i += 1
+            # Update the row height to the new piece's height
+            current_row_height = height
+
+            # Now check if the piece fits in the new row
+            if start_position_x + width <= X:
+                format[2] = start_position_x
+                format[3] = start_position_y
+
+                generate_rectangle(start_position_x, start_position_y, width, height, ax)
+
+                start_position_x += width + SAW  # Update start_position_x for the next piece in the row
+            else:
+                # In case the piece itself exceeds the width of the board (an edge case to handle)
+                print(f"Piece {width}x{height} is too large for the board width!")
+                # Handle this situation (either warn or adjust)
+
+
+
+
         
-    print(f"first loop end, virtual row: {virtual_rows}")
+    #print(f"first loop end, virtual row: {virtual_rows}")
 
 
 
