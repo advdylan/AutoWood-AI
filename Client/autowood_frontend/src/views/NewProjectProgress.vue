@@ -3,20 +3,38 @@
 
 <div class="card">
 
-  <div class="box">
-    <div class="columns">
-      <div class="column is-two-fifths">
-        <div class="button is-rounded">1</div>
+  <section class="section">
+  
+    <div class="columns is-centered has-text-centered is-vcentered">
+      <!-- First Column -->
+      <div class="column">
+        <div class="button is-rounded" :class=" {'is-success': firstStep }">1</div>
       </div>
-      <div class="column">  
-        <div class="button is-rounded is-justify-content-center">2</div>
+      <!-- Line Between Buttons -->
+      ------
+
+      <!-- Second Column -->
+      <div class="column">
+        <div class="button is-rounded" :class=" { 'is-success': secondStep}">2</div>
       </div>
-      <div class="column">  
-        <div class="button is-rounded">3</div>
+      <!-- Line Between Buttons -->
+      ------
+
+      <!-- Third Column -->
+      <div class="column">
+        <div class="button is-rounded" :class=" { 'is-success': thirdStep}">3</div>
+      </div>
+      <!-- Line Between Buttons -->
+      ------
+
+      <!-- Fourth Column -->
+      <div class="column">
+        <div class="button is-rounded" :class=" { 'is-success': fourthStep}">4</div>
       </div>
     </div>
+  
+</section>
 
-  </div>
   
     
   
@@ -29,8 +47,8 @@
   </div>
   <footer class="card-footer">
     <div class="sphere"></div>
-    <a href="#" class="card-footer-item">Edit</a>
-    <a href="#" class="card-footer-item">Delete</a>
+    <a href="#" class="card-footer-item">Wstecz</a>
+    <a href="#" class="card-footer-item">Dalej</a>
   </footer>
 </div>
 
@@ -59,6 +77,11 @@ import ClientData from '@/components/NewProjectComponents/ClientData.vue'
 import axios from 'axios'
 import { toast } from 'bulma-toast'
 
+const firstStep = ref(false)
+const secondStep = ref(false)
+const thirdStep = ref(false)
+const fourthStep = ref(false)
+
 
 
 
@@ -71,6 +94,13 @@ import { toast } from 'bulma-toast'
 
 .modal{
   --bulma-modal-content-width: 70%;
+}
+
+.line {
+  width: 100px; /* Adjust the length of the line */
+  height: 2px; /* Thickness of the line */
+  background-color: #ccc; /* Line color */
+  margin: auto; /* Center it */
 }
 
 
