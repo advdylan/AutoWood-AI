@@ -9,10 +9,7 @@
 
       <!-- First Column -->
       <div class="column">
-        <div class="button is-rounded is-medium" :class="
-        {'is-warning': !firstStep},
-        {'is-success': firstStep }
-        ">{{ $t('client_data') }}</div>
+        <div class="button is-rounded is-medium" :class="returnButtonState(npSteps[0].state)">{{ $t('client_data') }}</div>
       </div>
       <div class="column">
       <span class="icon is-medium">
@@ -24,10 +21,8 @@
 
       <!-- Second Column -->
       <div class="column">
-        <div class="button is-rounded is-medium" :class=" 
-        { 'is-warning': !secondStep},
-        { 'is-success': secondStep}
-        ">{{ $t('basic_info')}}</div>
+        <div class="button is-rounded is-medium" :class="returnButtonState(npSteps[1].state)"
+        >{{ $t('basic_info')}}</div>
       </div>
       <div class="column"><span class="icon is-medium">
       <i class="fa-solid fa-arrow-left-long "></i>
@@ -40,10 +35,7 @@
 
       <!-- Third Column -->
       <div class="column">
-        <div class="button is-rounded is-medium" :class="
-        { 'is-warning': !thirdStep},
-        { 'is-success': thirdStep}
-        ">{{$t('accessories')}}</div>
+        <div class="button is-rounded is-medium" :class="returnButtonState(npSteps[2].state)">{{$t('accessories')}}</div>
       </div>
       <!-- Line Between Buttons -->
       <div class="column"><span class="icon is-medium">
@@ -56,11 +48,7 @@
 
       <!-- Fourth Column -->
       <div class="column">
-        <div class="button is-rounded is-medium" :class="
-        { 'is-warning': !fourthStep},
-        { 'is-success': fourthStep}
-        
-        ">{{ $t('margins')  }}</div>
+        <div class="button is-rounded is-medium" :class="returnButtonState(npSteps[3].state)">{{ $t('margins')  }}</div>
       </div>
       <!-- Line Between Buttons -->
       <div class="column">
@@ -71,10 +59,7 @@
 
       <!-- Fifth Column -->
       <div class="column">
-        <div class="button is-rounded is-medium" :class="
-        { 'is-warning': !fifthStep},
-        { 'is-success': fifthStep}
-        ">{{ $t('summary')  }}</div>
+        <div class="button is-rounded is-medium" :class="returnButtonState(npSteps[4].state)">{{ $t('summary')  }}</div>
       <!-- Line Between Buttons -->
       </div>
     </div>
@@ -90,13 +75,13 @@
   <div class="card-content">
     <div class="content">
      
-        <ClientData :show-card-title="false"></ClientData>
+        <ClientData v-if="npSteps[0].state === 'inProgress'" :show-card-title="false"></ClientData>
      
       
-        <NewProjectData></NewProjectData>      
+        <NewProjectData v-if="npSteps[1].state === 'inProgress'"></NewProjectData>      
      
       
-        <AccessoryTable></AccessoryTable>
+        <AccessoryTable v-if="npSteps[2].state === 'inProgress'"></AccessoryTable>
     
       
 
@@ -113,7 +98,7 @@
 
   <button class="card-footer-item button is-medium">Current Step</button>
   
-  <button class="card-footer-item button is-medium">
+  <button @click="handleNextButton" class="card-footer-item button is-medium">
 
     <span class="text">{{ $t('next') }}</span>
     <span class="icon is-medium">
@@ -125,9 +110,6 @@
 
 
 
-
-
- 
 </template>
   
 <script setup>
@@ -175,13 +157,33 @@ const npSteps = ref([
 ])
 
 
+function returnButtonState(state) {
+
+  if (state === 'inProgress') {
+    return 'is-primary'
+  }
+  else if (state === 'notYetDone') {
+    return 'is-warning'
+  }
+  else if (state === 'done'){
+    return 'is-success'
+  }
+  
+}
+
+
+function handleNextButton() {
+  // handle validation, change component status and go next ->>> ^^
+  return 0
+}
+
+
 
 function handleBackButton() {
   console.log(npSteps.value[0])
-
-
   return 0
 }
+
 
 </script>
 
