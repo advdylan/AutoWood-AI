@@ -89,22 +89,22 @@
 
   <div class="card-content">
     <div class="content">
-      <div v-if="firstStep">
+     
         <ClientData :show-card-title="false"></ClientData>
-      </div>
-      <div v-if="secondStep">
+     
+      
         <NewProjectData></NewProjectData>      
-      </div>
-      <div v-if="thirdStep">
+     
+      
         <AccessoryTable></AccessoryTable>
-      </div>
+    
       
 
     </div>
   </div>
   <footer class="card-footer">
 
-    <button class="card-footer-item button is-medium">
+    <button @click="handleBackButton" class="card-footer-item button is-medium">
     <span class="icon is-medium">
       <i class="fa-solid fa-arrow-left "></i>
     </span>
@@ -148,6 +148,8 @@ import NewProjectData from '@/components/NewProjectComponents/NewProjectData.vue
 import axios from 'axios'
 import { toast } from 'bulma-toast'
 
+
+
 const newProjectStore = useNewProjectStoreBeta()
 const summaryStore = useSummaryStore()
 
@@ -160,22 +162,26 @@ const {elements, wood, collection, paints, category, boxes, accesories, marginA,
 
 
 
+const currentStep = ref(0)
+
+const npSteps = ref([
+{'position': 1, 'name': 'ClientData', component: ClientData, isValid: false, state: 'inProgress'},
+{'position': 2, 'name': 'NewProjectData', component: NewProjectData, isValid: false, state: 'notYetDone'},
+{'position': 3, 'name': 'AccessoryTable', component: AccessoryTable, isValid: false, state: 'notYetDone'},
+{'position': 4, 'name': 'NewProjectData', component: NewProjectData, isValid: false, state: 'notYetDone'},
+{'position': 5, 'name': 'WorktimeType', component: WorktimeType, isValid: false, state: 'notYetDone'},
+{'position': 6, 'name': 'Summary', component: Summary, isValid: false, state: 'notYetDone'}
+
+])
 
 
 
+function handleBackButton() {
+  console.log(npSteps.value[0])
 
 
-
-const firstStep = ref(false)
-const secondStep = ref(true)
-const thirdStep = ref(false)
-const fourthStep = ref(false)
-const fifthStep = ref(false)
-
-const npSteps = [
-  {'position': 1, 'name': 'ClientData', component: ClientData, active: firstStep.value},
-  {'position': 2, 'name': 'ProjectData', component: ElementsTable, active: secondStep.value},
-]
+  return 0
+}
 
 </script>
 
