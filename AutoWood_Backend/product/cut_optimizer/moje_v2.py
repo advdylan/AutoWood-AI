@@ -35,7 +35,8 @@ class VirtualRow:
         self.formats = []  # List of placed formats
 
     def add_format(self, format_width, format_height, vrs):
-        # If first element in the row
+
+        # If first element in the row it places the bigger one first on 0 0 and cuts the entire board. ( for wood cut purpose )
         if len(self.formats) == 0:
             if format_width + SAW > self.X:
                 print(f"Not enough space in row. Width left: {self.X}, format width: {format_width}")
@@ -56,36 +57,6 @@ class VirtualRow:
             generate_rectangle(self.start_x, self.start_y, format_width, format_height, ax)
             self.start_x += format_width + SAW
 
-            
-            # check for vrs collision? 
-
-            for vr in vrs:
-
-                print(f"Collision Check >> vr.start_x: {vr.start_x}\n vr.start_y: {vr.start_y}\n vr.X: {vr.X}, vr.Y: {vr.Y}")
-                len_format = len(vr.formats)
-                for format in vr.formats:
-                    width, height = vr.formats[0][0],vr.formats[0][1]
-                    print(f"Width: {width}, height: {height}")
-
-            #self. X ?
-            # If the format does not take the entire height, create a new row for the remaining height
-            if format_height < self.Y:
-
-                remaining_height = self.Y - format_height
-                remaining_width = X - self.X
-                
-                # wyszukiwanie nowej pozycji virtual row jest bez sensu
-                # jak znaleźć początek wolnego rzedu? 
-                # jeżeli kończy mu się miejsce w rzędzie musi znaleźć je w wolnej przestrzeni
-                # ustawienia Y w tej linijce jest prymitywne: ( current_y_position += current_vr.Y + SAW  # Update Y position for new row )
-                # to trzeba szukać w zupełnie inny sposób, zadanie na weekend 
-
-                new_row = VirtualRow((remaining_width), format_width, self.start_x - format_width - SAW , self.start_y + format_height + SAW)
-                
-                print(f"Creating new row for remaining height: {remaining_height}, at start_x: {new_row.start_x}, start_y: {new_row.start_y}, X:{new_row.X}, y: {new_row.Y}   ")
-                
-                return new_row  # Return the new row to append to vrs in place_elements()
-
             return True
 
         # If the format doesn't fit``
@@ -96,6 +67,24 @@ class VirtualRow:
     def __str__(self):
         return f"VirtualRow X: {self.X}, Y: {self.Y}, start_x: {self.start_x}, start_y: {self.start_y}, formats: {self.formats}"
                   
+
+def find_free_space(vrs, width, height):
+    """ function to check for single format space available
+        I dont need to keep track the VR's length but to check where I can place new one
+          """
+
+    
+
+    for vr in vrs:
+
+        print(f"Collision Check >> vr.start_x: {vr.start_x}\n vr.start_y: {vr.start_y}\n vr.X: {vr.X}, vr.Y: {vr.Y}")
+
+
+        for format in vr.formats:
+            new_format_width, new_format_height = vr.formats[0][0],vr.formats[0][1]
+            print(f"Width: {new_format_width}, height: {new_format_height}")
+
+
 
 def generate_board(X,Y):
 
@@ -115,7 +104,7 @@ def generate_board(X,Y):
     if not os.path.exists(output_dir):
         os.makedirs(output_dir)
 
-    formats = [[1600, 500], [500, 500], [1000,500],[200,500], [200,95],[200,95], [200,95], [200,95],[200,95], [200,95], [200,95],[200,95], [200,95], [200,95]]
+    formats = [[1600, 500],]
     formats.sort(reverse=True)
 
     place_elements(formats)
@@ -181,6 +170,24 @@ def draw_virtual_rows(vrs, ax):
         ax.add_patch(rect)
         print(f"Drawing virtual row boundary: Start X={vr.start_x}, Y={vr.start_y}, Width={vr.X}, Height={vr.Y}")
 
+def draw_free_space(vrs, ax):
+    """
+    Draws red boundary lines for all virtual rows on the board.
+    """
+    for vr in vrs:
+        # Draw a red rectangle to represent the virtual row boundaries
+        rect = patches.Rectangle(
+            xy=(vr.start_x, vr.start_y), 
+            width=vr.X, 
+            height=vr.Y, 
+            edgecolor='green', 
+            facecolor='none', 
+            linestyle='--', 
+            linewidth=1
+        )
+        ax.add_patch(rect)
+        print(f"Drawing free space: Start X={vr.start_x}, Y={vr.start_y}, Width={vr.X}, Height={vr.Y}")
+
 def place_elements(formats):
     
     vrs = []  # List of VirtualRows
@@ -199,15 +206,7 @@ def place_elements(formats):
         for vr in vrs:
             placed = vr.add_format(width, height,vrs)
             draw_virtual_rows(vrs, ax)
-            plt.savefig(file_path, format='png', dpi=150)
-            if isinstance(placed, VirtualRow):
-                # If a new row is returned, append it to vrs
-                print(f"New virtual row created from a gap. Placed :{placed}, width: {width}, heigh: {height}" )
-                vrs.append(placed)
-                draw_virtual_rows(vrs, ax)
-                plt.savefig(file_path, format='png', dpi=150)
-                vrs.sort(key=lambda vr: vr.start_y)
-                placed = True
+            plt.savefig(file_path, format='png', dpi=150)        
             if placed:
                 formats.pop(0)
                 plt.savefig(file_path, format='png', dpi=150)
@@ -215,6 +214,9 @@ def place_elements(formats):
 
         # If the format wasn't placed, create a new VirtualRow
         if not placed:
+            #scan the board for free spaces - dont update the Y positio yet ? 
+            find_free_space(vrs, width, height)
+
             current_y_position += current_vr.Y + SAW  # Update Y position for new row
             #FIND ACTUAL X
             new_vr = VirtualRow(X, height, 0, current_y_position)
