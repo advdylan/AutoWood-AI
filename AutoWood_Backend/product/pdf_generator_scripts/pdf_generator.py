@@ -46,7 +46,7 @@ def get_data(id):
     #getting the detail data of New Project from Django
 
     try:
-        response = requests.get(f'https://autowood.fly.dev/api/v1/newproject/{id}')
+        response = requests.get(f'http://127.0.0.1:8000/api/v1/newproject/{id}')
         response.raise_for_status()
         project_data = response.json()
 

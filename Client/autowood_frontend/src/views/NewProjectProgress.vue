@@ -16,8 +16,6 @@
       <i class="fa-solid fa-arrow-right-long"></i>
     </span></div>
       <!-- Line Between Buttons -->
-      
-      
 
       <!-- Second Column -->
       <div class="column">
@@ -31,8 +29,7 @@
       <i class="fa-solid fa-arrow-right-long "></i>
     </span></div>
       <!-- Line Between Buttons -->
-      
-
+  
       <!-- Third Column -->
       <div class="column">
         <div class="button is-rounded is-medium" :class="returnButtonState(npSteps[2].state)">{{$t('accessories')}}</div>
@@ -74,22 +71,21 @@
 
   <div class="card-content">
     <div class="content">
-     
-        <ClientData v-if="npSteps[0].state === 'inProgress'" :show-card-title="false"></ClientData>
-     
-      
-        <NewProjectData v-if="npSteps[1].state === 'inProgress'"></NewProjectData>      
-     
-      
-        <AccessoryTable v-if="npSteps[2].state === 'inProgress'"></AccessoryTable>
-    
-      
-
-    </div>
+      <transition name="fade">
+   
+    <component
+      v-if="activeStep"
+      :is="activeStep.component"
+      :key="activeStep.name"
+    ></component>
+    </transition>
   </div>
+  
+
+
   <footer class="card-footer">
 
-    <button @click="handleBackButton" class="card-footer-item button is-medium">
+    <button @click="handleBackButton(findActiveStep)" class="card-footer-item button is-medium" :disabled="findActiveStep === 0">
     <span class="icon is-medium">
       <i class="fa-solid fa-arrow-left "></i>
     </span>
@@ -98,7 +94,7 @@
 
   <button class="card-footer-item button is-medium">Current Step</button>
   
-  <button @click="handleNextButton" class="card-footer-item button is-medium">
+  <button @click="handleNextButton(findActiveStep)" class="card-footer-item button is-medium" :disabled="findActiveStep === -1">
 
     <span class="text">{{ $t('next') }}</span>
     <span class="icon is-medium">
@@ -107,7 +103,7 @@
   </button>
   </footer>
 </div>
-
+</div>
 
 
 </template>
@@ -115,7 +111,7 @@
 <script setup>
 import { useNewProjectStoreBeta } from '@/store/newproject'
 import { useSummaryStore } from '@/store/summary'
-import {ref, computed, onUnmounted, watch, watchEffect} from 'vue'
+import {ref, computed, onUnmounted, watch, watchEffect, shallowRef, markRaw} from 'vue'
 import { storeToRefs } from 'pinia'
 import {validateFormData} from '@/validators/Validators.js'
 import { useI18n } from 'vue-i18n';
@@ -132,6 +128,7 @@ import { toast } from 'bulma-toast'
 
 
 
+
 const newProjectStore = useNewProjectStoreBeta()
 const summaryStore = useSummaryStore()
 
@@ -144,18 +141,21 @@ const {elements, wood, collection, paints, category, boxes, accesories, marginA,
 
 
 
-const currentStep = ref(0)
-
 const npSteps = ref([
-{'position': 1, 'name': 'ClientData', component: ClientData, isValid: false, state: 'inProgress'},
-{'position': 2, 'name': 'NewProjectData', component: NewProjectData, isValid: false, state: 'notYetDone'},
-{'position': 3, 'name': 'AccessoryTable', component: AccessoryTable, isValid: false, state: 'notYetDone'},
-{'position': 4, 'name': 'NewProjectData', component: NewProjectData, isValid: false, state: 'notYetDone'},
-{'position': 5, 'name': 'WorktimeType', component: WorktimeType, isValid: false, state: 'notYetDone'},
-{'position': 6, 'name': 'Summary', component: Summary, isValid: false, state: 'notYetDone'}
-
+  { position: 0, name: 'ClientData', component: markRaw(ClientData), isValid: false, state: 'inProgress' },
+  { position: 1, name: 'NewProjectData', component: markRaw(NewProjectData), isValid: false, state: 'notYetDone' },
+  { position: 2, name: 'AccessoryTable', component: markRaw(AccessoryTable), isValid: false, state: 'notYetDone' },
+  { position: 3, name: 'WorktimeType', component: markRaw(WorktimeType), isValid: false, state: 'notYetDone' },
+  { position: 4, name: 'Summary', component: markRaw(Summary), isValid: false, state: 'notYetDone' }
 ])
 
+const findActiveStep = computed (() => {
+  return npSteps.value.findIndex((component) => component.state === 'inProgress')
+})
+
+const activeStep = computed (() => {
+  return npSteps.value.find(step => step.state === "inProgress")
+})
 
 function returnButtonState(state) {
 
@@ -172,16 +172,30 @@ function returnButtonState(state) {
 }
 
 
-function handleNextButton() {
-  // handle validation, change component status and go next ->>> ^^
-  return 0
+function handleNextButton(index) {
+ 
+
+  let currentStep = npSteps.value[index]
+  let nextStep = npSteps.value[index+1]
+  console.log(currentStep, nextStep)
+
+  if (currentStep && nextStep) {
+  //validation here
+  currentStep.state = 'done'
+  nextStep.state = 'inProgress'
+  }
 }
 
+function handleBackButton(index) {
 
+  let currentStep = npSteps.value[index]
+  let previousStep = npSteps.value[index-1]
 
-function handleBackButton() {
-  console.log(npSteps.value[0])
-  return 0
+  if (currentStep && previousStep) {
+    currentStep.state = 'notYetDone'
+    previousStep.state = 'inProgress'
+  }
+
 }
 
 
@@ -202,6 +216,14 @@ function handleBackButton() {
   margin: auto; /* Center it */
 }
 
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s ease;
+}
 
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
 
 </style>
