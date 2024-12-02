@@ -22,7 +22,7 @@
             <div class="card-content">
                 <div class="content">
                     <div class="projects-list-container">
-                        <b-table :key="tableKey" :data="accesorytype" :paginated="isPaginated" :per-page="perPage" :current-page.sync="currentPage" :pagination-simple="isPaginationSimple" :pagination-position="paginationPosition" :default-sort-direction="defaultSortDirection" :pagination-rounded="isPaginationRounded" :sort-icon="sortIcon" :sort-icon-size="sortIconSize" default-sort="user.first_name" aria-next-label="Next page" aria-previous-label="Previous page" aria-page-label="Page" aria-current-label="Current page" :page-input="hasInput" :pagination-order="paginationOrder" :page-input-position="inputPosition" :debounce-page-input="inputDebounce">
+                        <b-table :key="tableKey" :data="filteredAccessories" :paginated="isPaginated" :per-page="perPage" :current-page.sync="currentPage" :pagination-simple="isPaginationSimple" :pagination-position="paginationPosition" :default-sort-direction="defaultSortDirection" :pagination-rounded="isPaginationRounded" :sort-icon="sortIcon" :sort-icon-size="sortIconSize" default-sort="user.first_name" aria-next-label="Next page" aria-previous-label="Previous page" aria-page-label="Page" aria-current-label="Current page" :page-input="hasInput" :pagination-order="paginationOrder" :page-input-position="inputPosition" :debounce-page-input="inputDebounce">
                             <template v-for="(column, index) in columns" :key="column.id">
                                 <b-table-column v-bind="column">
                                     <template v-if="column.searchable && !column.numeric" #searchable="props">
@@ -31,6 +31,10 @@
                                     <template v-if="column.field === 'nawigacja'" #header>
                                     <b-switch v-model="editMode">
                                         {{  $t('edit_mode') }}
+                                    </b-switch>
+                                    <b-switch v-model="showActiveAcc">
+                                        {{ $t('archive_acc')}}
+ 
                                     </b-switch>
                                     </template>
                                     <template v-slot="props">
@@ -43,6 +47,8 @@
                                         <template v-if="editMode && column.searchable">
                                             <b-input @input="markAsEdited(props.row)"  v-model="props.row[column.field]"></b-input>
                                         </template>
+                                        
+
                                         <template v-else>
                                             {{ props.row[column.field] }}
                                         </template>
@@ -249,7 +255,7 @@ const router = useRouter()
 const route = useRoute()
 
 
-
+const showActiveAcc = ref(false)
 const editMode = ref(false)
 const editedAcc = ref(false)
 const showAccModal = ref(false)
@@ -284,6 +290,12 @@ let paginationOrder= ''
 let inputPosition= ''
 let inputDebounce= ''
 
+const filteredAccessories = computed(() => {
+    return accesorytype.value.filter(acc => acc.is_active !== showActiveAcc.value)
+})
+
+
+
 
 
 const {loadData, addAccesorytype, updateAccesories} = newProjectStore
@@ -300,8 +312,6 @@ function handleUpdateAccesories(accesorytype) {
 
 const accesorytypes = getAccessoryTypes(accesorytype)
 validateNewAccesory(accesorytype,errors,accesorytypes)
-
-
 
 /* for ( let accesory of accesorytype) {
   console.log(accesory.name)
@@ -423,7 +433,8 @@ function handleAddButton() {
 
     function handleDeleteButton(row){
       const index = accesorytype.value.findIndex(item => item.id === row.id)
-      accesorytype.value.splice(index, 1)
+      accesorytype.value[index].is_active = false
+      //accesorytype.value.splice(index, 1)
       tableKey.value += 1 //refreshing the table
     }
 

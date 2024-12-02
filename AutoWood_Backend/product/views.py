@@ -565,13 +565,24 @@ def update_accesorytype(request):
     
     try:
         with transaction.atomic():
+            sent_names = [object["name"] for object in data]
+            existing_names = list(AccessoryType.objects.values_list('name', flat=True))
+
+            names_to_delete = set(existing_names) - set(sent_names)
+            
+            if(names_to_delete):                  
+                AccessoryType.objects.filter(name__in=names_to_delete).update(is_active=False)
+
             for object in data:
+                
                 new_acc, created = AccessoryType.objects.update_or_create(
                     name = object["name"],
                     defaults={'description': object['description'],
                               'weight': object["weight"],
                               'price' : object["price"],
-                              'type': object["type"]}
+                              'type': object["type"],
+                              'is_active': True,
+                              }
 
                 )
             return JsonResponse({'message': 'Accesories succesfully updated'}, status=200)

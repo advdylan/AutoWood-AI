@@ -98,6 +98,7 @@ class AccessoryType(models.Model):
     weight = models.DecimalField(blank=True, max_digits=5, decimal_places=2, null=True)
     price = models.DecimalField(blank=True, max_digits=8, decimal_places=2, null=True)
     type = models.CharField(max_length = 50, choices=choices,)
+    is_active = models.BooleanField(default=True)
 
     def __str__(self):
         return f"{self.name}"
