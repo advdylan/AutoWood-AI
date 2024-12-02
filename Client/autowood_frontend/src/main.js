@@ -6,6 +6,7 @@ import router from './router'
 import { pinia } from '@/store'
 import { createI18n } from 'vue-i18n';
 import i18nInstance from '@/locales/i18n.js'
+import 'animate.css';
 
 import i18n from './locales/i18n' ;
 

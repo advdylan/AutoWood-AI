@@ -71,7 +71,9 @@
 
   <div class="card-content">
     <div class="content">
-      <transition name="fade">
+      <transition
+        enter-active-class="animate__animated animate__slideInRight"
+        leave-active-class="animate__animated animate__slideOutLeft">
    
     <component
       v-if="activeStep"

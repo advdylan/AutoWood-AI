@@ -55,9 +55,15 @@
 
                                     </template>
                                 </b-table-column>
-
+                                
                             </template>
                         </b-table>
+                        <button @click="handleUpdateAccesories(accesorytype);" 
+                                        class="button is-success">
+                                    <i class="fa-solid fa-floppy-disk"></i>
+                                    &nbsp;
+                                    {{ $t('save') }}
+                                </button>
                         
                     </div>
                 </div>

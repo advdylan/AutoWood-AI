@@ -581,7 +581,7 @@ def update_accesorytype(request):
                               'weight': object["weight"],
                               'price' : object["price"],
                               'type': object["type"],
-                              'is_active': True,
+                              'is_active': object["is_active"],
                               }
 
                 )
