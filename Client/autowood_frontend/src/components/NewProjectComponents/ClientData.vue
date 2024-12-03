@@ -10,10 +10,7 @@
     <div class="card-content">
       <div class="content">
         <div class="columns">
-            <div class="column is-half">
-              <div class="columns">
-                <div class="column is-half">
-
+            <div class="column is-one-third">              
                   <header class="card-header">
                       <p class="card-header-title is-centered is-size-4">{{$t("client_data")}}
                         <span>&nbsp;<i class="fa-solid fa-id-card"></i></span>
@@ -70,25 +67,75 @@
                         </span>
                 </p>
                       </div>
-                    </div> 
-                                  
-                
+                    </div>                                 
+            </div>
 
-                
-                
+            <div class="column is-one-third">
+              <header class="card-header">
+                      <p class="card-header-title is-centered is-size-4">{{$t("basic_info")}}
+                        <span>&nbsp;<i class="fa-solid fa-circle-info"></i></span>
+                      </p>
+                      
+                    </header>
 
+                    <div class="card-content">
+                      <div class="content">
 
+                        <div class="field">      
+            <label class="label is-size-6">{{$t("project_name")}}</label>
+            <div class="control">
+              <input v-model="projectName" class="input is-small" type="text" :placeholder="$t('project_name')">
+            </div>
+          </div>
 
-                </div>
-                
+          <div class="field">
+            <label class="label is-size-6">{{$t("wood_type")}}</label>
+            <div class="control">
+              <div class="select is-small">
+                <select v-model="selectedWood">
+                  <option v-for="woodItem in wood"> {{ woodItem.name }}</option>
+                </select>
               </div>
-                
-                   
+            </div>
+          </div>
 
+          <div class="field">
+            <label class="label is-size-6">{{$t("category")}}</label>
+            <div class="control">
+              <div class="select is-small">
+                <select v-model="selectedCategory">
+                  <option v-for="categoryItem in category"> {{ categoryItem.name }}</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <div class="field">
+            <label class="label is-size-6">{{$t("collection")}}</label>
+            <div class="control">
+              <div class="select is-small">
+                <select v-model="selectedCollection">
+                <option v-for="collection in collection"> {{ collection.name }}</option>
+                </select>
+              </div>
+            </div>
+            </div>
+
+            <div class="field">
+              <label class="label is-size-6">{{$t("painting")}}</label>
+              <div class="control">
+                <div class="select is-small">
+                  <select v-model="selectedPaint">
+                    <option v-for="paints in paints">{{ paints.name}}</option>
+                  </select>
+                </div>
+              </div>
+</div>
+                      </div>
+                    </div>
 
             </div>
-            <div class="column">
-
+            <div class="column is-one-third">
                 <div class="card">
                     <header class="card-header">
                       <p class="card-header-title is-centered is-size-4">{{$t("send_files")}}
@@ -125,12 +172,11 @@
                           </header>
                           <div class="card-content">
                             <div class="content">
-
                               <div class="files-table-container">
-                                <table v-if="files.length > 0" class="table is-bordered is-striped is-hoverable is-fullwidth">
+                                <table v-if="files.length > 0" class="table is-bordered is-striped is-hoverable">
                                   <thead>
                                     <tr>
-                                      <th>{{$t("file_name")}}</th>
+                                      <th>{{$t("file_name").trim(4)}}</th>
                                       <th>{{$t("size")}}</th>
                                       <th>{{$t("typ")}}</th>
                                       <th>{{$t("Nav")}}</th>
@@ -198,7 +244,7 @@ const selectedFile = ref(null)
 
 const newProjectStore = useNewProjectStoreBeta()
 
-const {customer, files} = storeToRefs(newProjectStore)
+const {customer, files, category,wood,collection,paints} = storeToRefs(newProjectStore)
 
 
 const props = defineProps({

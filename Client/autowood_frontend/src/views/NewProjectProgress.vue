@@ -20,7 +20,7 @@
       <!-- Second Column -->
       <div class="column">
         <div class="button is-rounded is-medium" :class="returnButtonState(npSteps[1].state)"
-        >{{ $t('basic_info')}}</div>
+        >{{ $t('elements_list')}}</div>
       </div>
       <div class="column"><span class="icon is-medium">
       <i class="fa-solid fa-arrow-left-long "></i>
@@ -118,7 +118,7 @@ import { storeToRefs } from 'pinia'
 import {validateFormData} from '@/validators/Validators.js'
 import { useI18n } from 'vue-i18n';
 
-import ElementsTable from '@/components/ElementsTable'
+import ElementsProgressTable from '@/components/NewProjectComponents/ElementsProgressTable.vue'
 import WorktimeType from '@/components/WorktimeType'
 import AccessoryTable from '@/components/AccessoryTable.vue'
 import Summary from '@/components/Summary.vue'
@@ -145,7 +145,7 @@ const {elements, wood, collection, paints, category, boxes, accesories, marginA,
 
 const npSteps = ref([
   { position: 0, name: 'ClientData', component: markRaw(ClientData), isValid: false, state: 'inProgress' },
-  { position: 1, name: 'NewProjectData', component: markRaw(NewProjectData), isValid: false, state: 'notYetDone' },
+  { position: 1, name: 'NewProjectData', component: markRaw(ElementsProgressTable), isValid: false, state: 'notYetDone' },
   { position: 2, name: 'AccessoryTable', component: markRaw(AccessoryTable), isValid: false, state: 'notYetDone' },
   { position: 3, name: 'WorktimeType', component: markRaw(WorktimeType), isValid: false, state: 'notYetDone' },
   { position: 4, name: 'Summary', component: markRaw(Summary), isValid: false, state: 'notYetDone' }
@@ -200,7 +200,16 @@ function handleBackButton(index) {
 
 }
 
-
+const newElement = ref({
+  element: {
+    name: 'Przód',
+    dimX: 2500,
+    dimY: 250,
+    dimZ: 25,
+    wood_type: ''
+  },
+  quantity: 1
+})
 </script>
 
 
