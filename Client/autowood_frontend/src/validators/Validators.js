@@ -21,6 +21,8 @@ export function validateFormData(formData, errors) {
         }
 }
 
+
+
 export function validateNewAccesory(accesorytype, errors,accesorytypes) {
 
   const accesoryList = Array.isArray(accesorytype) ? accesorytype : [accesorytype]
@@ -47,3 +49,47 @@ export function validateNewAccesory(accesorytype, errors,accesorytypes) {
   }
   return 0
 }
+
+export function validateClientData(stepData, errors) {
+
+  console.log(stepData.value.projectName)
+  if (!stepData.value.projectName || stepData.value.projectName === 'undefined' || stepData.value.projectName.trim() === '') {
+    errors.value.push('Podaj właściwą nazwę wyceny w oknie "Nazwa projektu"')
+  }
+  
+  if (!errors.value.length) {
+    return true
+  }
+
+  else {
+    return errors, false
+  }
+
+
+}
+
+// I left the validates function for future use of the bugs I dont know yet
+export function validateElements(stepData) {
+  return true
+}
+
+export function validateAccessoryTable(stepData) {
+  return true
+}
+
+export function validateWorktimeType(stepData) {
+  return true
+}
+
+export function validateSummary(stepData) {
+  return true
+}
+
+// Map step names to their corresponding validation functions
+export const validationFunctions = {
+  ClientData: validateClientData,
+  ElementsProgressTable: validateElements,
+  AccessoryTable: validateAccessoryTable,
+  WorktimeType: validateWorktimeType,
+  Summary: validateSummary,
+};

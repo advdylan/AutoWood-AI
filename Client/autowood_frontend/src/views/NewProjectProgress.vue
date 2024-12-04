@@ -9,7 +9,9 @@
 
       <!-- First Column -->
       <div class="column">
-        <div class="button is-rounded is-medium" :class="returnButtonState(npSteps[0].state)">{{ $t('client_data') }}</div>
+        <div class="button is-rounded is-medium" 
+        @click="navigateWithButton(npSteps[0])"
+        :class="returnButtonState(npSteps[0].state)">{{ $t('client_data') }}</div>
       </div>
       <div class="column">
       <span class="icon is-medium">
@@ -19,7 +21,9 @@
 
       <!-- Second Column -->
       <div class="column">
-        <div class="button is-rounded is-medium" :class="returnButtonState(npSteps[1].state)"
+        <div class="button is-rounded is-medium" 
+        @click="navigateWithButton(npSteps[1])"
+        :class="returnButtonState(npSteps[1].state)"
         >{{ $t('elements_list')}}</div>
       </div>
       <div class="column"><span class="icon is-medium">
@@ -32,7 +36,9 @@
   
       <!-- Third Column -->
       <div class="column">
-        <div class="button is-rounded is-medium" :class="returnButtonState(npSteps[2].state)">{{$t('accessories')}}</div>
+        <div class="button is-rounded is-medium" 
+        @click="navigateWithButton(npSteps[2])"
+        :class="returnButtonState(npSteps[2].state)">{{$t('accessories')}}</div>
       </div>
       <!-- Line Between Buttons -->
       <div class="column"><span class="icon is-medium">
@@ -45,7 +51,9 @@
 
       <!-- Fourth Column -->
       <div class="column">
-        <div class="button is-rounded is-medium" :class="returnButtonState(npSteps[3].state)">{{ $t('margins')  }}</div>
+        <div class="button is-rounded is-medium" 
+        @click="navigateWithButton(npSteps[3])"
+        :class="returnButtonState(npSteps[3].state)">{{ $t('margins')  }}</div>
       </div>
       <!-- Line Between Buttons -->
       <div class="column">
@@ -56,7 +64,9 @@
 
       <!-- Fifth Column -->
       <div class="column">
-        <div class="button is-rounded is-medium" :class="returnButtonState(npSteps[4].state)">{{ $t('summary')  }}</div>
+        <div class="button is-rounded is-medium" 
+        @click="navigateWithButton(npSteps[4])"
+        :class="returnButtonState(npSteps[4].state)">{{ $t('summary')  }}</div>
       <!-- Line Between Buttons -->
       </div>
     </div>
@@ -96,13 +106,23 @@
 
   <button class="card-footer-item button is-medium">Current Step</button>
   
-  <button @click="handleNextButton(findActiveStep)" class="card-footer-item button is-medium" :disabled="findActiveStep === -1">
+  
+  <button v-if="findActiveStep !== npSteps.length -1" @click="handleNextButton(findActiveStep)" class="card-footer-item button is-medium" :disabled="findActiveStep === npSteps.length -1">
 
     <span class="text">{{ $t('next') }}</span>
     <span class="icon is-medium">
       <i class="fa-solid fa-arrow-right "></i>
     </span>
+
   </button>
+
+  <button v-if="findActiveStep === npSteps.length -1"@click="validateStep()" 
+                                        class="card-footer-item button is-medium is-success">
+                                    <i class="fa-solid fa-floppy-disk"></i>
+                                    &nbsp;
+                                    {{ $t('save') }}
+                                </button>
+  
   </footer>
 </div>
 </div>
@@ -115,7 +135,7 @@ import { useNewProjectStoreBeta } from '@/store/newproject'
 import { useSummaryStore } from '@/store/summary'
 import {ref, computed, onUnmounted, watch, watchEffect, shallowRef, markRaw} from 'vue'
 import { storeToRefs } from 'pinia'
-import {validateFormData} from '@/validators/Validators.js'
+import {validateClientData, validateFormData} from '@/validators/Validators.js'
 import { useI18n } from 'vue-i18n';
 
 import ElementsProgressTable from '@/components/NewProjectComponents/ElementsProgressTable.vue'
@@ -124,32 +144,67 @@ import AccessoryTable from '@/components/AccessoryTable.vue'
 import Summary from '@/components/Summary.vue'
 import ClientData from '@/components/NewProjectComponents/ClientData.vue'
 import NewProjectData from '@/components/NewProjectComponents/NewProjectData.vue'
+import { validationFunctions } from '@/validators/Validators.js'
 
 import axios from 'axios'
 import { toast } from 'bulma-toast'
 
 
-
+// const definition section
 
 const newProjectStore = useNewProjectStoreBeta()
 const summaryStore = useSummaryStore()
 
 const { addElement, loadData, $resetBoxes } = newProjectStore
-const {summaryCosts, elementsMargin, accesoriesMargin, additionalMargin,summaryCostsWithMargin, elementsCost, accesoriesCost, worktimeCost} = storeToRefs(summaryStore)
+const {summaryCosts, elementsMargin, accesoriesMargin,
+   additionalMargin,summaryCostsWithMargin, elementsCost, accesoriesCost, worktimeCost} = storeToRefs(summaryStore)
 
 loadData()
 
-const {elements, wood, collection, paints, category, boxes, accesories, marginA, marginB, marginC, files, customer} = storeToRefs(newProjectStore)
 
+const {elements, wood, collection, paints, category, boxes, accesories, marginA, marginB, marginC, files, 
+  customer, projectName, selectedCategory, selectedCollection,selectedFile,selectedPaint,selectedWood} = storeToRefs(newProjectStore)
 
+const errors = ref([])
+
+const newElement = ref({
+  element: {
+    name: 'Przód',
+    dimX: 2500,
+    dimY: 250,
+    dimZ: 25,
+    wood_type: ''
+  },
+  quantity: 1
+})
 
 const npSteps = ref([
   { position: 0, name: 'ClientData', component: markRaw(ClientData), isValid: false, state: 'inProgress' },
-  { position: 1, name: 'NewProjectData', component: markRaw(ElementsProgressTable), isValid: false, state: 'notYetDone' },
+  { position: 1, name: 'ElementsProgressTable', component: markRaw(ElementsProgressTable), isValid: false, state: 'notYetDone' },
   { position: 2, name: 'AccessoryTable', component: markRaw(AccessoryTable), isValid: false, state: 'notYetDone' },
   { position: 3, name: 'WorktimeType', component: markRaw(WorktimeType), isValid: false, state: 'notYetDone' },
   { position: 4, name: 'Summary', component: markRaw(Summary), isValid: false, state: 'notYetDone' }
 ])
+
+
+
+const ClientDataValidation = ref({
+  projectName: projectName,
+  selectedWood: selectedWood,
+  selectedCategory: selectedCategory,
+  selectedCollection: selectedCollection,
+  selectedPaint: selectedPaint
+})
+
+const validationData = {
+  ClientData: ClientDataValidation,
+  ElementsProgressTable: null,
+  AccessoryTable: null
+
+
+};
+
+// comptued values section
 
 const findActiveStep = computed (() => {
   return npSteps.value.findIndex((component) => component.state === 'inProgress')
@@ -158,6 +213,9 @@ const findActiveStep = computed (() => {
 const activeStep = computed (() => {
   return npSteps.value.find(step => step.state === "inProgress")
 })
+
+
+// functions section
 
 function returnButtonState(state) {
 
@@ -173,18 +231,44 @@ function returnButtonState(state) {
   
 }
 
-
 function handleNextButton(index) {
  
 
   let currentStep = npSteps.value[index]
   let nextStep = npSteps.value[index+1]
-  console.log(currentStep, nextStep)
 
   if (currentStep && nextStep) {
   //validation here
-  currentStep.state = 'done'
-  nextStep.state = 'inProgress'
+
+  const validate = validationFunctions[currentStep.name]
+  if (validate) {
+    const isValid = validate(validationData[currentStep.name], errors)
+
+    if (!isValid) {
+      let msg = ''
+
+        for (let i=0; i <errors.value.length; i++){
+          msg += errors.value[i] += "\n"
+        }
+        toast({
+            message: msg,
+            duration: 5000,
+            position: "top-center",
+            type: 'is-danger',
+            animate: { in: 'backInDown', out: 'backOutUp' },
+          })
+
+          errors.value = []
+    }
+
+    if(isValid) {
+        currentStep.isValid = true
+        currentStep.state = 'done'
+        nextStep.state = 'inProgress'
+    }
+    
+  }
+  
   }
 }
 
@@ -200,16 +284,51 @@ function handleBackButton(index) {
 
 }
 
-const newElement = ref({
-  element: {
-    name: 'Przód',
-    dimX: 2500,
-    dimY: 250,
-    dimZ: 25,
-    wood_type: ''
-  },
-  quantity: 1
-})
+function validateStep(step) {
+
+}
+
+
+function navigateWithButton(stepToActivate) {
+
+  //maybe how many steps you skip and validate that? 
+
+  if (activeStep.value.state = 'inProgress'){
+    const validate = validationFunctions[activeStep.value.name]
+    if (validate) {
+      const isValid = validate(validationData[activeStep.value.name], errors)
+      if (!isValid) {
+        let msg = ''
+
+          for (let i=0; i <errors.value.length; i++){
+            msg += errors.value[i] += "\n"
+          }
+          toast({
+            message: 'Dokończ obecny krok',
+            duration: 5000,
+            position: "top-center",
+            type: 'is-warning',
+            animate: { in: 'backInDown', out: 'backOutUp' },
+          })
+          toast({
+              message: msg,
+              duration: 5000,
+              position: "top-center",
+              type: 'is-danger',
+              animate: { in: 'backInDown', out: 'backOutUp' },
+            })
+
+            errors.value = []
+
+      }
+      if (isValid) {
+        activeStep.value.state = 'done'
+        stepToActivate.state = 'inProgress'
+      }
+    }
+    }
+
+    }
 </script>
 
 

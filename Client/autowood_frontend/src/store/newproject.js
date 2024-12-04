@@ -24,7 +24,13 @@ export const useNewProjectStoreBeta = defineStore('newproject', {
       city: '',
       email: ''
     },
-    files: []
+    files: [],
+    projectName: null,
+    selectedWood : null,
+    selectedCategory : null,
+    selectedCollection :null,
+    selectedPaint : null,
+    selectedFile: null
 
   }),
 

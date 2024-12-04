@@ -176,27 +176,22 @@
                                 <table v-if="files.length > 0" class="table is-bordered is-striped is-hoverable">
                                   <thead>
                                     <tr>
-                                      <th>{{$t("file_name").trim(4)}}</th>
+                                      <th>{{$t("file_name")}}</th>
                                       <th>{{$t("size")}}</th>
                                       <th>{{$t("typ")}}</th>
-                                      <th>{{$t("Nav")}}</th>
-      
+                                      <th>{{$t("Nav")}}</th>  
+                                    </tr>                        
+                                  </thead>  
+
+                                  <tfoot>                                 
+                                    <tr>                                 
                                     </tr>
-                          
-                                  </thead>
-                                  
-                                  <tfoot>
-                                    
-                                    <tr>
-                                      
-                                    </tr>
-                                  
-                                  
                                   </tfoot>
+
                                   <tbody>
                                     <tr v-for="(file,index) in files" :key="files.name">
                                       
-                                      <th>{{ file.name }}</th>
+                                      <th>{{ file.name.slice(0, 10) + "..." }}</th>
                                       <td>{{ ((file.size)/1000000).toFixed(2)}} mb</td>
                                       <td>{{ (file.file_type) }}</td>
                                       <td><b-button class="button" @click="deleteFile(file,index)" type="is-danger"><i class="fa-solid fa-xmark"></i></b-button></td>
@@ -205,8 +200,6 @@
                                   
                                 </table>
                               </div>
-                              
-                              
                             </div>
                           </div>
                           
@@ -240,11 +233,11 @@ import { toast } from 'bulma-toast'
 
 
 
-const selectedFile = ref(null)
+
 
 const newProjectStore = useNewProjectStoreBeta()
 
-const {customer, files, category,wood,collection,paints} = storeToRefs(newProjectStore)
+const {customer,files,category,wood,collection,paints, selectedCategory, selectedWood, selectedPaint, selectedCollection, selectedFile, projectName} = storeToRefs(newProjectStore)
 
 
 const props = defineProps({
