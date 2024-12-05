@@ -335,9 +335,7 @@ function navigateWithButton(stepToActivate) {
 
 <style>
 
-.modal{
-  --bulma-modal-content-width: 70%;
-}
+
 
 .line {
   width: 100px; /* Adjust the length of the line */

@@ -151,8 +151,18 @@ export default {
 
 
 <style lang="scss">
-@import '../node_modules/bulma';
+.navbar-item :hover{
+    background-color:rgb(243, 243, 231) ;
+}
+.navbar :hover {
+  background-color: rgb(243, 243, 231)
+}
 
+@import '../node_modules/bulma';
 @import '../node_modules/~@creativebulma/bulma-collapsible';
+
+
+
+
 </style>
 

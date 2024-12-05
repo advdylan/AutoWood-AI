@@ -63,6 +63,12 @@
 </script>
 
 <style>
+:root {
+  --bulma-scheme-main: rgb(243, 243, 231);
+  --bulma-background: rgb(244, 244, 222);
+}
+
+
 .card {
   --bulma-card-radius: 0.3rem;
 }
