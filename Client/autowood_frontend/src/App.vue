@@ -55,7 +55,7 @@
               &nbsp; {{ $t("prices_setup")}}
             </div>
           </a>
-          <div class="navbar-dropdown is-dark fa-lg">            
+          <div class="navbar-dropdown">            
               <router-link to="/prices-setup" class="navbar-item">
                 {{ $t("labor_costs")}}
               </router-link>
@@ -151,12 +151,31 @@ export default {
 
 
 <style lang="scss">
-.navbar-item :hover{
-    background-color:rgb(243, 243, 231) ;
+/* Override Bulma hover styles */
+
+.navbar-item,
+.navbar-item:focus,
+.navbar-item:focus-within,
+.navbar-item:hover,
+.navbar-item.is-active {
+  color: black;
+  background-color: rgb(254, 243, 226) !important; /* Your custom background */
+  color: #170c0c !important;           /* Your custom text color */
 }
-.navbar :hover {
-  background-color: rgb(243, 243, 231)
+
+.navbar-link,
+.navbar-link:focus,
+.navbar-link:focus-within,
+.navbar-link:hover,
+.navbar-link.is-active {
+  color: black;
+  background-color: rgb(254, 243, 226) !important; /* Matches navbar-item */
+  color: rgb(4, 4, 3) !important;
 }
+
+
+
+
 
 @import '../node_modules/bulma';
 @import '../node_modules/~@creativebulma/bulma-collapsible';

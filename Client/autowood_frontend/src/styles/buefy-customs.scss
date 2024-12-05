@@ -1,0 +1,42 @@
+// Import Bulma's initial variables and utilities
+@import "bulma/sass/utilities/initial-variables";
+
+// Define your custom Bulma variables here
+$primary: #ba8de7;  // Custom primary color
+$link: #b5179e;     // Custom link color
+$info: #8b9ffa;     // Custom info color
+$success: #aeffe9;  // Custom success color
+$warning: #fadfa0;  // Custom warning color
+$danger: #fca2b7;   // Custom danger color
+
+// Import Bulma after overriding variables
+@import "bulma";
+
+// Import Buefy after Bulma
+@import "buefy/src/scss/buefy"; // Ensure Buefy uses the updated Bulma variables
+
+// Add custom overrides for specific Buefy components
+// Example: Customizing Buefy's button
+.button.is-primary {
+  background-color: $primary !important;
+  border-color: $primary !important;
+  color: white !important;
+
+  &:hover {
+    background-color: lighten($primary, 10%) !important;
+    border-color: lighten($primary, 10%) !important;
+  }
+}
+
+// Example: Customizing Buefy notifications
+.notification.is-success {
+  background-color: $success !important;
+  color: black !important;
+}
+
+.notification.is-danger {
+  background-color: $danger !important;
+  color: white !important;
+}
+
+// Add any other customizations below...

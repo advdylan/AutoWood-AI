@@ -1,6 +1,7 @@
 import { createApp } from 'vue'
 import Buefy from 'buefy'
-import 'buefy/dist/buefy.css'
+import 'buefy/dist/buefy.css'; // Import Buefy first
+import './styles/buefy-customs.scss'; // Then your custom styles
 import App from './App.vue'
 import router from './router'
 import { pinia } from '@/store'
@@ -22,7 +23,8 @@ axios.defaults.baseURL = "http://127.0.0.1:8000"
 const app = createApp(App)
 
 app.use(Buefy, {
-    defaultIconPack: 'fa'
+    defaultIconPack: 'fa',
+    customTheme: true
 })
 app.use(pinia)
 app.use(router)
