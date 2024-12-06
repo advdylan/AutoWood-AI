@@ -273,10 +273,12 @@ def save_data(request):
             paint = get_or_create_model_instance(Paints, paint)
             category = get_or_create_model_instance(Category, category)
 
-            
+            #error handling for empty value first
+        
+
             customer, created = Customer.objects.get_or_create(
                 name=customer_data["name"],
-                phone_number=int(customer_data["phone_number"]),
+                phone_number=int(customer_data["phoneNumber"]),
                 street=customer_data["street"],
                 code=customer_data["code"],
                 city=customer_data["city"],

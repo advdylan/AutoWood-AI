@@ -18,7 +18,7 @@ export const useNewProjectStoreBeta = defineStore('newproject', {
     marginC: 0,
     customer: {
       name: '',
-      phoneNumber: '',
+      phoneNumber: 0,
       street: '',
       code: '',
       city: '',

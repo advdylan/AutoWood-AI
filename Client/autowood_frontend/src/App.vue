@@ -156,25 +156,26 @@ export default {
 .navbar-item,
 .navbar-item:focus,
 .navbar-item:focus-within,
-.navbar-item:hover,
 .navbar-item.is-active {
   color: black;
-  background-color: rgb(254, 243, 226) !important; /* Your custom background */
+  background-color: rgb(230, 240, 247) !important; /* Your custom background */
   color: #170c0c !important;           /* Your custom text color */
 }
 
 .navbar-link,
 .navbar-link:focus,
 .navbar-link:focus-within,
-.navbar-link:hover,
 .navbar-link.is-active {
   color: black;
-  background-color: rgb(254, 243, 226) !important; /* Matches navbar-item */
+  background-color: rgb(230, 240, 247) !important; /* Matches navbar-item */
   color: rgb(4, 4, 3) !important;
 }
 
+.navbar-link:hover,
+.navbar-item:hover{
+  background-color: rgb(199, 228, 248) !important; /* Matches navbar-item */
 
-
+}
 
 
 @import '../node_modules/bulma';

@@ -116,7 +116,7 @@
 
   </button>
 
-  <button v-if="findActiveStep === npSteps.length -1"@click="validateStep()" 
+  <button v-if="findActiveStep === npSteps.length -1" @click="saveData()" 
                                         class="card-footer-item button is-medium is-success">
                                     <i class="fa-solid fa-floppy-disk"></i>
                                     &nbsp;
@@ -148,6 +148,7 @@ import { validationFunctions } from '@/validators/Validators.js'
 
 import axios from 'axios'
 import { toast } from 'bulma-toast'
+const { t } = useI18n();
 
 
 // const definition section
@@ -329,6 +330,106 @@ function navigateWithButton(stepToActivate) {
     }
 
     }
+
+
+
+
+    async function saveData() {
+
+const formData = new FormData();
+
+//console.log(formData.get('name').trim())
+
+
+
+// Add regular project data
+formData.append('name', projectName.value)
+formData.append('category', selectedCategory.value)
+formData.append('wood', selectedWood.value)
+formData.append('collection', selectedCollection.value)
+formData.append('paint', selectedPaint.value)
+formData.append('elements_margin', parseFloat(elementsMargin.value.toFixed(2)))
+formData.append('accesories_margin', parseFloat(accesoriesMargin.value.toFixed(2)))
+formData.append('additional_margin', parseFloat(additionalMargin.value.toFixed(2)))
+formData.append('summary_with_margin', parseFloat(summaryCostsWithMargin.value.toFixed(2)))
+formData.append('summary_without_margin', parseFloat(Number(summaryCosts.value).toFixed(2)))
+formData.append('elements', JSON.stringify(elements.value))
+formData.append('worktime', JSON.stringify(boxes.value))
+formData.append('accesories', JSON.stringify(accesories.value))
+formData.append('percent_elements_margin', marginA.value)
+formData.append('percent_accesories_margin', marginB.value)
+formData.append('percent_additional_margin', marginC.value)
+formData.append('elements_cost', elementsCost.value)
+formData.append('accesories_cost', accesoriesCost.value)
+formData.append('worktime_cost', worktimeCost.value)
+formData.append('customer', JSON.stringify(customer.value))
+files.value.forEach((file, index) => {
+formData.append(`files[${index}]`, file)
+})
+
+
+
+
+//ERROR CHECKING FUNCTIONS
+validateFormData(formData, errors)
+
+if (!errors.value.length) {
+
+  try {
+    const response = await axios.post('api/v1/product/save', formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
+    console.log('Server response:', response)
+    console.log('Project updated successfully:', response.data)
+  } catch (error) {
+    console.error('Error saving the project:', error)
+    
+  }
+  toast({
+          message: t('save_msg'),
+          duration: 5000,
+          position: "top-center",
+          type: 'is-success',
+          animate: { in: 'backInDown', out: 'backOutUp' },
+        })
+  resetInput()
+} 
+
+else {
+      let msg = ''
+
+      for (let i=0; i <errors.value.length; i++){
+        msg += errors.value[i] += "\n"
+      }
+      toast({
+          message: msg,
+          duration: 5000,
+          position: "top-center",
+          type: 'is-danger',
+          animate: { in: 'backInDown', out: 'backOutUp' },
+        })
+
+        errors.value = []
+      }
+
+}
+
+function resetInput() {
+
+    projectName.value  = ''
+    selectedWood.value = ''
+    selectedCategory.value = ''
+    selectedCollection.value = ''
+    selectedPaint.value = ''
+    elements.value = []
+    accesories.value = []
+    $resetBoxes()
+    marginA.value = 0
+    marginB.value = 0
+    marginC.value = 0
+  }
 </script>
 
 

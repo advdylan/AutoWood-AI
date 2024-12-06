@@ -64,8 +64,8 @@
 
 <style>
 :root {
-  --bulma-scheme-main: rgb(254, 243, 226);
-  --bulma-background: rgb(254, 243, 226);
+  --bulma-scheme-main: rgb(230, 240, 247);
+  --bulma-background: rgb(230, 240, 247);
 
 }
 

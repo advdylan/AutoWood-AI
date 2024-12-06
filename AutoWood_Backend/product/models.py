@@ -117,11 +117,11 @@ def documents_user_directory_path(instance, filename):
 class Customer(models.Model):
 
     name = models.CharField(max_length=60, blank=True, null=True)
-    phone_number = models.IntegerField()
+    phone_number = models.IntegerField(null=True)
     street = models.CharField(max_length=100, null=True)
     code = models.CharField(max_length=15, null=True)
     city = models.CharField(max_length = 40, null=True)
-    email = models.EmailField(max_length=60)
+    email = models.EmailField(max_length=60,null=True)
 
     def __str__(self):
         return f"{self.name}"
