@@ -13,30 +13,4 @@ $danger: #fca2b7;   // Custom danger color
 @import "bulma";
 
 // Import Buefy after Bulma
-@import "buefy/src/scss/buefy"; // Ensure Buefy uses the updated Bulma variables
 
-// Add custom overrides for specific Buefy components
-// Example: Customizing Buefy's button
-.button.is-primary {
-  background-color: $primary !important;
-  border-color: $primary !important;
-  color: white !important;
-
-  &:hover {
-    background-color: lighten($primary, 10%) !important;
-    border-color: lighten($primary, 10%) !important;
-  }
-}
-
-// Example: Customizing Buefy notifications
-.notification.is-success {
-  background-color: $success !important;
-  color: black !important;
-}
-
-.notification.is-danger {
-  background-color: $danger !important;
-  color: white !important;
-}
-
-// Add any other customizations below...
