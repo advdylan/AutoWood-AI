@@ -1,0 +1,16 @@
+// Import Bulma initial variables
+
+
+@import "~bulma/sass/utilities/initial-variables";
+
+
+// Define or customize your variables
+$primary: #4caf50; // Example color
+$link: #3498db;    // Example color
+
+// Import Bulma's full framework
+@import "~bulma";
+// Import Buefy SCSS (relies on Bulma)
+@import "~buefy/src/scss/buefy";
+
+

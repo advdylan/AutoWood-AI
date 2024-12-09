@@ -1,0 +1,42 @@
+
+:root {
+  --bulma-scheme-main: rgb(230, 240, 247);
+  --bulma-background: rgb(230, 240, 247);
+  --bulma-scheme-main-l: rgb(230, 240, 247);
+}
+
+.navbar-item,
+.navbar-item:focus,
+.navbar-item:focus-within,
+.navbar-item.is-active {
+  color: black;
+  background-color: rgb(230, 240, 247) !important; /* Your custom background */
+  color: #170c0c !important;           /* Your custom text color */
+}
+
+.navbar-link,
+.navbar-link:focus,
+.navbar-link:focus-within,
+.navbar-link.is-active {
+  color: black;
+  background-color: rgb(230, 240, 247) !important; /* Matches navbar-item */
+  color: rgb(4, 4, 3) !important;
+}
+
+.navbar-link:hover,
+.navbar-item:hover{
+  background-color: rgb(199, 228, 248) !important; /* Matches navbar-item */
+
+}
+
+
+.control,
+.input,
+.select
+ {
+  --bulma-input-placeholder-color: rgb(85, 117, 136) ;
+  background-color: rgb(239, 247, 249);
+  
+}
+
+@import "bulma";

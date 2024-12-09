@@ -151,35 +151,6 @@ export default {
 
 
 <style lang="scss">
-/* Override Bulma hover styles */
-
-.navbar-item,
-.navbar-item:focus,
-.navbar-item:focus-within,
-.navbar-item.is-active {
-  color: black;
-  background-color: rgb(230, 240, 247) !important; /* Your custom background */
-  color: #170c0c !important;           /* Your custom text color */
-}
-
-.navbar-link,
-.navbar-link:focus,
-.navbar-link:focus-within,
-.navbar-link.is-active {
-  color: black;
-  background-color: rgb(230, 240, 247) !important; /* Matches navbar-item */
-  color: rgb(4, 4, 3) !important;
-}
-
-.navbar-link:hover,
-.navbar-item:hover{
-  background-color: rgb(199, 228, 248) !important; /* Matches navbar-item */
-
-}
-
-
-@import '../node_modules/bulma';
-@import '../node_modules/~@creativebulma/bulma-collapsible';
 
 
 

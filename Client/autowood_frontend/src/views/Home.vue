@@ -63,18 +63,6 @@
 </script>
 
 <style>
-:root {
-  --bulma-scheme-main: rgb(230, 240, 247);
-  --bulma-background: rgb(230, 240, 247);
-  --bulma-scheme-main-l: rgb(230, 240, 247);
-  --bulma-input-placeholder-color: black;
-}
-.input::placeholder {
-  color: var(--bulma-input-placeholder-color);
-}
-.input {
-  background-color: rgb(243, 248, 252);
-}
 
 
 

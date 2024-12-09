@@ -31,7 +31,6 @@
 import { useProjectsListStore } from '@/store/projectslist'
 import { storeToRefs } from 'pinia'
 
-import Buefy from 'buefy'
 
 const ProjectsListStore = useProjectsListStore()
 

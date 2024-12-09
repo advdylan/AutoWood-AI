@@ -437,7 +437,6 @@ function resetInput() {
 <style>
 
 
-
 .line {
   width: 100px; /* Adjust the length of the line */
   height: 2px; /* Thickness of the line */

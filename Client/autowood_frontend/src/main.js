@@ -1,16 +1,17 @@
+
 import { createApp } from 'vue'
 import Buefy from 'buefy'
-import 'buefy/dist/buefy.css'; // Import Buefy first
-import './styles/buefy-customs.scss'; // Then your custom styles
+import 'buefy/dist/buefy.css'; // Load Buefy first
+
+import '@/styles/global.css'; // Load global CSS last
+import '@/styles/bulma-custom.scss';
 import App from './App.vue'
 import router from './router'
 import { pinia } from '@/store'
 import { createI18n } from 'vue-i18n';
 import i18nInstance from '@/locales/i18n.js'
 import 'animate.css';
-
 import i18n from './locales/i18n' ;
-
 import axios from 'axios'
 
 

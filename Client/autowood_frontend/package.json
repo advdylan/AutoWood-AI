@@ -7,12 +7,12 @@
     "build": "vue-cli-service build"
   },
   "dependencies": {
-    "@creativebulma/bulma-collapsible": "^1.0.4",
+    
     "@vue/cli": "^5.0.8",
     "animate.css": "^4.1.1",
     "axios": "^1.6.8",
     "buefy": "npm:@ntohq/buefy-next@^0.1.4",
-    "bulma": "^1.0.0",
+    "bulma": "^1.0.2",
     "bulma-toast": "^2.4.4",
     "core-js": "^3.39.0",
     "event-pubsub": "^5.0.3",
@@ -29,7 +29,7 @@
     "@vue/cli-plugin-vuex": "~5.0.0",
     "@vue/cli-service": "^5.0.8",
     "@vue/compiler-sfc": "^3.4.30",
-    "sass": "^1.32.7",
+    "sass": "^1.82.0",
     "sass-loader": "^12.0.0"
   },
   "browserslist": [
