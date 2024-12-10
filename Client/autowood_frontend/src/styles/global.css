@@ -1,9 +1,4 @@
 
-:root {
-  --bulma-scheme-main: rgb(230, 240, 247);
-  --bulma-background: rgb(230, 240, 247);
-  --bulma-scheme-main-l: rgb(230, 240, 247);
-}
 
 .navbar-item,
 .navbar-item:focus,
@@ -39,4 +34,8 @@
   
 }
 
-@import "bulma";
+:root {
+  --bulma-scheme-main: rgb(230, 240, 247) !important;
+  --bulma-background: rgb(230, 240, 247) !important;
+  --bulma-scheme-main-l: rgb(230, 240, 247) !important;
+}

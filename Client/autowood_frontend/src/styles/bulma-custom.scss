@@ -2,6 +2,12 @@
 
 @import "~bulma/sass/utilities/_all";
 
+
+$bulma-scheme-main: rgb(230, 240, 247);
+$bulma-scheme-main-l: rgb(230, 240, 247);
+$bulma-background: rgb(230, 240, 247);
+$background-color: black;
+
 // Set your colors
 $primary: #864b7e;
 $primary-light: findLightColor($primary);
@@ -73,11 +79,20 @@ $colors: mergeColorMaps(
     $custom-colors
 );
 
+$bulma-scheme-main: rgb(230, 240, 247);
+$bulma-scheme-main-l: rgb(230, 240, 247);
+$bulma-background: rgb(230, 240, 247);
 // Links
 $link: $primary;
 $link-invert: $primary-invert;
 $link-focus-border: $primary;
 
 // Import Bulma and Buefy styles
+
+
 @import "~bulma";
 @import "~buefy/src/scss/buefy";
+
+$bulma-scheme-main: rgb(230, 240, 247);
+$bulma-scheme-main-l: rgb(230, 240, 247);
+$bulma-background: rgb(230, 240, 247);
