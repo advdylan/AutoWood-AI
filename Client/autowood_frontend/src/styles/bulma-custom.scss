@@ -1,18 +1,13 @@
 // Import Bulma's core
-
 @import "~bulma/sass/utilities/_all";
-
-
-$bulma-scheme-main: rgb(230, 240, 247);
-$bulma-scheme-main-l: rgb(230, 240, 247);
-$bulma-background: rgb(230, 240, 247);
-$background-color: black;
-
 // Set your colors
-$primary: #864b7e;
+$primary: #1056be;
 $primary-light: findLightColor($primary);
 $primary-dark: findDarkColor($primary);
 $primary-invert: findColorInvert($primary);
+
+$warning: rgb(238, 196, 11);
+
 $twitter: #4099FF;
 $twitter-invert: findColorInvert($twitter);
 
@@ -79,9 +74,10 @@ $colors: mergeColorMaps(
     $custom-colors
 );
 
-$bulma-scheme-main: rgb(230, 240, 247);
-$bulma-scheme-main-l: rgb(230, 240, 247);
-$bulma-background: rgb(230, 240, 247);
+$scheme-main: rgb(230, 240, 247);
+$scheme-main-l: rgb(230, 240, 247);
+$background-color: rgb(144, 203, 241);
+$input-placeholder-color: rgba(20, 39, 124, 0.582);
 // Links
 $link: $primary;
 $link-invert: $primary-invert;
@@ -93,6 +89,3 @@ $link-focus-border: $primary;
 @import "~bulma";
 @import "~buefy/src/scss/buefy";
 
-$bulma-scheme-main: rgb(230, 240, 247);
-$bulma-scheme-main-l: rgb(230, 240, 247);
-$bulma-background: rgb(230, 240, 247);

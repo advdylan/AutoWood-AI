@@ -25,17 +25,6 @@
 }
 
 
-.control,
-.input,
-.select
- {
-  --bulma-input-placeholder-color: rgb(85, 117, 136) ;
-  background-color: rgb(239, 247, 249);
-  
-}
-
-:root {
-  --bulma-scheme-main: rgb(230, 240, 247) !important;
-  --bulma-background: rgb(230, 240, 247) !important;
-  --bulma-scheme-main-l: rgb(230, 240, 247) !important;
+.select select, .taginput .taginput-container.is-focusable, .textarea, .input {
+  background-color: rgb(247, 252, 255);
 }

@@ -12,6 +12,7 @@
     "axios": "^1.6.8",
     "buefy": "npm:@ntohq/buefy-next@^0.1.4",
     "bulma": "^0.9.4",
+    "bulma-css-vars": "^0.8.0",
     "bulma-toast": "^2.4.4",
     "core-js": "^3.39.0",
     "event-pubsub": "^5.0.3",

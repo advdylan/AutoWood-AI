@@ -2,7 +2,7 @@
 import { createApp } from 'vue'
 import Buefy from 'buefy'
 //import 'buefy/dist/buefy.css'; // Load Buefy first
-import '@/styles/bulma-custom.scss';
+
 import App from './App.vue'
 import router from './router'
 import { pinia } from '@/store'
@@ -11,8 +11,9 @@ import i18nInstance from '@/locales/i18n.js'
 //import 'animate.css';
 import i18n from './locales/i18n' ;
 import axios from 'axios'
-import '@/styles/global.css'; // Load global CSS last
 
+import '@/styles/bulma-custom.scss';
+import '@/styles/global.css'; // Load global CSS last
 
 //axios.defaults.baseURL = "https://autowood.fly.dev"
 //axios.defaults.baseURL = "https://autowood.onrender.com/"
