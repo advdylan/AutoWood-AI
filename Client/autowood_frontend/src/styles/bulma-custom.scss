@@ -1,12 +1,17 @@
 // Import Bulma's core
 @import "~bulma/sass/utilities/_all";
 // Set your colors
-$primary: #1056be;
+$primary: rgb(121, 87, 87);
 $primary-light: findLightColor($primary);
 $primary-dark: findDarkColor($primary);
 $primary-invert: findColorInvert($primary);
+$column-gap: 0.3rem;
+$column-padding: 10rem;
 
-$warning: rgb(238, 196, 11);
+
+$warning: rgb(255, 230, 169);
+$success: rgb(97, 173, 110);
+$info: rgb(101, 146, 135);
 
 $twitter: #4099FF;
 $twitter-invert: findColorInvert($twitter);
@@ -74,8 +79,8 @@ $colors: mergeColorMaps(
     $custom-colors
 );
 
-$scheme-main: rgb(230, 240, 247);
-$scheme-main-l: rgb(230, 240, 247);
+$scheme-main: rgb(246, 245, 242);
+$scheme-main-l: rgb(246, 245, 242);
 $background-color: rgb(144, 203, 241);
 $input-placeholder-color: rgba(20, 39, 124, 0.582);
 // Links

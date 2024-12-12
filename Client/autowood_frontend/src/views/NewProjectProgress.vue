@@ -3,7 +3,7 @@
 
 <div class="card">
 
-  <section class="section">
+  <section class="section" style="padding: 1rem">
   
     <div class="columns is-centered has-text-centered is-vcentered">
 
@@ -79,7 +79,7 @@
     
   
 
-  <div class="card-content">
+  <div class="card-content" style="padding: 0rem;">
     <div class="content">
       <transition
         enter-active-class="animate__animated animate__slideInRight"
@@ -435,7 +435,10 @@ function resetInput() {
 
 
 <style>
-
+.card-content {
+    background-color: transparent;
+    padding: 0.5rem;
+}
 
 .line {
   width: 100px; /* Adjust the length of the line */
