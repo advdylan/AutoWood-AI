@@ -20,10 +20,10 @@
                                             <input type="number" placeholder="Quantity" class="input is-small" v-model="filteredAccessories.quantity">
                                         </template>
                                         <template v-if="column.field === 'nawigacja'">
-                                            <button @click="addAccesory(props.row)" class="button is-success"> <i class="fa-solid fa-plus"></i></button>
+                                            <button @click="handleAddAccButton(props.row)" class="button is-success"> <i class="fa-solid fa-plus"></i></button>
                                         </template>
 
-                                        
+
 
                                         <template v-else>
                                             {{ props.row[column.field] }}
@@ -93,7 +93,26 @@ let inputPosition= ''
 let inputDebounce= ''
 
 const filteredAccessories = computed(() => {
-    return accesorytype.value.filter(acc => acc.is_active !== showActiveAcc.value)
+    const newAcc = accesorytype.value.filter(acc => acc.is_active !== showActiveAcc.value)
+
+    for (let acc of filteredAccessories) {
+      
+
+    }
+    const newAccesory = {
+        id: accesory.id,
+        project: 0,
+        quantity: accesory.quantity,
+        type: {
+            description: accesory.description,
+            id: accesory.id,
+            name: accesory.name,
+            price: accesory.price,
+            type: accesory.type,
+            weight: accesory.weight
+        }
+    }
+    return newAcc
 })
 
 
@@ -169,6 +188,24 @@ else {
     errors.value = []
 }
 
+
+}
+
+function handleAddAccButton(accesory) {
+  console.log(accesory)
+  const newAccesory = {
+        id: accesory.id,
+        project: 0,
+        quantity: accesory.quantity,
+        type: {
+            description: accesory.description,
+            id: accesory.id,
+            name: accesory.name,
+            price: accesory.price,
+            type: accesory.type,
+            weight: accesory.weight
+        }
+    }
 
 }
 
