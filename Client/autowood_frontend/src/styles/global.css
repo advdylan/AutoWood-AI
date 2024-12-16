@@ -42,3 +42,7 @@
   border-color: hsl(0, 25%, 90%);
   box-shadow: none;
   color: hsl(0, 0%, 12%);}
+
+  .footer {
+    background-color: rgb(246, 245, 242);
+  }
