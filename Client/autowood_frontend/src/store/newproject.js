@@ -157,7 +157,8 @@ export const useNewProjectStoreBeta = defineStore('newproject', {
       this.elements.pop(element)
     },
   
-    addAccesory(accesory) {      
+    addAccesory(accesory) {    
+      console.log(accesory)  
       const newAccesory = {
         id: accesory.id,
         project: 0,

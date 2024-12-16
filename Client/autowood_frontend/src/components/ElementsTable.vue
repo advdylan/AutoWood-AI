@@ -96,12 +96,6 @@
 
 
 
-<script>
-export default {
-  name: 'ElementsTable', 
-}
-</script>
-
 
 <script setup>
 import { computed, ref } from 'vue'

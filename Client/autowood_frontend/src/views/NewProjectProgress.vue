@@ -70,16 +70,9 @@
       <!-- Line Between Buttons -->
       </div>
     </div>
-
-    
-  
 </section>
 
-  
-    
-  
-
-  <div class="card-content" style="padding: 0rem;">
+  <div class="card-content" style="padding: 0rem;" >
     <div class="content">
       <transition
         enter-active-class="animate__animated animate__slideInRight"
@@ -95,7 +88,7 @@
   
 
 
-  <footer class="card-footer">
+  <footer class="card-footer" style="display: flex; justify-content: space-between; align-items: center; position: sticky; bottom: 0; width: 100%;" >
 
     <button @click="handleBackButton(findActiveStep)" class="card-footer-item button is-medium" :disabled="findActiveStep === 0">
     <span class="icon is-medium">
@@ -148,6 +141,7 @@ import { validationFunctions } from '@/validators/Validators.js'
 
 import axios from 'axios'
 import { toast } from 'bulma-toast'
+import AccesoryProgressTable from '@/components/NewProjectComponents/AccesoryProgressTable.vue'
 const { t } = useI18n();
 
 
@@ -182,7 +176,7 @@ const newElement = ref({
 const npSteps = ref([
   { position: 0, name: 'ClientData', component: markRaw(ClientData), isValid: false, state: 'inProgress' },
   { position: 1, name: 'ElementsProgressTable', component: markRaw(ElementsProgressTable), isValid: false, state: 'notYetDone' },
-  { position: 2, name: 'AccessoryTable', component: markRaw(AccessoryTable), isValid: false, state: 'notYetDone' },
+  { position: 2, name: 'AccessoryTable', component: markRaw(AccesoryProgressTable), isValid: false, state: 'notYetDone' },
   { position: 3, name: 'WorktimeType', component: markRaw(WorktimeType), isValid: false, state: 'notYetDone' },
   { position: 4, name: 'Summary', component: markRaw(Summary), isValid: false, state: 'notYetDone' }
 ])

@@ -1,5 +1,6 @@
 <template>
-    <div class="acc-table-container">
+
+    <section class="section">
     <div class="buttons">
     <button class="button is-dark" @click="setFilterType('Prowadnice')">{{ $t("runner_systems")}}</button>
     <button class="button is-dark" @click="setFilterType('Złącza')">{{ $t("fittings")}}</button>
@@ -126,12 +127,11 @@
         </tbody>
         
       </table>
-    </div>
+
 
 
     
-  
-
+    </section>
 </template>
 
 <script>
