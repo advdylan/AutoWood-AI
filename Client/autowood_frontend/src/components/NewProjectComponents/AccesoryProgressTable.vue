@@ -12,8 +12,8 @@
                                     <template v-if="column.searchable && !column.numeric" #searchable="props">
                                         <b-input v-model="props.filters[props.column.field]" :placeholder="$t('search')" icon="magnify"/>
                                     </template>
-                                    <template v-if="column.field === 'nawigacja'" #header>
 
+                                    <template v-if="column.field === 'nawigacja'" #header>
                                     </template>
                                     <template v-slot="props">
                                         <template v-if="column.field == 'quantity'">
@@ -22,11 +22,8 @@
                                         <template v-if="column.field === 'nawigacja'">
                                             <button @click="handleAddAccButton(props.row)" class="button is-success"> <i class="fa-solid fa-plus"></i></button>
                                         </template>
-
-
-
                                         <template v-else>
-                                            {{ props.row[column.field] }}
+                                          {{ getNestedValue(props.row, column.field) }}
                                         </template>
 
                                     </template>
@@ -93,30 +90,26 @@ let inputPosition= ''
 let inputDebounce= ''
 
 const filteredAccessories = computed(() => {
-    const newAcc = accesorytype.value.filter(acc => acc.is_active !== showActiveAcc.value)
-
-    for (let acc of filteredAccessories) {
-      
-
-    }
-    const newAccesory = {
-        id: accesory.id,
-        project: 0,
-        quantity: accesory.quantity,
-        type: {
-            description: accesory.description,
-            id: accesory.id,
-            name: accesory.name,
-            price: accesory.price,
-            type: accesory.type,
-            weight: accesory.weight
-        }
-    }
+    const newAcc = accesorytype.value
+    .filter(acc => acc.is_active !== showActiveAcc.value)
+    .map(acc => ({
+      id: acc.id,
+      project: 0,
+      quantity: acc.quantity || 1,
+      type: {
+        id: acc.id,
+        name: acc.name,
+        type: acc.type,
+        weight: acc.weight,
+        price: acc.price,
+        description: acc.description,
+        
+        
+        
+      }
+    }))
     return newAcc
 })
-
-
-
 
 
 const {loadData, addAccesorytype, updateAccesories, addAccesory, deleteAccesory} = newProjectStore
@@ -360,28 +353,30 @@ onBeforeUnmount (() => {
     console.log("Before unmount")
 })
 
-
+function getNestedValue(obj, path) {
+    return path.split('.').reduce((acc, part) => acc && acc[part], obj)
+}
 let columns = [
     { 
-    field: 'name', 
+    field: 'type.name', 
     label: 'Nazwa',
     searchable: true,
     sortable: true
     },
     { 
-    field: 'type', 
-    label: 'Typ',
+    field: 'type.type', 
+    label: 'Type',
     searchable: true,
     sortable: true
     },
     { 
-    field: 'weight', 
+    field: 'type.weight', 
     label: 'Waga',
     searchable: true,
     sortable: true
     },
     {  
-    field: 'price', 
+    field: 'type.price', 
     label: 'Cena',
     searchable: true,
     sortable: true
