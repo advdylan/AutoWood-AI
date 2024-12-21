@@ -32,18 +32,39 @@ class Board:
         self.Y = Y  # Height of the row
         self.start_x = x  # Starting x position
         self.start_y = y  # Starting y position
-        self.formats = []  # List of placed formats
+        self.occupied = False # is the Board occupied ?
 
-    def add_format(self, format_width, format_height, vrs):
+    def add_format(self, format_width, format_height):
+       
+       print(f"Adding format: Width:{format_width}, Height: {format_height}")
+       self.cut_board(format_width,format_height) # Cutting the accordingly to dimensions
+       self.occupied = True
 
-       return 0
     
-    def cut_board(forma_height):
+    def cut_board(self,format_width, format_height):
+
+        # Return the remaining size of the board in the same Y
+        remaining_Y = self.Y - format_height - SAW
+        new_board_start_y = self.start_y + format_height + SAW 
+        remaining_X = self.X - format_width - SAW
+        new_board_start_x = self.start_x + format_width + SAW
+        print(f"remaining_y: {remaining_Y},new_board_start_y: {new_board_start_y}\nremaining_X: {remaining_X},new_board_start_x: {new_board_start_x}")
+
+        # CUT
+
+        print(f"Before cut self.Y: {self.Y}")
+        self.Y -= format_height
+        print(f"After cut self.Y: {self.Y} ")
+        self.X = format_width
+
+        # Create new board in the same ROW
+        new_board_same_row = Board(remaining_X,self.Y, new_board_start_x, new_board_start_y, occupied = False)
+
         
-        return 0
+        return new_board_same_row
 
     def __str__(self):
-        return f"Board information X: {self.X}, Y: {self.Y}, start_x: {self.start_x}, start_y: {self.start_y}, formats: {self.formats}"
+        return f"Board information X: {self.X}, Y: {self.Y}, start_x: {self.start_x}, start_y: {self.start_y}, Occupied: {self.occupied}"
                   
 
 
@@ -172,9 +193,27 @@ def place_elements(formats):
 
     # Create first board based on available boards
     board_1 = Board(X,Y,0,0)
+    boards = []
+    boards.append(board_1)
 
     # Cut the board based on the first format 
     print(board_1)
+
+    while formats:
+        width, height = formats[0][0],formats[0][1]
+        try:
+            for board in boards:
+                if board.occupied == False:
+                    new_board = board.add_format(width,height)
+                    boards.append(new_board)
+                    formats.pop(0)
+                else:
+                    print("No space for format")
+
+
+
+        except:
+            pass
     
     return 0
 

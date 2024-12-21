@@ -17,9 +17,9 @@
                                     </template>
                                     <template v-slot="props">
                                         <template v-if="column.field == 'quantity'">
-                                            <input type="number" placeholder="Quantity" class="input is-small" v-model="filteredAccessories.quantity">
+                                            <input type="number" placeholder="Quantity" class="input is-small" v-model="quantities[props.row.id]">
                                         </template>
-                                        <template v-if="column.field === 'nawigacja'">
+                                        <template v-else-if="column.field === 'nawigacja'">
                                             <button @click="handleAddAccButton(props.row)" class="button is-success"> <i class="fa-solid fa-plus"></i></button>
                                         </template>
                                         <template v-else>
@@ -71,6 +71,7 @@ const accesory = ref({
 })
 const typeChoices = ref([])
 const errors = ref([])
+const quantities = ref({})
 
 
 
@@ -95,7 +96,7 @@ const filteredAccessories = computed(() => {
     .map(acc => ({
       id: acc.id,
       project: 0,
-      quantity: acc.quantity || 1,
+      quantity: quantities.value[acc.id],
       type: {
         id: acc.id,
         name: acc.name,
@@ -103,9 +104,6 @@ const filteredAccessories = computed(() => {
         weight: acc.weight,
         price: acc.price,
         description: acc.description,
-        
-        
-        
       }
     }))
     return newAcc
@@ -392,31 +390,7 @@ let columns = [
     }
 ]
 
-let columns_reminder = [
-    { 
-    field: 'name', 
-    label: 'Nazwa',
- 
-    },
-    { 
-    field: 'type', 
-    label: 'Typ',
 
-    },
-    { 
-    field: 'weight', 
-    label: 'Waga',
-
-    },
-    {  
-    field: 'price', 
-    label: 'Cena',
-    sortable: true
-
-    },
-
-
-]
 </script>
 
 <style>
