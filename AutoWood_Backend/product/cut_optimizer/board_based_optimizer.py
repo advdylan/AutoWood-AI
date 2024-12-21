@@ -36,10 +36,15 @@ class Board:
 
     def add_format(self, format_width, format_height):
        
-       print(f"Adding format: Width:{format_width}, Height: {format_height}")
-       new_boards = self.cut_board(format_width,format_height) # Cutting the accordingly to dimensions
-       self.occupied = True
-       return new_boards
+        if self.space_check(format_width,format_height) == True:
+            print(f"Adding format: Width:{format_width}, Height: {format_height}")
+            new_boards = self.cut_board(format_width,format_height) # Cutting the accordingly to dimensions
+            self.occupied = True
+            return new_boards
+        else:
+
+            print("Not enough space in this BOARD")
+            sys.exit()
        
     def cut_board(self,format_width, format_height):
 
@@ -63,13 +68,22 @@ class Board:
 
         
         return new_board_same_row, new_board_higher_row
+    
+    def space_check(self,format_width, format_height):
+        if self.X < format_width or self.Y < format_height:
+            print("FALSE")
+            return False
+        else:
+            print("TRUE")
+            return True
+
 
     def __str__(self):
         return f"Board information X: {self.X}, Y: {self.Y}, start_x: {self.start_x}, start_y: {self.start_y}, Occupied: {self.occupied}"
                   
 
 class GapBoard(Board):
-    
+
     def __init__(self, X, Y, x, y):
         super().__init__(X, Y, x, y)  # Inherit Board's constructor
 
@@ -133,7 +147,7 @@ def generate_board(X,Y):
     if not os.path.exists(output_dir):
         os.makedirs(output_dir)
 
-    formats = [[1600, 500]]
+    formats = [[2300, 500]]
     formats.sort(reverse=True)
 
     place_elements(formats)
@@ -247,7 +261,7 @@ def place_elements(formats):
     #for board in boards:
         #print(board)
 
-    formats = [[600,200], [600,600]]
+    formats = [[600,200], [600,200]]
     format_fit_check(boards, formats)
     scan_boards(boards)
         
