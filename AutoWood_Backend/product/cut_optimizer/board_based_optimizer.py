@@ -44,7 +44,7 @@ class Board:
         else:
 
             print("Not enough space in this BOARD")
-            sys.exit()
+            
        
     def cut_board(self,format_width, format_height):
 
@@ -70,11 +70,10 @@ class Board:
         return new_board_same_row, new_board_higher_row
     
     def space_check(self,format_width, format_height):
-        if self.X < format_width or self.Y < format_height:
-            print("FALSE")
+
+        if self.X < format_width or self.Y < format_height:    
             return False
         else:
-            print("TRUE")
             return True
 
 
@@ -114,8 +113,9 @@ def format_fit_check(boards, formats):
 def scan_boards(boards):
     #function to scan free spaces on the board and mark free areas on the board for debug purposes
 
-    if len(boards) < 1:
+    if len(boards) <= 1:
         print(boards)
+        draw_gaps(boards[0],ax)
 
     else:
         for board in boards:
@@ -250,13 +250,17 @@ def place_elements(formats):
         
         for board in boards:                     
             new_boards = board.add_format(width,height)
-            for new_board in new_boards:
-                boards.append(new_board)
-            formats.pop(0)
-            break
+            if new_boards:
+                for new_board in new_boards:
+                    boards.append(new_board)
+                formats.pop(0)
+                break
+            else:
+                break
            
         if len(formats) == 0: 
             break
+        break
       
     #for board in boards:
         #print(board)
