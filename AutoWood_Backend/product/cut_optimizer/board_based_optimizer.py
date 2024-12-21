@@ -37,10 +37,10 @@ class Board:
     def add_format(self, format_width, format_height):
        
        print(f"Adding format: Width:{format_width}, Height: {format_height}")
-       self.cut_board(format_width,format_height) # Cutting the accordingly to dimensions
+       new_boards = self.cut_board(format_width,format_height) # Cutting the accordingly to dimensions
        self.occupied = True
-
-    
+       return new_boards
+       
     def cut_board(self,format_width, format_height):
 
         # Return the remaining size of the board in the same Y
@@ -51,39 +51,67 @@ class Board:
         print(f"remaining_y: {remaining_Y},new_board_start_y: {new_board_start_y}\nremaining_X: {remaining_X},new_board_start_x: {new_board_start_x}")
 
         # CUT
-
-        print(f"Before cut self.Y: {self.Y}")
+        #print(f"Before cut self.Y: {self.Y}")
         self.Y -= format_height
-        print(f"After cut self.Y: {self.Y} ")
+        #print(f"After cut self.Y: {self.Y} ")
         self.X = format_width
 
         # Create new board in the same ROW
-        new_board_same_row = Board(remaining_X,self.Y, new_board_start_x, new_board_start_y, occupied = False)
+        new_board_same_row = GapBoard(remaining_X,self.Y, new_board_start_x, 0)
+        # Create new board above the row
+        new_board_higher_row = GapBoard(X, remaining_Y, 0, new_board_start_y)
 
         
-        return new_board_same_row
+        return new_board_same_row, new_board_higher_row
 
     def __str__(self):
         return f"Board information X: {self.X}, Y: {self.Y}, start_x: {self.start_x}, start_y: {self.start_y}, Occupied: {self.occupied}"
                   
 
+class GapBoard(Board):
+    
+    def __init__(self, X, Y, x, y):
+        super().__init__(X, Y, x, y)  # Inherit Board's constructor
+
+    def __str__(self):
+        return f"GapBoard (X: {self.X}, Y: {self.Y}, start_x: {self.start_x}, start_y: {self.start_y}, Occupied: {self.occupied})"
 
 
-def find_free_space(vrs, width, height):
-    """ function to check for single format space available
-        I dont need to keep track the VR's length but to check where I can place new one
-          """
+def format_fit_check(boards, formats):
+
+    #function to check if format fits any unoccupied board
+
+    #if one board left
+    if len(boards) < 1:
+        print(boards)
+
+    #if more than 1 board
+    else:
+        for board in boards:
+            print(type(board.X))
+            for format in formats:
+                width, height = formats[0][0],formats[0][1]
+                if board.X >= width and board.Y >= height and board.occupied == False:
+                    print(f"Format fit in this row: {board}")
+                else:
+                    print("Format doesnt fit")
 
     
+def scan_boards(boards):
+    #function to scan free spaces on the board and mark free areas on the board for debug purposes
 
-    for vr in vrs:
+    if len(boards) < 1:
+        print(boards)
 
-        print(f"Collision Check >> vr.start_x: {vr.start_x}\n vr.start_y: {vr.start_y}\n vr.X: {vr.X}, vr.Y: {vr.Y}")
+    else:
+        for board in boards:
+            if board.occupied == True:
+                draw_gaps(board,ax)
+            else:
+                draw_gaps(board,ax)
 
 
-        for format in vr.formats:
-            new_format_width, new_format_height = vr.formats[0][0],vr.formats[0][1]
-            print(f"Width: {new_format_width}, height: {new_format_height}")
+
 
 
 
@@ -105,7 +133,7 @@ def generate_board(X,Y):
     if not os.path.exists(output_dir):
         os.makedirs(output_dir)
 
-    formats = [[1600, 500],]
+    formats = [[1600, 500]]
     formats.sort(reverse=True)
 
     place_elements(formats)
@@ -153,23 +181,27 @@ def generate_rectangle(start_position_x, start_position_y, width, height, ax):
     text_y = start_position_y + height / 2
     ax.text(text_x, text_y, f'{width} x {height}', ha='center', va='center', fontsize=10, color='black')
 
-def draw_virtual_rows(vrs, ax):
+def draw_gaps(board, ax):
     """
     Draws red boundary lines for all virtual rows on the board.
     """
-    for vr in vrs:
+ 
         # Draw a red rectangle to represent the virtual row boundaries
-        rect = patches.Rectangle(
-            xy=(vr.start_x, vr.start_y), 
-            width=vr.X, 
-            height=vr.Y, 
-            edgecolor='red', 
-            facecolor='none', 
-            linestyle='--', 
-            linewidth=1
-        )
-        ax.add_patch(rect)
-        print(f"Drawing virtual row boundary: Start X={vr.start_x}, Y={vr.start_y}, Width={vr.X}, Height={vr.Y}")
+    if board.occupied == False:
+        edgecolor = 'green'
+    else:
+        edgecolor = 'red'
+    rect = patches.Rectangle(
+        xy=(board.start_x, board.start_y), 
+        width=board.X, 
+        height=board.Y, 
+        edgecolor=edgecolor , 
+        facecolor='none', 
+        linestyle='--', 
+        linewidth=1
+    )
+    ax.add_patch(rect)
+    print(f"Drawing virtual row boundary: Start X={board.start_x}, Y={board.start_y}, Width={board.X}, Height={board.Y}")
 
 def draw_free_space(vrs, ax):
     """
@@ -197,23 +229,30 @@ def place_elements(formats):
     boards.append(board_1)
 
     # Cut the board based on the first format 
-    print(board_1)
 
+    
     while formats:
         width, height = formats[0][0],formats[0][1]
-        try:
-            for board in boards:
-                if board.occupied == False:
-                    new_board = board.add_format(width,height)
-                    boards.append(new_board)
-                    formats.pop(0)
-                else:
-                    print("No space for format")
+        
+        for board in boards:                     
+            new_boards = board.add_format(width,height)
+            for new_board in new_boards:
+                boards.append(new_board)
+            formats.pop(0)
+            break
+           
+        if len(formats) == 0: 
+            break
+      
+    #for board in boards:
+        #print(board)
+
+    formats = [[600,200], [600,600]]
+    format_fit_check(boards, formats)
+    scan_boards(boards)
+        
 
 
-
-        except:
-            pass
     
     return 0
 
