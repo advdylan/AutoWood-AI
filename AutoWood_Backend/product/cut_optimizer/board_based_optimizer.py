@@ -96,38 +96,46 @@ def cut_next_board(boards,board,format_width, format_height):
 
     # CUT
     #print(f"Before cut self.Y: {self.Y}")
-    board.Y -= format_height
+    board.Y = format_height
     #print(f"After cut self.Y: {self.Y} ")
     board.X = format_width
 
     # Create new board in the same ROW
-    new_board_same_row = Board(remaining_X,board.Y, new_board_start_x, 0)
+    new_board_same_row = Board(remaining_X,board.Y, new_board_start_x, board.start_y)
     # Create new board above the row
-    new_board_higher_row = Board(X, remaining_Y, 0, new_board_start_y)
+    new_board_higher_row = Board(X, remaining_Y, board.start_x, new_board_start_y)
 
     boards.append(new_board_higher_row)
     boards.append(new_board_same_row )
     
     
 
-def format_fit_check(boards, format):
+def format_fit_check(boards, width, height):
 
     #function to check if format fits any unoccupied board
 
     #if one board left
-    if len(boards) < 1:
-        print(boards)
+    if isinstance(boards,Board) and boards.X >= width and boards.Y >= height and boards.occupied == False : # Single board case
+        draw_gaps(boards)
+        return True
 
     #if more than 1 board
-    else:
+    elif isinstance(boards, list):
         for board in boards:
+            if isinstance(board, Board):
                            
-                width, height = format[0],format[1]
+                
                 print(f"Format fit check: width {width}, height {height}")
                 if board.X >= width and board.Y >= height and board.occupied == False:
                     print(f"Format fit in this row: {board}")
+                    return True
                 else:
                     print(f"Format of sizes X{width} Y{height}  doesnt fit this row: {board}")
+                    return False
+
+        else:
+            raise TypeError(f"Invalid input {type(boards).__name__}")
+    return False
 
     
 def scan_boards(boards):
@@ -162,7 +170,7 @@ def generate_board(X,Y):
     if not os.path.exists(output_dir):
         os.makedirs(output_dir)
 
-    formats = [[1600, 500], [600,480]]
+    formats = [[1600, 500], [600,480], [600,480], [200,480], [600,480], [600,480]]
     formats.sort(reverse=True)
 
     place_elements(formats)
@@ -255,7 +263,7 @@ def place_elements(formats):
     # Cut the board based on the first format 
     width, height = formats[0][0],formats[0][1]
     #first cut assumes it works
-    new_boards = cut_first_board(boards,boards[0], width, height)
+    cut_first_board(boards,boards[0], width, height)
     add_format(boards[0], width, height)
     formats.pop(0)
     scan_boards(boards)
@@ -266,22 +274,21 @@ def place_elements(formats):
             free_boards = [board for board in boards if not board.occupied]
             for board in free_boards:
                 width, height = formats[0][0],formats[0][1]
-                if add_format(board, width,height):
-
-                    cut_next_board(boards,board, width,height)
-                    scan_boards(board)
-                    plt.savefig(file_path, format='png', dpi=150)
-                    formats.pop(0)
+                if format_fit_check(board, width,height) and board.occupied == False:
+                        
+                        add_format(board, width,height)
+                        cut_next_board(free_boards,board, width,height)
+                        scan_boards(free_boards)
+                        plt.savefig(file_path, format='png', dpi=150)
+                        free_boards.sort(key=lambda board: board.start_y)
+                        
+                        formats.pop(0)
                 else:
-
-                    leng = len(formats)
-                    print(leng)
+                    pass 
+                
     except Exception as e:
         print(f"An error occured: {e}")
-        
-    scan_boards(boards)
-
-        
+                
       
     return 0
 
