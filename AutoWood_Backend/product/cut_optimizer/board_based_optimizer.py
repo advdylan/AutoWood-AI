@@ -1,4 +1,5 @@
 import os
+import time
 import sys
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
@@ -10,8 +11,8 @@ import matplotlib.patches as patches
 import numpy as np
 
 
-X = 2000    
-Y = 1000
+X = 3000    
+Y = 3000
 SAW = 3.2
 
 X_IN = X / 25.4
@@ -73,7 +74,7 @@ def cut_first_board(boards,board,format_width, format_height):
 
     # CUT
     #print(f"Before cut self.Y: {self.Y}")
-    board.Y -= format_height
+    board.Y = format_height
     #print(f"After cut self.Y: {self.Y} ")
     board.X = format_width
 
@@ -89,6 +90,8 @@ def cut_next_board(boards,board,format_width, format_height):
 
     # Return the remaining size of the board in the same Y
     remaining_Y = board.Y - format_height - SAW
+    if remaining_Y < 0 or remaining_Y > Y:
+        print("Halo blont")
     new_board_start_y = board.start_y + format_height + SAW 
     remaining_X = board.X - format_width - SAW
     new_board_start_x = board.start_x + format_width + SAW
@@ -101,12 +104,17 @@ def cut_next_board(boards,board,format_width, format_height):
     board.X = format_width
 
     # Create new board in the same ROW
-    new_board_same_row = Board(remaining_X,board.Y, new_board_start_x, board.start_y)
-    # Create new board above the row
-    new_board_higher_row = Board(X, remaining_Y, board.start_x, new_board_start_y)
+    
+    if (remaining_X + board.start_x) < X:
+        new_board_same_row = Board(remaining_X, board.Y, new_board_start_x, board.start_y)
+        boards.append(new_board_same_row )
 
-    boards.append(new_board_higher_row)
-    boards.append(new_board_same_row )
+        
+    # Create new board above the row
+    if remaining_Y > 0 or remaining_Y < Y and remaining_Y > 40:
+        new_board_higher_row = Board(X, remaining_Y, board.start_x, new_board_start_y)
+        boards.append(new_board_higher_row)
+    
     
     
 
@@ -170,7 +178,7 @@ def generate_board(X,Y):
     if not os.path.exists(output_dir):
         os.makedirs(output_dir)
 
-    formats = [[1600, 500], [600,480], [600,480], [200,480], [600,480], [600,480]]
+    formats = [[1200, 430], [1200, 430], [767,430], [767,430], [332,106], [332,106], [332,106],[1200, 430], [1200, 430], [767,430], [767,430], [332,106], [332,106], [332,106], [2005, 168], [2005, 168], [2005, 168], [2005, 168]]
     formats.sort(reverse=True)
 
     place_elements(formats)
@@ -268,10 +276,12 @@ def place_elements(formats):
     formats.pop(0)
     scan_boards(boards)
     plt.savefig(file_path, format='png', dpi=150)
-    
+    free_boards = [board for board in boards if not board.occupied]
     try:
-        while formats:       
-            free_boards = [board for board in boards if not board.occupied]
+        while formats:                
+            free_boards.sort(key=lambda board: board.start_y)
+            placement_successful = False
+            
             for board in free_boards:
                 width, height = formats[0][0],formats[0][1]
                 if format_fit_check(board, width,height) and board.occupied == False:
@@ -279,15 +289,40 @@ def place_elements(formats):
                         add_format(board, width,height)
                         cut_next_board(free_boards,board, width,height)
                         scan_boards(free_boards)
-                        plt.savefig(file_path, format='png', dpi=150)
-                        free_boards.sort(key=lambda board: board.start_y)
                         
+                        plt.savefig(file_path, format='png', dpi=150)
+                        time.sleep(0.2)
+                        free_boards = list(filter(lambda board: not board.occupied, free_boards))
+                        free_boards.sort(key=lambda board: board.start_y)
+                        boards.append(board)
+                                               
                         formats.pop(0)
-                else:
-                    pass 
+
+                        placement_successful = True
+                        break
+            if not placement_successful:
+                print(" ERROR No more space available on existing boards. Add more space")                
+                print(f"Following formats ommited: {formats[0]}")
+                formats.pop(0)
+
+            if not free_boards:
+                print("No more space available on any boards. Add more space.")
+                break
+
+                
                 
     except Exception as e:
         print(f"An error occured: {e}")
+
+    
+    occupied_boards = [board for board in boards if board.occupied]
+    for board in occupied_boards:
+        generate_rectangle(board.start_x, board.start_y, board.X, board.Y, ax)
+        plt.savefig(file_path, format='png', dpi=150)
+        time.sleep(0.2) 
+
+
+    plt.savefig(file_path, format='png', dpi=150)
                 
       
     return 0
