@@ -34,40 +34,6 @@ class Board:
         self.start_y = y  # Starting y position
         self.occupied = False # is the Board occupied ?
 
-    def add_format(self, format_width, format_height):
-       
-        if self.space_check(format_width,format_height) == True:
-            print(f"Adding format: Width:{format_width}, Height: {format_height}")
-            new_boards = self.cut_board(format_width,format_height) # Cutting the accordingly to dimensions
-            self.occupied = True
-            return new_boards
-        else:
-
-            print("Not enough space in this BOARD")
-            
-       
-    def cut_board(self,format_width, format_height):
-
-        # Return the remaining size of the board in the same Y
-        remaining_Y = self.Y - format_height - SAW
-        new_board_start_y = self.start_y + format_height + SAW 
-        remaining_X = self.X - format_width - SAW
-        new_board_start_x = self.start_x + format_width + SAW
-        print(f"remaining_y: {remaining_Y},new_board_start_y: {new_board_start_y}\nremaining_X: {remaining_X},new_board_start_x: {new_board_start_x}")
-
-        # CUT
-        #print(f"Before cut self.Y: {self.Y}")
-        self.Y -= format_height
-        #print(f"After cut self.Y: {self.Y} ")
-        self.X = format_width
-
-        # Create new board in the same ROW
-        new_board_same_row = GapBoard(remaining_X,self.Y, new_board_start_x, 0)
-        # Create new board above the row
-        new_board_higher_row = GapBoard(X, remaining_Y, 0, new_board_start_y)
-
-        
-        return new_board_same_row, new_board_higher_row
     
     def space_check(self,format_width, format_height):
 
@@ -79,18 +45,72 @@ class Board:
 
     def __str__(self):
         return f"Board information X: {self.X}, Y: {self.Y}, start_x: {self.start_x}, start_y: {self.start_y}, Occupied: {self.occupied}"
+    
+
+    
                   
+def add_format(board, format_width, format_height):
+       
+        if board.space_check(format_width,format_height) == True:
 
-class GapBoard(Board):
+            print(f"Adding format: Width:{format_width}, Height: {format_height}")
+            board.occupied = True
+            return True          
+        else:
+            print("Not enough space in this BOARD")
+            return False
 
-    def __init__(self, X, Y, x, y):
-        super().__init__(X, Y, x, y)  # Inherit Board's constructor
-
-    def __str__(self):
-        return f"GapBoard (X: {self.X}, Y: {self.Y}, start_x: {self.start_x}, start_y: {self.start_y}, Occupied: {self.occupied})"
 
 
-def format_fit_check(boards, formats):
+def cut_first_board(boards,board,format_width, format_height):
+
+    # Return the remaining size of the board in the same Y
+    remaining_Y = board.Y - format_height - SAW
+    new_board_start_y = board.start_y + format_height + SAW 
+    remaining_X = board.X - format_width - SAW
+    new_board_start_x = board.start_x + format_width + SAW
+    print(f"remaining_y: {remaining_Y},new_board_start_y: {new_board_start_y}\nremaining_X: {remaining_X},new_board_start_x: {new_board_start_x}")
+
+    # CUT
+    #print(f"Before cut self.Y: {self.Y}")
+    board.Y -= format_height
+    #print(f"After cut self.Y: {self.Y} ")
+    board.X = format_width
+
+    # Create new board in the same ROW
+    new_board_same_row = Board(remaining_X,board.Y, new_board_start_x, 0)
+    # Create new board above the row
+    new_board_higher_row = Board(X, remaining_Y, 0, new_board_start_y)
+
+    boards.append(new_board_higher_row)
+    boards.append(new_board_same_row )
+
+def cut_next_board(boards,board,format_width, format_height):
+
+    # Return the remaining size of the board in the same Y
+    remaining_Y = board.Y - format_height - SAW
+    new_board_start_y = board.start_y + format_height + SAW 
+    remaining_X = board.X - format_width - SAW
+    new_board_start_x = board.start_x + format_width + SAW
+    print(f"remaining_y: {remaining_Y},new_board_start_y: {new_board_start_y}\nremaining_X: {remaining_X},new_board_start_x: {new_board_start_x}")
+
+    # CUT
+    #print(f"Before cut self.Y: {self.Y}")
+    board.Y -= format_height
+    #print(f"After cut self.Y: {self.Y} ")
+    board.X = format_width
+
+    # Create new board in the same ROW
+    new_board_same_row = Board(remaining_X,board.Y, new_board_start_x, 0)
+    # Create new board above the row
+    new_board_higher_row = Board(X, remaining_Y, 0, new_board_start_y)
+
+    boards.append(new_board_higher_row)
+    boards.append(new_board_same_row )
+    
+    
+
+def format_fit_check(boards, format):
 
     #function to check if format fits any unoccupied board
 
@@ -101,33 +121,28 @@ def format_fit_check(boards, formats):
     #if more than 1 board
     else:
         for board in boards:
-            print(type(board.X))
-            for format in formats:
-                width, height = formats[0][0],formats[0][1]
+                           
+                width, height = format[0],format[1]
+                print(f"Format fit check: width {width}, height {height}")
                 if board.X >= width and board.Y >= height and board.occupied == False:
                     print(f"Format fit in this row: {board}")
                 else:
-                    print("Format doesnt fit")
+                    print(f"Format of sizes X{width} Y{height}  doesnt fit this row: {board}")
 
     
 def scan_boards(boards):
     #function to scan free spaces on the board and mark free areas on the board for debug purposes
 
-    if len(boards) <= 1:
-        print(boards)
-        draw_gaps(boards[0],ax)
-
-    else:
+    if isinstance(boards,Board): # Single board case
+        draw_gaps(boards)
+    elif isinstance(boards, list):
         for board in boards:
-            if board.occupied == True:
-                draw_gaps(board,ax)
+            if isinstance(board, Board):
+                draw_gaps(board)
             else:
-                draw_gaps(board,ax)
-
-
-
-
-
+                raise ValueError(f"Expected a Board got {type(board).__name__}")
+    else:
+        raise TypeError(f"Invalid input type {type(boards).__name__}")
 
 def generate_board(X,Y):
 
@@ -147,20 +162,15 @@ def generate_board(X,Y):
     if not os.path.exists(output_dir):
         os.makedirs(output_dir)
 
-    formats = [[2300, 500]]
+    formats = [[1600, 500], [600,480]]
     formats.sort(reverse=True)
 
     place_elements(formats)
     #print(formats)
-
     
-
     plt.savefig(file_path, format='png', dpi=150)
 
     
-
-
-
 
 def convert_elements(project_data):
 
@@ -195,7 +205,7 @@ def generate_rectangle(start_position_x, start_position_y, width, height, ax):
     text_y = start_position_y + height / 2
     ax.text(text_x, text_y, f'{width} x {height}', ha='center', va='center', fontsize=10, color='black')
 
-def draw_gaps(board, ax):
+def draw_gaps(board):
     """
     Draws red boundary lines for all virtual rows on the board.
     """
@@ -215,7 +225,7 @@ def draw_gaps(board, ax):
         linewidth=1
     )
     ax.add_patch(rect)
-    print(f"Drawing virtual row boundary: Start X={board.start_x}, Y={board.start_y}, Width={board.X}, Height={board.Y}")
+    print(f"Drawing board boundary: Start X={board.start_x}, Y={board.start_y}, Width={board.X}, Height={board.Y}")
 
 def draw_free_space(vrs, ax):
     """
@@ -243,35 +253,36 @@ def place_elements(formats):
     boards.append(board_1)
 
     # Cut the board based on the first format 
-
-    
-    while formats:
-        width, height = formats[0][0],formats[0][1]
-        
-        for board in boards:                     
-            new_boards = board.add_format(width,height)
-            if new_boards:
-                for new_board in new_boards:
-                    boards.append(new_board)
-                formats.pop(0)
-                break
-            else:
-                break
-           
-        if len(formats) == 0: 
-            break
-        break
-      
-    #for board in boards:
-        #print(board)
-
-    formats = [[600,200], [600,200]]
-    format_fit_check(boards, formats)
+    width, height = formats[0][0],formats[0][1]
+    #first cut assumes it works
+    new_boards = cut_first_board(boards,boards[0], width, height)
+    add_format(boards[0], width, height)
+    formats.pop(0)
     scan_boards(boards)
-        
-
-
+    plt.savefig(file_path, format='png', dpi=150)
     
+    try:
+        while formats:       
+            free_boards = [board for board in boards if not board.occupied]
+            for board in free_boards:
+                width, height = formats[0][0],formats[0][1]
+                if add_format(board, width,height):
+
+                    cut_next_board(boards,board, width,height)
+                    scan_boards(board)
+                    plt.savefig(file_path, format='png', dpi=150)
+                    formats.pop(0)
+                else:
+
+                    leng = len(formats)
+                    print(leng)
+    except Exception as e:
+        print(f"An error occured: {e}")
+        
+    scan_boards(boards)
+
+        
+      
     return 0
 
 
