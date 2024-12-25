@@ -112,8 +112,13 @@ def cut_next_board(boards,board,format_width, format_height):
     if remaining_Y > 0 or remaining_Y < Y and remaining_Y > 40:
 
         #WHY X
-        new_board_higher_row = Board(X, remaining_Y, board.start_x, new_board_start_y)
-        boards.append(new_board_higher_row)
+        if board.start_x > 0:
+            new_board_higher_row = Board(remaining_X, remaining_Y, board.start_x, new_board_start_y)
+            boards.append(new_board_higher_row)
+        else:
+
+            new_board_higher_row = Board(X, remaining_Y, board.start_x, new_board_start_y)
+            boards.append(new_board_higher_row)
 
 
     """ try:
@@ -147,27 +152,26 @@ def check_board_above(boards,board):
             new_boards_same_start_y.append(board_above)
             return board_above
 
-def check_board_above_with_sameX(free_boards,board):
-    """ Function to check whetver there are boards above to not cut those again
-        Woodwork tip : Cutting process sometimes require to cut off last part of the board 
-        to not waste the board height. This function prevents that when boards are created as "new_board_same_row"
+def check_board_above_with_sameX(free_boards):
+    """ Function to check whether there are boards above to not cut those again.
+        Woodwork tip: Cutting processes sometimes require cutting off the last part of the board 
+        to avoid wasting the board height. This function prevents that when boards are created as 'new_board_same_row.'
     """    
-     
-    next_level = board.Y + SAW
-    board_with_same_start_y = []
-
-    if isinstance(free_boards, (Board, list)):
-
-        for board_above in free_boards:
-            if board_above.start_y == next_level and board_above.occupied == False:
-                board_with_same_start_y.append(board_above)
-
-    else:
-        raise TypeError
+    if not isinstance(free_boards, (list, tuple, set)):
+        raise TypeError("free_boards must be a list, tuple, or set of Board objects.")
     
-    for board in board_with_same_start_y:
-        print(f"Boards above:{board}")
-    
+    seen = set()
+    duplicates = set()
+
+    for board in free_boards:
+        
+        if board.start_x in seen:
+            duplicates.add(board)
+        else:
+            seen.add(board.start_x)
+
+    return list(duplicates)
+
        
 def save_waste_Y(board_1,board_2):
     """
@@ -280,7 +284,7 @@ def generate_rectangle(start_position_x, start_position_y, width, height, ax):
     rect = patches.Rectangle(xy=(start_position_x,start_position_y), width=width, height=height, edgecolor='black', facecolor='#d3e2dc', antialiased=True, linewidth=None)
     ax.add_patch(rect)
 
-    print(f"Placing rectangle in X:{start_position_x},Y:{start_position_y} format size:  X: {width} Y:{height}" )
+    #print(f"Placing rectangle in X:{start_position_x},Y:{start_position_y} format size:  X: {width} Y:{height}" )
 
     text_x = start_position_x + width / 2
     text_y = start_position_y + height / 2
@@ -306,7 +310,7 @@ def draw_gaps(board):
         linewidth=1
     )
     ax.add_patch(rect)
-    print(f"Drawing board boundary: Start X={board.start_x}, Y={board.start_y}, Width={board.X}, Height={board.Y}")
+    #print(f"Drawing board boundary: Start X={board.start_x}, Y={board.start_y}, Width={board.X}, Height={board.Y}")
 
 
 def place_elements(formats):
@@ -324,7 +328,7 @@ def place_elements(formats):
     add_format(boards[0], width, height)
     formats.pop(0)
     scan_boards(boards)
-    plt.savefig(file_path, format='png', dpi=150)
+    #plt.savefig(file_path, format='png', dpi=150)
     free_boards = [board for board in boards if not board.occupied]
     try:
         while formats:                
@@ -332,6 +336,8 @@ def place_elements(formats):
             placement_successful = False
             
             for board in free_boards:
+
+
                 width, height = formats[0][0],formats[0][1]
                 if format_fit_check(board, width,height) and board.occupied == False:
                         
@@ -340,23 +346,8 @@ def place_elements(formats):
 
                         cut_next_board(free_boards,board, width,height)
 
-                        
+                    
 
-                        boards_above = check_board_above_with_sameX(free_boards, board)
-                        
-                        if boards_above:
-                            print(f"Board above: {boards_above}")
-                            print(f"Board: {board}")
-                            boards_to_connect = save_waste_Y(boards_above,board)
-                            print(boards_to_connect)
-
-                        
-                            
-
-
-
-                      
-                        
                         #time.sleep(0.2)
 
 
@@ -368,7 +359,7 @@ def place_elements(formats):
                         formats.pop(0)
                         placement_successful = True
                         scan_boards(boards)
-                        plt.savefig(file_path, format='png', dpi=150)
+                        #plt.savefig(file_path, format='png', dpi=150)
                         break
             if not placement_successful:
                 print(" ERROR No more space available on existing boards. Add more space")                
@@ -390,7 +381,7 @@ def place_elements(formats):
     occupied_boards = [board for board in boards if board.occupied]
     for board in occupied_boards:
         generate_rectangle(board.start_x, board.start_y, board.X, board.Y, ax)
-        plt.savefig(file_path, format='png', dpi=150)
+        #plt.savefig(file_path, format='png', dpi=150)
         #time.sleep(0.2) 
 
     print(f"Formats omitted: {formats_omitted}")
