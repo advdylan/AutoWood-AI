@@ -1,7 +1,7 @@
 <template>
     <div class=columns>
         <div class="column is-full">
-            <div class="notification is-text is-info">
+            <div class="notification is-text">
                 <div class="title is-centered is-size-4">
                     {{ $t('accessory_management') }}
                 </div>
@@ -389,7 +389,8 @@ function handleAddButton() {
         price: accesory.value.price,
         type: accesory.value.type,
         weight: accesory.value.weight,
-        type_choices: uniqueTypeChoices
+        type_choices: uniqueTypeChoices,
+        is_active: true
     }
     /* console.log("Accesorytype: ", accesorytype.value)
     console.log("NewAcc:" , newAccesory) */
@@ -414,7 +415,7 @@ function handleAddButton() {
     if (!errors.value.length) {
       addAccesorytype(newAccesory)
       tableKey.value += 1 //Refreshing table data 
-      showAccModal = false
+      showAccModal.value = false
     }
 
     else {

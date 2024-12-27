@@ -85,6 +85,7 @@
             <label class="label is-size-6">{{$t("project_name")}}</label>
             <div class="control">
               <input v-model="projectName" class="input is-small" type="text" :placeholder="$t('project_name')">
+              
             </div>
           </div>
 

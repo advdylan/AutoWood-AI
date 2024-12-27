@@ -247,7 +247,7 @@ def generate_board(X,Y):
     if not os.path.exists(output_dir):
         os.makedirs(output_dir)
 
-    formats = [[332,106], [332,106], [332,106],[332,106], [332,106], [332,106], [2005, 168], [2005, 168], [2005, 168], [2005, 168]]
+    formats = [[332,106], [332,106], [332,106],[332,106], [332,106], [332,106], [2005, 168], [2005, 168], [2005, 168], [2005, 168], [1200, 500], [1200, 500], [1200, 500], [1200, 500], [1200, 500], [1200, 500], [1200, 500]]
     formats.sort(reverse=True)
 
     place_elements(formats)
@@ -328,7 +328,7 @@ def place_elements(formats):
     add_format(boards[0], width, height)
     formats.pop(0)
     scan_boards(boards)
-    #plt.savefig(file_path, format='png', dpi=150)
+    plt.savefig(file_path, format='png', dpi=150)
     free_boards = [board for board in boards if not board.occupied]
     try:
         while formats:                
@@ -336,7 +336,6 @@ def place_elements(formats):
             placement_successful = False
             
             for board in free_boards:
-
 
                 width, height = formats[0][0],formats[0][1]
                 if format_fit_check(board, width,height) and board.occupied == False:
@@ -348,7 +347,7 @@ def place_elements(formats):
 
                     
 
-                        #time.sleep(0.2)
+                        time.sleep(0.2)
 
 
                         free_boards = list(filter(lambda board: not board.occupied, free_boards))
@@ -359,7 +358,7 @@ def place_elements(formats):
                         formats.pop(0)
                         placement_successful = True
                         scan_boards(boards)
-                        #plt.savefig(file_path, format='png', dpi=150)
+                        plt.savefig(file_path, format='png', dpi=150)
                         break
             if not placement_successful:
                 print(" ERROR No more space available on existing boards. Add more space")                
@@ -381,8 +380,8 @@ def place_elements(formats):
     occupied_boards = [board for board in boards if board.occupied]
     for board in occupied_boards:
         generate_rectangle(board.start_x, board.start_y, board.X, board.Y, ax)
-        #plt.savefig(file_path, format='png', dpi=150)
-        #time.sleep(0.2) 
+        plt.savefig(file_path, format='png', dpi=150)
+        time.sleep(0.2) 
 
     print(f"Formats omitted: {formats_omitted}")
     for format in formats_omitted:

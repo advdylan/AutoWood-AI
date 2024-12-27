@@ -18,7 +18,7 @@ export const useNewProjectStoreBeta = defineStore('newproject', {
     marginC: 0,
     customer: {
       name: '',
-      phoneNumber: 0,
+      phone_number: 0,
       street: '',
       code: '',
       city: '',
@@ -216,7 +216,7 @@ export const useNewProjectStoreBeta = defineStore('newproject', {
       this.marginC = 0
       this.customer = {
         name: '',
-        phoneNumber: '',
+        phone_number: '',
         street: '',
         code: '',
         city: '',
