@@ -1,24 +1,28 @@
 import os
 import time
 import sys
+import django
+from django.conf import settings
 
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'AutoWood_Backend.settings')
+django.setup()
 sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
 
-#from product.pdf_generator_scripts.pdf_generator import get_data
+from product.pdf_generator_scripts.pdf_generator import get_data
 from product.cut_optimizer.helpers import set_ticks
 import matplotlib.pyplot as plt
 import matplotlib.patches as patches
 import numpy as np
 
 
-X = 3000    
-Y = 3000
+X = 2000   
+Y = 800
 SAW = 3.2
 
 X_IN = X / 25.4
 Y_IN = Y / 25.4
 
-id = 62
+id = 136
 
 output_dir = f"/home/dylan/AutoWood/AutoWood_Backend/product/cut_optimizer/optimized_cuts/{id}"
 optc_name = f"optc_{id}.png"
@@ -96,9 +100,12 @@ def cut_next_board(boards,board,format_width, format_height):
     #print(f"remaining_y: {remaining_Y},new_board_start_y: {new_board_start_y}\nremaining_X: {remaining_X},new_board_start_x: {new_board_start_x}")
 
     # CUT
-    #print(f"Before cut self.Y: {self.Y}")
+
     board.Y = format_height
-    #print(f"After cut self.Y: {self.Y} ")
+
+    # Created the initual_board_x variable for cutting boards in different places than start_x = 0
+    initial_board_x = board.X
+
     board.X = format_width
 
     # Create new board in the same ROW
@@ -108,27 +115,15 @@ def cut_next_board(boards,board,format_width, format_height):
     if (remaining_X + board.start_x) < X:
         
         new_board_same_row = Board(remaining_X, board.Y, new_board_start_x, board.start_y)
-        boards.append(new_board_same_row )
-    
-        
+        boards.append(new_board_same_row )      
     # Create new board above the row
     if remaining_Y > 0 or remaining_Y < Y and remaining_Y > 40:
 
         #maybe remaining Y should be different in cutting not in the start_x = 0 ?
         if board.start_x > 0:
-            board_above = check_board_above(boards, board)
-            
-            if board_above:
-                print(f"Board: {board}, \nboard_above: {board_above}")
-                new_board_higher_row = Board(remaining_X, (remaining_Y + board_above.Y), board.start_x, new_board_start_y)
-                boards.append(new_board_higher_row)
-                
-
-            else:
-                #remaining X mi nie pasuje ale zmieniam board.start_x na board
-
-                new_board_higher_row = Board(remaining_X, remaining_Y, board.start_x, new_board_start_y)
-                boards.append(new_board_higher_row)
+         
+            new_board_higher_row = Board(initial_board_x, remaining_Y, board.start_x, new_board_start_y)
+            boards.append(new_board_higher_row)
 
             
         else:
@@ -236,13 +231,13 @@ def generate_board(X,Y):
     ax.set_xticks(x_ticks)
     ax.set_yticks(y_ticks)
 
-    #project_data = get_data(id)
-    #formats = convert_elements(project_data)
+    project_data = get_data(id)
+    formats = convert_elements(project_data)
     #
     if not os.path.exists(output_dir):
         os.makedirs(output_dir)
 
-    formats = [[332,106], [332,106], [332,106],[332,106], [332,106], [332,106], [2005, 168], [2005, 168], [2005, 168], [2005, 168],]
+    #formats = [[332,106], [332,106], [332,106],[332,106], [332,106], [332,106],[332,106], [332,106], [332,106],[332,106], [332,106], [332,106], [2005, 168], [2005, 168], [2005, 168], [2005, 168], [1200,430],[1200,430],[1200,430],[1200,430],[760, 430],[760, 430],[760, 430],[760, 430]]
     formats.sort(reverse=True)
 
     place_elements(formats)
@@ -322,8 +317,8 @@ def place_elements(formats):
     cut_first_board(boards,boards[0], width, height)
     add_format(boards[0], width, height)
     formats.pop(0)
-    scan_boards(boards)
-    plt.savefig(file_path, format='png', dpi=150)
+    #scan_boards(boards)
+    #plt.savefig(file_path, format='png', dpi=150)
     free_boards = [board for board in boards if not board.occupied]
     try:
         while formats:                
@@ -340,8 +335,6 @@ def place_elements(formats):
 
                         cut_next_board(free_boards,board, width,height)
 
-                        #time.sleep(0.2)
-
 
                         free_boards = list(filter(lambda board: not board.occupied, free_boards))
                         free_boards.sort(key=lambda board: board.start_y)
@@ -350,17 +343,17 @@ def place_elements(formats):
                         boards.append(board)                                               
                         formats.pop(0)
                         placement_successful = True
-                        scan_boards(boards)
-                        plt.savefig(file_path, format='png', dpi=150)
+                        #scan_boards(boards)
+                        #plt.savefig(file_path, format='png', dpi=150)
                         break
                 else:
                     
                     board_above = check_board_above(free_boards, board)
                     if board_above:
-                        print(f"Board: {board}\nboard_above: {board_above}")
+                        #print(f"Board: {board}\nboard_above: {board_above}")
                         free_boards = reduce_wastes(board, board_above, free_boards)
-                        scan_boards(free_boards)
-                        plt.savefig(file_path, format='png', dpi=150)
+                        #scan_boards(free_boards)
+                        #plt.savefig(file_path, format='png', dpi=150)
                         
 
 
@@ -384,7 +377,7 @@ def place_elements(formats):
     occupied_boards = [board for board in boards if board.occupied]
     for board in occupied_boards:
         generate_rectangle(board.start_x, board.start_y, board.X, board.Y, ax)
-        plt.savefig(file_path, format='png', dpi=150)
+        #plt.savefig(file_path, format='png', dpi=150)
         #time.sleep(0.2) 
 
     print(f"Formats omitted: {formats_omitted}")
