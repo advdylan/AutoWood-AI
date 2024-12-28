@@ -63,120 +63,51 @@ def add_format(board, format_width, format_height):
 
 
 
-def cut_first_board(boards,board,format_width, format_height):
-
-    # Return the remaining size of the board in the same Y
+def cut_first_board(boards, board, format_width, format_height):
+    """Cuts the first board into pieces after placing the first format."""
     remaining_Y = board.Y - format_height - SAW
-    new_board_start_y = board.start_y + format_height + SAW 
     remaining_X = board.X - format_width - SAW
-    new_board_start_x = board.start_x + format_width + SAW
-    #print(f"remaining_y: {remaining_Y},new_board_start_y: {new_board_start_y}\nremaining_X: {remaining_X},new_board_start_x: {new_board_start_x}")
 
-    # CUT
-    #print(f"Before cut self.Y: {self.Y}")
     board.Y = format_height
-    #print(f"After cut self.Y: {self.Y} ")
     board.X = format_width
 
-    # Create new board in the same ROW
-    new_board_same_row = Board(remaining_X,board.Y, new_board_start_x, 0)
-    # Create new board above the row
-    new_board_higher_row = Board(X, remaining_Y, 0, new_board_start_y)
+    # Create new boards
+    if remaining_X > 0:
+        boards.append(Board(remaining_X, board.Y, board.start_x + format_width + SAW, board.start_y))
+    if remaining_Y > 0:
+        boards.append(Board(X, remaining_Y, 0, board.start_y + format_height + SAW))
 
-    boards.append(new_board_higher_row)
-    boards.append(new_board_same_row )
 
-def cut_next_board(boards,board,format_width, format_height):
-
-    # Return the remaining size of the board in the same Y
+def cut_next_board(boards, board, format_width, format_height):
+    """Cuts the board into new sections after placing a format."""
     remaining_Y = board.Y - format_height - SAW
-    new_board_start_y = board.start_y + format_height + SAW 
     remaining_X = board.X - format_width - SAW
-    new_board_start_x = board.start_x + format_width + SAW
-    #print(f"remaining_y: {remaining_Y},new_board_start_y: {new_board_start_y}\nremaining_X: {remaining_X},new_board_start_x: {new_board_start_x}")
 
-    # CUT
-    #print(f"Before cut self.Y: {self.Y}")
     board.Y = format_height
-    #print(f"After cut self.Y: {self.Y} ")
     board.X = format_width
 
-    # Create new board in the same ROW
-
+    if remaining_X > 0:
+        boards.append(Board(remaining_X, board.Y, board.start_x + format_width + SAW, board.start_y))
+    if remaining_Y > 0:
+        boards.append(Board(X, remaining_Y, 0, board.start_y + format_height + SAW))      
     
-    
-    if (remaining_X + board.start_x) < X:
-        
-        new_board_same_row = Board(remaining_X, board.Y, new_board_start_x, board.start_y)
-        boards.append(new_board_same_row )
-    
-        
-    # Create new board above the row
-    if remaining_Y > 0 or remaining_Y < Y and remaining_Y > 40:
-
-        #maybe remaining Y should be different in cutting not in the start_x = 0 ?
-        if board.start_x > 0:
-            board_above = check_board_above(boards, board)
-            
-            if board_above:
-                print(f"Board: {board}, \nboard_above: {board_above}")
-                new_board_higher_row = Board(remaining_X, (remaining_Y + board_above.Y), board.start_x, new_board_start_y)
-                boards.append(new_board_higher_row)
-                
-
-            else:
-                #remaining X mi nie pasuje ale zmieniam board.start_x na board
-
-                new_board_higher_row = Board(remaining_X, remaining_Y, board.start_x, new_board_start_y)
-                boards.append(new_board_higher_row)
-
-            
-        else:
-
-            new_board_higher_row = Board(X, remaining_Y, board.start_x, new_board_start_y)
-            boards.append(new_board_higher_row)        
-    
-def check_board_above(boards,board):
-    """ Function to check whetver there are boards above to not cut those again
-        Woodwork tip : Cutting process sometimes require to cut off last part of the board 
-        to not waste the board height. This function prevents that when boards are created as "new_board_same_row"
-    """
-    if not isinstance(boards, (Board, list)):
-        return 0
-    
-    new_boards_same_start_y = []
-    next_level = board.Y + SAW
-
+def check_board_above(boards, board):
+    """Checks if there is a free board above the given board."""
+    next_level = board.start_y + board.Y + SAW
     for board_above in boards:
-        if board_above.start_y == next_level and board_above.occupied == False and board_above.start_x == board.start_x:
-            new_boards_same_start_y.append(board_above)
+        if (board_above.start_y == next_level 
+            and board_above.occupied == False 
+            and board_above.start_x == board.start_x):
             return board_above
-        
+    return None
+
 
 def reduce_wastes(board, board_above, free_boards):
-
-    if not isinstance(board, Board) or not isinstance(board_above, Board):
-        raise ValueError("Both inputs must be instances of the Board class.")
-    
-    if board.occupied or board_above.occupied:
-        return 0  # No changes made if either board is occupied.
-    
-    else:
-        # Create a new merged board
-        new_board = Board(board.X, (board.Y + board_above.Y), board_above.start_x, board.start_y)
-        print(f"Board to delete: {board}\nSecond_Board to delete: {board_above}\nNewBoard: {new_board}")
-        
-        # Safely remove the boards and add the new board
-        try:
-            # Remove `board` and `board_above` from the list
-            free_boards = [b for b in free_boards if b != board and b != board_above]
-            
-            # Add the new board
-            free_boards.append(new_board)
-        except ValueError as e:
-            print(f"Error updating free_boards: {e}")
-        
-        return free_boards
+    """Merges two boards to reduce waste and update the free boards list."""
+    new_board = Board(board.X, board.Y + board_above.Y, board.start_x, board.start_y)
+    free_boards = [b for b in free_boards if b not in (board, board_above)]
+    free_boards.append(new_board)
+    return free_boards
 
 
 
@@ -307,77 +238,63 @@ def draw_gaps(board):
     ax.add_patch(rect)
     #print(f"Drawing board boundary: Start X={board.start_x}, Y={board.start_y}, Width={board.X}, Height={board.Y}")
 
+def handle_board_above(board, free_boards, boards):
+    """Handles merging boards above the current board to reduce waste."""
+    board_above = check_board_above(free_boards, board)
+    if board_above:
+        print(f"Board: {board}\nBoard above: {board_above}")
+        free_boards = reduce_wastes(board, board_above, free_boards)
+        scan_boards(boards)
+        plt.savefig(file_path, format='png', dpi=150)
+
+
+def handle_placement_failure(formats, formats_omitted):
+    """Handles the case when a format cannot be placed."""
+    width, height = formats.pop(0)
+    print(f"ERROR: No more space for format {width}x{height}. Adding to omitted formats.")
+    formats_omitted.append((width, height))
 
 def place_elements(formats):
-
-    # Create first board based on available boards
-    board_1 = Board(X,Y,0,0)
-    boards = []
-    boards.append(board_1)
+    """Places formats onto boards while minimizing waste."""
+    boards = [Board(X, Y, 0, 0)]  # Initialize with the first board
     formats_omitted = []
-
-    # Cut the board based on the first format 
-    width, height = formats[0][0],formats[0][1]
-    #first cut assumes it works
-    cut_first_board(boards,boards[0], width, height)
+    
+    # Place the first format
+    width, height = formats.pop(0)
+    cut_first_board(boards, boards[0], width, height)
     add_format(boards[0], width, height)
-    formats.pop(0)
-    scan_boards(boards)
-    plt.savefig(file_path, format='png', dpi=150)
+
     free_boards = [board for board in boards if not board.occupied]
-    try:
-        while formats:                
-            free_boards.sort(key=lambda board: board.start_y)
-            placement_successful = False
-            
-            for board in free_boards:
 
-                width, height = formats[0][0],formats[0][1]
-                if format_fit_check(board, width,height) and board.occupied == False:
-                        
-   
-                        add_format(board, width,height)
+    while formats:
+        free_boards.sort(key=lambda board: board.start_y)
+        placement_successful = False
 
-                        cut_next_board(free_boards,board, width,height)
+        for board in free_boards:
+            width, height = formats[0]
 
-                        #time.sleep(0.2)
+            if format_fit_check(board, width, height):
+                add_format(board, width, height)
+                cut_next_board(free_boards, board, width, height)
 
+                # Update free boards
+                free_boards = [b for b in free_boards if not b.occupied]
+                free_boards.sort(key=lambda b: b.start_y)
 
-                        free_boards = list(filter(lambda board: not board.occupied, free_boards))
-                        free_boards.sort(key=lambda board: board.start_y)
-
-
-                        boards.append(board)                                               
-                        formats.pop(0)
-                        placement_successful = True
-                        scan_boards(boards)
-                        plt.savefig(file_path, format='png', dpi=150)
-                        break
-                else:
-                    
-                    board_above = check_board_above(free_boards, board)
-                    if board_above:
-                        print(f"Board: {board}\nboard_above: {board_above}")
-                        free_boards = reduce_wastes(board, board_above, free_boards)
-                        scan_boards(free_boards)
-                        plt.savefig(file_path, format='png', dpi=150)
-                        
-
-
-            if not placement_successful:
-                print(" ERROR No more space available on existing boards. Add more space")                
-                print(f"Following formats omitted: {formats[0]}")
-                formats_omitted.append([width,height])
                 formats.pop(0)
-
-            if not free_boards:
-                print("No more space available on any boards. Add more space.")
+                placement_successful = True
                 break
+            else:
+                handle_board_above(board, free_boards, boards)
 
-                
-                
-    except Exception as e:
-        print(f"An error occured: {e}")
+        if not placement_successful:
+            handle_placement_failure(formats, formats_omitted)
+
+        if not free_boards:
+            print("No more space available on any boards. Add more space.")
+            break
+
+
 
     
 
