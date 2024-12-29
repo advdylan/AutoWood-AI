@@ -7,6 +7,7 @@ import PricesSetup from '@/views/PricesSetup.vue'
 import Accesories from '@/views/Accesories.vue'
 import Home from '@/views/Home.vue'
 import NewProjectProgress from '@/views/NewProjectProgress.vue'
+import CutOptimizer from '@/views/CutOptimizer.vue'
 
 
 const routes = [
@@ -48,6 +49,11 @@ const routes = [
     path: '/accesories',
     name: 'Accesories',
     component: Accesories
+  },
+  {
+    path: '/cut-optimizer',
+    name: 'CutOptimizer',
+    component: CutOptimizer
   },
   {
     path: '/',

@@ -4,6 +4,8 @@ from django.conf.urls.static import static
 
 from product import views
 
+
+
 urlpatterns = [
     path('product/', views.product_list_create_view, name='product-list'),
     path('project/', views.project_list_view, name="project-list"),
@@ -16,6 +18,6 @@ urlpatterns = [
     path('newproject/elements-production/<int:pk>/', views.generate_elements_production, name="elements-production"),
     path('newproject/pricing-report/<int:pk>/', views.generate_pricing__report, name="pricing-report"),
     path('newproject/update-worktimetypes/', views.update_worktimetypes, name="update-worktimetypes"),
-    path('newproject/update-accesorytype/', views.update_accesorytype, name="update-accesorytype")
+    path('newproject/update-accesorytype/', views.update_accesorytype, name="update-accesorytype"),
 ]
 

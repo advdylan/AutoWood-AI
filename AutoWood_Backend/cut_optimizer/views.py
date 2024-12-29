@@ -10,9 +10,13 @@ import json
 
 
 @api_view(["POST"])
-def optimize_cuts_for_new_project(request):
+def optimize_cuts_without_project(request):
 
     try:
         data = json.loads(request.body)
     except json.JSONDecodeError:
         return JsonResponse({'error': 'Invalid JSON data'}, status=400)
+    
+    print(data)
+    
+    #file_path = f"generated_files/board_{board.id}.pdf"

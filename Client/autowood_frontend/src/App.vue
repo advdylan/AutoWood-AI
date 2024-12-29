@@ -83,7 +83,23 @@
           </div>
         </a>
       </div>
+      
       <div class="navbar-end">
+        <div class="navbar-item has-dropdown is-hoverable">
+          <router-link to="/projects-list" class="navbar-link">
+          
+          <div class="is-size-5"> 
+             {{ $t("tools")}}  &nbsp;       
+          </div>
+
+        </router-link>
+        <div class="navbar-dropdown is-dark fa-lg">
+          <router-link to="/cut-optimizer" class="navbar-item">
+            {{ $t("cut-optimizer")}}   
+          </router-link>
+
+        </div>       
+        </div>
         <div class="navbar-item">
           <figure class="image is-32x32">
             <img  @click="changeLanguage('pl')" class="is-rounded" :src="`${publicPath}poland.png`"/>
@@ -94,6 +110,7 @@
             <img @click="changeLanguage('en')" class="is-rounded" :src="`${publicPath}united-kingdom.png`"/>
           </figure>
         </div>
+        
         
 
       </div>

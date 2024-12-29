@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     'corsheaders',
     'rest_framework',
     'product',
+    'cut_optimizer'
 ]
 
 CORS_ALLOWED_ORIGINS = [
