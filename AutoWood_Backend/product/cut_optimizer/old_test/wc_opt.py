@@ -4,7 +4,7 @@ import sys
 sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
 
 from product.pdf_generator_scripts.pdf_generator import get_data
-from product.cut_optimizer.helpers import set_ticks
+from AutoWood_Backend.cut_optimizer.helpers import set_ticks
 import matplotlib.pyplot as plt
 import matplotlib.patches as patches
 import numpy as np

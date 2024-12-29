@@ -1,5 +1,5 @@
 import unittest
-from board_based_optimizer import Board, format_fit_check
+from AutoWood_Backend.cut_optimizer.board_based_optimizer import Board, format_fit_check
 
 
 class TestFormatFitCheck(unittest.TestCase):

@@ -4,12 +4,12 @@ import sys
 import django
 from django.conf import settings
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'AutoWood_Backend.settings')
-django.setup()
+#os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'AutoWood_Backend.settings')
+#django.setup()
 sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
 
 from product.pdf_generator_scripts.pdf_generator import get_data
-from product.cut_optimizer.helpers import set_ticks
+from AutoWood_Backend.cut_optimizer.helpers import set_ticks
 import matplotlib.pyplot as plt
 import matplotlib.patches as patches
 import numpy as np
@@ -19,14 +19,11 @@ X = 2000
 Y = 800
 SAW = 3.2
 
-X_IN = X / 25.4
-Y_IN = Y / 25.4
 
 id = 136
 
-output_dir = f"/home/dylan/AutoWood/AutoWood_Backend/product/cut_optimizer/optimized_cuts/{id}"
-optc_name = f"optc_{id}.png"
-file_path = os.path.join(output_dir, optc_name)
+#output_dir i filename przeniesione do views.py of optimized_cuts
+
 fig, ax = plt.subplots(figsize=(12.8, 7.2))
 
 
@@ -65,7 +62,34 @@ def add_format(board, format_width, format_height):
             print("Not enough space in this BOARD")
             return False
 
+def generate_board(X,Y, output_dir):
 
+    optc_name = f"optimized_cut_{id}.png"
+    file_path = os.path.join(output_dir, optc_name)
+
+    ax.set_xlim(0, X)
+    ax.set_ylim(0, Y)
+    ax.set_xlabel('X')
+    ax.set_ylabel('Y')
+    ax.set_title("Rozkroje")
+    x_ticks = set_ticks(X, 100)
+    y_ticks = set_ticks(Y, 100)
+    ax.set_xticks(x_ticks)
+    ax.set_yticks(y_ticks)
+
+    project_data = get_data(id)
+    formats = convert_elements(project_data)
+    #
+    if not os.path.exists(output_dir):
+        os.makedirs(output_dir)
+
+    #formats = [[332,106], [332,106], [332,106],[332,106], [332,106], [332,106],[332,106], [332,106], [332,106],[332,106], [332,106], [332,106], [2005, 168], [2005, 168], [2005, 168], [2005, 168], [1200,430],[1200,430],[1200,430],[1200,430],[760, 430],[760, 430],[760, 430],[760, 430]]
+    #formats.sort(reverse=True)
+
+    place_elements(formats)
+    #print(formats)
+    
+    plt.savefig(file_path, format='png', dpi=150)
 
 def cut_first_board(boards,board,format_width, format_height):
 
@@ -219,31 +243,7 @@ def scan_boards(boards):
     else:
         raise TypeError(f"Invalid input type {type(boards).__name__}")
 
-def generate_board(X,Y):
 
-    ax.set_xlim(0, X)
-    ax.set_ylim(0, Y)
-    ax.set_xlabel('X')
-    ax.set_ylabel('Y')
-    ax.set_title("Rozkroje")
-    x_ticks = set_ticks(X, 100)
-    y_ticks = set_ticks(Y, 100)
-    ax.set_xticks(x_ticks)
-    ax.set_yticks(y_ticks)
-
-    project_data = get_data(id)
-    formats = convert_elements(project_data)
-    #
-    if not os.path.exists(output_dir):
-        os.makedirs(output_dir)
-
-    #formats = [[332,106], [332,106], [332,106],[332,106], [332,106], [332,106],[332,106], [332,106], [332,106],[332,106], [332,106], [332,106], [2005, 168], [2005, 168], [2005, 168], [2005, 168], [1200,430],[1200,430],[1200,430],[1200,430],[760, 430],[760, 430],[760, 430],[760, 430]]
-    formats.sort(reverse=True)
-
-    place_elements(formats)
-    #print(formats)
-    
-    plt.savefig(file_path, format='png', dpi=150)
 
     
 
