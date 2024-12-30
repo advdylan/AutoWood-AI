@@ -9,7 +9,7 @@ from django.conf import settings
 sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
 
 from product.pdf_generator_scripts.pdf_generator import get_data
-from AutoWood_Backend.cut_optimizer.helpers import set_ticks
+from cut_optimizer.helpers import set_ticks
 import matplotlib.pyplot as plt
 import matplotlib.patches as patches
 import numpy as np
@@ -62,7 +62,7 @@ def add_format(board, format_width, format_height):
             print("Not enough space in this BOARD")
             return False
 
-def generate_board(X,Y, output_dir):
+def generate_board(X,Y, output_dir, formats):
 
     optc_name = f"optimized_cut_{id}.png"
     file_path = os.path.join(output_dir, optc_name)
@@ -77,8 +77,9 @@ def generate_board(X,Y, output_dir):
     ax.set_xticks(x_ticks)
     ax.set_yticks(y_ticks)
 
-    project_data = get_data(id)
-    formats = convert_elements(project_data)
+    #project_data = get_data(id)
+    forats = convert_elements_from_list(formats)
+    #formats = convert_elements_from_project(project_data)
     #
     if not os.path.exists(output_dir):
         os.makedirs(output_dir)
@@ -246,6 +247,23 @@ def scan_boards(boards):
 
 
     
+def convert_elements_from_list(formats):
+
+    new_formats = []
+
+    for format in formats:
+        width = format["element"]["dimX"]
+        height = format["element"]["dimY"]
+        quantity = format["quantity"]
+
+        new_format = [width,height]
+        for _ in range(int(quantity)):
+            new_formats.append(new_format)
+
+        
+
+
+    return new_formats
 
 def convert_elements(project_data):
 
@@ -393,4 +411,4 @@ def place_elements(formats):
     return formats_omitted, free_boards
 
 
-generate_board(X,Y)
+#generate_board(X,Y)

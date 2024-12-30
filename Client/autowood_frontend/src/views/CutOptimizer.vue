@@ -10,80 +10,9 @@
     <div class="content">
       <div class="columns">
 
-        <div class="column is-one-third">
-            <b-table :data="elements" striped narrow>
-      <b-table-column label="Name">
-        <template #default="props">
-          <input
-            type="text"
-            class="input is-small"
-            v-model="props.row.element.name"
-          />
-        </template>
-      </b-table-column>
-
-      <b-table-column label="X">
-        <template #default="props">
-          <input
-            
-            class="input is-small"
-            v-model.number="props.row.element.dimX"
-          />
-        </template>
-      </b-table-column>
-
-      <b-table-column label="Y">
-        <template #default="props">
-          <input
-            
-            class="input is-small"
-            v-model.number="props.row.element.dimY"
-          />
-        </template>
-      </b-table-column>
-
-      <b-table-column label="Z">
-        <template #default="props">
-          <input
-            
-            class="input is-small"
-            v-model.number="props.row.element.dimZ"
-          />
-        </template>
-      </b-table-column>
-
-      <b-table-column label="Wood">
-        <template #default="props">
-          <input
-            
-            class="input is-small"
-            v-model="props.row.element.wood_type"
-          />
-        </template>
-      </b-table-column>
-
-      <b-table-column label="Quantity">
-        <template #default="props">
-          <input
-            
-            class="input is-small"
-            v-model.number="props.row.quantity"
-          />
-        </template>
-      </b-table-column>
-      
-      <b-table-column label="Actions">
-        <template #default="props">
-          <button
-            class="button is-small is-danger"
-            @click="removeFormat(props.index)"
-          >
-            Remove
-          </button>
-        </template>
-      </b-table-column>
-    </b-table>
-    
+        <div class="column has-text-centered is-one-third">
+          <ElementsOptimizerTable></ElementsOptimizerTable>
+          <button @click="generateBoardWithElements()" v-if="elements.length" style="width: 50%;" class="button is-success is-centered">{{ $t('generate') }}</button>  
         </div>
 
         <div class="column">
@@ -107,21 +36,91 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
 <script setup>
+import {ref} from 'vue'
+import { useNewProjectStoreBeta } from '@/store/newproject'
+import ElementsOptimizerTable from '@/components/ElementsOptimizerTable.vue'
+import { storeToRefs } from 'pinia'
+import axios from 'axios'
+import { toast } from 'bulma-toast'
+import { useI18n } from 'vue-i18n';
+
+const newProjectStore = useNewProjectStoreBeta()
+const {elements} = storeToRefs(newProjectStore)
+const {loadData } = newProjectStore
+const { t } = useI18n()
+
+const errors = ref([])
 
 
-let elements = [
-      ]
+loadData()
+
+const newElement = ref({
+  element: {
+    name: 'Przód',
+    dimX: 2500,
+    dimY: 250,
+    dimZ: 25,
+    wood_type: ''
+  },
+  quantity: 1
+})
+
+async function generateBoardWithElements() {
+
+  if (!errors.value.length) {
+
+try{
+  await axios
+  .post(`/api/v1/tools/cut-optimizer/`, elements.value,{
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  })
+  .then(response => {
+        console.log(JSON.stringify(response.data))   
+        return true   
+      })
+  .catch(error => {
+    //console.log(JSON.stringify(response.data))  
+    console.log(error)
+    return false
+  })
+} 
+
+catch (error) {
+  console.error('Error saving the project:', error)
+  
+}
+toast({
+        message: t('save_msg'),
+        duration: 5000,
+        position: "top-center",
+        type: 'is-success',
+        animate: { in: 'backInDown', out: 'backOutUp' },
+      })
+} 
+
+else {
+    let msg = ''
+
+    for (let i=0; i <errors.value.length; i++){
+      msg += errors.value[i] += "\n"
+    }
+    toast({
+        message: msg,
+        duration: 5000,
+        position: "top-center",
+        type: 'is-danger',
+        animate: { in: 'backInDown', out: 'backOutUp' },
+      })
+
+      errors.value = []
+    }
+
+
+}
+
 </script>
 <style lang="scss">
 .content table td {
