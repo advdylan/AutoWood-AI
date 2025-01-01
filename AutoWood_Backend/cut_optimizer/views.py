@@ -20,8 +20,9 @@ def optimize_cuts_without_project(request):
         return JsonResponse({'error': 'Invalid JSON data'}, status=400)
     
     try:
-        formats = convert_elements_from_list(data)
-        print(formats)
+        #formats = convert_elements_from_list(data)
+        print(data)
+      
         #print(f"open : {output_dir}/{raport_name}")
 
         

@@ -57,7 +57,7 @@ import { toast } from 'bulma-toast'
 import { useI18n } from 'vue-i18n';
 
 const newProjectStore = useNewProjectStoreBeta()
-const {elements} = storeToRefs(newProjectStore)
+const {elements,boards} = storeToRefs(newProjectStore)
 const {loadData } = newProjectStore
 const { t } = useI18n()
 
@@ -79,11 +79,19 @@ const newElement = ref({
 
 async function generateBoardWithElements() {
 
+  const combined = [
+  ...boards.value.map((board) => ({ type: "board", ...board })),
+  ...elements.value.map((element) => ({ type: "element", ...element })),
+];
+
+ 
+  
+
   if (!errors.value.length) {
 
 try{
   await axios
-  .post(`/api/v1/tools/cut-optimizer/`, elements.value,{
+  .post(`/api/v1/tools/cut-optimizer/`, combined ,{
     headers: {
       'Content-Type': 'application/json'
     }
@@ -134,7 +142,5 @@ else {
 
 </script>
 <style lang="scss">
-.content table td {
-    padding: 0.1em 0.1em;
-}
+
 </style>

@@ -46,3 +46,12 @@
   .footer {
     background-color: rgb(246, 245, 242);
   }
+
+  .content table td, .content table th {
+    border: 1px solid hsl(0, 0%, 86%);
+    border-width: 0 0 1px;
+    
+    padding: 0.1em 0.1em;
+    padding-top: 3em 3em;
+    vertical-align: top;
+}

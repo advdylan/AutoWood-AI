@@ -405,7 +405,6 @@ def place_elements(formats):
         print(f"Board wasted: {board.X, board.Y} ")
 
 
-    plt.savefig(file_path, format='png', dpi=150)
                 
       
     return formats_omitted, free_boards
