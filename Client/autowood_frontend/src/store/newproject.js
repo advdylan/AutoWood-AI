@@ -13,6 +13,7 @@ export const useNewProjectStoreBeta = defineStore('newproject', {
     paints: [],
     elements: [],
     boxes: [],
+    boards: [],
     marginA: 0,
     marginB: 0,
     marginC: 0,
@@ -152,6 +153,19 @@ export const useNewProjectStoreBeta = defineStore('newproject', {
         quantity: element.quantity
       });     
     },
+    addBoard(board) { 
+      console.log(board)  
+      this.boards.push({
+        board: {
+          dimX: board.board.dimX,
+          dimY: board.board.dimY,
+          dimZ: board.board.dimZ,
+          wood_type: board.board.wood_type
+        },
+        quantity: board.quantity
+      });     
+    },
+
 
     deleteElement(element) {
       this.elements.pop(element)

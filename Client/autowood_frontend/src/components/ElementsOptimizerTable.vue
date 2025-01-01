@@ -180,8 +180,8 @@ const {deleteElement, addElement} = store
 //table variables
 const editMode = ref(false)
 const errors = ref([])
-let isPaginated = true
-let isPaginationSimple = true
+let isPaginated = false
+let isPaginationSimple = false
 let isPaginationRounded = false
 let paginationPosition = 'bottom'
 let defaultSortDirection = 'asc'
@@ -212,6 +212,11 @@ const columns = computed(() => [
   { field: 'quantity', label: t('quantity'), sortable: true },
   { field: 'nav', label: 'nav', sortable: false, centered: true },
 ]);
+
+// why didnt I use Pinia here?
+const sendValueToParent = () => {
+      emit('updateValue', childValue.value);
+    };
 
 function handleDeleteButton(row){
       console.log(row)

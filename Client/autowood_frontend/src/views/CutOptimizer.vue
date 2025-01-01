@@ -11,8 +11,18 @@
       <div class="columns">
 
         <div class="column has-text-centered is-one-third">
+
+        <div class="box">
+        <div class="label has-text is-size-5">{{$t('elements_list')}}</div>
           <ElementsOptimizerTable></ElementsOptimizerTable>
-          <button @click="generateBoardWithElements()" v-if="elements.length" style="width: 50%;" class="button is-success is-centered">{{ $t('generate') }}</button>  
+        </div>
+
+        <div class="box">
+        <div class="label has-text is-size-5">{{$t('boards')}}</div>
+        <BoardInput></BoardInput>
+        </div>
+
+        <button @click="generateBoardWithElements()" v-if="elements.length" style="width: 50%;" class="button is-success is-centered">{{ $t('generate') }}</button>  
         </div>
 
         <div class="column">
@@ -40,6 +50,7 @@
 import {ref} from 'vue'
 import { useNewProjectStoreBeta } from '@/store/newproject'
 import ElementsOptimizerTable from '@/components/ElementsOptimizerTable.vue'
+import BoardInput from '@/components/BoardInput.vue'
 import { storeToRefs } from 'pinia'
 import axios from 'axios'
 import { toast } from 'bulma-toast'
