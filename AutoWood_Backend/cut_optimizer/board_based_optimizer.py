@@ -4,12 +4,8 @@ import sys
 import django
 from django.conf import settings
 
-#os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'AutoWood_Backend.settings')
-#django.setup()
 sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
 
-from product.pdf_generator_scripts.pdf_generator import get_data
-from cut_optimizer.helpers import set_ticks
 import matplotlib.pyplot as plt
 import matplotlib.patches as patches
 import numpy as np
@@ -62,11 +58,15 @@ def add_format(board, format_width, format_height):
             print("Not enough space in this BOARD")
             return False
 
-def generate_board(X,Y, output_dir, formats):
+def generate_board(x,y, output_dir, formats):
 
     optc_name = f"optimized_cut_{id}.png"
     file_path = os.path.join(output_dir, optc_name)
 
+    global X,Y
+    
+    #X = x
+    #Y = y
     ax.set_xlim(0, X)
     ax.set_ylim(0, Y)
     ax.set_xlabel('X')
@@ -78,17 +78,18 @@ def generate_board(X,Y, output_dir, formats):
     ax.set_yticks(y_ticks)
 
     #project_data = get_data(id)
-    forats = convert_elements_from_list(formats)
+    #forats = convert_elements_from_list(formats)
     #formats = convert_elements_from_project(project_data)
     #
     if not os.path.exists(output_dir):
         os.makedirs(output_dir)
 
     #formats = [[332,106], [332,106], [332,106],[332,106], [332,106], [332,106],[332,106], [332,106], [332,106],[332,106], [332,106], [332,106], [2005, 168], [2005, 168], [2005, 168], [2005, 168], [1200,430],[1200,430],[1200,430],[1200,430],[760, 430],[760, 430],[760, 430],[760, 430]]
-    #formats.sort(reverse=True)
-
+    
+    formats.sort(reverse=True)
     place_elements(formats)
-    #print(formats)
+    
+    print(formats)
     
     plt.savefig(file_path, format='png', dpi=150)
 
@@ -320,6 +321,23 @@ def draw_gaps(board):
     ax.add_patch(rect)
     #print(f"Drawing board boundary: Start X={board.start_x}, Y={board.start_y}, Width={board.X}, Height={board.Y}")
 
+def set_ticks(X,scale):
+
+
+    ticks = []
+    x = 0
+    tick = X / scale
+ 
+    while x <= X:
+        if len(ticks) == 0:
+            ticks.append(0)
+
+        elif len(ticks) >= 1:
+            ticks.append(x)
+
+        x+=scale
+
+    return ticks
 
 def place_elements(formats):
 
@@ -409,5 +427,6 @@ def place_elements(formats):
       
     return formats_omitted, free_boards
 
-
-#generate_board(X,Y)
+#output_dir = f"/home/dylan/AutoWood/AutoWood_Backend/product/cut_optimizer/optimized_cuts/"
+#formats = [[2000, 250], [300, 250]]
+#generate_board(X,Y, output_dir, formats )

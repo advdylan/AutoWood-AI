@@ -6,6 +6,8 @@ from django.http import JsonResponse, HttpResponse, FileResponse
 from rest_framework.decorators import api_view, parser_classes
 from rest_framework import status
 
+
+
 from cut_optimizer.board_based_optimizer import generate_board, convert_elements_from_list
 
 # Create your views here.
@@ -14,6 +16,9 @@ from cut_optimizer.board_based_optimizer import generate_board, convert_elements
 @api_view(["POST"])
 def optimize_cuts_without_project(request):
 
+    output_dir = f"/home/dylan/AutoWood/AutoWood_Backend/cut_optimizer/optimized_cuts/"
+
+
     try:
         data = json.loads(request.body)
     except json.JSONDecodeError:
@@ -21,9 +26,29 @@ def optimize_cuts_without_project(request):
     
     try:
         #formats = convert_elements_from_list(data)
-        print(data)
+        #print(data)
+        formats = []
+        #boards = [] - for future multiple board option
+        for element in data:
+            if element["type"] == "board":
+                x = element["board"]["dimX"]
+                y = element["board"]["dimY"]
+            if element["type"] == "element":
+                
+
+                dimX = int(element["element"]["dimX"])
+                dimY = int(element["element"]["dimY"])
+
+                formats.append([dimX,dimY])
+
+                #print(f"X:{dimX} Y:{dimY}")
+
+        #print(f"Formats: {formats}\n Board: {x}/{y}")
       
         #print(f"open : {output_dir}/{raport_name}")
+
+
+        generate_board(x,y, output_dir, formats)
 
         
 
@@ -38,4 +63,4 @@ def optimize_cuts_without_project(request):
 
     # function to 
     
-    #file_path = f"generated_files/board_{board.id}.pdf"
+#file_path = f"generated_files/board_{board.id}.pdf"vi
