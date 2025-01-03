@@ -61,6 +61,10 @@ const {elements,boards} = storeToRefs(newProjectStore)
 const {loadData } = newProjectStore
 const { t } = useI18n()
 
+const FreeBoards = ref([])
+const OccupiedBoards = ref([])
+const ElementsOmmited = ref([])
+
 const errors = ref([])
 
 
@@ -97,7 +101,13 @@ try{
     }
   })
   .then(response => {
-        console.log(JSON.stringify(response.data))   
+        
+        let data = response.data
+        if (data){
+          FreeBoards.value = data.free_boards
+          ElementsOmmited.value = data.formats_ommited,
+          OccupiedBoards.value = data.occupied_boards
+        }
         return true   
       })
   .catch(error => {

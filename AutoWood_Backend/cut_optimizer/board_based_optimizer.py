@@ -38,6 +38,16 @@ class Board:
             return False
         else:
             return True
+        
+    def to_dict(self):
+        return {
+            "X": self.X,
+            "Y": self.Y,
+            "start_x": self.start_x,
+            "start_y": self.start_y,
+            "occupied": self.occupied,
+        }
+
 
 
     def __str__(self):
@@ -87,11 +97,13 @@ def generate_board(x,y, output_dir, formats):
     #formats = [[332,106], [332,106], [332,106],[332,106], [332,106], [332,106],[332,106], [332,106], [332,106],[332,106], [332,106], [332,106], [2005, 168], [2005, 168], [2005, 168], [2005, 168], [1200,430],[1200,430],[1200,430],[1200,430],[760, 430],[760, 430],[760, 430],[760, 430]]
     
     formats.sort(reverse=True)
-    place_elements(formats)
+    formats_omitted, free_boards, occupied_boards = place_elements(formats)
     
     #print(formats)
     
     plt.savefig(file_path, format='png', dpi=150)
+
+    return formats_omitted, free_boards, occupied_boards
 
 def cut_first_board(boards,board,format_width, format_height):
 
@@ -425,7 +437,7 @@ def place_elements(formats):
 
                 
       
-    return formats_omitted, free_boards
+    return formats_omitted, free_boards, occupied_boards
 
 #output_dir = f"/home/dylan/AutoWood/AutoWood_Backend/product/cut_optimizer/optimized_cuts/"
 #formats = [[2000, 250], [300, 250]]

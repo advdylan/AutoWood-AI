@@ -34,7 +34,7 @@ def optimize_cuts_without_project(request):
                 x = element["board"]["dimX"]
                 y = element["board"]["dimY"]
 
-            if element["type"] == "element":
+            elif element["type"] == "element":
                 
 
                 dimX = int(element["element"]["dimX"])
@@ -57,13 +57,22 @@ def optimize_cuts_without_project(request):
 
 
   
-        generate_board(x,y, output_dir, formats)
+        formats_omitted, free_boards, occupied_boards = generate_board(x,y, output_dir, formats)
+
+        free_boards_dicts = [board.to_dict() for board in free_boards]
+        occupied_boards_dicts = [board.to_dict() for board in occupied_boards]
+
+        #print(f"Formats_Omitted: {formats_omitted}\n FreeBoards: {free_boards}\nOccupiedBoards: {occupied_boards}")
   
             
 
         
 
-        return JsonResponse({'WellDone': 'Valid fankszyn'}, status=200)
+        return JsonResponse({
+            'formats_ommited': formats_omitted,
+            'free_boards': free_boards_dicts,
+            'occupied_boards': occupied_boards_dicts
+        }, status=200)
     
     except FileNotFoundError as e:
         return JsonResponse({'error': 'Report file not found'}, status=status.HTTP_404_NOT_FOUND)
