@@ -33,22 +33,33 @@ def optimize_cuts_without_project(request):
             if element["type"] == "board":
                 x = element["board"]["dimX"]
                 y = element["board"]["dimY"]
+
             if element["type"] == "element":
                 
 
                 dimX = int(element["element"]["dimX"])
                 dimY = int(element["element"]["dimY"])
+                quantity = int(element["quantity"])
+                print(f"Q in element loop : {quantity}")
 
-                formats.append([dimX,dimY])
+                if quantity > 0:
+                    for _ in range(quantity):
+                        formats.append([dimX,dimY])
+                        
+
+                #formats.append([dimX,dimY])
 
                 #print(f"X:{dimX} Y:{dimY}")
 
-        #print(f"Formats: {formats}\n Board: {x}/{y}")
+        print(f"Formats: {formats}\nBoard: {x}/{y}")
       
         #print(f"open : {output_dir}/{raport_name}")
 
 
+  
         generate_board(x,y, output_dir, formats)
+  
+            
 
         
 

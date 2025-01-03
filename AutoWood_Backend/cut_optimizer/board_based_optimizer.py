@@ -16,8 +16,7 @@ Y = 800
 SAW = 3.2
 
 
-id = 136
-
+id = 1022
 #output_dir i filename przeniesione do views.py of optimized_cuts
 
 fig, ax = plt.subplots(figsize=(12.8, 7.2))
@@ -67,6 +66,7 @@ def generate_board(x,y, output_dir, formats):
     
     #X = x
     #Y = y
+    print(X,Y)
     ax.set_xlim(0, X)
     ax.set_ylim(0, Y)
     ax.set_xlabel('X')
@@ -89,7 +89,7 @@ def generate_board(x,y, output_dir, formats):
     formats.sort(reverse=True)
     place_elements(formats)
     
-    print(formats)
+    #print(formats)
     
     plt.savefig(file_path, format='png', dpi=150)
 
