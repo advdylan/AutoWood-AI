@@ -180,7 +180,7 @@
     const newBoard = ref({
           board: {
           dimX: 2500,
-          dimY: 250,
+          dimY: 700,
           dimZ: 25,
           wood_type: ''
           },

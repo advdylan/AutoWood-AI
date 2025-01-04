@@ -42,8 +42,8 @@ class Board:
         return {
             "X": self.X,
             "Y": self.Y,
-            "start_x": self.start_x,
-            "start_y": self.start_y,
+            "start_x": round(self.start_x, 1),
+            "start_y": round(self.start_y, 1),
             "occupied": self.occupied,
         }
 
@@ -97,7 +97,7 @@ def generate_board(initial_board_x,initial_board_y, output_dir, formats):
     
     #print(formats)
     
-    plt.savefig(file_path, format='png', dpi=150)
+    #plt.savefig(file_path, format='png', dpi=150)
 
     return formats_omitted, free_boards, occupied_boards
 

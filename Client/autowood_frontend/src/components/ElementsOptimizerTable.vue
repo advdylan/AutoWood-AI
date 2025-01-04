@@ -294,12 +294,12 @@ else {
 const newElement = ref({
       element: {
       name: 'Przód',
-      dimX: 2500,
+      dimX: 200,
       dimY: 250,
       dimZ: 25,
       wood_type: ''
       },
-      quantity: 1
+      quantity: 7
 })
 </script>
 <style>

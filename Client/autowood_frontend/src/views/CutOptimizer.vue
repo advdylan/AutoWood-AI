@@ -26,27 +26,65 @@
         <button @click="generateBoardWithElements()" v-if="elements.length" style="width: 50%;" class="button is-success is-centered">{{ $t('generate') }}</button>  
         </div>
 
-        <div class="column has-text-centered is-half" >
+        <div v-if="OccupiedBoards.length" class="column has-text-centered" >
           <!-- SVG MIDDLE SECTION -->
           <div class="box is-fullwidth" style="overflow: hidden; text-align: center;">
           <svg 
               id="svgBoard" 
               xmlns="http://www.w3.org/2000/svg" 
-              viewBox="0 0 1000 500" 
+              :viewBox="`0 0 ${boards[0].board.dimX} ${boards[0].board.dimY}`"
               preserveAspectRatio="xMidYMid meet" 
-              style="width: 100%; height: auto; border: 1px solid #ccc;">
+              style="width: 100%; height: 100%; border: 1px solid #ccc;">
               <!-- Example content -->
-              <rect x="50" y="50" width="200" height="100" fill="blue"></rect>
+              <defs>
+                <linearGradient id="occupiedBoardGrad" x1="0%" x2="100%" y1="0%" y2="0%">
+                  <stop offset="0%" stop-color="rgb(205, 247, 205)" stop-opacity="0.1" />
+                  <stop offset="100%" stop-color="rgb(205, 247, 205)" stop-opacity="0.3" />
+                </linearGradient>
+                <linearGradient id="FreeBoardGrad" x1="0%" x2="100%" y1="0%" y2="0%">
+                  <stop offset="0%" stop-color="rgb(250, 237, 237)" stop-opacity="0.1" />
+                  <stop offset="100%" stop-color="rgb(245, 230, 230)" stop-opacity="0.3" />
+                </linearGradient>
+              </defs>
+
+              <rect v-for="format in OccupiedBoards"
+              :x="format.start_x"
+              :y="format.start_y"
+              :width="format.X"
+              :height="format.Y"
+              style="fill:url(#occupiedBoardGrad);stroke-width:1;stroke:rgb(0,0,0)"          
+              />
+              <text v-for="textX in OccupiedBoards"
+              :x="(textX.start_x) + (textX.X)/2"
+              :y="textX.start_y + 30"
+              fill="black"
+              style="font-size: 30px;"
+              text-anchor="middle"
+              >{{ textX.X }} </text>
+
+              <text v-for="textY in OccupiedBoards"
+              :x="textY.start_x + 30"
+              :y="(textY.start_y) + (textY.Y)/2"
+              fill="black"
+              style="font-size: 30px;"
+              text-anchor="middle"
+              >{{ textY.Y }} </text>
+
+
+              <rect v-for="format in FreeBoards"
+              :x="format.start_x"
+              :y="format.start_y"
+              :width="format.X"
+              :height="format.Y"
+              style="fill:url(#FreeBoardGrad);stroke-width:0.2;stroke:rgb(0,0,0)"          
+              />
+             
     
           </svg>
         </div>
-        
+
         </div>
 
-        <div class="column ">
-        <!-- ADDITIONAL INFO RIGHT SECTIOS -->
-            
-          </div>
 
 
       </div>
@@ -62,7 +100,7 @@
 
 
 <script setup>
-import {ref} from 'vue'
+import {computed, ref} from 'vue'
 import { useNewProjectStoreBeta } from '@/store/newproject'
 import ElementsOptimizerTable from '@/components/ElementsOptimizerTable.vue'
 import BoardInput from '@/components/BoardInput.vue'
@@ -70,6 +108,8 @@ import { storeToRefs } from 'pinia'
 import axios from 'axios'
 import { toast } from 'bulma-toast'
 import { useI18n } from 'vue-i18n';
+
+
 
 const newProjectStore = useNewProjectStoreBeta()
 const {elements,boards} = storeToRefs(newProjectStore)
@@ -88,13 +128,14 @@ loadData()
 const newElement = ref({
   element: {
     name: 'Przód',
-    dimX: 2500,
+    dimX: 200,
     dimY: 250,
     dimZ: 25,
     wood_type: ''
   },
   quantity: 1
 })
+
 
 async function generateBoardWithElements() {
 
@@ -136,13 +177,7 @@ catch (error) {
   console.error('Error saving the project:', error)
   
 }
-toast({
-        message: t('save_msg'),
-        duration: 5000,
-        position: "top-center",
-        type: 'is-success',
-        animate: { in: 'backInDown', out: 'backOutUp' },
-      })
+
 } 
 
 else {

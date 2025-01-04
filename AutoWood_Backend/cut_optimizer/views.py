@@ -72,7 +72,9 @@ def optimize_cuts_without_project(request):
         return JsonResponse({
             'formats_ommited': formats_omitted,
             'free_boards': free_boards_dicts,
-            'occupied_boards': occupied_boards_dicts
+            'occupied_boards': occupied_boards_dicts,
+            'initial_board_x': x,
+            'initial_board_y': y
         }, status=200)
     
     except FileNotFoundError as e:
