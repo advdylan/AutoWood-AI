@@ -94,9 +94,11 @@
       </div>
       <div class="columns">
         <div class="column has-text-centered is-half" >
+          <button  class="button is-success is-centered" @click="assignBoardToElement"></button>
           H A L O
         </div>
         <div class="column has-text-centered is-half" >
+          
           H A L O 2
         </div>
 
@@ -153,6 +155,18 @@ const newElement = ref({
   quantity: 1
 })
 
+function assignBoardToElement() {
+
+  for (let element of elements.value) {
+    for (let i=0; i < element.quantity; i++) {
+      console.log(element)
+    }
+    
+    
+
+  }
+
+}
 
 async function generateBoardWithElements() {
 
