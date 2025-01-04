@@ -66,37 +66,27 @@
       <b-table :key="tableKey" :data="boards" :paginated="isPaginated" :per-page="perPage" :current-page.sync="currentPage" :pagination-simple="isPaginationSimple" :pagination-position="paginationPosition" :default-sort-direction="defaultSortDirection" :pagination-rounded="isPaginationRounded" :sort-icon="sortIcon" :sort-icon-size="sortIconSize" default-sort="user.first_name" aria-next-label="Next page" aria-previous-label="Previous page" aria-page-label="Page" aria-current-label="Current page" :page-input="hasInput" :pagination-order="paginationOrder" :page-input-position="inputPosition" :debounce-page-input="inputDebounce">
     
       <b-table-column >
-        <template v-if="editMode" #default="props">
+        <template #default="props">
           <input class="input is-small"  v-model="props.row.board.dimX"/>
         </template> 
-        <template #default="props">
-          {{ props.row.board.dimX }}
-        </template>
       </b-table-column>
     
       <b-table-column >
-        <template v-if="editMode" #default="props">
+        <template #default="props">
           <input class="input is-small"  v-model="props.row.board.dimY"/>
         </template> 
-        <template #default="props">
-          {{ props.row.board.dimY }}
-        </template>
       </b-table-column>
       
       <b-table-column >
-        <template v-if="editMode" #default="props">
+        <template  #default="props">
           <input class="input is-small"  v-model="props.row.board.dimZ"/>
         </template> 
-        <template #default="props">
-          {{ props.row.board.dimZ }}
-        </template>
       </b-table-column>
     
       <b-table-column >
-        <template v-if="editMode" #default="props">
+        <template #default="props">
           <div class="select is-small">
             <select v-model="props.row.board.wood_type" :placeholder="$t('wood_type')">
-          
             <option
               v-for="woodItem in wood"
               :value="woodItem"
@@ -104,28 +94,16 @@
             {{ woodItem.name }}</option>
           </select>
           </div>
-        </template>
-    
-        <template #default="props">
-          {{ props.row.board.wood_type.name }}
-        </template>
+        </template>  
       </b-table-column>
     
       <b-table-column >
-        <template v-if="editMode" #default="props">
+        <template #default="props">
           <input class="input is-small"  v-model="props.row.quantity"/>
         </template> 
-        <template #default="props">
-          {{ props.row.quantity }}
-        </template>
       </b-table-column>
     
       <b-table-column >
-        <template #header>
-          <b-switch v-model="editMode">
-            Edit
-          </b-switch>
-        </template>
         <template #default="props">
           <b-button @click="handleDeleteButton(props.row)" type="is-danger is-small" icon-left="x">    
           </b-button>

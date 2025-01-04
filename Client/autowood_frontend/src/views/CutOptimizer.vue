@@ -55,6 +55,7 @@
               style="fill:url(#occupiedBoardGrad);stroke-width:1;stroke:rgb(0,0,0)"          
               />
               <text v-for="textX in OccupiedBoards"
+              :key="textX.id"
               :x="(textX.start_x) + (textX.X)/2"
               :y="textX.start_y + 30"
               fill="black"
@@ -63,11 +64,14 @@
               >{{ textX.X }} </text>
 
               <text v-for="textY in OccupiedBoards"
+              :key="textY.id"
               :x="textY.start_x + 30"
               :y="(textY.start_y) + (textY.Y)/2"
               fill="black"
               style="font-size: 30px;"
               text-anchor="middle"
+              :transform="'rotate(270 ' + (textY.start_x + 30) + ' ' + (textY.start_y + textY.Y / 2) + ')'"
+              
               >{{ textY.Y }} </text>
 
 
@@ -88,6 +92,19 @@
 
 
       </div>
+      <div class="columns">
+        <div class="column has-text-centered is-half" >
+          H A L O
+        </div>
+        <div class="column has-text-centered is-half" >
+          H A L O 2
+        </div>
+
+      </div>
+
+      
+
+      
     </div>
   </div>
 </div>
@@ -102,8 +119,8 @@
 <script setup>
 import {computed, ref} from 'vue'
 import { useNewProjectStoreBeta } from '@/store/newproject'
-import ElementsOptimizerTable from '@/components/ElementsOptimizerTable.vue'
-import BoardInput from '@/components/BoardInput.vue'
+import ElementsOptimizerTable from '@/components/OptimizerComponents/ElementsOptimizerTable.vue'
+import BoardInput from '@/components/OptimizerComponents/BoardInput.vue'
 import { storeToRefs } from 'pinia'
 import axios from 'axios'
 import { toast } from 'bulma-toast'
