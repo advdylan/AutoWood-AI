@@ -3,6 +3,7 @@ import time
 import sys
 import django
 from django.conf import settings
+import random
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
 
@@ -11,12 +12,10 @@ import matplotlib.patches as patches
 import numpy as np
 
 
-X = 2000   
-Y = 800
+
 SAW = 3.2
 
 
-id = 1022
 #output_dir i filename przeniesione do views.py of optimized_cuts
 
 fig, ax = plt.subplots(figsize=(12.8, 7.2))
@@ -67,23 +66,20 @@ def add_format(board, format_width, format_height):
             print("Not enough space in this BOARD")
             return False
 
-def generate_board(x,y, output_dir, formats):
+def generate_board(initial_board_x,initial_board_y, output_dir, formats):
 
+    id = random.randint(5, 9000)
     optc_name = f"optimized_cut_{id}.png"
     file_path = os.path.join(output_dir, optc_name)
 
-    global X,Y
-    
-    #X = x
-    #Y = y
-    print(X,Y)
-    ax.set_xlim(0, X)
-    ax.set_ylim(0, Y)
+
+    ax.set_xlim(0, initial_board_x)
+    ax.set_ylim(0, initial_board_y)
     ax.set_xlabel('X')
     ax.set_ylabel('Y')
     ax.set_title("Rozkroje")
-    x_ticks = set_ticks(X, 100)
-    y_ticks = set_ticks(Y, 100)
+    x_ticks = set_ticks(initial_board_x, 100)
+    y_ticks = set_ticks(initial_board_y, 100)
     ax.set_xticks(x_ticks)
     ax.set_yticks(y_ticks)
 
@@ -97,7 +93,7 @@ def generate_board(x,y, output_dir, formats):
     #formats = [[332,106], [332,106], [332,106],[332,106], [332,106], [332,106],[332,106], [332,106], [332,106],[332,106], [332,106], [332,106], [2005, 168], [2005, 168], [2005, 168], [2005, 168], [1200,430],[1200,430],[1200,430],[1200,430],[760, 430],[760, 430],[760, 430],[760, 430]]
     
     formats.sort(reverse=True)
-    formats_omitted, free_boards, occupied_boards = place_elements(formats)
+    formats_omitted, free_boards, occupied_boards = place_elements(formats, initial_board_x, initial_board_y)
     
     #print(formats)
     
@@ -105,7 +101,7 @@ def generate_board(x,y, output_dir, formats):
 
     return formats_omitted, free_boards, occupied_boards
 
-def cut_first_board(boards,board,format_width, format_height):
+def cut_first_board(boards,board,format_width, format_height,initial_board_x, initial_board_y):
 
     # Return the remaining size of the board in the same Y
     remaining_Y = board.Y - format_height - SAW
@@ -123,12 +119,12 @@ def cut_first_board(boards,board,format_width, format_height):
     # Create new board in the same ROW
     new_board_same_row = Board(remaining_X,board.Y, new_board_start_x, 0)
     # Create new board above the row
-    new_board_higher_row = Board(X, remaining_Y, 0, new_board_start_y)
+    new_board_higher_row = Board(initial_board_x, remaining_Y, 0, new_board_start_y)
 
     boards.append(new_board_higher_row)
     boards.append(new_board_same_row )
 
-def cut_next_board(boards,board,format_width, format_height):
+def cut_next_board(boards,board,format_width, format_height,initial_board_x, initial_board_y):
 
     # Return the remaining size of the board in the same Y
     remaining_Y = board.Y - format_height - SAW
@@ -142,7 +138,7 @@ def cut_next_board(boards,board,format_width, format_height):
     board.Y = format_height
 
     # Created the initual_board_x variable for cutting boards in different places than start_x = 0
-    initial_board_x = board.X
+    #initial_board_x = board.X
 
     board.X = format_width
 
@@ -150,12 +146,12 @@ def cut_next_board(boards,board,format_width, format_height):
 
     
     
-    if (remaining_X + board.start_x) < X:
+    if (remaining_X + board.start_x) < initial_board_x:
         
         new_board_same_row = Board(remaining_X, board.Y, new_board_start_x, board.start_y)
         boards.append(new_board_same_row )      
     # Create new board above the row
-    if remaining_Y > 0 or remaining_Y < Y and remaining_Y > 40:
+    if remaining_Y > 0 or remaining_Y < initial_board_y and remaining_Y > 40:
 
         #maybe remaining Y should be different in cutting not in the start_x = 0 ?
         if board.start_x > 0:
@@ -166,7 +162,7 @@ def cut_next_board(boards,board,format_width, format_height):
             
         else:
 
-            new_board_higher_row = Board(X, remaining_Y, board.start_x, new_board_start_y)
+            new_board_higher_row = Board(initial_board_x, remaining_Y, board.start_x, new_board_start_y)
             boards.append(new_board_higher_row)        
     
 def check_board_above(boards,board):
@@ -351,10 +347,10 @@ def set_ticks(X,scale):
 
     return ticks
 
-def place_elements(formats):
+def place_elements(formats, initial_board_x, initial_board_y):
 
     # Create first board based on available boards
-    board_1 = Board(X,Y,0,0)
+    board_1 = Board(initial_board_x,initial_board_y,0,0)
     boards = []
     boards.append(board_1)
     formats_omitted = []
@@ -362,7 +358,7 @@ def place_elements(formats):
     # Cut the board based on the first format 
     width, height = formats[0][0],formats[0][1]
     #first cut assumes it works
-    cut_first_board(boards,boards[0], width, height)
+    cut_first_board(boards,boards[0], width, height, initial_board_x, initial_board_y)
     add_format(boards[0], width, height)
     formats.pop(0)
     #scan_boards(boards)
@@ -381,7 +377,7 @@ def place_elements(formats):
    
                         add_format(board, width,height)
 
-                        cut_next_board(free_boards,board, width,height)
+                        cut_next_board(free_boards,board, width,height, initial_board_x, initial_board_y)
 
 
                         free_boards = list(filter(lambda board: not board.occupied, free_boards))
@@ -439,6 +435,9 @@ def place_elements(formats):
       
     return formats_omitted, free_boards, occupied_boards
 
-#output_dir = f"/home/dylan/AutoWood/AutoWood_Backend/product/cut_optimizer/optimized_cuts/"
-#formats = [[2000, 250], [300, 250]]
-#generate_board(X,Y, output_dir, formats )
+# testing purposes
+""" initial_board_x = 2500
+initial_board_y = 250
+output_dir = f"/home/dylan/AutoWood/AutoWood_Backend/cut_optimizer/optimized_cuts/"
+formats = [[250, 100],[250, 100],[250, 100],[250, 100],[250, 100],[250, 100],[250, 100],[250, 100],[250, 100],[250, 100],]
+generate_board(initial_board_x,initial_board_y, output_dir, formats ) """

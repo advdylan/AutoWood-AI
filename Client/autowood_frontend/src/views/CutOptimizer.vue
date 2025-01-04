@@ -11,6 +11,7 @@
       <div class="columns">
 
         <div class="column has-text-centered is-one-third">
+          <!-- INPUT LEFT SECTION -->
 
         <div class="box">
         <div class="label has-text is-size-5">{{$t('elements_list')}}</div>
@@ -25,13 +26,27 @@
         <button @click="generateBoardWithElements()" v-if="elements.length" style="width: 50%;" class="button is-success is-centered">{{ $t('generate') }}</button>  
         </div>
 
-        <div class="column">
-            
+        <div class="column has-text-centered is-half" >
+          <!-- SVG MIDDLE SECTION -->
+          <div class="box is-fullwidth" style="overflow: hidden; text-align: center;">
+          <svg 
+              id="svgBoard" 
+              xmlns="http://www.w3.org/2000/svg" 
+              viewBox="0 0 1000 500" 
+              preserveAspectRatio="xMidYMid meet" 
+              style="width: 100%; height: auto; border: 1px solid #ccc;">
+              <!-- Example content -->
+              <rect x="50" y="50" width="200" height="100" fill="blue"></rect>
+    
+          </svg>
+        </div>
+        
         </div>
 
-        
-
-
+        <div class="column ">
+        <!-- ADDITIONAL INFO RIGHT SECTIOS -->
+            
+          </div>
 
 
       </div>

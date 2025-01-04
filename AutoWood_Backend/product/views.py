@@ -1,6 +1,6 @@
 import sys
 import os
-# Add the project root directory to the sys.path
+
 sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
 
 from product.pdf_generator_scripts.pdf_generator import get_data, header, header_info, footer, X, Y

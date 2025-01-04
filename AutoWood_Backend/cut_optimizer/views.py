@@ -1,10 +1,15 @@
 import json 
 
+from django.conf import settings
 from django.shortcuts import render, get_object_or_404
 from django.utils import timezone
 from django.http import JsonResponse, HttpResponse, FileResponse
 from rest_framework.decorators import api_view, parser_classes
 from rest_framework import status
+
+import sys
+import os
+sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
 
 
 
@@ -17,6 +22,7 @@ from cut_optimizer.board_based_optimizer import generate_board, convert_elements
 def optimize_cuts_without_project(request):
 
     output_dir = f"/home/dylan/AutoWood/AutoWood_Backend/cut_optimizer/optimized_cuts/"
+    #output_dir = os.path.join(settings.BASE_DIR, f'product/pdf_generator_scripts/reports/{id}')
 
 
     try:
@@ -31,8 +37,8 @@ def optimize_cuts_without_project(request):
         #boards = [] - for future multiple board option
         for element in data:
             if element["type"] == "board":
-                x = element["board"]["dimX"]
-                y = element["board"]["dimY"]
+                x = int(element["board"]["dimX"])
+                y = int(element["board"]["dimY"])
 
             elif element["type"] == "element":
                 
@@ -51,12 +57,10 @@ def optimize_cuts_without_project(request):
 
                 #print(f"X:{dimX} Y:{dimY}")
 
-        print(f"Formats: {formats}\nBoard: {x}/{y}")
+        #print(f"Formats: {formats}\nBoard: {x}/{y}")
       
         #print(f"open : {output_dir}/{raport_name}")
 
-
-  
         formats_omitted, free_boards, occupied_boards = generate_board(x,y, output_dir, formats)
 
         free_boards_dicts = [board.to_dict() for board in free_boards]
@@ -64,9 +68,6 @@ def optimize_cuts_without_project(request):
 
         #print(f"Formats_Omitted: {formats_omitted}\n FreeBoards: {free_boards}\nOccupiedBoards: {occupied_boards}")
   
-            
-
-        
 
         return JsonResponse({
             'formats_ommited': formats_omitted,
