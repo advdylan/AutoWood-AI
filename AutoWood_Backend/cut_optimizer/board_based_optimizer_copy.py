@@ -134,11 +134,11 @@ def cut_next_board(boards,board,format_width, format_height,initial_board_x, ini
     #print(f"remaining_y: {remaining_Y},new_board_start_y: {new_board_start_y}\nremaining_X: {remaining_X},new_board_start_x: {new_board_start_x}")
 
     # CUT
-
+    
     board.Y = format_height
 
     # Created the initual_board_x variable for cutting boards in different places than start_x = 0
-    #initial_board_x = board.X
+    x_before_cut = board.X
 
     board.X = format_width
 
@@ -151,12 +151,16 @@ def cut_next_board(boards,board,format_width, format_height,initial_board_x, ini
         new_board_same_row = Board(remaining_X, board.Y, new_board_start_x, board.start_y)
         boards.append(new_board_same_row )      
     # Create new board above the row
+
+
     if remaining_Y > 0 or remaining_Y < initial_board_y and remaining_Y > 40:
 
-        #maybe remaining Y should be different in cutting not in the start_x = 0 ?
+        #maybe create a function that detects the board above? 
+        #detect board above and dont create anything above!
+
         if board.start_x > 0:
          
-            new_board_higher_row = Board(remaining_X, remaining_Y, board.start_x, new_board_start_y)
+            new_board_higher_row = Board(x_before_cut, remaining_Y, board.start_x, new_board_start_y)
             boards.append(new_board_higher_row)
 
             
@@ -165,21 +169,34 @@ def cut_next_board(boards,board,format_width, format_height,initial_board_x, ini
             new_board_higher_row = Board(initial_board_x, remaining_Y, board.start_x, new_board_start_y)
             boards.append(new_board_higher_row)        
     
-def check_board_above(boards,board):
-    """ Function to check whetver there are boards above to not cut those again
-        Woodwork tip : Cutting process sometimes require to cut off last part of the board 
-        to not waste the board height. This function prevents that when boards are created as "new_board_same_row"
+def check_board_above(boards, board, tolerance=10):
     """
-    if not isinstance(boards, (Board, list)):
-        return 0
-    
-    new_boards_same_start_y = []
-    next_level = board.Y + SAW
+    Check if there's a board directly above the current board within a small vertical gap (tolerance).
+    Ensures strict horizontal alignment and avoids mixing unrelated boards.
+    """
+    if not isinstance(boards, list):
+        return None
 
     for board_above in boards:
-        if board_above.start_y == next_level and board_above.occupied == False and board_above.start_x == board.start_x:
-            new_boards_same_start_y.append(board_above)
-            return board_above
+        # 1. Ensure the board is unoccupied
+        if board_above.occupied:
+            continue
+
+        # 2. Check vertical alignment (start_y difference + tolerance)
+        vertical_gap = board_above.start_y - (board.start_y + board.Y + SAW)
+        if abs(vertical_gap) > tolerance:  # Skip if gap is larger than tolerance
+            continue
+
+        # 3. Ensure strict horizontal alignment (X positions must match)
+        if board.start_x != board_above.start_x or board.X != board_above.X:
+            continue
+
+        # If all conditions are satisfied, return the board above
+        return board_above
+
+    return None
+        
+
         
 
 def reduce_wastes(board, board_above, free_boards):
@@ -192,7 +209,7 @@ def reduce_wastes(board, board_above, free_boards):
     
     else:
         # Create a new merged board
-        new_board = Board(board.X, (board.Y + board_above.Y), board_above.start_x, board.start_y)
+        new_board = Board(board.X, (board.Y + board_above.Y + 2*SAW), board_above.start_x, board.start_y)
         print(f"Board to delete: {board}\nSecond_Board to delete: {board_above}\nNewBoard: {new_board}")
         
         # Safely remove the boards and add the new board
@@ -240,7 +257,6 @@ def format_fit_check(boards, width, height):
 def scan_boards(boards):
     #function to scan free spaces on the board and mark free areas on the board for debug purposes
 
-    
 
     if isinstance(boards,Board): # Single board case
         draw_gaps(boards)
@@ -347,6 +363,9 @@ def set_ticks(X,scale):
 
     return ticks
 
+
+
+
 def place_elements(formats, initial_board_x, initial_board_y,file_path):
 
     # Create first board based on available boards
@@ -371,6 +390,8 @@ def place_elements(formats, initial_board_x, initial_board_y,file_path):
             
             for board in free_boards:
 
+
+
                 width, height = formats[0][0],formats[0][1]
                 if format_fit_check(board, width,height) and board.occupied == False:
                         
@@ -389,10 +410,14 @@ def place_elements(formats, initial_board_x, initial_board_y,file_path):
                         placement_successful = True
                         scan_boards(free_boards)
                         plt.savefig(file_path, format='png', dpi=150)
+
+                        #moze check_board_down -> moze reduce waste?
+
+
                         break
                 else:
                     
-                    board_above = check_board_above(free_boards, board)
+                    board_above = check_board_above(free_boards, board, tolerance=5)
                     if board_above:
                         print(f"Board: {board}\nboard_above: {board_above}")
                         free_boards = reduce_wastes(board, board_above, free_boards)
@@ -438,5 +463,5 @@ def place_elements(formats, initial_board_x, initial_board_y,file_path):
 initial_board_x = 2500
 initial_board_y = 700
 output_dir = f"/home/dylan/AutoWood/AutoWood_Backend/cut_optimizer/optimized_cuts/"
-formats = [[1658, 167],[1658, 167],[1658, 167], [323,180],[323,180],[323,180],[323,180],[323,180], ]
-generate_board(initial_board_x,initial_board_y, output_dir, formats ) 
+formats = [[1658, 167],[1658, 167],[1658, 167], [323,180],[323,180],[323,180],[323,180],[323,180],[323,180],[323,180],[323,180],[323,180],[323,180], ]
+generate_board(initial_board_x,initial_board_y, output_dir, formats )

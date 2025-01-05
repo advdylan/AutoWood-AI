@@ -134,11 +134,11 @@ def cut_next_board(boards,board,format_width, format_height,initial_board_x, ini
     #print(f"remaining_y: {remaining_Y},new_board_start_y: {new_board_start_y}\nremaining_X: {remaining_X},new_board_start_x: {new_board_start_x}")
 
     # CUT
-
+    
     board.Y = format_height
 
     # Created the initual_board_x variable for cutting boards in different places than start_x = 0
-    #initial_board_x = board.X
+    x_before_cut = board.X
 
     board.X = format_width
 
@@ -151,36 +151,50 @@ def cut_next_board(boards,board,format_width, format_height,initial_board_x, ini
         new_board_same_row = Board(remaining_X, board.Y, new_board_start_x, board.start_y)
         boards.append(new_board_same_row )      
     # Create new board above the row
-    
+
+
     if remaining_Y > 0 or remaining_Y < initial_board_y and remaining_Y > 40:
 
-        #maybe remaining Y should be different in cutting not in the start_x = 0 ?
+        #maybe create a function that detects the board above? 
+        #detect board above and dont create anything above!
+
         if board.start_x > 0:
          
-            new_board_higher_row = Board(initial_board_x, remaining_Y, board.start_x, new_board_start_y)
+            new_board_higher_row = Board(x_before_cut, remaining_Y, board.start_x, new_board_start_y)
             boards.append(new_board_higher_row)
 
             
         else:
 
             new_board_higher_row = Board(initial_board_x, remaining_Y, board.start_x, new_board_start_y)
-            boards.append(new_board_higher_row)        
+            boards.append(new_board_higher_row)      
     
-def check_board_above(boards,board):
-    """ Function to check whetver there are boards above to not cut those again
-        Woodwork tip : Cutting process sometimes require to cut off last part of the board 
-        to not waste the board height. This function prevents that when boards are created as "new_board_same_row"
+def check_board_above(boards, board, tolerance=10):
     """
-    if not isinstance(boards, (Board, list)):
-        return 0
-    
-    new_boards_same_start_y = []
-    next_level = board.Y + SAW
+    Check if there's a board directly above the current board within a small vertical gap (tolerance).
+    Ensures strict horizontal alignment and avoids mixing unrelated boards.
+    """
+    if not isinstance(boards, list):
+        return None
 
     for board_above in boards:
-        if board_above.start_y == next_level and board_above.occupied == False and board_above.start_x == board.start_x:
-            new_boards_same_start_y.append(board_above)
-            return board_above
+        # 1. Ensure the board is unoccupied
+        if board_above.occupied:
+            continue
+
+        # 2. Check vertical alignment (start_y difference + tolerance)
+        vertical_gap = board_above.start_y - (board.start_y + board.Y + SAW)
+        if abs(vertical_gap) > tolerance:  # Skip if gap is larger than tolerance
+            continue
+
+        # 3. Ensure strict horizontal alignment (X positions must match)
+        if board.start_x != board_above.start_x or board.X != board_above.X:
+            continue
+
+        # If all conditions are satisfied, return the board above
+        return board_above
+
+    return None
         
 
 def reduce_wastes(board, board_above, free_boards):
