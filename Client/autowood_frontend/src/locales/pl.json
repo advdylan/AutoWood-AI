@@ -140,7 +140,9 @@
     "tools": "Narzędzia",
     "cut-optimizer": "Rozkroje płyty",
     "generate": "Generuj",
-    "boards": "Płyty"
+    "boards": "Płyty",
+    "import_elements": "Importuj elementy z projektu",
+    "search": "Wyszukaj"
     
 
 

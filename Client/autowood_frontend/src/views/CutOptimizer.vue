@@ -13,7 +13,18 @@
         <div class="column has-text-centered is-one-third">
           <!-- INPUT LEFT SECTION -->
 
+          <div class="box">
+            <div class="label has-text is-size-5">{{$t('import_elements')}}</div>
+
+            <div @click="showSearchModal= !showSearchModal" class="button is-info">{{ $t('search') }} &nbsp;<i class="fa-solid fa-magnifying-glass"></i></div>
+
+
+          </div>
+
+           
+           
         <div class="box">
+
         <div class="label has-text is-size-5">{{$t('elements_list')}}</div>
           <ElementsOptimizerTable></ElementsOptimizerTable>
         </div>
@@ -113,6 +124,28 @@
 </div>
 
 
+<!-- MODAL -->
+
+<div class="modal" v-bind:class="{'is-active': showSearchModal}" id="newelement-modal" >
+        <div class="modal-background"></div>
+        <div class="modal-content" style="width: 1400px;">
+            <div class="modal-card">
+                <header class="modal-card-head">
+                    <p class="modal-card-title is-centered is-size-4">{{ $t('search') }}</p>
+                    <button class="delete" aria-label="close" @click="showSearchModal = false"></button>
+                </header>
+                <section class="modal-card-body" >
+
+                  <ProjectsList></ProjectsList>
+
+
+                   
+                </section>
+            </div>
+        </div>
+    </div>
+
+
 </template>
 
 
@@ -123,6 +156,7 @@ import {computed, ref} from 'vue'
 import { useNewProjectStoreBeta } from '@/store/newproject'
 import ElementsOptimizerTable from '@/components/OptimizerComponents/ElementsOptimizerTable.vue'
 import BoardInput from '@/components/OptimizerComponents/BoardInput.vue'
+import ProjectsList from './ProjectsList.vue'
 import { storeToRefs } from 'pinia'
 import axios from 'axios'
 import { toast } from 'bulma-toast'
@@ -138,6 +172,8 @@ const { t } = useI18n()
 const FreeBoards = ref([])
 const OccupiedBoards = ref([])
 const ElementsOmmited = ref([])
+
+const showSearchModal = ref(false)
 
 const errors = ref([])
 
@@ -161,9 +197,6 @@ function assignBoardToElement() {
     for (let i=0; i < element.quantity; i++) {
       console.log(element)
     }
-    
-    
-
   }
 
 }
@@ -232,6 +265,12 @@ else {
 }
 
 </script>
-<style lang="scss">
+<style lang="css">
+
+.modal-content
+.modal-card {
+  width: 70%;
+
+}
 
 </style>

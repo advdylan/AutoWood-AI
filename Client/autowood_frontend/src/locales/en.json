@@ -138,7 +138,9 @@
     "tools": "Tools",
     "cut-optimizer": "Cut-Optimizer",
     "generate": "Generate",
-    "boards": "Boards"
+    "boards": "Boards",
+    "import_elements": "Import elements",
+    "search": "Search"
     
     
     
