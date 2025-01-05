@@ -151,6 +151,7 @@ def cut_next_board(boards,board,format_width, format_height,initial_board_x, ini
         new_board_same_row = Board(remaining_X, board.Y, new_board_start_x, board.start_y)
         boards.append(new_board_same_row )      
     # Create new board above the row
+    
     if remaining_Y > 0 or remaining_Y < initial_board_y and remaining_Y > 40:
 
         #maybe remaining Y should be different in cutting not in the start_x = 0 ?

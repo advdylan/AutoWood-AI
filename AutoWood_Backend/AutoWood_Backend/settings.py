@@ -34,7 +34,8 @@ DEBUG = True
 
 ALLOWED_HOSTS = ["autowood.onrender.com",
                  "127.0.0.1",
-                 "autowood.fly.dev"
+                 "autowood.fly.dev",
+                 "33e1-159-255-183-250.ngrok-free.app"
                  ]
 
 
@@ -58,12 +59,14 @@ CORS_ALLOWED_ORIGINS = [
     "https://auto-wood-git-master-jakubs-projects-901e278c.vercel.app",
     "https://auto-wood-jakubs-projects-901e278c.vercel.app",
     "https://autowood.fly.dev",
-    "https://auto-wood.vercel.app"
+    "https://auto-wood.vercel.app",
+    "https://33e1-159-255-183-250.ngrok-free.app",
 
 ]
 
 CSRF_TRUSTED_ORIGINS = [
     "https://autowood.fly.dev",
+    "https://33e1-159-255-183-250.ngrok-free.app",
     # add other trusted origins if needed
 ]
 
