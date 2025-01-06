@@ -143,7 +143,9 @@
     "boards": "Płyty",
     "import_elements": "Importuj elementy z projektu",
     "search": "Wyszukaj",
-    "get_elements": "Importuj elementy"
+    "get_elements": "Importuj elementy",
+    "formats_omitted": "Pominięte elementy",
+    "wastes": "Odpady"
     
 
 

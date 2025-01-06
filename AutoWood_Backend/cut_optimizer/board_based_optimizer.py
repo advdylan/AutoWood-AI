@@ -399,7 +399,8 @@ def place_elements(formats, initial_board_x, initial_board_y):
                         free_boards.sort(key=lambda board: board.start_y)
 
 
-                        boards.append(board)                                               
+                        if board not in boards:
+                            boards.append(board)                                               
                         formats.pop(0)
                         placement_successful = True
                         #scan_boards(boards)

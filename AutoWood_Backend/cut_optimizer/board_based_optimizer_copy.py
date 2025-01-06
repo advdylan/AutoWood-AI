@@ -68,7 +68,7 @@ def add_format(board, format_width, format_height):
 
 def generate_board(initial_board_x,initial_board_y, output_dir, formats):
 
-    id = 150
+    id = random.randint(5, 9000)
     optc_name = f"optimized_cut_{id}.png"
     file_path = os.path.join(output_dir, optc_name)
 
@@ -93,7 +93,7 @@ def generate_board(initial_board_x,initial_board_y, output_dir, formats):
     #formats = [[332,106], [332,106], [332,106],[332,106], [332,106], [332,106],[332,106], [332,106], [332,106],[332,106], [332,106], [332,106], [2005, 168], [2005, 168], [2005, 168], [2005, 168], [1200,430],[1200,430],[1200,430],[1200,430],[760, 430],[760, 430],[760, 430],[760, 430]]
     
     formats.sort(reverse=True)
-    formats_omitted, free_boards, occupied_boards = place_elements(formats, initial_board_x, initial_board_y,file_path)
+    formats_omitted, free_boards, occupied_boards = place_elements(formats, initial_board_x, initial_board_y)
     
     #print(formats)
     
@@ -167,7 +167,7 @@ def cut_next_board(boards,board,format_width, format_height,initial_board_x, ini
         else:
 
             new_board_higher_row = Board(initial_board_x, remaining_Y, board.start_x, new_board_start_y)
-            boards.append(new_board_higher_row)        
+            boards.append(new_board_higher_row)      
     
 def check_board_above(boards, board, tolerance=10):
     """
@@ -197,8 +197,6 @@ def check_board_above(boards, board, tolerance=10):
     return None
         
 
-        
-
 def reduce_wastes(board, board_above, free_boards):
 
     if not isinstance(board, Board) or not isinstance(board_above, Board):
@@ -209,7 +207,7 @@ def reduce_wastes(board, board_above, free_boards):
     
     else:
         # Create a new merged board
-        new_board = Board(board.X, (board.Y + board_above.Y + 2*SAW), board_above.start_x, board.start_y)
+        new_board = Board(board.X, (board.Y + board_above.Y), board_above.start_x, board.start_y)
         print(f"Board to delete: {board}\nSecond_Board to delete: {board_above}\nNewBoard: {new_board}")
         
         # Safely remove the boards and add the new board
@@ -257,6 +255,7 @@ def format_fit_check(boards, width, height):
 def scan_boards(boards):
     #function to scan free spaces on the board and mark free areas on the board for debug purposes
 
+    
 
     if isinstance(boards,Board): # Single board case
         draw_gaps(boards)
@@ -363,10 +362,7 @@ def set_ticks(X,scale):
 
     return ticks
 
-
-
-
-def place_elements(formats, initial_board_x, initial_board_y,file_path):
+def place_elements(formats, initial_board_x, initial_board_y):
 
     # Create first board based on available boards
     board_1 = Board(initial_board_x,initial_board_y,0,0)
@@ -380,8 +376,8 @@ def place_elements(formats, initial_board_x, initial_board_y,file_path):
     cut_first_board(boards,boards[0], width, height, initial_board_x, initial_board_y)
     add_format(boards[0], width, height)
     formats.pop(0)
-    scan_boards(boards)
-    plt.savefig(file_path, format='png', dpi=150)
+    #scan_boards(boards)
+    #plt.savefig(file_path, format='png', dpi=150)
     free_boards = [board for board in boards if not board.occupied]
     try:
         while formats:                
@@ -389,8 +385,6 @@ def place_elements(formats, initial_board_x, initial_board_y,file_path):
             placement_successful = False
             
             for board in free_boards:
-
-
 
                 width, height = formats[0][0],formats[0][1]
                 if format_fit_check(board, width,height) and board.occupied == False:
@@ -404,25 +398,21 @@ def place_elements(formats, initial_board_x, initial_board_y,file_path):
                         free_boards = list(filter(lambda board: not board.occupied, free_boards))
                         free_boards.sort(key=lambda board: board.start_y)
 
-
-                        boards.append(board)                                               
+                        if board not in boards:
+                            boards.append(board)                                               
                         formats.pop(0)
                         placement_successful = True
-                        scan_boards(free_boards)
-                        plt.savefig(file_path, format='png', dpi=150)
-
-                        #moze check_board_down -> moze reduce waste?
-
-
+                        #scan_boards(boards)
+                        #plt.savefig(file_path, format='png', dpi=150)
                         break
                 else:
                     
-                    board_above = check_board_above(free_boards, board, tolerance=5)
+                    board_above = check_board_above(free_boards, board)
                     if board_above:
-                        print(f"Board: {board}\nboard_above: {board_above}")
+                        #print(f"Board: {board}\nboard_above: {board_above}")
                         free_boards = reduce_wastes(board, board_above, free_boards)
-                        scan_boards(free_boards)
-                        plt.savefig(file_path, format='png', dpi=150)
+                        #scan_boards(free_boards)
+                        #plt.savefig(file_path, format='png', dpi=150)
                         
 
 
@@ -446,8 +436,8 @@ def place_elements(formats, initial_board_x, initial_board_y,file_path):
     occupied_boards = [board for board in boards if board.occupied]
     for board in occupied_boards:
         generate_rectangle(board.start_x, board.start_y, board.X, board.Y, ax)
-        plt.savefig(file_path, format='png', dpi=150)
-        time.sleep(0.2) 
+        #plt.savefig(file_path, format='png', dpi=150)
+        #time.sleep(0.2) 
 
     print(f"Formats omitted: {formats_omitted}")
     for format in formats_omitted:
@@ -460,8 +450,13 @@ def place_elements(formats, initial_board_x, initial_board_y,file_path):
       
     return formats_omitted, free_boards, occupied_boards
 
+# testing purposes
+
 initial_board_x = 2500
 initial_board_y = 700
 output_dir = f"/home/dylan/AutoWood/AutoWood_Backend/cut_optimizer/optimized_cuts/"
-formats = [[1658, 167],[1658, 167],[1658, 167], [323,180],[323,180],[323,180],[323,180],[323,180],[323,180],[323,180],[323,180],[323,180],[323,180], ]
-generate_board(initial_board_x,initial_board_y, output_dir, formats )
+formats = [[2500, 250],[2500, 250], [382,160], [382,160], [382,160], [382,160], [382,160] ]
+formats_omitted, free_boards, occupied_boards = generate_board(initial_board_x,initial_board_y, output_dir, formats ) 
+
+for board in occupied_boards:
+    print(board)

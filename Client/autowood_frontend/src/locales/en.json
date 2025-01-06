@@ -141,7 +141,9 @@
     "boards": "Boards",
     "import_elements": "Import elements",
     "search": "Search",
-    "get_elements": "Get elements"
+    "get_elements": "Get elements",
+    "formats_omitted": "Formats omitted",
+    "wastes": "Wastes"
     
     
     

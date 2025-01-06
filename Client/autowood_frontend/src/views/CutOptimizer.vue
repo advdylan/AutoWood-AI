@@ -96,7 +96,13 @@
              
     
           </svg>
+
+          
         </div>
+
+        <OptimizerFooter
+        :free-boards = "FreeBoards">
+        </OptimizerFooter>
 
         </div>
 
@@ -160,6 +166,7 @@ import { useNewProjectStoreBeta } from '@/store/newproject'
 import ElementsOptimizerTable from '@/components/OptimizerComponents/ElementsOptimizerTable.vue'
 import BoardInput from '@/components/OptimizerComponents/BoardInput.vue'
 import ProjectsList from './ProjectsList.vue'
+import OptimizerFooter from '@/components/OptimizerComponents/OptimizerFooter.vue'
 import { storeToRefs } from 'pinia'
 import axios from 'axios'
 import { toast } from 'bulma-toast'
@@ -206,6 +213,19 @@ function copyElements(id) {
       let data = response.data
       console.log(data)
       DownloadedElements.value = data
+
+      for (let element of DownloadedElements.value) {
+        elements.value.push({
+              element: {
+                name: element.element.name,
+                dimX: element.element.dimX,
+                dimY: element.element.dimY,
+                dimZ: element.element.dimZ,
+                wood_type: element.element.wood_type
+              },
+              quantity: element.quantity
+            })
+      }
       
     })
   } catch (error) {
