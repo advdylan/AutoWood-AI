@@ -49,8 +49,8 @@
               <!-- Example content -->
               <defs>
                 <linearGradient id="occupiedBoardGrad" x1="0%" x2="100%" y1="0%" y2="0%">
-                  <stop offset="0%" stop-color="rgb(205, 247, 205)" stop-opacity="0.1" />
-                  <stop offset="100%" stop-color="rgb(205, 247, 205)" stop-opacity="0.3" />
+                  <stop offset="0%" stop-color="rgb(205, 247, 205)" stop-opacity="0.3" />
+                  <stop offset="100%" stop-color="rgb(205, 247, 205)" stop-opacity="0.8" />
                 </linearGradient>
                 <linearGradient id="FreeBoardGrad" x1="0%" x2="100%" y1="0%" y2="0%">
                   <stop offset="0%" stop-color="rgb(250, 237, 237)" stop-opacity="0.1" />
@@ -226,6 +226,8 @@ function copyElements(id) {
               quantity: element.quantity
             })
       }
+      showSearchModal.value = false
+     
       
     })
   } catch (error) {
@@ -270,6 +272,7 @@ try{
           FreeBoards.value = data.free_boards
           ElementsOmmited.value = data.formats_ommited,
           OccupiedBoards.value = data.occupied_boards
+          
         }
         return true   
       })

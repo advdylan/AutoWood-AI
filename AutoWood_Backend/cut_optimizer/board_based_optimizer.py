@@ -445,8 +445,9 @@ def place_elements(formats, initial_board_x, initial_board_y):
         print(f"FORMAT OMITTED: {format}")
     for board in free_boards:
         print(f"Board wasted: {board.X, board.Y} ")
+      
 
-
+    free_boards = [board for board in free_boards if int(board.X) > 50]
                 
       
     return formats_omitted, free_boards, occupied_boards

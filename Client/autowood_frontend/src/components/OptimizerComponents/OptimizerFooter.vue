@@ -15,14 +15,14 @@
               <tbody>
                 <tr v-for="(board, rowIndex) in freeBoards" :key="rowIndex">
                   <td
-                    v-for="(value, colIndex) in [board.X.toFixed(2), board.Y]"
+                    v-for="(value, colIndex) in [board.X.toFixed(2), board.Y.toFixed(2)]"
                     :key="colIndex"
                     :class="{
                       'is-selected': selectedCell.row === rowIndex && selectedCell.col === colIndex
                     }"
                     @click="selectCell(rowIndex, colIndex)"
                   >
-                    {{ value }}
+                    {{ value  }} mm
                   </td>
                 </tr>
               </tbody>
@@ -71,13 +71,13 @@ function selectCell(row,col) {
 }
 
 .excel-table td:hover {
-  background-color: #f0f8ff;
+  background-color: #cae4fb;
 }
 .excel-table .is-selected {
   background-color: #b3d4fc;
   color: #000;
   font-weight: bold;
-  border: 2px solid #0078d7;
+  
 }
 
 </style>
