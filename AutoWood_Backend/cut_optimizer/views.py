@@ -4,11 +4,16 @@ from django.conf import settings
 from django.shortcuts import render, get_object_or_404
 from django.utils import timezone
 from django.http import JsonResponse, HttpResponse, FileResponse
+from rest_framework.views import APIView
 from rest_framework.decorators import api_view, parser_classes
-from rest_framework import status
+from rest_framework.response import Response
+from rest_framework import status, generics
+
 
 import sys
 import os
+from product.models import *
+from product.serializers import *
 sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
 
 
@@ -16,6 +21,20 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(
 from cut_optimizer.board_based_optimizer import generate_board, convert_elements_from_list
 
 # Create your views here.
+
+class ElementsGetAPIView(APIView):
+    def get(self, request, pk):
+
+        try: 
+            project_id = pk 
+            project_elements = NewProjectElement.objects.filter(project_id = project_id)
+            serializer = NewProjectElementSerializer(project_elements, many=True)
+            return Response(serializer.data)
+        except project_elements.DoesNotExist:
+            return Response({"error": "NewProject not found"}, status=404)
+
+
+elements_get_view = ElementsGetAPIView.as_view()
 
 
 @api_view(["POST"])

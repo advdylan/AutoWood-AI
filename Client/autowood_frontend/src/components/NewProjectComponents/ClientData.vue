@@ -248,7 +248,7 @@ const props = defineProps({
   showCardTitle: Boolean
 })
 
-const showCardTitle = computed(() => props.showCardTitle);
+const showCardTitle = computed(() => props.showCardTitle)
 
 
 

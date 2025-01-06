@@ -136,7 +136,10 @@
                 </header>
                 <section class="modal-card-body" >
 
-                  <ProjectsList></ProjectsList>
+                  <ProjectsList
+                  :search-modal="true"
+                  @get-elements="copyElements"                 
+                  ></ProjectsList>
 
 
                    
@@ -172,6 +175,7 @@ const { t } = useI18n()
 const FreeBoards = ref([])
 const OccupiedBoards = ref([])
 const ElementsOmmited = ref([])
+const DownloadedElements = ref([])
 
 const showSearchModal = ref(false)
 
@@ -190,6 +194,25 @@ const newElement = ref({
   },
   quantity: 1
 })
+
+
+function copyElements(id) {
+  console.log(id)
+
+  try {
+     axios
+    .get(`api/v1/tools/new-project-elements/${id}/`)
+    .then(response => {
+      let data = response.data
+      console.log(data)
+      DownloadedElements.value = data
+      
+    })
+  } catch (error) {
+    
+  }
+  
+}
 
 function assignBoardToElement() {
 
@@ -269,7 +292,7 @@ else {
 
 .modal-content
 .modal-card {
-  width: 70%;
+  width: 90%;
 
 }
 

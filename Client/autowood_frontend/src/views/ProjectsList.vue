@@ -15,6 +15,7 @@
                             <router-link :to="{ name: 'NewProjectDetail', params: { id: props.row.id } }">
                                 <b-button icon-right="circle-info">{{$t("details")}}</b-button>                               
                             </router-link>
+                            <b-button @click="$emit('getElements', props.row.id)" :value=props.row.id v-if="searchModal" icon-right="file-arrow-down">{{ $t("get_elements") }}</b-button>
                             
                         </template>
                         <template v-else>
@@ -30,12 +31,20 @@
 <script setup>
 import { useProjectsListStore } from '@/store/projectslist'
 import { storeToRefs } from 'pinia'
+import { ref} from 'vue'
 
 
 const ProjectsListStore = useProjectsListStore()
 
 const { loadProjects, loadDetailProject } = ProjectsListStore
 const { projectlist, data, columns } = storeToRefs(ProjectsListStore)
+
+
+const propsList =  defineProps({
+    searchModal: Boolean,
+    default: false
+})
+
 
 loadProjects()
 </script>

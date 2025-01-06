@@ -64,6 +64,9 @@ class WoodRetrieveUpdateDestroyAPIView(
 wood_retrieve_update_destroy_view = WoodRetrieveUpdateDestroyAPIView.as_view()
 
 
+
+
+
 class ProjectListView(APIView):
     def get(self,request):
         category_serializer = CategorySerializer(Category.objects.all(), many=True)

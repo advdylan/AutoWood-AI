@@ -142,7 +142,8 @@
     "generate": "Generuj",
     "boards": "Płyty",
     "import_elements": "Importuj elementy z projektu",
-    "search": "Wyszukaj"
+    "search": "Wyszukaj",
+    "get_elements": "Importuj elementy"
     
 
 

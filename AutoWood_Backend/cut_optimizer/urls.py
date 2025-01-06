@@ -6,5 +6,6 @@ from cut_optimizer import views
 
 
 urlpatterns = [
-    path('cut-optimizer/', views.optimize_cuts_without_project, name='cut-optimizer')
+    path('cut-optimizer/', views.optimize_cuts_without_project, name='cut-optimizer'),
+    path('new-project-elements/<int:pk>/', views.elements_get_view, name='new-project-elements')
 ]
