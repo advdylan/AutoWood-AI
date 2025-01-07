@@ -172,7 +172,7 @@ export const useNewProjectStoreBeta = defineStore('newproject', {
     },
   
     addAccesory(accesory) {    
-      console.log(accesory)  
+      //console.log(accesory)  
       const newAccesory = {
         id: accesory.id,
         project: 0,

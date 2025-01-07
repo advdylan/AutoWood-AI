@@ -281,7 +281,7 @@ def save_data(request):
 
             customer, created = Customer.objects.get_or_create(
                 name=customer_data["name"],
-                phone_number=int(customer_data["phoneNumber"]),
+                phone_number=int(customer_data["phone_number"]),
                 street=customer_data["street"],
                 code=customer_data["code"],
                 city=customer_data["city"],

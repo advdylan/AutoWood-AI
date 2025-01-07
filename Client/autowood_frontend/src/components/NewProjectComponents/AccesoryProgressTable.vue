@@ -25,10 +25,8 @@
                                         <template v-else>
                                           {{ getNestedValue(props.row, column.field) }}
                                         </template>
-
                                     </template>
-                                </b-table-column>
-                                
+                                </b-table-column>  
                             </template>
                         </b-table>                       
                     </div>
@@ -36,8 +34,45 @@
             </div>
         </div>
     </div>
-    </section>
+    
+    
+    <div class="box">
+      <table class="table is-bordered is-striped is-hoverable is-fullwidth">
+        <thead>
+          <tr>
+            <th>{{ $t("name")}}</th>
+            <th>{{ $t("price")}}</th>
+            <th>{{ $t("typ")}}</th>
+            <th>{{ $t("quantity")}}</th>  
+            <th>{{ $t("quantity")}}</th>
+            <th class="delete-column">{{ $t("delete")}}</th>
+          </tr>
 
+        </thead>
+        
+        <tfoot>
+          
+          <tr>   
+          </tr>
+
+        </tfoot>
+        <tbody>
+          <tr v-for="accesory in accesories" :key="accesory.name">
+            
+            <th>{{ accesory.type.name }}</th>
+            <td>{{ accesory.type.price }}</td>
+            <td>{{ accesory.type.type }}</td>
+            <td> {{ accesory.quantity  }}</td>          
+            <td>  {{ (accesory.type.price * accesory.quantity).toFixed(2)   }}zł </td>
+            <td><b-button @click="deleteAccesory(accesory)" type="is-danger"><i class="fa-solid fa-xmark"></i></b-button></td>
+   
+          </tr>
+        </tbody>
+        
+      </table>
+      
+    </div>
+  </section>
 </template>
 
 <script setup>
@@ -47,6 +82,7 @@ import { onMounted, ref, watch, onBeforeUnmount, reactive, computed, nextTick } 
 import axios from 'axios'
 import { toast } from 'bulma-toast'
 import {validateFormData, validateNewAccesory} from '@/validators/Validators.js'
+import AccessoryTable from '../AccessoryTable.vue'
 
 import { useRouter, useRoute, onBeforeRouteLeave, onBeforeRouteUpdate } from 'vue-router'
 
@@ -69,6 +105,7 @@ const accesory = ref({
   type: '',
   weight: ''
 })
+
 const typeChoices = ref([])
 const errors = ref([])
 const quantities = ref({})
@@ -183,22 +220,23 @@ else {
 }
 
 function handleAddAccButton(accesory) {
-  console.log(accesory)
+  
   const newAccesory = {
         id: accesory.id,
         project: 0,
         quantity: accesory.quantity,
         type: {
-            description: accesory.description,
-            id: accesory.id,
-            name: accesory.name,
-            price: accesory.price,
-            type: accesory.type,
-            weight: accesory.weight
+            description: accesory.type.description,
+            id: accesory.type.id,
+            name: accesory.type.name,
+            price: accesory.type.price,
+            type: accesory.type.type,
+            weight: accesory.type.weight
         }
     }
+    accesories.value.push(newAccesory)
 
-}
+} 
 
 function handleAddButton() {      
 

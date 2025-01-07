@@ -1,4 +1,5 @@
 <template>
+<div class="section">
   
   
 <form @submit.prevent="submitForm">
@@ -61,7 +62,7 @@
             </nav>    
           </section>
       </form>
-      <section v-if="elements.length" class="hero is-primary is-small">
+      <section v-if="elements.length" class="hero is-primary is-small" >
   <div class="hero-body">
     <div class="columns">
       <div class="column is-half is-centered">
@@ -71,7 +72,7 @@
   </div>
 </section>
 
-  <div v-if="elements.length">
+  <div class="section" v-if="elements.length">
   <b-table :key="tableKey" :data="elements" :paginated="isPaginated" :per-page="perPage" :current-page.sync="currentPage" :pagination-simple="isPaginationSimple" :pagination-position="paginationPosition" :default-sort-direction="defaultSortDirection" :pagination-rounded="isPaginationRounded" :sort-icon="sortIcon" :sort-icon-size="sortIconSize" default-sort="user.first_name" aria-next-label="Next page" aria-previous-label="Previous page" aria-page-label="Page" aria-current-label="Current page" :page-input="hasInput" :pagination-order="paginationOrder" :page-input-position="inputPosition" :debounce-page-input="inputDebounce">
 
   <b-table-column :label="$t('name')"> 
@@ -151,7 +152,7 @@
   </b-table-column>
 </b-table>                            
 </div>
-
+</div>
 </template>
 
 
