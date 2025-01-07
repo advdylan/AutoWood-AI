@@ -370,12 +370,17 @@ def place_elements(formats, initial_board_x, initial_board_y):
     boards.append(board_1)
     formats_omitted = []
 
-    # Cut the board based on the first format 
-    width, height = formats[0][0],formats[0][1]
-    #first cut assumes it works
-    cut_first_board(boards,boards[0], width, height, initial_board_x, initial_board_y)
-    add_format(boards[0], width, height)
-    formats.pop(0)
+    # Cut the board based on the first format
+    for format in formats: 
+        width, height = formats[0][0],formats[0][1]
+        if width > initial_board_x or height > initial_board_y:
+            formats_omitted.append([width,height])
+            formats.pop(0)
+        else:
+        #first cut assumes it works
+            cut_first_board(boards,boards[0], width, height, initial_board_x, initial_board_y)
+            add_format(boards[0], width, height)
+            formats.pop(0)
     #scan_boards(boards)
     #plt.savefig(file_path, format='png', dpi=150)
     free_boards = [board for board in boards if not board.occupied]

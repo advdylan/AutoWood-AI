@@ -184,10 +184,27 @@
     ]);
     
     function handleDeleteButton(row){
-          console.log(row)
-          const index = boards.value.findIndex(item => item.board.name === row.board.name)
-          boards.value.splice(index, 1)
-          tableKey.value += 1 //refreshing the table
+          //console.log("Boards:", boards.value);
+          //console.log(row)
+
+          console.log("Boards array:", boards.value);
+          console.log("Row data for comparison:", row);
+          
+
+          const index = boards.value.findIndex(item =>
+        
+          item.board.dimX === row.board.dimX &&
+          item.board.dimY === row.board.dimY &&
+          item.board.dimZ === row.board.dimZ &&
+          item.board.wood_type.name === row.board.wood_type.name &&
+          item.board.wood_type.density === row.board.wood_type.density &&
+          item.board.wood_type.price === row.board.wood_type.price)
+          if (index !== -1) {
+            boards.value.splice(index, 1);
+            tableKey.value += 1; // Refreshing the table
+          } else {
+            console.error("Board not found for deletion");
+          }
         }
 
 
