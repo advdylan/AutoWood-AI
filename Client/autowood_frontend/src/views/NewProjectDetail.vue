@@ -2,6 +2,8 @@
   <ClientData v-if="detail_project"
   :customer-props = "detail_project.customer"
   :documents-props = "detail_project.document"
+  :detail-project = "detail_project"
+  @update:detailProject="detail_project = $event"
   >
   </ClientData>
   
@@ -17,69 +19,11 @@
         <div class="column is-half">
           <div class="card">
             <div class="card-header">
-              <p class="card-header-title is-size-5">{{ $t('details') }}</p>
+              <p class="card-header-title is-size-5">{{ $t('navigation') }}</p>
             </div>
               <div class="card-content">
-                <div class="columns">
-                  <div class="column">
-         
-                  <div class="content">
-                    <div class="field">
-                      <label class="label is-size-5">{{ $t('project_name') }}</label>
-                      <div class="control">
-                        <input v-model="projectName" class="input" type="text" placeholder="Nazwa projektu">
-                      </div>
-                    </div>
-  
-                    <div class="field" v-if="selectedWood">
-                      <label class="label is-size-5">{{ $t('wood_type') }}</label>
-                      <div class="control">
-                        <div class="select">
-                          <select v-model="selectedWood">
-                            <option v-for="woodItem in wood"> {{ woodItem.name }}</option>
-                          </select>
-                        </div>
-                      </div>
-                    </div>
-  
-                    <div class="field">
-                      <label class="label is-size-5">{{ $t('category') }}</label>
-                      <div class="control">
-                        <div class="select">
-                          <select v-model="selectedCategory">
-                            <option v-for="categoryItem in category"> {{ categoryItem.name }}</option>
-                          </select>
-                        </div>
-                      </div>
-                    </div>
-  
-                    <div class="field">
-                      <label class="label is-size-5">{{ $t('collection') }}</label>
-                      <div class="control">
-                        <div class="select">
-                          <select v-model="selectedCollection">
-                          <option v-for="collection in collection"> {{ collection.name }}</option>
-                          </select>
-                        </div>
-                      </div>
-                      </div>
-  
-                      <div class="field">
-                        <label class="label is-size-5">{{ $t('painting') }}</label>
-                        <div class="control">
-                          <div class="select">
-                            <select v-model="selectedPaint">
-                              <option v-for="paints in paints">{{ paints.name}}</option>
-                            </select>                           
-                          </div>                   
-                        </div>                      
-                      </div>                         
-                    </div>                       
-                  </div>  
-                </div>  
 
                 <div class="buttons">
-
                   <b-button @click="submitUpdateForm" type="is-success" >
                     <i class="fa-solid fa-floppy-disk"></i>
                     {{ $t('save') }}
@@ -406,11 +350,11 @@ const submitForm = () => {
         const formData = {
 
           id: id,
-          name: projectName.value,
-          category: selectedCategory.value,
-          wood: selectedWood.value,
-          collection: selectedCollection.value,
-          paints: selectedPaint.value,
+          name: detail_project.value.name,
+          category: detail_project.value.category.name,
+          wood: detail_project.value.wood.name,
+          collection: detail_project.value.collection.name,
+          paints: detail_project.value.paints.name,
           elements_margin: elementsMargin.value,
           accesories_margin: accesoriesMargin.value,
           additional_margin: additionalMargin.value,
@@ -437,6 +381,7 @@ const submitForm = () => {
 
   onUnmounted(()=> {
     console.log("Unmount the NewProjectDetail")
+    detail_project.value = null
     $reset()
   })
 

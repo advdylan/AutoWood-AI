@@ -226,12 +226,9 @@
 <script setup>
 import { useNewProjectStoreBeta } from '@/store/newproject'
 import { storeToRefs } from 'pinia'
-import { ref, watch, computed } from 'vue'
+import { ref, watch, computed, watchEffect } from 'vue'
 import axios from 'axios'
 import { toast } from 'bulma-toast'
-
-
-
 
 
 
@@ -245,10 +242,37 @@ const props = defineProps({
   customerProps: Object,
   documentsProps: Array,
   imagesProps: Array,
-  showCardTitle: Boolean
+  showCardTitle: Boolean,
+  detailProject: Object
+
 })
+const emit = defineEmits(["update:detailProject"]);
 
 const showCardTitle = computed(() => props.showCardTitle)
+
+
+watchEffect(() => {
+  if (props.detailProject) {
+    projectName.value = props.detailProject.name || "";
+    selectedWood.value = props.detailProject.wood?.name || "";
+    selectedCategory.value = props.detailProject.category?.name || "";
+    selectedCollection.value = props.detailProject.collection?.name || "";
+    selectedPaint.value = props.detailProject.paints?.name || "";
+  }
+})
+watch(
+  [projectName, selectedWood, selectedCategory, selectedCollection, selectedPaint],
+  ([newProjectName, newSelectedWood, newSelectedCategory, newSelectedCollection, newSelectedPaint]) => {
+    emit("update:detailProject", {
+      ...props.detailProject,
+      name: newProjectName,
+      wood: { ...props.detailProject?.wood, name: newSelectedWood },
+      category: { ...props.detailProject?.category, name: newSelectedCategory },
+      collection: { ...props.detailProject?.collection, name: newSelectedCollection },
+      paints: { ...props.detailProject?.paints, name: newSelectedPaint },
+    });
+  }
+);
 
 
 
@@ -271,6 +295,15 @@ watch (
   },
   { immediate: true }
 ) 
+
+watch (
+  () => props.detailProject,
+  (newProjectName) => {
+    if (newProjectName)
+    projectName.value = newProjectName.name
+  }
+)
+
 
 
 

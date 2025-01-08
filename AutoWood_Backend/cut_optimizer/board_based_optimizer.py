@@ -452,7 +452,7 @@ def place_elements(formats, initial_board_x, initial_board_y):
         print(f"Board wasted: {board.X, board.Y} ")
       
 
-    free_boards = [board for board in free_boards if int(board.X) > 50]
+    free_boards = [board for board in free_boards if int(board.X) > 50 and int(board.Y) > 50]
                 
       
     return formats_omitted, free_boards, occupied_boards

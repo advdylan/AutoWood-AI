@@ -237,6 +237,13 @@ export const useNewProjectStoreBeta = defineStore('newproject', {
         email: ''
       }
       this.files = []
+      
+      this.projectName = null
+      this.selectedWood = null
+      this.selectedCategory = null
+      this.selectedCollection = null
+      this.selectedPaint = null
+      this.selectedFile = null
     },
 
    
