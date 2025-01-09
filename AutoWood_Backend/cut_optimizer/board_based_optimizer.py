@@ -69,8 +69,8 @@ def add_format(board, format_width, format_height):
 def generate_board(initial_board_x,initial_board_y, output_dir, formats):
 
     id = random.randint(5, 9000)
-    optc_name = f"optimized_cut_{id}.png"
-    file_path = os.path.join(output_dir, optc_name)
+    #optc_name = f"optimized_cut_{id}.png"
+    #file_path = os.path.join(output_dir, optc_name)
 
 
     ax.set_xlim(0, initial_board_x)
@@ -87,8 +87,8 @@ def generate_board(initial_board_x,initial_board_y, output_dir, formats):
     #forats = convert_elements_from_list(formats)
     #formats = convert_elements_from_project(project_data)
     #
-    if not os.path.exists(output_dir):
-        os.makedirs(output_dir)
+    #if not os.path.exists(output_dir):
+        #os.makedirs(output_dir)
 
     #formats = [[332,106], [332,106], [332,106],[332,106], [332,106], [332,106],[332,106], [332,106], [332,106],[332,106], [332,106], [332,106], [2005, 168], [2005, 168], [2005, 168], [2005, 168], [1200,430],[1200,430],[1200,430],[1200,430],[760, 430],[760, 430],[760, 430],[760, 430]]
     
@@ -371,18 +371,22 @@ def place_elements(formats, initial_board_x, initial_board_y):
     formats_omitted = []
 
     # Cut the board based on the first format
+    print("formats before: ", formats)
     for format in formats: 
         width, height = formats[0][0],formats[0][1]
         if width > initial_board_x or height > initial_board_y:
             formats_omitted.append([width,height])
             formats.pop(0)
-        else:
+        
         #first cut assumes it works
-            cut_first_board(boards,boards[0], width, height, initial_board_x, initial_board_y)
-            add_format(boards[0], width, height)
-            formats.pop(0)
+    cut_first_board(boards,boards[0], width, height, initial_board_x, initial_board_y)
+    add_format(boards[0], width, height)
+    formats.pop(0)
     #scan_boards(boards)
     #plt.savefig(file_path, format='png', dpi=150)
+    print("formats after first cut:", formats)
+
+
     free_boards = [board for board in boards if not board.occupied]
     try:
         while formats:                
