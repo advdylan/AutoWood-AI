@@ -312,10 +312,7 @@ const newElement = ref({
   background-image: linear-gradient(khaki, rgb(93, 139, 115) );
 }
 
-.hero.is-primary {
-  background-color:rgb(141, 188, 164);
-  border-radius: 5px;
-}
+
 
 
 

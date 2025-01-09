@@ -126,7 +126,7 @@
                     <button class="delete" aria-label="close" @click="showAccModal = false"></button>        
                   </header>
                   <section class="modal-card-body">
-                    <AccessoryTable v-if="detail_project" :propsAccesories="detail_project.accessories" addAccDetail="one"  />
+                    <AccesoryProgressTable v-if="detail_project" :accesories="detail_project.accessories" addAccDetail="one"  />
                   </section>
           </div>
           </div>
@@ -278,8 +278,7 @@
   import { ref, watchEffect, onUnmounted } from 'vue'
   import { useRoute } from 'vue-router'
   import ElementsTable from '@/components/ElementsTable'
-  import AccessoryTable from '@/components/AccessoryTable.vue'
-  import NewProject from './NewProject.vue'
+  import AccesoryProgressTable from '@/components/NewProjectComponents/AccesoryProgressTable.vue'
   import ClientData from '@/components/NewProjectComponents/ClientData.vue'
   import Summary from '@/components/Summary.vue'
 

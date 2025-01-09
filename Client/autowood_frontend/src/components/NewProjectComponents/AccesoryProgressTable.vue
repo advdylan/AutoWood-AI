@@ -37,6 +37,15 @@
     
     
     <div class="box">
+      <section v-if="accesories.length" class="hero is-primary is-small" >
+  <div class="hero-body">
+    <div class="columns">
+      <div class="column is-half is-centered">
+        <p class="title">{{ $t('accesories') }}</p>
+      </div>
+    </div>
+  </div>
+</section>
       <table class="table is-bordered is-striped is-hoverable is-fullwidth">
         <thead>
           <tr>
@@ -150,6 +159,19 @@ const filteredAccessories = computed(() => {
 const {loadData, addAccesorytype, updateAccesories, addAccesory, deleteAccesory} = newProjectStore
 const {accesories, accesorytype} = storeToRefs(newProjectStore)
 
+const props = defineProps({
+  accesories: Array
+})
+
+watch(
+  () => props.accesories,
+  (newAccesories) => {
+    if (newAccesories)  {
+      accesories.value = newAccesories
+    }
+  },
+  { immediate: true }
+)
 
 function getAccessoryTypes(accesoryList) {
   return [...new Set(accesoryList.flatMap(item => item.type_choices.map(choice => choice[0])))];
@@ -445,5 +467,9 @@ let columns = [
 }
 .delete-column b-button {
   padding: 0;
+}
+.hero.is-primary {
+  background-color:rgb(141, 188, 164);
+  border-radius: 5px;
 }
 </style>

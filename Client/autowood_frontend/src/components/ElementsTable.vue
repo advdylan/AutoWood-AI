@@ -74,6 +74,11 @@
       {{ props.row.quantity }}
     </template>
   </b-table-column>
+  <b-table-column :label="$t('price')">
+    <template #default="props">
+      {{ props.row.element.price }}
+    </template>
+  </b-table-column>
 
   <b-table-column :label="$t('Nav')">
     <template #header>
@@ -139,6 +144,7 @@ const columns = computed(() => [
   { field: 'element.dimZ', label: t('thickness'), sortable: true, searchable: true, },
   { field: 'element.wood_type.name', label: t('wood_type'), sortable: true, searchable: true, },
   { field: 'quantity', label: t('quantity'), sortable: true },
+  { field: 'element.price', label: t('price'), sortable: true},
   { field: 'nav', label: 'nav', sortable: false, centered: true },
 ]);
 

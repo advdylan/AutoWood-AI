@@ -34,7 +34,7 @@ class Element(models.Model):
     def set_price(self):
         try:
             
-            volume = Decimal(self.dimX / 1000) * Decimal(self.dimY / 1000) * Decimal(self.dimZ / 1000)
+            volume = Decimal(int(self.dimX) / 1000) * Decimal(int(self.dimY) / 1000) * Decimal(int(self.dimZ) / 1000)
             self.price = volume * self.wood_type.price
         
         except InvalidOperation as e:
