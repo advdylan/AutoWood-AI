@@ -169,7 +169,7 @@ def cut_next_board(boards,board,format_width, format_height,initial_board_x, ini
             new_board_higher_row = Board(initial_board_x, remaining_Y, board.start_x, new_board_start_y)
             boards.append(new_board_higher_row)      
     
-def check_board_above(boards, board, tolerance=10):
+def check_board_above(boards, board, tolerance=1):
     """
     Check if there's a board directly above the current board within a small vertical gap (tolerance).
     Ensures strict horizontal alignment and avoids mixing unrelated boards.

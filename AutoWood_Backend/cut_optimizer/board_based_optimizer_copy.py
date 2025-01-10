@@ -69,8 +69,8 @@ def add_format(board, format_width, format_height):
 def generate_board(initial_board_x,initial_board_y, output_dir, formats):
 
     id = random.randint(5, 9000)
-    optc_name = f"optimized_cut_{id}.png"
-    file_path = os.path.join(output_dir, optc_name)
+    #optc_name = f"optimized_cut_{id}.png"
+    #file_path = os.path.join(output_dir, optc_name)
 
 
     ax.set_xlim(0, initial_board_x)
@@ -87,8 +87,8 @@ def generate_board(initial_board_x,initial_board_y, output_dir, formats):
     #forats = convert_elements_from_list(formats)
     #formats = convert_elements_from_project(project_data)
     #
-    if not os.path.exists(output_dir):
-        os.makedirs(output_dir)
+    #if not os.path.exists(output_dir):
+        #os.makedirs(output_dir)
 
     #formats = [[332,106], [332,106], [332,106],[332,106], [332,106], [332,106],[332,106], [332,106], [332,106],[332,106], [332,106], [332,106], [2005, 168], [2005, 168], [2005, 168], [2005, 168], [1200,430],[1200,430],[1200,430],[1200,430],[760, 430],[760, 430],[760, 430],[760, 430]]
     
@@ -169,7 +169,7 @@ def cut_next_board(boards,board,format_width, format_height,initial_board_x, ini
             new_board_higher_row = Board(initial_board_x, remaining_Y, board.start_x, new_board_start_y)
             boards.append(new_board_higher_row)      
     
-def check_board_above(boards, board, tolerance=10):
+def check_board_above(boards, board, tolerance=1):
     """
     Check if there's a board directly above the current board within a small vertical gap (tolerance).
     Ensures strict horizontal alignment and avoids mixing unrelated boards.
@@ -370,14 +370,23 @@ def place_elements(formats, initial_board_x, initial_board_y):
     boards.append(board_1)
     formats_omitted = []
 
-    # Cut the board based on the first format 
-    width, height = formats[0][0],formats[0][1]
-    #first cut assumes it works
+    # Cut the board based on the first format
+    print("formats before: ", formats)
+    for format in formats: 
+        width, height = formats[0][0],formats[0][1]
+        if width > initial_board_x or height > initial_board_y:
+            formats_omitted.append([width,height])
+            formats.pop(0)
+        
+        #first cut assumes it works
     cut_first_board(boards,boards[0], width, height, initial_board_x, initial_board_y)
     add_format(boards[0], width, height)
     formats.pop(0)
     #scan_boards(boards)
     #plt.savefig(file_path, format='png', dpi=150)
+    print("formats after first cut:", formats)
+
+
     free_boards = [board for board in boards if not board.occupied]
     try:
         while formats:                
@@ -397,6 +406,7 @@ def place_elements(formats, initial_board_x, initial_board_y):
 
                         free_boards = list(filter(lambda board: not board.occupied, free_boards))
                         free_boards.sort(key=lambda board: board.start_y)
+
 
                         if board not in boards:
                             boards.append(board)                                               
@@ -444,22 +454,17 @@ def place_elements(formats, initial_board_x, initial_board_y):
         print(f"FORMAT OMITTED: {format}")
     for board in free_boards:
         print(f"Board wasted: {board.X, board.Y} ")
-    
-    free_boards = [board for board in free_boards if int(board.X) < 50]
+      
 
-
-
+    free_boards = [board for board in free_boards if int(board.X) > 50 and int(board.Y) > 50]
                 
       
     return formats_omitted, free_boards, occupied_boards
 
 # testing purposes
-
+"""
 initial_board_x = 2500
 initial_board_y = 700
 output_dir = f"/home/dylan/AutoWood/AutoWood_Backend/cut_optimizer/optimized_cuts/"
-formats = [[2500, 250],[2500, 250], [382,160], [382,160], [382,160], [382,160], [382,160] ]
-formats_omitted, free_boards, occupied_boards = generate_board(initial_board_x,initial_board_y, output_dir, formats ) 
-
-for board in occupied_boards:
-    print(board)
+formats = [[1658, 167],[1658, 167],[1658, 167], [323,180],[323,180],[323,180],[323,180],[323,180], ]
+generate_board(initial_board_x,initial_board_y, output_dir, formats ) """
