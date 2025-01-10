@@ -39,14 +39,15 @@
   
           <div v-if="OccupiedBoards.length" class="column has-text-centered" >
             <!-- SVG MIDDLE SECTION -->
-            <div class="box is-fullwidth" style="overflow: hidden; text-align: center;">
+            <div  style="overflow: hidden; text-align: center;">
             <svg 
                 id="svgBoard" 
                 xmlns="http://www.w3.org/2000/svg" 
-                :viewBox="`0 0 ${boards[0].board.dimX} ${boards[0].board.dimY}`"
+                :viewBox="`-60 -60 ${boards[0].board.dimX + 120} ${boards[0].board.dimY + 120}`"
                 preserveAspectRatio="xMidYMid meet" 
-                style="width: 100%; height: 100%; border: 1px solid #ccc;">
-                <!-- Example content -->
+                style="width: 100%; height: 100%; ">
+
+             
                 <defs>
                   <linearGradient id="occupiedBoardGrad" x1="0%" x2="100%" y1="0%" y2="0%">
                     <stop offset="0%" stop-color="rgb(205, 247, 205)" stop-opacity="0.3" />
@@ -58,7 +59,7 @@
                   </linearGradient>
                 </defs>
   
-                <rect  v-for="format in OccupiedBoards" @mouseenter="callDimension(format.X, format.Y)" @mouseleave="discardDimension()"
+                <rect  v-for="format in OccupiedBoards" @mouseenter="callDimension(format.X, format.Y, format.start_x, format.start_y)" @mouseleave="discardDimension()"
                 :x="format.start_x"
                 :y="format.start_y"
                 :width="format.X"
@@ -68,7 +69,7 @@
                 
   
   
-                <rect v-for="format in FreeBoards"
+                <rect v-for="format in FreeBoards" @mouseenter="callDimension(format.X, format.Y, format.start_x, format.start_y)" @mouseleave="discardDimension()"
                 :x="format.start_x"
                 :y="format.start_y"
                 :width="format.X"
@@ -83,33 +84,63 @@
                 :x="(textX.start_x) + (textX.X)/2"
                 :y="textX.start_y + 30"
                 fill="black"
-                style="font-size: 30px;"
+                style="font-size: 25px;"
                 text-anchor="middle"
                 >{{ textX.X }} </text>
   
+                <transition
+                  enter-active-class="animate__animated animate__bounceInUp"
+                  leave-active-class="animate__animated animate__bounceOutDown">
+                <text v-if="showDimension" 
+                
+                :x="displayStartX+(displayDimensionX/2)"
+                :y="-20"
+                :width="displayDimensionX"
+                :height="displayDimensionY"
+                fill="black"
+                style="font-size: 30px;"
+                text-anchor="middle"        
+                >{{ displayDimensionX }}  </text></transition>
+
+                <transition
+                  enter-active-class="animate__animated animate__bounceInUp"
+                  leave-active-class="animate__animated animate__bounceOutDown">
+                <text v-if="showDimension" 
+                
+                :x="displayStartX"
+                :y="-20"
+                fill="black"
+                style="font-size: 30px;"
+                   
+                >|</text></transition>
+
+                <transition
+                  enter-active-class="animate__animated animate__bounceInUp"
+                  leave-active-class="animate__animated animate__bounceOutDown">
+                <text v-if="showDimension" 
+                
+                :x="displayStartX + displayDimensionX"
+                :y="-20"
+                fill="black"
+                style="font-size: 30px;"
+                     
+                >|</text></transition>
+
+
+
                 <text v-for="textY in OccupiedBoards"
                 :key="textY.id"
                 :x="textY.start_x + 30"
                 :y="(textY.start_y) + (textY.Y)/2"
                 fill="black"
-                style="font-size: 30px;"
+                style="font-size: 25px;"
                 text-anchor="middle"
                 :transform="'rotate(270 ' + (textY.start_x + 30) + ' ' + (textY.start_y + textY.Y / 2) + ')'"
                 
                 >{{ textY.Y }} </text>
   
-                <!-- DIMENSION X-->
-                <text v-if="showDimension" v-for="format in OccupiedBoards"
-                :key="format.id"
-                :x="format.start_x"
-                :y="15"
-                :width="format.X"
-                :height="format.Y"
-                fill="black"
-                style="font-size: 30px;"
-                text-anchor="middle"
-            
-                >{{ format.X }} </text>
+                <!-- DISPLAY DIMENSION X & Y-->
+                
                
       
             </svg>
@@ -200,6 +231,10 @@
   const ElementsOmmited = ref([])
   const DownloadedElements = ref([])
   const showDimension = ref(false)
+  const displayDimensionX = ref(null)
+  const displayDimensionY = ref(null)
+  const displayStartX = ref(null)
+  const displayStartY = ref(null)
   
   const showSearchModal = ref(false)
   
@@ -262,9 +297,13 @@
     }
   
   }
-  function callDimension(x, y) {
+  function callDimension(x, y, start_x, start_y) {
     console.log(x,y)
     showDimension.value = true
+    displayDimensionX.value = x
+    displayDimensionY.value = y
+    displayStartX.value = start_x
+    displayStartY.value = start_y
     console.log(showDimension.value)
   }
   
@@ -344,5 +383,12 @@
     width: 90%;
   
   }
+
+  .animate__animated.animate__bounceInUp {
+  --animate-duration: 0.3s;
+}
+.animate__animated.animate__bounceOutDown {
+  --animat-duration: 0.3s;
+}
   
   </style>
