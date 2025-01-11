@@ -198,7 +198,8 @@
           item.board.dimZ === row.board.dimZ &&
           item.board.wood_type.name === row.board.wood_type.name &&
           item.board.wood_type.density === row.board.wood_type.density &&
-          item.board.wood_type.price === row.board.wood_type.price)
+          item.board.wood_type.price === row.board.wood_type.price
+          )
           if (index !== -1) {
             boards.value.splice(index, 1);
             tableKey.value += 1; // Refreshing the table

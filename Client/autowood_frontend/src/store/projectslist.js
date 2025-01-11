@@ -24,7 +24,7 @@ export const useProjectsListStore = defineStore('projectslist', {
                 collection: item.collection.name,
                 wood: item.wood.name,
                 paints: item.paints.name,
-                elements: item.elements.name,
+                elements: item.elements,
                 nawigacja: 'nawigacja'
             })) : [];
         },

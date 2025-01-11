@@ -34,7 +34,7 @@
           <BoardInput></BoardInput>
           </div>
   
-          <button @click="generateBoardWithElements()" v-if="elements.length" style="width: 50%;" class="button is-success is-centered">{{ $t('generate') }}</button>  
+          <button @click="generateBoardWithElements()" v-if="elements.length && boards.length" style="width: 50%;" class="button is-success is-centered">{{ $t('generate') }}</button>  
           </div>
   
           <div v-if="OccupiedBoards.length" class="column has-text-centered" >
@@ -76,57 +76,6 @@
                 :height="format.Y"
                 style="fill:url(#FreeBoardGrad);stroke-width:0.2;stroke:rgb(0,0,0)"          
                 />
-  
-                <!-- DIMENSIONS VIEWIER -->
-  
-                <text v-for="textX in OccupiedBoards"
-                :key="textX.id"
-                :x="(textX.start_x) + (textX.X)/2"
-                :y="textX.start_y + 30"
-                fill="black"
-                style="font-size: 25px;"
-                text-anchor="middle"
-                >{{ textX.X }} </text>
-  
-                <transition
-                  enter-active-class="animate__animated animate__bounceInUp"
-                  leave-active-class="animate__animated animate__bounceOutDown">
-                <text v-if="showDimension" 
-                
-                :x="displayStartX+(displayDimensionX/2)"
-                :y="-20"
-                :width="displayDimensionX"
-                :height="displayDimensionY"
-                fill="black"
-                style="font-size: 30px;"
-                text-anchor="middle"        
-                >{{ displayDimensionX }}  </text></transition>
-
-                <transition
-                  enter-active-class="animate__animated animate__bounceInUp"
-                  leave-active-class="animate__animated animate__bounceOutDown">
-                <text v-if="showDimension" 
-                
-                :x="displayStartX"
-                :y="-20"
-                fill="black"
-                style="font-size: 30px;"
-                   
-                >|</text></transition>
-
-                <transition
-                  enter-active-class="animate__animated animate__bounceInUp"
-                  leave-active-class="animate__animated animate__bounceOutDown">
-                <text v-if="showDimension" 
-                
-                :x="displayStartX + displayDimensionX"
-                :y="-20"
-                fill="black"
-                style="font-size: 30px;"
-                     
-                >|</text></transition>
-
-
 
                 <text v-for="textY in OccupiedBoards"
                 :key="textY.id"
@@ -139,8 +88,92 @@
                 
                 >{{ textY.Y }} </text>
   
-                <!-- DISPLAY DIMENSION X & Y-->
+                <!-- DIMENSIONS VIEWIER X -->
+  
+                <text v-for="textX in OccupiedBoards"
+                :key="textX.id"
+                :x="(textX.start_x) + (textX.X)/2"
+                :y="textX.start_y + 30"
+                fill="black"
+                style="font-size: 25px;"
+                text-anchor="middle"
+                >{{ textX.X }} </text>
+  
+                <transition
+                  enter-active-class="animate__animated animate__fadeIn"
+                  leave-active-class="animate__animated animate__fadeOut">
+                <text v-if="showDimension" 
                 
+                :x="displayStartX+(displayDimensionX/2)"
+                :y="-20"
+                :width="displayDimensionX"
+                :height="displayDimensionY"
+                fill="black"
+                style="font-size: 30px;"
+                text-anchor="middle"        
+                >{{ displayDimensionX }}  </text></transition>
+
+                <transition
+                  enter-active-class="animate__animated animate__fadeIn"
+                  leave-active-class="animate__animated animate__fadeOut">
+                <text v-if="showDimension" 
+                
+                :x="displayStartX"
+                :y="-20"
+                fill="black"
+                style="font-size: 30px;"
+                   
+                >|</text></transition>
+
+                <transition
+                  enter-active-class="animate__animated animate__fadeIn"
+                  leave-active-class="animate__animated animate__fadeOut">
+                <text v-if="showDimension" 
+                
+                :x="displayStartX + displayDimensionX"
+                :y="-20"
+                fill="black"
+                style="font-size: 30px;"
+                     
+                >|</text></transition>
+
+                <!-- DIMENSIONS VIEWIER Y -->
+
+                <transition
+                  enter-active-class="animate__animated animate__fadeIn"
+                  leave-active-class="animate__animated animate__fadeOut">
+                <text v-if="showDimension" 
+                
+                :x="-displayStartY-(displayDimensionY/2)"
+                :y="-20"
+
+                fill="black"
+                style="font-size: 30px;"
+                text-anchor="middle"
+                transform="rotate(-90)"      
+                >{{ displayDimensionY }}  </text></transition>
+
+                <transition
+                  enter-active-class="animate__animated animate__fadeIn"
+                  leave-active-class="animate__animated animate__fadeOut">
+                <text v-if="showDimension"               
+                :x="-displayStartY"
+                :y="-20"
+                fill="black"
+                style="font-size: 30px;"
+                transform="rotate(-90)"         
+                >|</text></transition>
+                <transition
+                  enter-active-class="animate__animated animate__fadeIn"
+                  leave-active-class="animate__animated animate__fadeOut">
+                <text v-if="showDimension"               
+                :x="-displayStartY-(displayDimensionY)"
+                :y="-20"
+                fill="black"
+                style="font-size: 30px;"
+                transform="rotate(-90)"         
+                >|</text></transition>
+
                
       
             </svg>
@@ -193,9 +226,6 @@
                     :search-modal="true"
                     @get-elements="copyElements"                 
                     ></ProjectsList>
-  
-  
-                     
                   </section>
               </div>
           </div>
@@ -384,11 +414,5 @@
   
   }
 
-  .animate__animated.animate__bounceInUp {
-  --animate-duration: 0.3s;
-}
-.animate__animated.animate__bounceOutDown {
-  --animat-duration: 0.3s;
-}
   
   </style>
