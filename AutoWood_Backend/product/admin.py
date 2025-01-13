@@ -1,5 +1,6 @@
 from django.contrib import admin
 from .models import *
+from warehouse.models import *
 
 class ProductAdmin(admin.ModelAdmin):
     list_display = (
@@ -10,6 +11,17 @@ class ProductAdmin(admin.ModelAdmin):
         )
 
 admin.site.register(Product, ProductAdmin)
+
+class BoardAdmin(admin.ModelAdmin):
+    list_display=(
+        "name",
+        "dimX",
+        "dimY",
+        "dimZ",
+        "wood_type",
+        "quantity"
+    )
+admin.site.register(Board, BoardAdmin)
 
 class WoodAdmin(admin.ModelAdmin):
     

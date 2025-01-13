@@ -122,8 +122,8 @@
     "confirm_add_accessory": "Add new accessory",
     "check_correctness": "Check correctness and add description of the new accessory",
     "price_pln": "Price PLN",
-    "cancel": "Cancel",
 
+    "cancel": "Cancel",
     "download_pricing_report": "Download pricing report ",
     "download_elements_list": "Download elements",
     "edit_margin": "Edit margins",
@@ -144,7 +144,9 @@
     "get_elements": "Get elements",
     "formats_omitted": "Formats omitted",
     "wastes": "Wastes",
-    "price": "Price"
+    "price": "Price",
+    "choose_warehouse": "Choose warehouse to display",
+    "boards": "Boards"
     
     
     

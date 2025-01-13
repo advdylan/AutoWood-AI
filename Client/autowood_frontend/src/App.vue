@@ -76,12 +76,15 @@
             &nbsp;{{ $t("paints")}}
           </div>
         </a>
-        <a class="navbar-item">
+       
+        <router-link to="/warehouse" class="navbar-item">  
           <i class="fa-solid fa-warehouse fa-lg"></i>
           <div class="is-size-5">
             &nbsp;{{ $t("warehouse")}}
           </div>
-        </a>
+        </router-link>
+        
+        
       </div>
       
       <div class="navbar-end">

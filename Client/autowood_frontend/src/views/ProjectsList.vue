@@ -24,6 +24,7 @@
                              icon-right="file-arrow-down"
                              >{{ $t("get_elements") }}
                             </b-button>
+                            
                             <teleport to="body">
                             <div 
                             v-if="hoveredProjectId === props.row.id" 
@@ -37,8 +38,6 @@
                             </div>
                             </teleport>
 
-                            
-                            
                         </template>
                         <template v-else>
                         {{ props.row[column.field] }}

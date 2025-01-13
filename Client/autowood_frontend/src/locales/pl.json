@@ -79,8 +79,7 @@
     "manage_accessories": "Zarządzaj akcesoriami",
     "manage_labor_costs": "Zarządzaj kosztami pracy",
     "details": "Szczegóły",
-    "search": "Wyszukaj",
-    
+    "search": "Wyszukaj", 
     "edit_costs_section": "Dział edytowania kosztów usług",
     "cost_change_info": "Każdorazowa zmiana poniższych kosztów pracy nie działa wstecz. Tylko nowe projekty otrzymają nowe, poniższe wartości.",
     "work_costs": "Koszty pracy zakładu",
@@ -108,7 +107,6 @@
     "volume": "Objętość w litrach",
     "paint_name": "Nazwa lakieru",
 
-    
     "accessory_management": "Dział zarządzania akcesoriami",
     "cost_change_info": "Każdorazowa zmiana poniższych kosztów akcesorii nie działa wstecz. Tylko nowe projekty otrzymają nowe wartości.",
     "accessories": "Akcesoria",
@@ -146,7 +144,10 @@
     "get_elements": "Importuj elementy",
     "formats_omitted": "Pominięte elementy",
     "wastes": "Odpady",
-    "price": "Cena"
+    "price": "Cena",
+    "choose_warehouse": "Wybierz magazyn",
+    "boards": "Płyty "
+    
     
 
 

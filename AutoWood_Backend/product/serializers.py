@@ -2,6 +2,7 @@ from rest_framework import serializers
 from rest_framework.reverse import reverse
 
 from .models import *
+from warehouse.models import *
 
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
@@ -94,6 +95,12 @@ class DocumentSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Document
+        fields = '__all__'
+
+class BoardSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Board
         fields = '__all__'
 
 
