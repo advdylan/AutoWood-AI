@@ -16,10 +16,10 @@
                 <button 
                 class="button mr-5"
                 :class="{
-                    'is-info': !showBoardWarehouse,
-                    'is-primary': showBoardWarehouse
+                    'is-active': warehouseComponents[0].active,
+                    'is-info': !warehouseComponents[0].active
                 }"
-                @click="toggleWarehouse('board')"
+                @click="toggleWarehouse('boards')"
                 style="width:150px;">
 
                 {{$t('boards')}}
@@ -27,8 +27,8 @@
                 <button
                 class="button"
                 :class="{
-                    'is-info': !showPaintsWarehouse,
-                    'is-primary': showPaintsWarehouse,
+                    'is-active': warehouseComponents[1].active,
+                    'is-info': !warehouseComponents[1].active,
                 }"
                 @click="toggleWarehouse('paints')"
                 style="width:150px;"
@@ -48,38 +48,21 @@
 
             <div class="box">
           <div class="label has-text is-size-5">{{$t('boards')}}</div>
-          <BoardInput></BoardInput>
+          <BoardInput
+          :elements="warehouseBoards"></BoardInput>
           </div>
 
         </div>
 
         <div class="column has-text-centered" >
             <!-- SVG MIDDLE SECTION -->
-            <div  style="overflow: hidden; text-align: center;">
-            <svg 
-                id="svgBoard" 
-                xmlns="http://www.w3.org/2000/svg" 
-                :viewBox="`-60 -60 1000 800`"
-                preserveAspectRatio="xMidYMid meet" 
-                style="width: 100%; height: 100%; ">
-                <defs>
-                <linearGradient id="occupiedBoardGrad" x1="0%" x2="100%" y1="0%" y2="0%">
-                    <stop offset="0%" stop-color="rgb(205, 247, 205)" stop-opacity="0.3" />
-                    <stop offset="100%" stop-color="rgb(205, 247, 205)" stop-opacity="0.8" />
-                </linearGradient>
-                <linearGradient id="FreeBoardGrad" x1="0%" x2="100%" y1="0%" y2="0%">
-                    <stop offset="0%" stop-color="rgb(250, 237, 237)" stop-opacity="0.1" />
-                    <stop offset="100%" stop-color="rgb(245, 230, 230)" stop-opacity="0.3" />
-                </linearGradient>
-                </defs>
-
-                <rect width="200" height="100" x="10" y="10" rx="20" ry="20" fill="blue" />
-
-                
-            </svg>
-
+             <BoardsWarehouse 
+             v-if="warehouseComponents[0].active"
+             :warehouse-boards="warehouseBoards"
+             ></BoardsWarehouse>
+             <PaintsWarehouse v-if="warehouseComponents[1].active"
+             ></PaintsWarehouse>
             
-        </div>
         </div>
 
 
@@ -118,10 +101,9 @@
 <script setup>
 import {computed, ref} from 'vue'
 import { useNewProjectStoreBeta } from '@/store/newproject'
-import ElementsOptimizerTable from '@/components/OptimizerComponents/ElementsOptimizerTable.vue'
 import BoardInput from '@/components/OptimizerComponents/BoardInput.vue'
-import ProjectsList from './ProjectsList.vue'
-import OptimizerFooter from '@/components/OptimizerComponents/OptimizerFooter.vue'
+import BoardsWarehouse from '@/components/WarehouseComponents/BoardsWarehouse.vue'
+import PaintsWarehouse from '@/components/WarehouseComponents/PaintsWarehouse.vue'
 import { storeToRefs } from 'pinia'
 import axios from 'axios'
 import { toast } from 'bulma-toast'
@@ -130,22 +112,44 @@ import { useI18n } from 'vue-i18n';
 
 
 const newProjectStore = useNewProjectStoreBeta()
-const {elements,boards} = storeToRefs(newProjectStore)
+const {elements} = storeToRefs(newProjectStore)
 const {loadData } = newProjectStore
 const showBoardWarehouse = ref(false)
 const showPaintsWarehouse = ref(false)
+const warehouseBoards = ref([])
+
+const warehouseComponents = ref([
+    {name: 'boards', component: BoardsWarehouse, active: false},
+    {name: 'paints', component: PaintsWarehouse, active: false}
+])
 
 
 loadData()
 
 function toggleWarehouse(type){
-    if (type === 'board') {
-        showBoardWarehouse.value = !showBoardWarehouse.value
-    }
-
-
+    let warehouseToActivate = warehouseComponents.value.map((warehouse) => {
+        if (warehouse.active){
+            warehouse.active = false
+        }
+        else if (warehouse.name == type){
+            warehouse.active = true
+        }
+    }) 
 }
 
+function getBoards() {
+   
+    axios
+    .get(`/api/v1/warehouse/boards/`)
+    .then(response =>{
+        console.log(response)
+        warehouseBoards.value = response.data
+    })
+    .catch(error => {
+        console.log(error)
+    })
+}
+getBoards()
 </script>
 <style lang="css">
 
