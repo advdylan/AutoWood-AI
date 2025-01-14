@@ -146,7 +146,9 @@
     "wastes": "Odpady",
     "price": "Cena",
     "choose_warehouse": "Wybierz magazyn",
-    "boards": "Płyty "
+    "boards": "Płyty ",
+    "settings": "Ustawienia",
+    "warehouse_capacity": "Pojemność magazynu"
     
     
 

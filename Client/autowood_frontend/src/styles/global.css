@@ -63,3 +63,9 @@
 .box {
   padding: 0.9rem;
 }
+.pagination-previous, .pagination-next, .pagination-link, .pagination-ellipsis, .file-cta, .file-name, .select select, .taginput .taginput-container.is-focusable, .textarea, .input{
+padding-left: 3px;
+padding-right: 3px;
+padding-top: 2px;
+padding-bottom: 2px;
+}

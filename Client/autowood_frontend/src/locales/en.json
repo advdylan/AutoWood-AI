@@ -146,7 +146,9 @@
     "wastes": "Wastes",
     "price": "Price",
     "choose_warehouse": "Choose warehouse to display",
-    "boards": "Boards"
+    "boards": "Boards",
+    "settings": "Settings",
+    "warehouse_capacity": "Warehouse max capacity"
     
     
     

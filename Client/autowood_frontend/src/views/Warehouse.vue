@@ -45,8 +45,33 @@
         <div class="columns">
         <div class="column has-text-centered is-one-third">
             <!-- INPUT LEFT SECTION -->
+        <div class="box">
+        <div class="label has-text is-size-5">{{$t('settings')}}</div>
+        <div class="columns">
+            <div class="column is-half">
+                <nav class="level">
+                    <div class="level-left">
+                        <div class="level-item">
+                            <div class="label has-text is-size-8  mr-2"> {{ $t('warehouse_capacity') }}:</div>
+                            <input style="width: 20%;" class="input is-small " v-model="warehouseCapacity">
+                        </div>
+                    </div>
+                </nav>
+                <nav class="level">
+                    <div class="level-left">
+                        <div class="level-item">
+                            <div type="number" class="label has-text is-size-8  mr-2">Ticks: </div>
+                            <input style="width: 20%;" class="input is-small " v-model="diagramTicks">
+                        </div>
+                    </div>
+                </nav>
+                
+            </div>
+        </div>
+        </div>
 
-            <div class="box">
+
+        <div class="box">
           <div class="label has-text is-size-5">{{$t('boards')}}</div>
           <BoardInput
           :elements="warehouseBoards"></BoardInput>
@@ -59,7 +84,11 @@
              <BoardsWarehouse 
              v-if="warehouseComponents[0].active"
              :warehouse-boards="warehouseBoards"
+             :warehouse-capacity="warehouseCapacity"
+             :diagram-ticks="diagramTicks"
              ></BoardsWarehouse>
+
+
              <PaintsWarehouse v-if="warehouseComponents[1].active"
              ></PaintsWarehouse>
             
@@ -117,6 +146,8 @@ const {loadData } = newProjectStore
 const showBoardWarehouse = ref(false)
 const showPaintsWarehouse = ref(false)
 const warehouseBoards = ref([])
+const warehouseCapacity = ref(100)
+const diagramTicks = ref(10)
 
 const warehouseComponents = ref([
     {name: 'boards', component: BoardsWarehouse, active: false},
