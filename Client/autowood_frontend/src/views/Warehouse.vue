@@ -79,7 +79,7 @@
 
         </div>
 
-        <div class="column has-text-centered" >
+        <div class="column" >
             <!-- SVG MIDDLE SECTION -->
              <BoardsWarehouse 
              v-if="warehouseComponents[0].active"
