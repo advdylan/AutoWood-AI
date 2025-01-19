@@ -1,16 +1,23 @@
 <template>
 <div class="card">
-    <header class="card-header">
-    <p class="card-header-title is-size-4"> {{ $t('warehouse') }}</p>
 
-    </header>
 
     <div class="card">
     <div class="card-content">
     <div class="content">
         <div class="columns">
             <div class="column has-text-centered is-half is-offset-one-quarter">
-                <div class="box">
+                
+                
+                
+                
+            </div>
+        </div>
+
+        <div class="columns">
+        <div class="column has-text-centered is-one-third">
+            <!-- INPUT LEFT SECTION -->
+            <div class="box">
                     <div class="label has-text is-size-5">{{$t('choose_warehouse')}}</div>
                 
                 <button 
@@ -36,15 +43,6 @@
                 {{$t('paints')}}
                 </button>
                 </div>
-                
-                
-                
-            </div>
-        </div>
-
-        <div class="columns">
-        <div class="column has-text-centered is-one-third">
-            <!-- INPUT LEFT SECTION -->
         <div class="box">
         <div class="label has-text is-size-5">{{$t('settings')}}</div>
         <div class="columns">

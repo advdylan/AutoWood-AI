@@ -32,12 +32,8 @@
                  >{{ Math.trunc(tick[1]) }}</text>
                  
                     <!--HORIZONTAL LINES-->
-                    <TransitionGroup
-                  tag="g"
-                  enter-active-class="animate__animated animate__fadeIn"
-                  leave-active-class="animate__animated animate__fadeOut"
-                  move-class="move-animation"
-                >
+
+                  
                   <line
                     v-for="(tick, index) in ticks"
                     :key="tick[0]"
@@ -47,7 +43,18 @@
                     :y2="diagramHeight - tick[0]"
                     style="stroke: black; stroke-width: 0.2;"
                   ></line>
-                </TransitionGroup>
+
+                  <rect v-for="board in warehouseBoards"
+                  :width=diagramBarsWidth
+                  :height=board.quantity
+                  :x=spacesBetweenBars+30
+                  :y=diagramHeight-board.quantity
+                 
+                  
+                  >
+
+                  </rect>
+                
 
                     
 
@@ -74,6 +81,9 @@ const diagramHeight = ref(500)
 const diagramTicks = ref(null)
 const warehouseCapacity = ref(null)
 const isReady = ref(false)
+const barsQuantity = ref(null)
+const spacesBetweenBars = ref(null)
+const warehouseBoards = ref([])
 
 
 
@@ -107,6 +117,28 @@ const ticks= computed(() => {
         return ticks
 })
 
+
+
+
+
+const diagramBarsWidth = computed (() => {
+  
+ barsQuantity.value = warehouseBoards.value.length
+ console.log(barsQuantity)
+
+ if( barsQuantity.value <= 3) {
+  spacesBetweenBars.value = 30
+
+  console.log((diagramWidth.value/2))
+  console.log((spacesBetweenBars.value * barsQuantity.value + 1))
+  let diagramBarsWidth = ((diagramWidth.value/2) - (spacesBetweenBars.value * barsQuantity.value + 1))/3
+  console.log(diagramBarsWidth)
+  return diagramBarsWidth
+
+ }
+
+})
+
 onMounted(() => {
   setTimeout(() => {
     isReady.value = true; // Add class to trigger animation
@@ -135,12 +167,22 @@ watch(
   },
   { immediate: true }
 )
+
+watch(
+  () => props.warehouseBoards,
+  (propsWareHouseBoards) => {
+    if (propsWareHouseBoards)  {
+      warehouseBoards.value = propsWareHouseBoards
+    }
+  },
+  { immediate: true }
+)
 </script>
 <style lang="css">
 svg {
   opacity: 0;
-  transform: translateX(20px);
-  transition: opacity 0.5s ease, transform 0.5s ease;
+  transform: translateX(200px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
 }
 
 svg.data-ready {
@@ -149,8 +191,6 @@ svg.data-ready {
 }
 
 /* Optional: Smooth transitions for moving elements */
-.move-animation {
-  transition: transform 0.5s ease;
-}
+
 
 </style>
