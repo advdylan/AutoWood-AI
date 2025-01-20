@@ -43,6 +43,30 @@
                 {{$t('paints')}}
                 </button>
                 </div>
+        
+
+
+        <div v-if="warehouseComponents[0].active | warehouseComponents[1].active" class="box">
+          <div class="label has-text is-size-5">{{$t('boards')}}</div>
+          <BoardInput
+          :elements="warehouseBoards"></BoardInput>
+          </div>
+
+        </div>
+
+        <div class="column" >
+            <!-- SVG MIDDLE SECTION -->
+             <BoardsWarehouse 
+             v-if="warehouseComponents[0].active"
+             :warehouse-boards="warehouseBoards"
+             :warehouse-capacity="warehouseCapacity"
+             :diagram-ticks="diagramTicks"
+             ></BoardsWarehouse>
+
+
+             <PaintsWarehouse v-if="warehouseComponents[1].active"
+             ></PaintsWarehouse>
+
         <div class="box">
         <div class="label has-text is-size-5">{{$t('settings')}}</div>
         <div class="columns">
@@ -67,28 +91,6 @@
             </div>
         </div>
         </div>
-
-
-        <div class="box">
-          <div class="label has-text is-size-5">{{$t('boards')}}</div>
-          <BoardInput
-          :elements="warehouseBoards"></BoardInput>
-          </div>
-
-        </div>
-
-        <div class="column" >
-            <!-- SVG MIDDLE SECTION -->
-             <BoardsWarehouse 
-             v-if="warehouseComponents[0].active"
-             :warehouse-boards="warehouseBoards"
-             :warehouse-capacity="warehouseCapacity"
-             :diagram-ticks="diagramTicks"
-             ></BoardsWarehouse>
-
-
-             <PaintsWarehouse v-if="warehouseComponents[1].active"
-             ></PaintsWarehouse>
             
         </div>
 

@@ -12,9 +12,9 @@
                 >
                 
                 <defs>
-                <linearGradient id="occupiedBoardGrad" x1="0%" x2="100%" y1="0%" y2="0%">
-                    <stop offset="0%" stop-color="rgb(205, 247, 205)" stop-opacity="0.3" />
-                    <stop offset="100%" stop-color="rgb(205, 247, 205)" stop-opacity="0.8" />
+                <linearGradient id="beech" x1="0%" x2="0%" y1="100%" y2="0%">
+                    <stop offset="0%" stop-color="rgb(192, 153, 153)" stop-opacity="0.9" />
+                    <stop offset="100%" stop-color="rgb(192, 153, 153)" stop-opacity="1" />
                 </linearGradient>
                 <linearGradient id="FreeBoardGrad" x1="0%" x2="100%" y1="0%" y2="0%">
                     <stop offset="0%" stop-color="rgb(250, 237, 237)" stop-opacity="0.1" />
@@ -44,13 +44,14 @@
                     style="stroke: black; stroke-width: 0.2;"
                   ></line>
 
-                  <rect v-for="board in warehouseBoards"
+                  <rect v-for="(board,i) in warehouseBoards"
+                  :key="i"
                   :width=diagramBarsWidth
-                  :height=board.quantity
-                  :x=spacesBetweenBars+30
-                  :y=diagramHeight-board.quantity
-                 
-                  
+                  :height="(board.quantity / warehouseCapacity) * diagramHeight" 
+                  :x="20 + i * (diagramBarsWidth + spacesBetweenBars) + 30"
+                  :y="diagramHeight-(board.quantity / warehouseCapacity) * diagramHeight"
+                  style="fill: url(#beech)"
+                  :class="{ 'rendered': isRendered }"
                   >
 
                   </rect>
@@ -81,6 +82,7 @@ const diagramHeight = ref(500)
 const diagramTicks = ref(null)
 const warehouseCapacity = ref(null)
 const isReady = ref(false)
+const isRendered = ref(false)
 const barsQuantity = ref(null)
 const spacesBetweenBars = ref(null)
 const warehouseBoards = ref([])
@@ -127,22 +129,23 @@ const diagramBarsWidth = computed (() => {
  console.log(barsQuantity)
 
  if( barsQuantity.value <= 3) {
-  spacesBetweenBars.value = 30
-
-  console.log((diagramWidth.value/2))
-  console.log((spacesBetweenBars.value * barsQuantity.value + 1))
-  let diagramBarsWidth = ((diagramWidth.value/2) - (spacesBetweenBars.value * barsQuantity.value + 1))/3
-  console.log(diagramBarsWidth)
-  return diagramBarsWidth
-
+    spacesBetweenBars.value = 30
+    let diagramBarsWidth = ((diagramWidth.value/2) - (spacesBetweenBars.value * barsQuantity.value + 1))/3
+    return diagramBarsWidth
  }
-
 })
+
 
 onMounted(() => {
   setTimeout(() => {
     isReady.value = true; // Add class to trigger animation
   }, 100);
+});
+
+onMounted(() => {
+  setTimeout(() => {
+    isRendered.value = true; // Add class to trigger animation
+  }, 300);
 });
 
 
@@ -178,7 +181,7 @@ watch(
   { immediate: true }
 )
 </script>
-<style lang="css">
+<style lang="css" scoped>
 svg {
   opacity: 0;
   transform: translateX(200px);
@@ -190,6 +193,18 @@ svg.data-ready {
   transform: translateY(0);
 }
 
+rect {
+  opacity: 0;
+  transform: translateY(100px);
+  transition: opacity 0.7s ease, transform 0.5s ease;
+
+}
+
+rect.rendered {
+  opacity: 1;
+  transform: translateY(0);
+
+}
 /* Optional: Smooth transitions for moving elements */
 
 
