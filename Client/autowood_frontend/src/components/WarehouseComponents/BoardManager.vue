@@ -1,0 +1,181 @@
+<template>
+    <form @submit.prevent="submitForm">
+                
+                <nav class="level">
+              <div class="field">
+                <label class="label has-text-centered">X</label>
+                <div class="control">
+                  <input class="input is-small"  v-model="newBoard.board.dimX">           
+                </div>
+              </div>
+    
+              <div class="field">
+                <label class="label has-text-centered">Y</label>
+                <div class="control">
+                  <input class="input is-small" v-model="newBoard.board.dimY" >             
+                </div>
+              </div>
+    
+              <div class="field">
+                <label class="label has-text-centered">Z</label>
+                <div class="control">
+                  <input class="input is-small"   v-model="newBoard.board.dimZ">             
+                </div>
+              </div>
+    
+              <div class="field">
+                <label class="label has-text-centered">{{ $t("quantity")}}</label>
+                <div class="control">
+                  <input class="input is-small"   v-model="newBoard.quantity" >             
+                </div>
+              </div>
+    
+              <div class="field">
+                <label class="label has-text-centered">{{ $t("wood_type")}}</label>
+                <div class="control">
+                  <div class="select is-small">
+                    <select v-model="newBoard.board.wood_type">
+                      <option v-for="woodItem in wood" :key="woodItem.id" :value="woodItem">
+                        {{ woodItem.name }}
+                      </option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+    
+                <div class="field" style="padding-top: 1.15rem;">
+                  <button type="submit"  class="button is-success is-small"><i class="fa-solid fa-plus"></i></button>
+               
+                </div>
+                </nav>    
+              
+          </form>
+
+<div v-if="warehouseBoards.length">
+      <b-table :key="tableKey" :data="warehouseBoards">
+      <b-table-column >
+        <template #default="props">
+          <input class="input is-small"  v-model="props.row.dimX"/>
+        </template> 
+      </b-table-column>
+    
+      <b-table-column >
+        <template #default="props">
+          <input class="input is-small"  v-model="props.row.dimY"/>
+        </template> 
+      </b-table-column>
+      
+      <b-table-column >
+        <template  #default="props">
+          <input class="input is-small"  v-model="props.row.dimZ"/>
+        </template> 
+      </b-table-column>
+    
+      <b-table-column >
+        <template #default="props">    
+            <input class="input is-small"  v-model="props.row.wood_type.name"/>
+        </template>  
+      </b-table-column>
+    
+      <b-table-column >
+        <template #default="props">
+          <input class="input is-small"  v-model="props.row.quantity"/>
+        </template> 
+      </b-table-column>
+    
+      <b-table-column >
+        <template #default="props">
+          <b-button @click="handleDeleteButton(props.row)" type="is-danger is-small" icon-left="x">    
+          </b-button>
+        </template>
+     
+    
+    
+      </b-table-column>
+    </b-table>                            
+    </div>
+
+</template>
+<script setup>
+import { ref, watch } from "vue";
+import { useNewProjectStoreBeta } from '@/store/newproject'
+import { useI18n } from 'vue-i18n';
+import { storeToRefs } from 'pinia';
+import { toast } from 'bulma-toast';
+
+const store = useNewProjectStoreBeta()
+const { boards,wood, warehouseBoards } = storeToRefs(store)
+const {addWarehouseBoard} = store
+const errors = ref([])
+const tableKey = ref(0)
+
+const newBoard = ref({
+          board: {
+          dimX: 2500,
+          dimY: 700,
+          dimZ: 25,
+          wood_type: ''
+          },
+          quantity: 1
+    })
+
+
+
+const submitForm = () => {
+
+console.log(newBoard)
+
+if (newBoard.value.board.dimX <= 0) {
+errors.value.push('Podaj długość większą niż 0')
+}
+
+if (newBoard.value.board.dimY <= 0) {
+errors.value.push('Podaj wysokość większą niż 0')
+}
+if (newBoard.value.board.dimZ <= 0) {
+errors.value.push('Podaj grubość większą niż 0')
+}
+console.log(newBoard.value.board.wood_type)
+if (newBoard.value.board.wood_type == '') {
+errors.value.push('Wybierz materiał')
+}
+
+if (!errors.value.length) {
+addWarehouseBoard(newBoard.value)
+
+newBoard.value = {
+board: {
+    dimX: 2200,
+    dimY: 800,
+    dimZ: 25,
+    wood_type: ''
+        },
+quantity: 1
+}
+}
+
+else {
+
+let msg = ''
+
+for (let i=0; i <errors.value.length; i++){
+    msg += errors.value[i] += "\n"
+}
+
+toast({
+    message: msg,
+    duration: 5000,
+    position: "top-center",
+    type: 'is-danger',
+    animate: { in: 'backInDown', out: 'backOutUp' },
+    })
+
+    errors.value = []
+}
+}
+
+</script>
+<style lang="css" scoped>
+
+
+</style>

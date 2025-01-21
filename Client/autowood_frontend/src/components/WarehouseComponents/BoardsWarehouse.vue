@@ -51,7 +51,6 @@
                   :x="20 + i * (diagramBarsWidth + spacesBetweenBars) + 30"
                   :y="diagramHeight-(board.quantity / warehouseCapacity) * diagramHeight"
                   style="fill: url(#beech)"
-                  :class="{ 'rendered': isRendered }"
                   >
 
                   </rect>
@@ -85,12 +84,11 @@ const isReady = ref(false)
 const isRendered = ref(false)
 const barsQuantity = ref(null)
 const spacesBetweenBars = ref(null)
-const warehouseBoards = ref([])
+
 
 
 
 const props = defineProps({
-    warehouseBoards: Array,
     warehouseCapacity: Number,
     diagramTicks: Number
 }
@@ -99,7 +97,10 @@ const props = defineProps({
 
 
 const newProjectStore = useNewProjectStoreBeta()
-const {elements,boards} = storeToRefs(newProjectStore)
+const {elements,boards, warehouseBoards} = storeToRefs(newProjectStore)
+const {loadBoards} = newProjectStore
+
+loadBoards()
 
 
 
@@ -132,6 +133,12 @@ const diagramBarsWidth = computed (() => {
     spacesBetweenBars.value = 30
     let diagramBarsWidth = ((diagramWidth.value/2) - (spacesBetweenBars.value * barsQuantity.value + 1))/3
     return diagramBarsWidth
+ }
+ else if (barsQuantity.value >= 4) {
+    spacesBetweenBars.value = 10
+    let diagramBarsWidth = ((diagramWidth.value/2) - (spacesBetweenBars.value * barsQuantity.value + 1))/3
+    return diagramBarsWidth
+
  }
 })
 
@@ -184,7 +191,7 @@ watch(
 <style lang="css" scoped>
 svg {
   opacity: 0;
-  transform: translateX(200px);
+  transform: translateX(100px);
   transition: opacity 0.3s ease, transform 0.3s ease;
 }
 
@@ -194,18 +201,20 @@ svg.data-ready {
 }
 
 rect {
-  opacity: 0;
-  transform: translateY(100px);
-  transition: opacity 0.7s ease, transform 0.5s ease;
-
+  animation-name: grow;
+  animation-duration: 0.6s;
+  animation-timing-function: linear;
+  transform-origin: bottom; 
+  transform-box: fill-box;
 }
 
-rect.rendered {
-  opacity: 1;
-  transform: translateY(0);
-
+@keyframes grow {
+  from {
+    transform: scaleY(0.3); 
+  }
+  to {
+    transform: scaleY(1); 
+  }
 }
-/* Optional: Smooth transitions for moving elements */
-
 
 </style>

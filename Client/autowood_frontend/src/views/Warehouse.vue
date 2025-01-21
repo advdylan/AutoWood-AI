@@ -7,9 +7,7 @@
     <div class="content">
         <div class="columns">
             <div class="column has-text-centered is-half is-offset-one-quarter">
-                
-                
-                
+
                 
             </div>
         </div>
@@ -48,8 +46,8 @@
 
         <div v-if="warehouseComponents[0].active | warehouseComponents[1].active" class="box">
           <div class="label has-text is-size-5">{{$t('boards')}}</div>
-          <BoardInput
-          :elements="warehouseBoards"></BoardInput>
+          <BoardManager
+          ></BoardManager>
           </div>
 
         </div>
@@ -58,7 +56,7 @@
             <!-- SVG MIDDLE SECTION -->
              <BoardsWarehouse 
              v-if="warehouseComponents[0].active"
-             :warehouse-boards="warehouseBoards"
+             
              :warehouse-capacity="warehouseCapacity"
              :diagram-ticks="diagramTicks"
              ></BoardsWarehouse>
@@ -133,6 +131,7 @@ import { useNewProjectStoreBeta } from '@/store/newproject'
 import BoardInput from '@/components/OptimizerComponents/BoardInput.vue'
 import BoardsWarehouse from '@/components/WarehouseComponents/BoardsWarehouse.vue'
 import PaintsWarehouse from '@/components/WarehouseComponents/PaintsWarehouse.vue'
+import BoardManager from '@/components/WarehouseComponents/BoardManager.vue'
 import { storeToRefs } from 'pinia'
 import axios from 'axios'
 import { toast } from 'bulma-toast'
@@ -141,11 +140,10 @@ import { useI18n } from 'vue-i18n';
 
 
 const newProjectStore = useNewProjectStoreBeta()
-const {elements} = storeToRefs(newProjectStore)
+const {warehouseBoards} = storeToRefs(newProjectStore)
 const {loadData } = newProjectStore
 const showBoardWarehouse = ref(false)
 const showPaintsWarehouse = ref(false)
-const warehouseBoards = ref([])
 const warehouseCapacity = ref(100)
 const diagramTicks = ref(10)
 
@@ -168,19 +166,7 @@ function toggleWarehouse(type){
     }) 
 }
 
-function getBoards() {
-   
-    axios
-    .get(`/api/v1/warehouse/boards/`)
-    .then(response =>{
-        console.log(response)
-        warehouseBoards.value = response.data
-    })
-    .catch(error => {
-        console.log(error)
-    })
-}
-getBoards()
+
 </script>
 <style lang="css">
 

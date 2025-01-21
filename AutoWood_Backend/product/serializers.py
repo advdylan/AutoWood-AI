@@ -99,6 +99,8 @@ class DocumentSerializer(serializers.ModelSerializer):
 
 class BoardSerializer(serializers.ModelSerializer):
 
+    wood_type = WoodSerializer( read_only=True)
+
     class Meta:
         model = Board
         fields = '__all__'

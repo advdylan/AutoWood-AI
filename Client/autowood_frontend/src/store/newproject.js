@@ -31,7 +31,8 @@ export const useNewProjectStoreBeta = defineStore('newproject', {
     selectedCategory : null,
     selectedCollection :null,
     selectedPaint : null,
-    selectedFile: null
+    selectedFile: null,
+    warehouseBoards: []
 
   }),
 
@@ -122,6 +123,19 @@ export const useNewProjectStoreBeta = defineStore('newproject', {
       })
     },
 
+    async loadBoards() {
+     await axios
+    .get(`/api/v1/warehouse/boards/`)
+    .then(response =>{
+        console.log(response)
+        this.warehouseBoards = response.data
+    })
+    .catch(error => {
+        console.log(error)
+    })
+
+    },
+
     async updateAccesories(editedData) {
       await axios
       .post(`/api/v1/newproject/update-accesorytype/`, editedData, {
@@ -163,6 +177,17 @@ export const useNewProjectStoreBeta = defineStore('newproject', {
           wood_type: board.board.wood_type
         },
         quantity: board.quantity
+      });     
+    },
+    addWarehouseBoard(board) { 
+      console.log(board)  
+      this.warehouseBoards.push({
+        
+          dimX: board.board.dimX,
+          dimY: board.board.dimY,
+          dimZ: board.board.dimZ,
+          wood_type: board.board.wood_type,
+          quantity: board.quantity
       });     
     },
 

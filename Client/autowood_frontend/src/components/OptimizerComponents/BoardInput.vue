@@ -134,7 +134,7 @@
     import { toast } from 'bulma-toast';
     
     const store = useNewProjectStoreBeta()
-    const { boards,wood} = storeToRefs(store)
+    const { boards,wood } = storeToRefs(store)
 
     const {addBoard} = store
     
@@ -231,7 +231,8 @@
         }
         
         if (!errors.value.length) {
-        addBoard(newBoard.value);
+        console.log(newBoard.value)
+        addBoard(newBoard.value)
         newBoard.value = {
         board: {
             dimX: 2200,
