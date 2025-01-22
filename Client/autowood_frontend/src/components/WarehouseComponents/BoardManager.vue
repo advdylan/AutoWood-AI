@@ -1,4 +1,5 @@
 <template>
+  <div class="box">
     <form @submit.prevent="submitForm">
                 
                 <nav class="level">
@@ -50,36 +51,56 @@
                 </nav>    
               
           </form>
+        </div>
 
-<div v-if="warehouseBoards.length">
-      <b-table :key="tableKey" :data="warehouseBoards">
+      
+<div class="section" v-if="filteredBoards.length">
+  <label class="label has-text-centered is-size-5">Zasoby</label>
+  
+
+      <b-table :key="tableKey" :data="filteredBoards">
       <b-table-column >
         <template #default="props">
-          <input class="input is-small"  v-model="props.row.dimX"/>
+          <input :class="{
+            'input is-small': filteredBoards,
+            'input is-small active': props.row === highlightedRow
+          }"  v-model="props.row.dimX"/>
         </template> 
       </b-table-column>
     
       <b-table-column >
         <template #default="props">
-          <input class="input is-small"  v-model="props.row.dimY"/>
+          <input :class="{
+            'input is-small': filteredBoards,
+            'input is-small active': props.row === highlightedRow
+          }"  v-model="props.row.dimY"/>
         </template> 
       </b-table-column>
       
       <b-table-column >
         <template  #default="props">
-          <input class="input is-small"  v-model="props.row.dimZ"/>
+          <input :class="{
+            'input is-small': filteredBoards,
+            'input is-small active': props.row === highlightedRow
+          }"  v-model="props.row.dimZ"/>
         </template> 
       </b-table-column>
     
       <b-table-column >
         <template #default="props">    
-            <input class="input is-small"  v-model="props.row.wood_type.name"/>
+            <input :class="{
+            'input is-small': filteredBoards,
+            'input is-small active': props.row === highlightedRow
+          }"  v-model="props.row.wood_type.name" disabled />
         </template>  
       </b-table-column>
     
       <b-table-column >
         <template #default="props">
-          <input class="input is-small"  v-model="props.row.quantity"/>
+          <input :class="{
+            'input is-small': filteredBoards,
+            'input is-small active': props.row === highlightedRow
+          }"  v-model="props.row.quantity" />
         </template> 
       </b-table-column>
     
@@ -104,7 +125,7 @@ import { storeToRefs } from 'pinia';
 import { toast } from 'bulma-toast';
 
 const store = useNewProjectStoreBeta()
-const { boards,wood, warehouseBoards } = storeToRefs(store)
+const { boards,wood, warehouseBoards,filteredBoards, highlightedRow } = storeToRefs(store)
 const {addWarehouseBoard} = store
 const errors = ref([])
 const tableKey = ref(0)
@@ -176,6 +197,11 @@ toast({
 
 </script>
 <style lang="css" scoped>
+
+.input.active {
+  background-color: rgb(158, 225, 103);
+
+}
 
 
 </style>

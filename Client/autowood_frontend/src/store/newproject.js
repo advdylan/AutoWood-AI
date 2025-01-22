@@ -33,7 +33,8 @@ export const useNewProjectStoreBeta = defineStore('newproject', {
     selectedPaint : null,
     selectedFile: null,
     warehouseBoards: [],
-    chosenWoodType: null
+    chosenWoodType: null,
+    highlightedRow: null
 
   }),
 
@@ -105,6 +106,18 @@ export const useNewProjectStoreBeta = defineStore('newproject', {
       this.chosenWoodType = woodType.name
       console.log("Updated Chosen Wood Type:", this.chosenWoodType); // Logs updated value
 
+    },
+
+    highlightRow(board) {
+      console.log(board)
+      if (board === this.highlightedRow){
+        this.highlightedRow = null
+      }
+      else {
+        this.highlightedRow = board
+      }
+      
+      
     },
 
     $resetBoxes() {

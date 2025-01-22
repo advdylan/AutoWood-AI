@@ -46,6 +46,7 @@
 
                   <g :key="chosenWoodType">
                   <rect v-for="(board,i) in filteredBoards"
+                  @click="highlightRow(board)"
                   :key="i"
                   :width=diagramBarsWidth
                   :height="(board.quantity / warehouseCapacity) * diagramHeight" 
@@ -95,8 +96,8 @@ const props = defineProps({
 
 
 const newProjectStore = useNewProjectStoreBeta()
-const {elements,boards, warehouseBoards, filteredBoards, chosenWoodType} = storeToRefs(newProjectStore)
-const {loadBoards,} = newProjectStore
+const {elements,boards, warehouseBoards, filteredBoards, chosenWoodType, highlightedRow} = storeToRefs(newProjectStore)
+const {loadBoards,highlightRow} = newProjectStore
 
 loadBoards()
 
@@ -117,6 +118,11 @@ const ticks= computed(() => {
         return ticks
 })
 
+const rowIndex = computed(() => {
+   if (filteredBoards.value.includes(highlightedRow)){
+    console.log()
+   }
+})
 
 
 

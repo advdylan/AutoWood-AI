@@ -44,6 +44,10 @@
                 <div class="section" v-if="warehouseComponents[0].active">
 
                 <button v-for="woodType in wood"
+                :class="{
+                    'is-active': chosenWoodType === woodType.name,
+                    'is-info': chosenWoodType != woodType.name
+                }"
                 :key="woodType.name" 
                 class="button mr-5"  
                 style="width:100px;"
