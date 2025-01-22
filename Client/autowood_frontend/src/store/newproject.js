@@ -32,11 +32,17 @@ export const useNewProjectStoreBeta = defineStore('newproject', {
     selectedCollection :null,
     selectedPaint : null,
     selectedFile: null,
-    warehouseBoards: []
+    warehouseBoards: [],
+    chosenWoodType: null
 
   }),
 
   getters: {
+    filteredBoards: (state) => {
+      return state.warehouseBoards.filter(
+        (wood) => wood.wood_type.name === state.chosenWoodType
+      );
+    },
     accesoriesStore() {
       return this.accesories.map(accesory => ({
         ...accesory,
@@ -91,6 +97,14 @@ export const useNewProjectStoreBeta = defineStore('newproject', {
       this.boxes = this.worktimetype.map(item => {
         return { text: item.name, value: item.cost, checked: false, hours: 0, workers: 0}
       })
+    },
+
+    chooseWoodType(woodType) {
+
+      console.log("Selected Wood Type:", woodType); // Logs the clicked woodType
+      this.chosenWoodType = woodType.name
+      console.log("Updated Chosen Wood Type:", this.chosenWoodType); // Logs updated value
+
     },
 
     $resetBoxes() {

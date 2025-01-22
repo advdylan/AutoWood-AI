@@ -44,7 +44,8 @@
                     style="stroke: black; stroke-width: 0.2;"
                   ></line>
 
-                  <rect v-for="(board,i) in warehouseBoards"
+                  <g :key="chosenWoodType">
+                  <rect v-for="(board,i) in filteredBoards"
                   :key="i"
                   :width=diagramBarsWidth
                   :height="(board.quantity / warehouseCapacity) * diagramHeight" 
@@ -54,12 +55,7 @@
                   >
 
                   </rect>
-                
-
-                    
-
-                    
-
+                  </g>
             </svg>
      
 
@@ -84,24 +80,25 @@ const isReady = ref(false)
 const isRendered = ref(false)
 const barsQuantity = ref(null)
 const spacesBetweenBars = ref(null)
+const woodType = ref('')
 
 
 
 
 const props = defineProps({
     warehouseCapacity: Number,
-    diagramTicks: Number
+    diagramTicks: Number,
+    woodType: String
 }
 )
 
 
 
 const newProjectStore = useNewProjectStoreBeta()
-const {elements,boards, warehouseBoards} = storeToRefs(newProjectStore)
-const {loadBoards} = newProjectStore
+const {elements,boards, warehouseBoards, filteredBoards, chosenWoodType} = storeToRefs(newProjectStore)
+const {loadBoards,} = newProjectStore
 
 loadBoards()
-
 
 
 const ticks= computed(() => {
@@ -186,6 +183,19 @@ watch(
     }
   },
   { immediate: true }
+
+  
+)
+watch(
+  () => props.woodType,
+  (selectedWoodType) => {
+    if (selectedWoodType)  {
+      woodType.value = selectedWoodType
+    }
+  },
+  { immediate: true }
+
+  
 )
 </script>
 <style lang="css" scoped>
@@ -202,7 +212,7 @@ svg.data-ready {
 
 rect {
   animation-name: grow;
-  animation-duration: 0.6s;
+  animation-duration: 0.4s;
   animation-timing-function: linear;
   transform-origin: bottom; 
   transform-box: fill-box;

@@ -40,7 +40,22 @@
                 >
                 {{$t('paints')}}
                 </button>
+                
+                <div class="section" v-if="warehouseComponents[0].active">
+
+                <button v-for="woodType in wood"
+                :key="woodType.name" 
+                class="button mr-5"  
+                style="width:100px;"
+                @click="chooseWoodType(woodType)">
+
+                {{ woodType.name }}
+                </button>
+
+            </div>
                 </div>
+
+            
         
 
 
@@ -54,12 +69,21 @@
 
         <div class="column" >
             <!-- SVG MIDDLE SECTION -->
+            
+
+
+
              <BoardsWarehouse 
              v-if="warehouseComponents[0].active"
              
              :warehouse-capacity="warehouseCapacity"
              :diagram-ticks="diagramTicks"
+             
              ></BoardsWarehouse>
+
+             
+
+             
 
 
              <PaintsWarehouse v-if="warehouseComponents[1].active"
@@ -139,13 +163,16 @@ import { useI18n } from 'vue-i18n';
 
 
 
+
+
 const newProjectStore = useNewProjectStoreBeta()
-const {warehouseBoards} = storeToRefs(newProjectStore)
-const {loadData } = newProjectStore
+const {warehouseBoards, wood, chosenWoodType} = storeToRefs(newProjectStore)
+const {loadData, chooseWoodType } = newProjectStore
 const showBoardWarehouse = ref(false)
 const showPaintsWarehouse = ref(false)
 const warehouseCapacity = ref(100)
 const diagramTicks = ref(10)
+
 
 const warehouseComponents = ref([
     {name: 'boards', component: BoardsWarehouse, active: false},
