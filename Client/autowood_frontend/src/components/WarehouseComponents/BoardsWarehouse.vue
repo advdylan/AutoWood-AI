@@ -83,17 +83,12 @@ const barsQuantity = ref(null)
 const spacesBetweenBars = ref(null)
 const woodType = ref('')
 
-
-
-
 const props = defineProps({
     warehouseCapacity: Number,
     diagramTicks: Number,
     woodType: String
 }
 )
-
-
 
 const newProjectStore = useNewProjectStoreBeta()
 const {elements,boards, warehouseBoards, filteredBoards, chosenWoodType, highlightedRow} = storeToRefs(newProjectStore)
@@ -118,19 +113,12 @@ const ticks= computed(() => {
         return ticks
 })
 
-const rowIndex = computed(() => {
-   if (filteredBoards.value.includes(highlightedRow)){
-    console.log()
-   }
-})
-
-
 
 
 const diagramBarsWidth = computed (() => {
   
  barsQuantity.value = warehouseBoards.value.length
- console.log(barsQuantity)
+ //console.log(barsQuantity)
 
  if( barsQuantity.value <= 3) {
     spacesBetweenBars.value = 30
@@ -144,6 +132,8 @@ const diagramBarsWidth = computed (() => {
 
  }
 })
+
+
 
 
 onMounted(() => {

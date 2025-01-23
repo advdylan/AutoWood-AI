@@ -51,13 +51,21 @@
                 :key="woodType.name" 
                 class="button mr-5"  
                 style="width:100px;"
-                @click="chooseWoodType(woodType)">
+                @click="chooseWoodType(woodType);
+                        showThicknessSection = !showThicknessSection;">
 
                 {{ woodType.name }}
                 </button>
 
             </div>
-                </div>
+            <div class="section" v-if="warehouseComponents[0].active && showThicknessSection">
+
+                <button v-for="(value, key) in thicknesses" :key="key">
+                {{ key }} {{ value }}
+                </button>
+
+            </div>
+        </div>
 
             
         
@@ -176,6 +184,7 @@ const showBoardWarehouse = ref(false)
 const showPaintsWarehouse = ref(false)
 const warehouseCapacity = ref(100)
 const diagramTicks = ref(10)
+const showThicknessSection = ref(false)
 
 
 const warehouseComponents = ref([
@@ -196,6 +205,31 @@ function toggleWarehouse(type){
         }
     }) 
 }
+
+const thicknesses = computed(() => {
+  const result = new Map()
+
+    warehouseBoards.value.forEach(item => {
+      const woodName = item.wood_type.name
+      const dimZ = item.dimZ
+
+      if (!result.has(woodName)) {
+        result.set(woodName, new Set())
+      }
+
+      result.get(woodName).add(dimZ)
+    });
+
+    // Convert the sets to arrays and sort them
+    const finalResult = {}
+    result.forEach((dimZSet, woodName) => {
+      finalResult[woodName] = Array.from(dimZSet).sort((a, b) => a - b)
+    });
+
+    console.log(finalResult)
+    return finalResult
+})
+
 
 
 </script>

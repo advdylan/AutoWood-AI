@@ -109,9 +109,6 @@
           <b-button @click="handleDeleteButton(props.row)" type="is-danger is-small" icon-left="x">    
           </b-button>
         </template>
-     
-    
-    
       </b-table-column>
     </b-table>                            
     </div>

@@ -34,6 +34,7 @@ export const useNewProjectStoreBeta = defineStore('newproject', {
     selectedFile: null,
     warehouseBoards: [],
     chosenWoodType: null,
+    chosenTickness: null,
     highlightedRow: null
 
   }),
@@ -154,11 +155,11 @@ export const useNewProjectStoreBeta = defineStore('newproject', {
      await axios
     .get(`/api/v1/warehouse/boards/`)
     .then(response =>{
-        console.log(response)
+        //console.log(response)
         this.warehouseBoards = response.data
     })
     .catch(error => {
-        console.log(error)
+        //console.log(error)
     })
 
     },
