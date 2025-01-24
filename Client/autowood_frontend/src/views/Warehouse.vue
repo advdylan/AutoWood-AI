@@ -18,6 +18,8 @@
             <div class="box">
                     <div class="label has-text is-size-5">{{$t('choose_warehouse')}}</div>
                 
+                <div class="section">
+                
                 <button 
                 class="button mr-5"
                 :class="{
@@ -40,6 +42,7 @@
                 >
                 {{$t('paints')}}
                 </button>
+                </div>
                 
                 <div class="section" v-if="warehouseComponents[0].active">
 
@@ -58,13 +61,23 @@
                 </button>
 
             </div>
-            <div class="section" v-if="warehouseComponents[0].active && showThicknessSection">
 
-                <button v-for="(value, key) in thicknesses" :key="key">
-                {{ key }} {{ value }}
-                </button>
+            <div class="section" v-if="warehouseComponents[0].active && chosenWoodType">
 
+            <div   v-for="(key, value) in thicknesses" :key="key">
+                <button 
+                v-for="item in key" 
+                v-if="chosenWoodType == value" 
+                :class="{
+                    'is-active': checkSet(item),
+                    'is-info': !checkSet(item)}" 
+                class="button mr-5"  
+                @click="addThickness(item)"
+                > {{ item }}
+             </button>
             </div>
+
+</div>
         </div>
 
             
@@ -178,8 +191,8 @@ import { useI18n } from 'vue-i18n';
 
 
 const newProjectStore = useNewProjectStoreBeta()
-const {warehouseBoards, wood, chosenWoodType} = storeToRefs(newProjectStore)
-const {loadData, chooseWoodType } = newProjectStore
+const {warehouseBoards, wood, chosenWoodType, chosenThicknesses} = storeToRefs(newProjectStore)
+const {loadData, chooseWoodType, addThickness } = newProjectStore
 const showBoardWarehouse = ref(false)
 const showPaintsWarehouse = ref(false)
 const warehouseCapacity = ref(100)
@@ -230,6 +243,14 @@ const thicknesses = computed(() => {
     return finalResult
 })
 
+function checkSet(item){
+    if (chosenThicknesses.value.has(item)) {
+        console.log(true)
+        return true
+    }
+    console.log(false)
+    return false
+}
 
 
 </script>

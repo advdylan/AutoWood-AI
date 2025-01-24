@@ -34,15 +34,18 @@ export const useNewProjectStoreBeta = defineStore('newproject', {
     selectedFile: null,
     warehouseBoards: [],
     chosenWoodType: null,
-    chosenTickness: null,
-    highlightedRow: null
+    chosenThicknesses: new Set(),
+    highlightedRow: null,
+    
 
   }),
 
   getters: {
     filteredBoards: (state) => {
+      console.log(state.chosenThicknesses)
       return state.warehouseBoards.filter(
-        (wood) => wood.wood_type.name === state.chosenWoodType
+        
+        (wood) => wood.wood_type.name === state.chosenWoodType && state.chosenThicknesses.has(wood.dimZ)
       );
     },
     accesoriesStore() {
@@ -241,6 +244,16 @@ export const useNewProjectStoreBeta = defineStore('newproject', {
     }
     //console.log("NewAcc:" , newAccesory)
     this.accesories.push(newAccesory)
+    },
+    addThickness(thickness) {
+      console.log(thickness)
+      if (this.chosenThicknesses.has(thickness)) {
+        this.chosenThicknesses.delete(thickness);
+      } else {
+        this.chosenThicknesses.add(thickness);
+    }
+    console.log(this.chosenThicknesses)
+  
     },
     addAccesorytype(accesory) {
       this.accesorytype.push(accesory)

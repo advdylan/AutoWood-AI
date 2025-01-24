@@ -91,7 +91,7 @@ const props = defineProps({
 )
 
 const newProjectStore = useNewProjectStoreBeta()
-const {elements,boards, warehouseBoards, filteredBoards, chosenWoodType, highlightedRow} = storeToRefs(newProjectStore)
+const {elements,boards, warehouseBoards, filteredBoards, chosenWoodType, highlightedRow, chosenThicknesses} = storeToRefs(newProjectStore)
 const {loadBoards,highlightRow} = newProjectStore
 
 loadBoards()
