@@ -99,7 +99,7 @@
 
 
              <BoardsWarehouse 
-             v-if="warehouseComponents[0].active"
+             v-if="warehouseComponents[0].active && chosenThicknesses && chosenWoodType"
              
              :warehouse-capacity="warehouseCapacity"
              :diagram-ticks="diagramTicks"
@@ -191,7 +191,7 @@ import { useI18n } from 'vue-i18n';
 
 
 const newProjectStore = useNewProjectStoreBeta()
-const {warehouseBoards, wood, chosenWoodType, chosenThicknesses} = storeToRefs(newProjectStore)
+const {warehouseBoards, wood, chosenWoodType, chosenThicknesses, } = storeToRefs(newProjectStore)
 const {loadData, chooseWoodType, addThickness } = newProjectStore
 const showBoardWarehouse = ref(false)
 const showPaintsWarehouse = ref(false)
@@ -238,17 +238,13 @@ const thicknesses = computed(() => {
     result.forEach((dimZSet, woodName) => {
       finalResult[woodName] = Array.from(dimZSet).sort((a, b) => a - b)
     });
-
-    console.log(finalResult)
     return finalResult
 })
 
 function checkSet(item){
     if (chosenThicknesses.value.has(item)) {
-        console.log(true)
         return true
     }
-    console.log(false)
     return false
 }
 

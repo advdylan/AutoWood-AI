@@ -1,6 +1,6 @@
 <template>
   
-    <div  style="overflow: hidden; text-align: center;">
+        <div  style="overflow: hidden; text-align: center;">
             <svg 
                 :class="{ 'data-ready': isReady }"
                 id="svgBoard" 
@@ -10,17 +10,17 @@
                 style="width: 100%; height: 100%;"
                 
                 >
-                
                 <defs>
-                <linearGradient id="beech" x1="0%" x2="0%" y1="100%" y2="0%">
+                <linearGradient id="Buk" x1="0%" x2="0%" y1="100%" y2="0%">
                     <stop offset="0%" stop-color="rgb(192, 153, 153)" stop-opacity="0.9" />
                     <stop offset="100%" stop-color="rgb(192, 153, 153)" stop-opacity="1" />
                 </linearGradient>
-                <linearGradient id="FreeBoardGrad" x1="0%" x2="100%" y1="0%" y2="0%">
-                    <stop offset="0%" stop-color="rgb(250, 237, 237)" stop-opacity="0.1" />
-                    <stop offset="100%" stop-color="rgb(245, 230, 230)" stop-opacity="0.3" />
+                <linearGradient id="Sosna" x1="0%" x2="0%" y1="100%" y2="0%">
+                  <stop offset="0%" stop-color="rgb(246, 215, 175)" stop-opacity="0.9" />
+                  <stop offset="100%" stop-color="rgb(246, 215, 175)" stop-opacity="1" />
                 </linearGradient>
                 </defs>
+                
 
                 <!-- AXES -->
 
@@ -45,23 +45,20 @@
                   ></line>
 
                   <g :key="chosenWoodType">
-                  <rect v-for="(board,i) in filteredBoards"
+                  <rect v-for="(board) in processedBoards"
                   @click="highlightRow(board)"
-                  :key="i"
+                  :key=board.key
                   :width=diagramBarsWidth
-                  :height="(board.quantity / warehouseCapacity) * diagramHeight" 
-                  :x="20 + i * (diagramBarsWidth + spacesBetweenBars) + 30"
-                  :y="diagramHeight-(board.quantity / warehouseCapacity) * diagramHeight"
-                  style="fill: url(#beech)"
-                  >
-
+                  :height=board.height 
+                  :x=board.x
+                  :y=board.y
+                  :style="`fill: url(#${board.wood_type.name})`">
                   </rect>
                   </g>
             </svg>
-     
-
-            
         </div>
+
+        
 </template>
 <script setup>
 import {computed, onMounted, ref, watch} from 'vue'
@@ -82,6 +79,7 @@ const isRendered = ref(false)
 const barsQuantity = ref(null)
 const spacesBetweenBars = ref(null)
 const woodType = ref('')
+
 
 const props = defineProps({
     warehouseCapacity: Number,
@@ -132,6 +130,35 @@ const diagramBarsWidth = computed (() => {
 
  }
 })
+
+const processedBoards = computed (() => {
+  const Boards = []
+  filteredBoards.value.forEach((board,index) => {
+    //console.log("Index:",index)
+    //console.log("Board:",board)
+    const height = (board.quantity / warehouseCapacity.value) * diagramHeight.value
+    const x = 20 + index * (diagramBarsWidth.value + spacesBetweenBars.value) + 30
+    const y = diagramHeight.value - (board.quantity / warehouseCapacity.value) * diagramHeight.value
+    const newBar = {
+      key: index,
+      wood_type: board.wood_type,
+      name: board.name,
+      dimX: board.dimX,
+      dimY: board.dimY,
+      dimZ: board.dimZ,
+      quantity: board.quantity,
+      width: diagramBarsWidth.value,
+      height: height,
+      x: x,
+      y: y,
+    }
+    Boards.push(newBar)
+    
+
+    
+  })
+  return Boards
+} )
 
 
 

@@ -42,9 +42,7 @@ export const useNewProjectStoreBeta = defineStore('newproject', {
 
   getters: {
     filteredBoards: (state) => {
-      console.log(state.chosenThicknesses)
       return state.warehouseBoards.filter(
-        
         (wood) => wood.wood_type.name === state.chosenWoodType && state.chosenThicknesses.has(wood.dimZ)
       );
     },
@@ -246,14 +244,12 @@ export const useNewProjectStoreBeta = defineStore('newproject', {
     this.accesories.push(newAccesory)
     },
     addThickness(thickness) {
-      console.log(thickness)
       if (this.chosenThicknesses.has(thickness)) {
         this.chosenThicknesses.delete(thickness);
       } else {
         this.chosenThicknesses.add(thickness);
     }
-    console.log(this.chosenThicknesses)
-  
+
     },
     addAccesorytype(accesory) {
       this.accesorytype.push(accesory)
