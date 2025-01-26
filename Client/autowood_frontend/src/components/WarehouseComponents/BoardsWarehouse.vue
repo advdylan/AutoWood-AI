@@ -52,7 +52,12 @@
                   :height=board.height 
                   :x=board.x
                   :y=board.y
-                  :style="`fill: url(#${board.wood_type.name})`">
+                  :style="{
+                    fill: `url(#${board.wood_type.name})`,
+                    strokeWidth: highlightedRows.has(board) ? '2px' : '0px',
+                    stroke: highlightedRows.has(board) ? 'blue' : 'red',
+                    strokeDasharray: 10
+                  }">
                   </rect>
                   </g>
             </svg>
@@ -89,8 +94,8 @@ const props = defineProps({
 )
 
 const newProjectStore = useNewProjectStoreBeta()
-const {elements,boards, warehouseBoards, filteredBoards, chosenWoodType, highlightedRow, chosenThicknesses} = storeToRefs(newProjectStore)
-const {loadBoards,highlightRow} = newProjectStore
+const {elements,boards, warehouseBoards, filteredBoards, chosenWoodType, highlightedRows, chosenThicknesses} = storeToRefs(newProjectStore)
+const {loadBoards, highlightRow} = newProjectStore
 
 loadBoards()
 
@@ -134,8 +139,7 @@ const diagramBarsWidth = computed (() => {
 const processedBoards = computed (() => {
   const Boards = []
   filteredBoards.value.forEach((board,index) => {
-    //console.log("Index:",index)
-    //console.log("Board:",board)
+
     const height = (board.quantity / warehouseCapacity.value) * diagramHeight.value
     const x = 20 + index * (diagramBarsWidth.value + spacesBetweenBars.value) + 30
     const y = diagramHeight.value - (board.quantity / warehouseCapacity.value) * diagramHeight.value
@@ -152,11 +156,7 @@ const processedBoards = computed (() => {
       x: x,
       y: y,
     }
-    Boards.push(newBar)
-    
-
-    
-  })
+    Boards.push(newBar)})
   return Boards
 } )
 

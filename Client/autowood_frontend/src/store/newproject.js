@@ -35,7 +35,7 @@ export const useNewProjectStoreBeta = defineStore('newproject', {
     warehouseBoards: [],
     chosenWoodType: null,
     chosenThicknesses: new Set(),
-    highlightedRow: null,
+    highlightedRows: new Set(),
     
 
   }),
@@ -112,11 +112,12 @@ export const useNewProjectStoreBeta = defineStore('newproject', {
 
     highlightRow(board) {
       console.log(board)
-      if (board === this.highlightedRow){
-        this.highlightedRow = null
+      if (this.highlightedRows.has(board)){
+        console.log("It has same row")
+        this.highlightedRows.delete(board)
       }
       else {
-        this.highlightedRow = board
+        this.highlightedRows.add(board)
       }
       
       

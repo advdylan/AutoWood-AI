@@ -63,7 +63,7 @@
         <template #default="props">
           <input :class="{
             'input is-small': filteredBoards,
-            'input is-small active': props.row === highlightedRow
+            'input is-small active': checkForRows(props.row)
           }"  v-model="props.row.dimX"/>
         </template> 
       </b-table-column>
@@ -72,7 +72,7 @@
         <template #default="props">
           <input :class="{
             'input is-small': filteredBoards,
-            'input is-small active': props.row === highlightedRow
+            'input is-small active': checkForRows(props.row)
           }"  v-model="props.row.dimY"/>
         </template> 
       </b-table-column>
@@ -81,7 +81,7 @@
         <template  #default="props">
           <input :class="{
             'input is-small': filteredBoards,
-            'input is-small active': props.row === highlightedRow
+            'input is-small active': checkForRows(props.row)
           }"  v-model="props.row.dimZ"/>
         </template> 
       </b-table-column>
@@ -90,7 +90,7 @@
         <template #default="props">    
             <input :class="{
             'input is-small': filteredBoards,
-            'input is-small active': props.row === highlightedRow
+            'input is-small active': checkForRows(props.row)
           }"  v-model="props.row.wood_type.name" disabled />
         </template>  
       </b-table-column>
@@ -99,7 +99,7 @@
         <template #default="props">
           <input :class="{
             'input is-small': filteredBoards,
-            'input is-small active': props.row === highlightedRow
+            'input is-small active': checkForRows(props.row)
           }"  v-model="props.row.quantity" />
         </template> 
       </b-table-column>
@@ -122,7 +122,7 @@ import { storeToRefs } from 'pinia';
 import { toast } from 'bulma-toast';
 
 const store = useNewProjectStoreBeta()
-const { boards,wood, warehouseBoards,filteredBoards, highlightedRow } = storeToRefs(store)
+const { boards,wood, warehouseBoards,filteredBoards, highlightedRows } = storeToRefs(store)
 const {addWarehouseBoard} = store
 const errors = ref([])
 const tableKey = ref(0)
@@ -137,7 +137,21 @@ const newBoard = ref({
           quantity: 1
     })
 
-
+function checkForRows(props) {
+  for (const board of highlightedRows.value) {
+    if (
+      props.name === board.name &&
+      props.wood_type === board.wood_type &&
+      props.dimX === board.dimX &&
+      props.dimY === board.dimY &&
+      props.dimZ === board.dimZ &&
+      props.quantity === board.quantity
+    ) {
+      return true
+    }
+  }
+  return false
+}
 
 const submitForm = () => {
 
