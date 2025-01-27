@@ -8,6 +8,7 @@ import Home from '@/views/Home.vue'
 import NewProjectProgress from '@/views/NewProjectProgress.vue'
 import CutOptimizer from '@/views/CutOptimizer.vue'
 import Warehouse from '@/views/Warehouse.vue'
+import Production from '@/views/Production.vue'
 
 
 const routes = [
@@ -59,6 +60,11 @@ const routes = [
     path: '/warehouse',
     name: 'Warehouse',
     component: Warehouse
+  },
+  {
+    path: '/production',
+    name: 'Production',
+    component: Production
   },
   {
     path: '/',

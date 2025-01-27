@@ -27,8 +27,8 @@
     <div id="navbarBasicExample" class="navbar-menu" v-bind:class="{'is-active': showMobile}">
       <div class="navbar-start">
         
-        <router-link to="/accesories" class="navbar-item">      
-            <i class="fa-solid fa-hammer"></i>
+        <router-link to="/production" class="navbar-item">      
+            <i class="fa-solid fa-hammer fa-lg"></i>
             <div class="is-size-5">
               &nbsp;{{ $t("production")}}
             </div>
