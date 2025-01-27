@@ -1,7 +1,7 @@
 <template>
     <div class=columns>
         <div class="column is-full">
-            <div class="notification is-text">
+            <div class="notification is-primary">
                 <div class="title is-centered is-size-4">
                     {{ $t('accessory_management') }}
                 </div>

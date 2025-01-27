@@ -26,8 +26,17 @@
   
     <div id="navbarBasicExample" class="navbar-menu" v-bind:class="{'is-active': showMobile}">
       <div class="navbar-start">
+        
+        <router-link to="/accesories" class="navbar-item">      
+            <i class="fa-solid fa-hammer"></i>
+            <div class="is-size-5">
+              &nbsp;{{ $t("production")}}
+            </div>
+          </router-link>
 
         <div class="navbar-item has-dropdown is-hoverable">
+
+
           <router-link to="/projects-list" class="navbar-link">
           <i class="fa-solid fa-file-pen fa-lg">
           </i>
@@ -35,6 +44,7 @@
             &nbsp; {{ $t("projects")}}         
           </div>
         </router-link>
+
         <div class="navbar-dropdown is-dark fa-lg">
           <router-link to="/new-project" class="navbar-item">
             {{ $t("new_project")}}   
@@ -70,12 +80,6 @@
           </div>
         </router-link>
 
-        <a class="navbar-item">
-          <i class="fa-solid fa-fill-drip fa-lg"></i>
-          <div class="is-size-5">
-            &nbsp;{{ $t("paints")}}
-          </div>
-        </a>
        
         <router-link to="/warehouse" class="navbar-item">  
           <i class="fa-solid fa-warehouse fa-lg"></i>
@@ -83,6 +87,8 @@
             &nbsp;{{ $t("warehouse")}}
           </div>
         </router-link>
+
+        
         
         
       </div>

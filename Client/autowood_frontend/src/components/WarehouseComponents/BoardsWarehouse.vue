@@ -16,8 +16,12 @@
                     <stop offset="100%" stop-color="rgb(192, 153, 153)" stop-opacity="1" />
                 </linearGradient>
                 <linearGradient id="Sosna" x1="0%" x2="0%" y1="100%" y2="0%">
-                  <stop offset="0%" stop-color="rgb(246, 215, 175)" stop-opacity="0.9" />
-                  <stop offset="100%" stop-color="rgb(246, 215, 175)" stop-opacity="1" />
+                  <stop offset="0%" stop-color="rgb(237, 198, 152)" stop-opacity="0.9" />
+                  <stop offset="100%" stop-color="rgb(237, 198, 152)" stop-opacity="1" />
+                </linearGradient>
+                <linearGradient id="Dąb" x1="0%" x2="0%" y1="100%" y2="0%">
+                  <stop offset="0%" stop-color="rgb(124, 95, 53)" stop-opacity="0.9" />
+                  <stop offset="100%" stop-color="rgb(124, 95, 53)" stop-opacity="1" />
                 </linearGradient>
                 </defs>
                 
@@ -55,10 +59,22 @@
                   :style="{
                     fill: `url(#${board.wood_type.name})`,
                     strokeWidth: highlightedRows.has(board) ? '2px' : '0px',
-                    stroke: highlightedRows.has(board) ? 'blue' : 'red',
+                    stroke: highlightedRows.has(board) ? 'rgb(65, 149, 244)' : 'red',
                     strokeDasharray: 10
                   }">
                   </rect>
+                  </g>
+                  <g :key="chosenWoodType">
+                    <text
+                      v-for="(board) in processedBoards"
+                      :x= "(board.x + (diagramBarsWidth/2))"
+                      :y=diagramHeight+30
+                      text-anchor="middle"
+                      font-size="11px"
+                      >
+                      {{ board.name }} ({{ board.dimX }}x{{ board.dimY }})
+                      
+                    </text>
                   </g>
             </svg>
         </div>
@@ -143,6 +159,7 @@ const processedBoards = computed (() => {
     const height = (board.quantity / warehouseCapacity.value) * diagramHeight.value
     const x = 20 + index * (diagramBarsWidth.value + spacesBetweenBars.value) + 30
     const y = diagramHeight.value - (board.quantity / warehouseCapacity.value) * diagramHeight.value
+    const barSignatureX = (x + diagramBarsWidth.value)/2  
     const newBar = {
       key: index,
       wood_type: board.wood_type,
@@ -155,6 +172,7 @@ const processedBoards = computed (() => {
       height: height,
       x: x,
       y: y,
+      barSignatureX: barSignatureX
     }
     Boards.push(newBar)})
   return Boards
