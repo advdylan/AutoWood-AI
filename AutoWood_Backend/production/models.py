@@ -1,0 +1,61 @@
+from django.db import models
+from product.models import *
+from django.contrib.contenttypes.models import ContentType
+from django.contrib.contenttypes.fields import GenericForeignKey
+
+# Create your models here.
+class CatalogProduct(models.Model):
+    
+    name = models.CharField(max_length=100)
+    category = models.ForeignKey(Category, on_delete=models.CASCADE)
+    paints = models.ForeignKey(Paints, on_delete=models.CASCADE)
+    worktimes = models.ManyToManyField(Worktimetype,through='ProjectWorktime', blank=True)
+    accessories = models.ManyToManyField(AccessoryType, through='AccessoryDetail', blank=True)
+    new_elements = models.ManyToManyField(Element, through='NewProjectElement',blank=True)
+    wood = models.ForeignKey(Wood, on_delete=models.CASCADE)
+    collection = models.ForeignKey(Collection, on_delete=models.CASCADE)
+    document = models.ManyToManyField('Document', blank=True)
+    image = models.ManyToManyField('Image',blank=True)
+    worktime_cost = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
+    elements_cost = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
+    elements_margin = models.DecimalField(max_digits=10,decimal_places=2, blank=True, null=True)
+    accesories_cost = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
+    accesories_margin = models.DecimalField(max_digits=10,decimal_places=2, blank=True, null=True)
+    additional_margin = models.DecimalField(max_digits=10,decimal_places=2, blank=True, null=True)
+    summary_with_margin = models.DecimalField(max_digits=10,decimal_places=2, blank=True, null=True)
+    summary_without_margin = models.DecimalField(max_digits=10,decimal_places=2, blank=True, null=True)
+    percent_elements_margin = models.IntegerField(blank=True, null=True)
+    percent_accesories_margin = models.IntegerField(blank=True, null=True)
+    percent_additional_margin = models.IntegerField(blank=True, null=True)
+
+
+
+
+class Production(models.Model):
+    production_stages = models.JSONField()  # or a related model for detailed tracking
+    status = models.CharField(max_length=50, choices=[('pending', 'Pending'), ('in_progress', 'In Progress'), ('completed', 'Completed')])
+    date_ordered = models.DateField()
+    date_of_delivery = models.DateField(blank=True, null=True)
+    
+    # Generic relation to link to either NewProject or CatalogProduct
+    content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
+    object_id = models.PositiveIntegerField()
+    order = GenericForeignKey('content_type', 'object_id')
+
+    def save(self, *args, **kwargs):
+        if not self.pk:
+            super().save(*args, **kwargs)
+            stages = ['P','T','N','S','O']
+            for stage in stages:
+                ProductionStage.objects.create(production = self, stage_name=stage)
+    
+    def __str__(self):
+        return f"Production for {self.order} (Status: {self.status})"
+    
+class ProductionStage(models.Model):
+    production = models.ForeignKey('Production', on_delete=models.CASCADE, related_name='stages')
+    stage_name = models.CharField(max_length=100)
+    is_done = models.BooleanField(default=False)
+
+    def __str__(self):
+        return f"{self.stage_name} - {'Done' if self.is_done else 'Pending'}"
