@@ -9,13 +9,13 @@ class CatalogProduct(models.Model):
     name = models.CharField(max_length=100)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
     paints = models.ForeignKey(Paints, on_delete=models.CASCADE)
-    worktimes = models.ManyToManyField(Worktimetype,through='ProjectWorktime', blank=True)
-    accessories = models.ManyToManyField(AccessoryType, through='AccessoryDetail', blank=True)
-    new_elements = models.ManyToManyField(Element, through='NewProjectElement',blank=True)
+    worktimes = models.ManyToManyField(Worktimetype,through='CatalogWorktime', blank=True)
+    accessories = models.ManyToManyField(AccessoryType, through='CatalogAccessoryDetail', blank=True)
+    new_elements = models.ManyToManyField(Element, through='CatalogElement',blank=True)
     wood = models.ForeignKey(Wood, on_delete=models.CASCADE)
     collection = models.ForeignKey(Collection, on_delete=models.CASCADE)
-    document = models.ManyToManyField('Document', blank=True)
-    image = models.ManyToManyField('Image',blank=True)
+    document = models.ManyToManyField(Document, blank=True)
+    image = models.ManyToManyField(Image,blank=True)
     worktime_cost = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
     elements_cost = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
     elements_margin = models.DecimalField(max_digits=10,decimal_places=2, blank=True, null=True)
@@ -42,12 +42,6 @@ class Production(models.Model):
     object_id = models.PositiveIntegerField()
     order = GenericForeignKey('content_type', 'object_id')
 
-    def save(self, *args, **kwargs):
-        if not self.pk:
-            super().save(*args, **kwargs)
-            stages = ['P','T','N','S','O']
-            for stage in stages:
-                ProductionStage.objects.create(production = self, stage_name=stage)
     
     def __str__(self):
         return f"Production for {self.order} (Status: {self.status})"
@@ -59,3 +53,28 @@ class ProductionStage(models.Model):
 
     def __str__(self):
         return f"{self.stage_name} - {'Done' if self.is_done else 'Pending'}"
+    
+
+class CatalogAccessoryDetail(models.Model):
+    catalog_product = models.ForeignKey(CatalogProduct, on_delete=models.CASCADE, related_name="catalog_accessories")
+    type = models.ForeignKey(AccessoryType, on_delete=models.CASCADE)
+    quantity = models.IntegerField(default=0)
+
+class CatalogElement(models.Model):
+    catalog_product = models.ForeignKey(CatalogProduct, on_delete=models.CASCADE, related_name="catalog_elements")
+    element = models.ForeignKey(Element, on_delete=models.CASCADE)
+    quantity = models.IntegerField(default=0)
+
+    def __str__(self):
+        return f"{self.project.name} - {self.quantity}"
+    
+class CatalogWorktime(models.Model):
+    catalog_product = models.ForeignKey(CatalogProduct, on_delete=models.CASCADE, related_name="catalog_worktime")
+    worktime = models.ForeignKey(Worktimetype, on_delete=models.CASCADE)
+    duration = models.FloatField(default=0)
+    workers = models.IntegerField(blank=True, null=True)
+    cost = models.DecimalField(max_digits=10, decimal_places=2, default=10)
+
+    def save(self, *args, **kwargs):
+        self.cost = self.worktime.cost
+        super().save(*args, **kwargs)

@@ -1,6 +1,7 @@
 from django.contrib import admin
 from .models import *
 from warehouse.models import *
+from production.models import *
 
 class ProductAdmin(admin.ModelAdmin):
     list_display = (
@@ -121,3 +122,41 @@ class ProjectWorktimeAdmin(admin.ModelAdmin):
     list_display = ("project","worktime")
 
 admin.site.register(ProjectWorktime,ProjectWorktimeAdmin)
+
+
+class CatalogProductAdmin(admin.ModelAdmin):
+    list_display = (
+        'name', 'category', 'paints', 'wood', 'collection',
+        'worktime_cost', 'elements_cost', 'elements_margin',
+        'accesories_cost', 'accesories_margin', 'additional_margin',
+        'summary_with_margin', 'summary_without_margin',
+        'percent_elements_margin', 'percent_accesories_margin', 'percent_additional_margin'
+    )
+    
+    raw_id_fields = ('worktimes', 'accessories', 'new_elements', 'document', 'image')
+
+admin.site.register(CatalogProduct, CatalogProductAdmin)
+
+class ProductionAdmin(admin.ModelAdmin):
+    list_display = (
+        'production_stages',
+        'status',
+        'date_ordered',
+        'date_of_delivery',
+        'content_type',
+        'object_id',
+        'order'
+    )
+
+
+
+admin.site.register(Production, ProductionAdmin)
+
+class ProductionStageAdmin(admin.ModelAdmin):
+    list_display = (
+        'production',
+        'stage_name',
+        'is_done'
+    )
+
+admin.site.register(ProductionStage, ProductionStageAdmin)
