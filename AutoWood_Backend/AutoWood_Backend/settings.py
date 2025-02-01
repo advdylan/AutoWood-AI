@@ -69,7 +69,7 @@ CORS_ALLOWED_ORIGINS = [
 CSRF_TRUSTED_ORIGINS = [
     "https://autowood.fly.dev",
     "https://33e1-159-255-183-250.ngrok-free.app",
-    # add other trusted origins if needed
+   
 ]
 
 CORS_ALLOW_CREDENTIALS = True

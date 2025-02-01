@@ -32,7 +32,7 @@ class CatalogProduct(models.Model):
 
 
 class Production(models.Model):
-    production_stages = models.JSONField()  # or a related model for detailed tracking
+    production_stages = models.ManyToManyField('ProductionStage', through='OrderProductionStage', blank=True)
     status = models.CharField(max_length=50, choices=[('pending', 'Pending'), ('in_progress', 'In Progress'), ('completed', 'Completed')])
     date_ordered = models.DateField()
     date_of_delivery = models.DateField(blank=True, null=True)
@@ -46,13 +46,20 @@ class Production(models.Model):
     def __str__(self):
         return f"Production for {self.order} (Status: {self.status})"
     
-class ProductionStage(models.Model):
-    production = models.ForeignKey('Production', on_delete=models.CASCADE, related_name='stages')
-    stage_name = models.CharField(max_length=100)
+class OrderProductionStage(models.Model):
+    production = models.ForeignKey('Production', on_delete=models.CASCADE, related_name='production')
+    production_stage = models.ForeignKey('ProductionStage', on_delete=models.CASCADE, related_name='production_stage')
     is_done = models.BooleanField(default=False)
 
     def __str__(self):
         return f"{self.stage_name} - {'Done' if self.is_done else 'Pending'}"
+    
+class ProductionStage(models.Model):
+    stage_name = models.CharField(max_length=100)
+    
+
+    def __str__(self):
+        return f"{self.stage_name}"
     
 
 class CatalogAccessoryDetail(models.Model):

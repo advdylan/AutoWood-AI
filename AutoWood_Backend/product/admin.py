@@ -124,22 +124,30 @@ class ProjectWorktimeAdmin(admin.ModelAdmin):
 admin.site.register(ProjectWorktime,ProjectWorktimeAdmin)
 
 
-class CatalogProductAdmin(admin.ModelAdmin):
-    list_display = (
-        'name', 'category', 'paints', 'wood', 'collection',
-        'worktime_cost', 'elements_cost', 'elements_margin',
-        'accesories_cost', 'accesories_margin', 'additional_margin',
-        'summary_with_margin', 'summary_without_margin',
-        'percent_elements_margin', 'percent_accesories_margin', 'percent_additional_margin'
-    )
-    
-    raw_id_fields = ('worktimes', 'accessories', 'new_elements', 'document', 'image')
+class CatalogElementDetailInline(admin.TabularInline):
+    model = CatalogElement
+    extra = 1
 
-admin.site.register(CatalogProduct, CatalogProductAdmin)
+class CatalogWorktimeDetailInline(admin.TabularInline):
+    model = CatalogWorktime
+    extra = 1
+
+class CatalogAccessoryDetailInline(admin.TabularInline):
+    model = CatalogAccessoryDetail
+    extra = 1
+
+class OrderProductionStageDetailInline(admin.TabularInline):
+    model = OrderProductionStage
+    extra = 1
+
 
 class ProductionAdmin(admin.ModelAdmin):
+    inlines = [OrderProductionStageDetailInline]
+
+   
+
     list_display = (
-        'production_stages',
+        
         'status',
         'date_ordered',
         'date_of_delivery',
@@ -152,11 +160,26 @@ class ProductionAdmin(admin.ModelAdmin):
 
 admin.site.register(Production, ProductionAdmin)
 
+
 class ProductionStageAdmin(admin.ModelAdmin):
     list_display = (
-        'production',
         'stage_name',
-        'is_done'
-    )
 
+    )
 admin.site.register(ProductionStage, ProductionStageAdmin)
+
+class CatalogProductAdmin(admin.ModelAdmin):
+
+    inlines = [CatalogElementDetailInline, CatalogAccessoryDetailInline, CatalogWorktimeDetailInline]
+    
+    list_display = (
+        'name', 'category', 'paints', 'wood', 'collection',
+        'worktime_cost', 'elements_cost','' 'elements_margin',
+        'accesories_cost', 'accesories_margin', 'additional_margin',
+        'summary_with_margin', 'summary_without_margin',
+        'percent_elements_margin', 'percent_accesories_margin', 'percent_additional_margin'
+    )
+    
+    raw_id_fields = ('worktimes', 'accessories', 'new_elements', 'document', 'image')
+
+admin.site.register(CatalogProduct, CatalogProductAdmin)
