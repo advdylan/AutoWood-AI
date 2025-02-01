@@ -149,7 +149,16 @@
     "boards": "Płyty ",
     "settings": "Ustawienia",
     "warehouse_capacity": "Pojemność magazynu",
-    "production": "Produkcja"
+    "production": "Produkcja",
+    "catalog": "Katalog",
+    "catalog_list": "Lista produktów",
+    "new_product": "Nowy produkt",
+    "select": "Wybierz",
+    "choose_mode": "Wybierz rodzaj",
+    "choose_mode_type": "Wybierz rodzaj nowego produktu",
+    "choose_product_description": "Produkt katalogu przeznaczony jest do seryjnej produkcji. Tryb ten umożliwia dokładną definicje etapów produkcyjnych",
+    "choose_estimate_description": "Projedyncza wycena dla klienta detalicznego. Nie jest zapisywana w katalogu produktów, posiada tylko jeden etap produkcyjny"
+    
     
     
 

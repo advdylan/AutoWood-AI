@@ -34,6 +34,27 @@
             </div>
           </router-link>
 
+          <div class="navbar-item has-dropdown is-hoverable">
+
+            <router-link to="/projects-list" class="navbar-link">
+              <i class="fa-solid fa-book fa-lg"></i>
+            <div class="is-size-5"> 
+              &nbsp; {{ $t("catalog")}}         
+            </div>
+            </router-link>
+
+            <div class="navbar-dropdown is-dark fa-lg">
+            <router-link to="/new-project" class="navbar-item">
+              {{ $t("new_product")}}   
+            </router-link>
+            <hr class="navbar-divider">
+            <router-link to="/projects-list" class="navbar-item">
+              {{ $t("catalog_list")}}   
+            </router-link>
+
+          </div>       
+          </div>
+
         <div class="navbar-item has-dropdown is-hoverable">
 
 

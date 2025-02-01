@@ -7,23 +7,36 @@
   
     <div class="columns is-centered has-text-centered is-vcentered">
 
-      <!-- First Column -->
       <div class="column">
         <div class="button is-rounded is-medium" 
         @click="navigateWithButton(npSteps[0])"
-        :class="returnButtonState(npSteps[0].state)">{{ $t('client_data') }}</div>
+        :class="returnButtonState(npSteps[0].state)">{{ $t('choose_mode') }}</div>
       </div>
       <div class="column">
       <span class="icon is-medium">
       <i class="fa-solid fa-arrow-right-long"></i>
+    </span></div>
+
+      <!-- First Column -->
+      <div class="column">
+        <div class="button is-rounded is-medium" 
+        @click="navigateWithButton(npSteps[1])"
+        :class="returnButtonState(npSteps[1].state)">{{ $t('client_data') }}</div>
+      </div>
+      
+      <div class="column"><span class="icon is-medium">
+      <i class="fa-solid fa-arrow-left-long "></i>
+      </span>
+      <span class="icon is-medium">
+      <i class="fa-solid fa-arrow-right-long "></i>
     </span></div>
       <!-- Line Between Buttons -->
 
       <!-- Second Column -->
       <div class="column">
         <div class="button is-rounded is-medium" 
-        @click="navigateWithButton(npSteps[1])"
-        :class="returnButtonState(npSteps[1].state)"
+        @click="navigateWithButton(npSteps[2])"
+        :class="returnButtonState(npSteps[2].state)"
         >{{ $t('elements_list')}}</div>
       </div>
       <div class="column"><span class="icon is-medium">
@@ -37,8 +50,8 @@
       <!-- Third Column -->
       <div class="column">
         <div class="button is-rounded is-medium" 
-        @click="navigateWithButton(npSteps[2])"
-        :class="returnButtonState(npSteps[2].state)">{{$t('accessories')}}</div>
+        @click="navigateWithButton(npSteps[3])"
+        :class="returnButtonState(npSteps[3].state)">{{$t('accessories')}}</div>
       </div>
       <!-- Line Between Buttons -->
       <div class="column"><span class="icon is-medium">
@@ -52,8 +65,8 @@
       <!-- Fourth Column -->
       <div class="column">
         <div class="button is-rounded is-medium" 
-        @click="navigateWithButton(npSteps[3])"
-        :class="returnButtonState(npSteps[3].state)">{{ $t('margins')  }}</div>
+        @click="navigateWithButton(npSteps[4])"
+        :class="returnButtonState(npSteps[4].state)">{{ $t('margins')  }}</div>
       </div>
       <!-- Line Between Buttons -->
       <div class="column">
@@ -65,8 +78,8 @@
       <!-- Fifth Column -->
       <div class="column">
         <div class="button is-rounded is-medium" 
-        @click="navigateWithButton(npSteps[4])"
-        :class="returnButtonState(npSteps[4].state)">{{ $t('summary')  }}</div>
+        @click="navigateWithButton(npSteps[5])"
+        :class="returnButtonState(npSteps[5].state)">{{ $t('summary')  }}</div>
       <!-- Line Between Buttons -->
       </div>
     </div>
@@ -74,16 +87,12 @@
 
   <div class="card-content" style="padding: 0rem;" >
     <div class="content">
-      <transition
-        enter-active-class="animate__animated animate__slideInRight"
-        leave-active-class="animate__animated animate__slideOutLeft">
-   
     <component
       v-if="activeStep"
       :is="activeStep.component"
       :key="activeStep.name"
     ></component>
-    </transition>
+    
   </div>
   
 
@@ -133,10 +142,11 @@ import { useI18n } from 'vue-i18n';
 
 import ElementsProgressTable from '@/components/NewProjectComponents/ElementsProgressTable.vue'
 import WorktimeType from '@/components/WorktimeType'
-import AccessoryTable from '@/components/AccessoryTable.vue'
+import ChooseCreationMode from '@/components/NewProjectComponents/ChooseCreationMode.vue'
+
 import Summary from '@/components/Summary.vue'
 import ClientData from '@/components/NewProjectComponents/ClientData.vue'
-import NewProjectData from '@/components/NewProjectComponents/NewProjectData.vue'
+
 import { validationFunctions } from '@/validators/Validators.js'
 
 import axios from 'axios'
@@ -174,11 +184,12 @@ const newElement = ref({
 })
 
 const npSteps = ref([
-  { position: 0, name: 'ClientData', component: markRaw(ClientData), isValid: false, state: 'inProgress' },
-  { position: 1, name: 'ElementsProgressTable', component: markRaw(ElementsProgressTable), isValid: false, state: 'notYetDone' },
-  { position: 2, name: 'AccessoryTable', component: markRaw(AccesoryProgressTable), isValid: false, state: 'notYetDone' },
-  { position: 3, name: 'WorktimeType', component: markRaw(WorktimeType), isValid: false, state: 'notYetDone' },
-  { position: 4, name: 'Summary', component: markRaw(Summary), isValid: false, state: 'notYetDone' }
+  { position: 0, name: 'ChooseCreationMode', component: markRaw(ChooseCreationMode), isValid: false, state: 'inProgress' },
+  { position: 1, name: 'ClientData', component: markRaw(ClientData), isValid: false, state: 'notYetDone' },
+  { position: 2, name: 'ElementsProgressTable', component: markRaw(ElementsProgressTable), isValid: false, state: 'notYetDone' },
+  { position: 3, name: 'AccessoryTable', component: markRaw(AccesoryProgressTable), isValid: false, state: 'notYetDone' },
+  { position: 4, name: 'WorktimeType', component: markRaw(WorktimeType), isValid: false, state: 'notYetDone' },
+  { position: 5, name: 'Summary', component: markRaw(Summary), isValid: false, state: 'notYetDone' }
 ])
 
 

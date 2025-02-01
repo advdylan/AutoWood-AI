@@ -12,7 +12,10 @@
               <br>
               {{$t("save_info")}}            </div>
           </div>
-          <ClientData show-card-title="true"/>
+          <ClientData 
+          show-card-title="true"
+          
+          />
       
 
         
