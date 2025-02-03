@@ -93,7 +93,7 @@ export function validateChooseMode(stepData, errors, creationMode) {
   //console.log("creatioNmode:", creationMode)
   //console.log("Errors:", errors)
 
-  if (stepData.value.trim() === ''){
+  if (stepData.value.trim() === '' && creationMode != 'newProjectMode' && creationMode!= 'newProductCatalogMode'){
     return false
   }
 

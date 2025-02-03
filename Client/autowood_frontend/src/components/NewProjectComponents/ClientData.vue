@@ -10,7 +10,8 @@
     <div class="card-content">
       <div class="content">
         <div class="columns">
-            <div class="column is-one-third">              
+            <div v-if="creationMode === 'newProjectMode'" class="column is-one-third">   
+                <div class="card">         
                   <header class="card-header">
                       <p class="card-header-title is-centered is-size-4">{{$t("client_data")}}
                         <span>&nbsp;<i class="fa-solid fa-id-card"></i></span>
@@ -67,10 +68,15 @@
                         </span>
                 </p>
                       </div>
-                    </div>                                 
+                    </div>  
+                    
+                  </div>  
+
+
             </div>
 
             <div class="column is-one-third">
+              <div class="card">
               <header class="card-header">
                       <p class="card-header-title is-centered is-size-4">{{$t("basic_info")}}
                         <span>&nbsp;<i class="fa-solid fa-circle-info"></i></span>
@@ -131,9 +137,12 @@
                   </select>
                 </div>
               </div>
-</div>
+              </div>
                       </div>
                     </div>
+
+
+                  </div>
 
             </div>
             <div class="column is-one-third">
@@ -209,6 +218,23 @@
                     </div>               
                 </div>
             </div>
+
+            <div v-if="creationMode === 'newProductCatalogMode'" class="column is-one-third has-text-centered"> 
+
+              <div class="card">
+                          <header class="card-header">
+                            <p class="card-header-title is-centered is-size-4">{{$t("production_steps")}}</p>  
+                          </header>
+                          <div class="card-content">
+                            <div class="content">
+
+                              // AXIOS CALL FOR STEPS
+
+                            </div>
+                          </div>
+                        </div>
+            </div>
+
         </div>
         
         
@@ -235,7 +261,7 @@ import { toast } from 'bulma-toast'
 
 const newProjectStore = useNewProjectStoreBeta()
 
-const {customer,files,category,wood,collection,paints, selectedCategory, selectedWood, selectedPaint, selectedCollection, selectedFile, projectName} = storeToRefs(newProjectStore)
+const {customer,files,category,wood,collection,paints, selectedCategory, selectedWood, selectedPaint, selectedCollection, selectedFile, projectName, creationMode} = storeToRefs(newProjectStore)
 
 
 const props = defineProps({

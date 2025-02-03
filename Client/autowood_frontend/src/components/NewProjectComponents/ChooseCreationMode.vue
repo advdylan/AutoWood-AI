@@ -76,10 +76,10 @@ onUnmounted(() => {
 
     let msg = ''
     if (creationMode.value === 'newProductCatalogMode') {
-        msg = "Wybrano nowy produkt do katalogu"
+        msg = "Wybrano typ Nowy Produkt do katalogu"
     }
     else if(creationMode.value === 'newProjectMode') {
-        msg = "Wybrano nową wycenę"
+        msg = "Wybrano Nową Wycenę"
     }
     else {
         console.log(creationMode.value)
