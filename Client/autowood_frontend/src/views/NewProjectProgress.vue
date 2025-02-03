@@ -91,6 +91,7 @@
       v-if="activeStep"
       :is="activeStep.component"
       :key="activeStep.name"
+
     ></component>
     
   </div>
@@ -124,12 +125,9 @@
                                     &nbsp;
                                     {{ $t('save') }}
                                 </button>
-  
   </footer>
 </div>
 </div>
-
-
 </template>
   
 <script setup>
@@ -139,14 +137,11 @@ import {ref, computed, onUnmounted, watch, watchEffect, shallowRef, markRaw} fro
 import { storeToRefs } from 'pinia'
 import {validateClientData, validateFormData} from '@/validators/Validators.js'
 import { useI18n } from 'vue-i18n';
-
 import ElementsProgressTable from '@/components/NewProjectComponents/ElementsProgressTable.vue'
 import WorktimeType from '@/components/WorktimeType'
 import ChooseCreationMode from '@/components/NewProjectComponents/ChooseCreationMode.vue'
-
 import Summary from '@/components/Summary.vue'
 import ClientData from '@/components/NewProjectComponents/ClientData.vue'
-
 import { validationFunctions } from '@/validators/Validators.js'
 
 import axios from 'axios'
@@ -167,10 +162,11 @@ const {summaryCosts, elementsMargin, accesoriesMargin,
 loadData()
 
 
-const {elements, wood, collection, paints, category, boxes, accesories, marginA, marginB, marginC, files, 
+const {elements, creationMode,boxes, accesories, marginA, marginB, marginC, files, 
   customer, projectName, selectedCategory, selectedCollection,selectedFile,selectedPaint,selectedWood} = storeToRefs(newProjectStore)
 
 const errors = ref([])
+
 
 const newElement = ref({
   element: {
@@ -205,12 +201,15 @@ const ClientDataValidation = ref({
 const validationData = {
   ClientData: ClientDataValidation,
   ElementsProgressTable: null,
-  AccessoryTable: null
+  AccessoryTable: null,
+  ChooseCreationMode: creationMode
 
 
 };
 
 // comptued values section
+
+
 
 const findActiveStep = computed (() => {
   return npSteps.value.findIndex((component) => component.state === 'inProgress')
@@ -238,17 +237,18 @@ function returnButtonState(state) {
 }
 
 function handleNextButton(index) {
- 
+
 
   let currentStep = npSteps.value[index]
   let nextStep = npSteps.value[index+1]
-
+  
   if (currentStep && nextStep) {
   //validation here
-
+  
   const validate = validationFunctions[currentStep.name]
+
   if (validate) {
-    const isValid = validate(validationData[currentStep.name], errors)
+    const isValid = validate(validationData[currentStep.name], errors, creationMode)
 
     if (!isValid) {
       let msg = ''
@@ -290,10 +290,6 @@ function handleBackButton(index) {
 
 }
 
-function validateStep(step) {
-
-}
-
 
 function navigateWithButton(stepToActivate) {
 
@@ -302,7 +298,8 @@ function navigateWithButton(stepToActivate) {
   if (activeStep.value.state = 'inProgress'){
     const validate = validationFunctions[activeStep.value.name]
     if (validate) {
-      const isValid = validate(validationData[activeStep.value.name], errors)
+      
+      const isValid = validate(validationData[activeStep.value.name], errors, creationMode)
       if (!isValid) {
         let msg = ''
 

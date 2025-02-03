@@ -1,3 +1,4 @@
+import ChooseCreationMode from "@/components/NewProjectComponents/ChooseCreationMode.vue"
 
 export function validateFormData(formData, errors) {
     if (!formData.get('name') || formData.get('name') === 'undefined' || formData.get('name').trim() === '') {
@@ -52,7 +53,9 @@ export function validateNewAccesory(accesorytype, errors,accesorytypes) {
 
 export function validateClientData(stepData, errors) {
 
-  console.log(stepData.value.projectName)
+  console.log(stepData.value)
+
+  
   if (!stepData.value.projectName || stepData.value.projectName === 'undefined' || stepData.value.projectName.trim() === '') {
     errors.value.push('Podaj właściwą nazwę wyceny w oknie "Nazwa projektu"')
   }
@@ -85,6 +88,20 @@ export function validateSummary(stepData) {
   return true
 }
 
+export function validateChooseMode(stepData, errors, creationMode) {
+  //console.log("stepData:",stepData.value)
+  //console.log("creatioNmode:", creationMode)
+  //console.log("Errors:", errors)
+
+  if (stepData.value.trim() === ''){
+    return false
+  }
+
+
+  return true
+
+}
+
 // Map step names to their corresponding validation functions
 export const validationFunctions = {
   ClientData: validateClientData,
@@ -92,4 +109,5 @@ export const validationFunctions = {
   AccessoryTable: validateAccessoryTable,
   WorktimeType: validateWorktimeType,
   Summary: validateSummary,
+  ChooseCreationMode: validateChooseMode
 };

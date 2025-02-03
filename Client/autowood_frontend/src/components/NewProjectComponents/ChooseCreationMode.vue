@@ -11,10 +11,12 @@
                    
                     <div class="column is-half has-text-centered">
                         
-                        <div class="button" 
+                        <div class="button"
+                            
                             :class="{
-                                'is-info' : NewProductCatalogMode,
-                                'is-active' : !NewProductCatalogMode
+                                'is-warning': creationMode === '' || creationMode === 'newProjectMode' ,
+                                'is-success': creationMode === 'newProductCatalogMode'
+                                
                             }">{{ $t('new_product') }}</div>
                     
                         <article class="message">
@@ -23,22 +25,24 @@
                                 {{ $t('choose_product_description')}}
                             </div>
                         </article>
-                        <div class="button is-success">{{ $t('select') }}</div>
+                        <div @click="setMode('newProductCatalogMode')"  class="button is-success">{{ $t('select') }}</div>
                      
                     </div>
                     <div class="column is-half has-text-centered">
-                        <div class="button" 
-                :class="{
-                    'is-info' : NewProjectMode,
-                    'is-active' : !NewProjectMode
-                }">{{ $t('new_estimate') }}</div>
+                        <div class="button "
+                            
+                            :class="{
+                                'is-warning': creationMode === '' || creationMode === 'newProductCatalogMode',
+                                'is-success': creationMode === 'newProjectMode'
+                                
+                            }">{{ $t('new_estimate') }}</div>
 
                         <article class="message">  
                             <div class="message-body">
                                 {{$t('choose_estimate_description')}}
                             </div>
                         </article>
-                        <div class="button is-success">{{ $t('select') }}</div>
+                        <div @click="setMode('newProjectMode')"  class="button is-success">{{ $t('select') }}</div>
                     </div>
                 </div>
             </div>          
@@ -52,24 +56,45 @@
 <script setup>
 import { useNewProjectStoreBeta } from '@/store/newproject'
 import { storeToRefs } from 'pinia'
-import { ref, watch, computed, watchEffect } from 'vue'
+import { ref, watch, computed, watchEffect, onUnmounted } from 'vue'
 import axios from 'axios'
 import { toast } from 'bulma-toast'
-
-const NewProductCatalogMode = ref(false)
-const NewProjectMode = ref(false)
-
 
 
 
 const newProjectStore = useNewProjectStoreBeta()
 
-const {customer,files,category,wood,collection,paints, selectedCategory, selectedWood, selectedPaint, selectedCollection, selectedFile, projectName} = storeToRefs(newProjectStore)
+const {setMode} = newProjectStore
+const {creationMode} = storeToRefs(newProjectStore)
 
 
 const props = defineProps({
     customerProps: Object,
 })
+
+onUnmounted(() => {
+
+    let msg = ''
+    if (creationMode.value === 'newProductCatalogMode') {
+        msg = "Wybrano nowy produkt do katalogu"
+    }
+    else if(creationMode.value === 'newProjectMode') {
+        msg = "Wybrano nową wycenę"
+    }
+    else {
+        console.log(creationMode.value)
+        msg = 'ERROR'
+    }
+
+    toast({
+              message: msg,
+              duration: 2000,
+              position: "top-center",
+              type: 'is-success',
+              animate: { in: 'backInDown', out: 'backOutUp' },
+            })
+})
+
 
 </script>
 <style>

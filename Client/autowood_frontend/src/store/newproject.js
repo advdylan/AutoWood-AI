@@ -36,6 +36,7 @@ export const useNewProjectStoreBeta = defineStore('newproject', {
     chosenWoodType: null,
     chosenThicknesses: new Set(),
     highlightedRows: new Set(),
+    creationMode: ''
     
 
   }),
@@ -276,6 +277,9 @@ export const useNewProjectStoreBeta = defineStore('newproject', {
 
     setWorktimes(worktimes) {
       this.boxes = worktimes
+    },
+    setMode(mode) {
+      this.creationMode = mode
     },
 
     $reset() {
