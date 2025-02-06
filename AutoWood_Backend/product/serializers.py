@@ -3,6 +3,7 @@ from rest_framework.reverse import reverse
 
 from .models import *
 from warehouse.models import *
+from production.models import *
 
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
@@ -103,6 +104,11 @@ class BoardSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Board
+        fields = '__all__'
+
+class ProductionStagesSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ProductionStage
         fields = '__all__'
 
 

@@ -223,7 +223,7 @@
 
               <div class="card">
                           <header class="card-header">
-                            <p class="card-header-title is-centered is-size-4">{{$t("production_steps")}}</p>  
+                            <p class="card-header-title is-centered is-size-4">{{$t("production_steps")}} &nbsp;<i class="fa-solid fa-list-check"></i></p>  
                           </header>
                           <div class="card-content">
                             <div class="content">

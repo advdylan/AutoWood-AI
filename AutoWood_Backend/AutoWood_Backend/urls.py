@@ -23,7 +23,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/v1/', include('product.urls')),
     path('api/v1/tools/', include('cut_optimizer.urls')),
-    path('api/v1/warehouse/', include('warehouse.urls'))
+    path('api/v1/warehouse/', include('warehouse.urls')),
+    path('api/v1/production/', include('production.urls'))
 ]
 
 if settings.DEBUG:
