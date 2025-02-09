@@ -36,7 +36,9 @@ export const useNewProjectStoreBeta = defineStore('newproject', {
     chosenWoodType: null,
     chosenThicknesses: new Set(),
     highlightedRows: new Set(),
-    creationMode: ''
+    creationMode: '',
+    productionSteps: [],
+    chosenProductionSteps: []
     
 
   }),
@@ -185,6 +187,18 @@ export const useNewProjectStoreBeta = defineStore('newproject', {
       })
     },
 
+    async getProductionSteps() {
+      await axios
+      .get(`/api/v1/production/stages/`)
+      .then (response => {
+        console.log(JSON.stringify(response.data))
+        this.productionSteps = response.data
+      })
+      .catch(error => {
+        console.log(error)
+      })
+    },
+
 
     addElement(element) {   
       this.elements.push({
@@ -280,6 +294,14 @@ export const useNewProjectStoreBeta = defineStore('newproject', {
     },
     setMode(mode) {
       this.creationMode = mode
+    },
+    addNewStage(stage) {
+      this.chosenProductionSteps.push(stage)
+    },
+    deleteStage(stage) {
+      const stageToDelete = this.chosenProductionSteps.findIndex(item => item.stage_name === stage.stage_name & item.shortcut === stage.shortcut)
+      this.chosenProductionSteps.splice(stageToDelete, 1)
+    
     },
 
     $reset() {

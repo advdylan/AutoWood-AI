@@ -163,7 +163,7 @@ admin.site.register(Production, ProductionAdmin)
 
 class ProductionStageAdmin(admin.ModelAdmin):
     list_display = (
-        'stage_name',
+        'stage_name','shortcut'
 
     )
 admin.site.register(ProductionStage, ProductionStageAdmin)

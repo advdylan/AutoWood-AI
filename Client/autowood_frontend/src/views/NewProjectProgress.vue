@@ -155,15 +155,16 @@ const { t } = useI18n();
 const newProjectStore = useNewProjectStoreBeta()
 const summaryStore = useSummaryStore()
 
-const { addElement, loadData, $resetBoxes } = newProjectStore
+const { addElement, loadData, $resetBoxes,} = newProjectStore
 const {summaryCosts, elementsMargin, accesoriesMargin,
-   additionalMargin,summaryCostsWithMargin, elementsCost, accesoriesCost, worktimeCost} = storeToRefs(summaryStore)
+   additionalMargin,summaryCostsWithMargin, elementsCost, accesoriesCost, worktimeCost, } = storeToRefs(summaryStore)
 
 loadData()
 
 
+
 const {elements, creationMode,boxes, accesories, marginA, marginB, marginC, files, 
-  customer, projectName, selectedCategory, selectedCollection,selectedFile,selectedPaint,selectedWood} = storeToRefs(newProjectStore)
+  customer, projectName, selectedCategory, selectedCollection,selectedFile,selectedPaint,selectedWood,productionSteps} = storeToRefs(newProjectStore)
 
 const errors = ref([])
 

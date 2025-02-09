@@ -56,6 +56,8 @@ class OrderProductionStage(models.Model):
     
 class ProductionStage(models.Model):
     stage_name = models.CharField(max_length=100)
+    shortcut = models.CharField(max_length=2)
+    
     
 
     def __str__(self):

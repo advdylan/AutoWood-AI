@@ -225,12 +225,7 @@
                           <header class="card-header">
                             <p class="card-header-title is-centered is-size-4">{{$t("production_steps")}} &nbsp;<i class="fa-solid fa-list-check"></i></p>  
                           </header>
-                          <div class="card-content">
-                            <div class="content">
-
-                              // AXIOS CALL FOR STEPS
-
-                            </div>
+                          <production-stages></production-stages>
                           </div>
                         </div>
             </div>
@@ -243,7 +238,6 @@
       </div>
     </div>
     
-  </div>
 
   
 
@@ -251,8 +245,9 @@
 
 <script setup>
 import { useNewProjectStoreBeta } from '@/store/newproject'
+import ProductionStages from './ProductionStages.vue'
 import { storeToRefs } from 'pinia'
-import { ref, watch, computed, watchEffect } from 'vue'
+import { ref, watch, computed, watchEffect, onMounted } from 'vue'
 import axios from 'axios'
 import { toast } from 'bulma-toast'
 
@@ -261,7 +256,11 @@ import { toast } from 'bulma-toast'
 
 const newProjectStore = useNewProjectStoreBeta()
 
-const {customer,files,category,wood,collection,paints, selectedCategory, selectedWood, selectedPaint, selectedCollection, selectedFile, projectName, creationMode} = storeToRefs(newProjectStore)
+const {getProductionSteps} = newProjectStore
+
+
+const {customer,files,category,wood,collection,paints, selectedCategory, selectedWood,
+   selectedPaint, selectedCollection, selectedFile, projectName, creationMode, productionSteps} = storeToRefs(newProjectStore)
 
 
 const props = defineProps({
@@ -348,6 +347,8 @@ function handleFileUpload(event) {
     }
     selectedFile.value = event.target.files[0]
 }
+
+
 
 
 </script>
