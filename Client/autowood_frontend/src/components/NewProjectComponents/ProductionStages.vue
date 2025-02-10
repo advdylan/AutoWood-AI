@@ -5,13 +5,18 @@
                                 <div class="column is-half">
                                 <div class="box">
                                   <label class="label is-size-6">Dodaj etapy produkcyjne</label>
+
+                                  <form @submit.prevent="submitForm">
+
+
                                   
                                   <div class="field">
                                     <div class="control">
                                       <input 
                                       class="input" 
                                       type="text" 
-                                      placeholder="Nazwa"/>
+                                      placeholder="Nazwa"
+                                      v-model="newStageName"/>
                                     </div>
                                   </div>
                                   <div class="field">
@@ -19,16 +24,20 @@
                                       <input 
                                       class="input" 
                                       type="text" 
-                                      placeholder="Skrót"/>
+                                      placeholder="Skrót"
+                                      v-model="newStageShortcut"/>
                                     </div>
                                   </div>
+                                  <button type="submit" class="button is-success">{{ $t("add")}}</button>
+                                  </form>
                                 </div>
+                             
 
                                   
                                 </div>
                                 <div class="column is-half">
                                   <label class="label is-size-6">Etapy</label>
-                                    <table class="table is-bordered">
+                                    <table class="table is-bordered is-striped">
                                         <thead>
                                             <tr>
                                                 <th>{{ $t('name') }}</th>
@@ -56,7 +65,7 @@
 
                               </div>
                               <label class="label is-size-6">Etapy</label>
-                                    <table class="table is-bordered">
+                                    <table class="table is-bordered is-striped">
                                         <thead>
                                             <tr>
                                                 <th>{{ $t('name') }}</th>
@@ -87,10 +96,38 @@ import { storeToRefs } from 'pinia'
 import { ref, watch, computed, watchEffect, onMounted } from 'vue'
 import axios from 'axios'
 import { toast } from 'bulma-toast'
+import { validateNewStage } from '@/validators/Validators'
 
 const newProjectStore = useNewProjectStoreBeta()
 const {getProductionSteps, addNewStage, deleteStage} = newProjectStore
 const {productionSteps, chosenProductionSteps} = storeToRefs(newProjectStore)
+
+const newStageName = ref('')
+const newStageShortcut = ref('')
+const errors = ref([])
+
+function submitForm(){
+  validateNewStage(newStageName,newStageShortcut, errors);
+
+  if (!errors.value.length) {
+    alert('Udalo sie ')
+  }
+  else {
+    
+    for (let error of errors.value) {
+      let msg = ''
+      msg += error += "\n"
+      toast({
+      message: msg,
+      duration: 5000,
+      position: "top-center",
+      type: 'is-danger',
+      animate: { in: 'backInDown', out: 'backOutUp' },
+    })
+    }
+  }
+
+}
 
 
 

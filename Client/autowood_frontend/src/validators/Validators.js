@@ -1,4 +1,4 @@
-import ChooseCreationMode from "@/components/NewProjectComponents/ChooseCreationMode.vue"
+import { errorMessages } from "@vue/compiler-sfc"
 
 export function validateFormData(formData, errors) {
     if (!formData.get('name') || formData.get('name') === 'undefined' || formData.get('name').trim() === '') {
@@ -111,3 +111,22 @@ export const validationFunctions = {
   Summary: validateSummary,
   ChooseCreationMode: validateChooseMode
 };
+
+
+export function validateNewStage(newStageName, newStageShortcut, errors) {
+
+  console.log(newStageName.value.trim())
+  console.log(newStageName.value.length)
+  console.log(newStageShortcut.value.length)
+  if (newStageName.value.trim() === '' || newStageName.value.length > 20) {
+    errors.value.push('Nazwa etapu zawiera błąd lub jest zbyt krótka')
+  }
+  if (newStageShortcut.value.lenght > 3) {
+    errors.value.push('Maksymalna długość skrótu to 3 litery')
+  }
+  if (newStageShortcut.value.trim() ==='' ) {
+    errors.value.push('Błędna nazwa skrótu')
+  }
+
+  return errors
+}
