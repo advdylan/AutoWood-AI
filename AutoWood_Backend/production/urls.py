@@ -7,5 +7,6 @@ from production import views
 
 urlpatterns = [
      path('stages/', views.production_stages_create_view, name='production-stages'),
+     path('save-product', views.save_catalog_product, name="save-product")
   
 ]

@@ -157,14 +157,14 @@ const summaryStore = useSummaryStore()
 
 const { addElement, loadData, $resetBoxes,} = newProjectStore
 const {summaryCosts, elementsMargin, accesoriesMargin,
-   additionalMargin,summaryCostsWithMargin, elementsCost, accesoriesCost, worktimeCost, } = storeToRefs(summaryStore)
+   additionalMargin,summaryCostsWithMargin, elementsCost, accesoriesCost, worktimeCost, ch } = storeToRefs(summaryStore)
 
 loadData()
 
 
 
-const {elements, creationMode,boxes, accesories, marginA, marginB, marginC, files, 
-  customer, projectName, selectedCategory, selectedCollection,selectedFile,selectedPaint,selectedWood,productionSteps} = storeToRefs(newProjectStore)
+const {elements, boxes, accesories, marginA, marginB, marginC, files, 
+  customer, projectName, selectedCategory, selectedCollection,selectedFile,selectedPaint,selectedWood,chosenProductionSteps, creationMode} = storeToRefs(newProjectStore)
 
 const errors = ref([])
 
@@ -368,7 +368,9 @@ formData.append('worktime_cost', worktimeCost.value)
 formData.append('customer', JSON.stringify(customer.value))
 files.value.forEach((file, index) => {
 formData.append(`files[${index}]`, file)
-})
+}),formData.append('productionSteps', JSON.stringify(chosenProductionSteps.value))
+
+
 
 
 
@@ -378,18 +380,36 @@ validateFormData(formData, errors)
 
 if (!errors.value.length) {
 
-  try {
-    const response = await axios.post('api/v1/product/save', formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
-    });
-    console.log('Server response:', response)
-    console.log('Project updated successfully:', response.data)
+  if (creationMode.value === 'newProjectMode') {
+
+    try {
+        const response = await axios.post('api/v1/product/save', formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        });
+        console.log('Server response:', response)
+        console.log('Project updated successfully:', response.data)
+  } catch (error) {
+        console.error('Error saving the project:', error)
+  }
+  }
+
+    else if (creationMode.value = 'newProductCatalogMode') {
+    try {
+        const response = await axios.post('api/v1/production/save-product', formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        });
+        console.log('Server response:', response)
+        console.log('Project updated successfully:', response.data)
   } catch (error) {
     console.error('Error saving the project:', error)
-    
   }
+    }
+
+
   toast({
           message: t('save_msg'),
           duration: 5000,
@@ -397,7 +417,7 @@ if (!errors.value.length) {
           type: 'is-success',
           animate: { in: 'backInDown', out: 'backOutUp' },
         })
-  resetInput()
+  //resetInput()
 } 
 
 else {
