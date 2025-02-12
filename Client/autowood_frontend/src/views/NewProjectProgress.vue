@@ -371,9 +371,18 @@ formData.append(`files[${index}]`, file)
 }),formData.append('productionSteps', JSON.stringify(chosenProductionSteps.value))
 
 
+const formDataObject = {};
+formData.forEach((value, key) => {
+  formDataObject[key] = value;
+});
+
+console.log(JSON.stringify(formDataObject, null, 2));
 
 
 
+
+
+console.log(formData)
 
 //ERROR CHECKING FUNCTIONS
 validateFormData(formData, errors)

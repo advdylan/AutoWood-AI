@@ -26,11 +26,12 @@ production_stages_create_view = ProducttionStepsListCreateAPIView.as_view()
 @parser_classes([MultiPartParser, FormParser])
 def save_catalog_product(request):
 
-    data = request.POST.get
+    data = request.data.dict()
+    print(data)
+    name  = data.get("name")
+    print(name)
 
 
-    return JsonResponse({'message': 'Data saved'}, status=201)
+    return JsonResponse({'message': 'Data saved', 'data': (data)}, status=201)
 
 
-
-    return 0
