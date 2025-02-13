@@ -52,7 +52,7 @@ class OrderProductionStage(models.Model):
     is_done = models.BooleanField(default=False)
 
     def __str__(self):
-        return f"{self.stage_name} - {'Done' if self.is_done else 'Pending'}"
+        return f"{self.production_stage} - {'Done' if self.is_done else 'Pending'}"
     
 class ProductionStage(models.Model):
     stage_name = models.CharField(max_length=100)
@@ -75,7 +75,7 @@ class CatalogElement(models.Model):
     quantity = models.IntegerField(default=0)
 
     def __str__(self):
-        return f"{self.project.name} - {self.quantity}"
+        return f"{self.catalog_product.name} - {self.quantity}"
     
 class CatalogWorktime(models.Model):
     catalog_product = models.ForeignKey(CatalogProduct, on_delete=models.CASCADE, related_name="catalog_worktime")
