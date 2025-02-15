@@ -2,6 +2,7 @@ from django.shortcuts import render
 from product.models import *
 from .models import *
 from product.serializers import *
+from production.serializers import *
 from rest_framework import authentication, generics, mixins, permissions, status
 from rest_framework.decorators import api_view, parser_classes
 from rest_framework.parsers import MultiPartParser, FormParser
@@ -15,6 +16,20 @@ import json
 
 # Create your views here.
 
+
+class CatalogProductListCreateAPIView(
+    generics.ListCreateAPIView):
+    queryset = CatalogProduct.objects.all()
+    serializer_class = CatalogProductSerializer
+
+catalog_product_list_create_view = CatalogProductListCreateAPIView.as_view()
+class ProductionListCreateAPIView(
+    generics.ListCreateAPIView):
+
+    queryset = Production.objects.all()
+    serializer_class = ProductionSerializer
+
+production_list_create_view = ProductionListCreateAPIView.as_view()
 class ProducttionStepsListCreateAPIView(
     generics.ListCreateAPIView):
     

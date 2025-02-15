@@ -106,11 +106,6 @@ class BoardSerializer(serializers.ModelSerializer):
         model = Board
         fields = '__all__'
 
-class ProductionStagesSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = ProductionStage
-        fields = '__all__'
-
 
 class ProductSerializer(serializers.ModelSerializer): 
     category = CategorySerializer(read_only=True)
