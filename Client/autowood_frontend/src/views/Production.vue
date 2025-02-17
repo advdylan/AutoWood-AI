@@ -26,16 +26,10 @@
 </template>
 
 <script setup>
+import axios from 'axios';
 
 
-const productionDataSet = [
-    {project: {},
-     productionStages: 'array of stages(PTNSO)',
-     status: 'status (Cut, CNC, granding, painting, packaging )',
-     dateOfOrder: 'dateofOrder',
-     dateOfDelivery: 'dateOfDelivery',
-    }
-]
+
 
 </script>
 

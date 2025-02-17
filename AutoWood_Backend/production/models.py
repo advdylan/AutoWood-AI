@@ -45,23 +45,24 @@ class Production(models.Model):
     
     def __str__(self):
         return f"Production for {self.order} (Status: {self.status})"
-    
+class ProductionStage(models.Model):    
+    stage_name = models.CharField(max_length=100)
+    shortcut = models.CharField(max_length=2)
+
+
+
+    def __str__(self):
+        return f"{self.stage_name}"
 class OrderProductionStage(models.Model):
     production = models.ForeignKey('Production', on_delete=models.CASCADE, related_name='production')
-    production_stage = models.ForeignKey('ProductionStage', on_delete=models.CASCADE, related_name='production_stage')
+    production_stage = models.ForeignKey(ProductionStage, on_delete=models.CASCADE)
     is_done = models.BooleanField(default=False)
 
     def __str__(self):
         return f"{self.production_stage} - {'Done' if self.is_done else 'Pending'}"
     
-class ProductionStage(models.Model):
-    stage_name = models.CharField(max_length=100)
-    shortcut = models.CharField(max_length=2)
-    
-    
 
-    def __str__(self):
-        return f"{self.stage_name}"
+        
     
 
 class CatalogAccessoryDetail(models.Model):

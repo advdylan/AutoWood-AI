@@ -42,6 +42,12 @@ class ProductionStagesSerializer(serializers.ModelSerializer):
         model = ProductionStage
         fields = '__all__'
 
+class OrderProductionStageSerializer(serializers.ModelSerializer):
+    stage = ProductionStagesSerializer(read_only = True, source='production_stage')
+    
+    class Meta:
+        model = OrderProductionStage
+        fields = ['stage', 'is_done']
 
 class CatalogProductSerializer(serializers.ModelSerializer):
 
@@ -115,7 +121,7 @@ class GenericRelatedField(serializers.Field):
 
 class ProductionSerializer(serializers.ModelSerializer):
 
-    stages = ProductionStagesSerializer(many=True, read_only=True, source='production_stages')    
+    stages = OrderProductionStageSerializer(many=True, read_only=True, source='production')    
     order = GenericRelatedField()
 
     class Meta:

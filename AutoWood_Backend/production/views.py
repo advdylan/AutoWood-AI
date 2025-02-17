@@ -34,6 +34,7 @@ class ProducttionStepsListCreateAPIView(
     generics.ListCreateAPIView):
     
     queryset = ProductionStage.objects.all()
+    
     serializer_class = ProductionStagesSerializer
     
 
