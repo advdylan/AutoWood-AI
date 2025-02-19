@@ -131,7 +131,8 @@ class ProductionSerializer(serializers.ModelSerializer):
             "order",
             "status",
             "date_ordered",
-            "date_of_delivery"
+            "date_of_delivery",
+            "notes"
          
         ]
 

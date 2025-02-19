@@ -15,9 +15,42 @@
                                     <th>Order number</th>
                                     <th>Order name</th>
                                     <th>Category</th>
+                                    <th>Paint</th>
+                                    <th>Wood</th>
+                                    <th :colspan="maxStages">Stages</th>
+                                    <th>Status</th>
+                                    <th>Notes</th>
+                                    <th>Date of order</th>
+                                    <th>Delivery time</th>
                                 </tr>
 
                             </thead>
+                            <tr v-for="order in productionList">
+                                <td>{{ order.order.id }}</td>
+                                <td>{{ order.order.name }}</td>
+                                <td>{{ order.order.category.name }}</td>
+                                <td>{{ order.order.paints.name }}</td>
+                                <td>{{ order.order.wood.name }}</td>
+                                
+                                <td v-for="stage in order.stages">
+                                   
+                                        <label class="checkbox">
+                                        <input type="checkbox">
+                                            {{ stage.stage.shortcut }}
+                                            
+                                        </label>
+                                       
+                                                          
+                                </td>
+                                <td>{{ order.status }}</td>
+                                <td>{{ order.notes }}</td>
+                                <td>{{ order.date_ordered }}</td>
+                                <td>{{ order.date_of_delivery }}</td>
+                           
+                               
+                                
+                            </tr>
+                           
                         </table>
 
 
@@ -49,6 +82,7 @@ const {getProductionList} = store
 const {productionList} = storeToRefs(store)
 
 //const variables
+const maxStages = computed(() => {return Math.max(...productionList.value.map(order => order.stages.length+1))})
 
 //computed values
 const processedProductionList = ref([])

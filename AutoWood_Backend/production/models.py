@@ -36,6 +36,7 @@ class Production(models.Model):
     status = models.CharField(max_length=50, choices=[('pending', 'Pending'), ('in_progress', 'In Progress'), ('completed', 'Completed')])
     date_ordered = models.DateField()
     date_of_delivery = models.DateField(blank=True, null=True)
+    notes = models.CharField(max_length=150, blank=True, null=True)
     
     # Generic relation to link to either NewProject or CatalogProduct
     content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
