@@ -57,6 +57,17 @@
                         
                         
                     </div>
+                    <div class="box">
+                        <div class="columns">
+                            <div v-for="header in headers" class="column">
+                                <div class="box">
+                             <div class="label has-text-centered is-size-6"> {{header.name}} </div>
+                                </div>
+                            </div>
+                           
+                        </div>
+
+                    </div>
 
                 </div>
             </div>
@@ -83,6 +94,17 @@ const {productionList} = storeToRefs(store)
 
 //const variables
 const maxStages = computed(() => {return Math.max(...productionList.value.map(order => order.stages.length+1))})
+const headers = [
+    {name: "Order number", size: 5},
+    {name: "Order name", size: 5},
+    {name: "Category", size: 5},
+    {name: "Paint", size: 5},
+    {name: "Wood", size: 5},
+    {name: "Status", size: 5},
+    {name: "Notes", size: 5},
+    {name: "Date of order", size: 5},
+    {name: "Delivery time", size: 5},
+]
 
 //computed values
 const processedProductionList = ref([])
