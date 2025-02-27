@@ -58,26 +58,47 @@
                         
                     </div>
                     <div class="box">
-                        <div class="columns">
-                            <div v-for="header in headers" class="column">
-                                <div class="box">
-                             <div class="label has-text-centered is-size-6"> {{header.name}} </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="columns">
-                            <div class="column">
+    <div class="columns">
+        
+        <div v-for="header in headers" :key="header.id" class="column">
+            <div class="box">
+                <div class="label has-text-centered is-size-6">{{ header.name }}</div>
+            
+            </div>
+           
+            <div class="section" v-for="(order, index) in productionList" :key="index">
 
-                                <div class="section" v-for="order in productionList">
-                                    <div class="box"> {{ order.order.id }} </div>
-                                </div>
-                                
-                            </div>
-                        </div>
-
-
+                    <div class="box" v-if="header.name === 'Nr'">
+                        {{ order.order.id }}
                     </div>
 
+                    <div class="box" v-if="header.name === 'Name'">
+                        {{ order.order.name }}
+                    </div>
+
+                    <div class="box" v-if="header.name === 'Date of order'">
+                        {{ order.date_ordered }}
+                    </div>
+
+                    <div class="box" v-if="header.name === 'Delivery time'">
+                        {{ order.date_of_delivery }}
+                    </div>
+
+                    <div class="box" v-if="header.name === 'Category'">
+                        {{ order.order.category.name }}
+                    </div>
+
+                    <div class="box" v-if="header.name === 'Paint'">
+                        {{ order.order.paints.name }}
+                    </div>
+
+                    <div class="box" v-if="header.name === 'Category'">
+                        {{ order.order.category.name }}
+                    </div>
+            </div>
+        </div>
+    </div>
+</div>
                 </div>
             </div>
 
