@@ -160,6 +160,7 @@ const processedBoards = computed (() => {
     const x = 20 + index * (diagramBarsWidth.value + spacesBetweenBars.value) + 30
     const y = diagramHeight.value - (board.quantity / warehouseCapacity.value) * diagramHeight.value
     const barSignatureX = (x + diagramBarsWidth.value)/2  
+    
     const newBar = {
       key: index,
       wood_type: board.wood_type,

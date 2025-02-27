@@ -64,8 +64,17 @@
                              <div class="label has-text-centered is-size-6"> {{header.name}} </div>
                                 </div>
                             </div>
-                           
                         </div>
+                        <div class="columns">
+                            <div class="column">
+
+                                <div class="section" v-for="order in productionList">
+                                    <div class="box"> {{ order.order.id }} </div>
+                                </div>
+                                
+                            </div>
+                        </div>
+
 
                     </div>
 
@@ -94,20 +103,52 @@ const {productionList} = storeToRefs(store)
 
 //const variables
 const maxStages = computed(() => {return Math.max(...productionList.value.map(order => order.stages.length+1))})
+
 const headers = [
-    {name: "Order number", size: 5},
-    {name: "Order name", size: 5},
+    {name: "Nr", size: 5},
+    {name: "Name", size: 5},
+    {name: "Date of order", size: 5},
+    {name: "Delivery time", size: 5},
     {name: "Category", size: 5},
     {name: "Paint", size: 5},
     {name: "Wood", size: 5},
     {name: "Status", size: 5},
-    {name: "Notes", size: 5},
-    {name: "Date of order", size: 5},
-    {name: "Delivery time", size: 5},
+    {name: "Notes", size: 5},   
 ]
 
 //computed values
-const processedProductionList = ref([])
+/* const processedProductionList = computed(() => {
+    const orders = [];
+
+    for (let order of productionList.value) {
+        console.log(order);
+
+
+
+        let newOrder = {
+            headerNames: headers.value,
+            id: order.order.id,
+            name: order.order.name,
+            date_ordered: order.date_ordered,
+            date_of_delivery: order.date_of_delivery,
+            category: order.order.category,
+            paint: order.order.paints.name,
+            wood: order.order.wood.name,
+            stages: order.order.stages,
+            status: order.order.status,
+            notes: order.notes
+        } 
+        console.log(newOrder);
+        orders.push(newOrder);
+
+    }
+    
+    console.log(orders);
+        
+   
+    return orders;
+
+}) */
 
 
 
