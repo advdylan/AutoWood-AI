@@ -9,55 +9,6 @@
                 <div class="column is-full">
                     <div class="label has-text-centered is-size-5"> {{ $t('production') }}</div>
                     <div class="box">
-                        <table class="table">
-                            <thead>
-                                <tr>
-                                    <th>Order number</th>
-                                    <th>Order name</th>
-                                    <th>Category</th>
-                                    <th>Paint</th>
-                                    <th>Wood</th>
-                                    <th :colspan="maxStages">Stages</th>
-                                    <th>Status</th>
-                                    <th>Notes</th>
-                                    <th>Date of order</th>
-                                    <th>Delivery time</th>
-                                </tr>
-
-                            </thead>
-                            <tr v-for="order in productionList">
-                                <td>{{ order.order.id }}</td>
-                                <td>{{ order.order.name }}</td>
-                                <td>{{ order.order.category.name }}</td>
-                                <td>{{ order.order.paints.name }}</td>
-                                <td>{{ order.order.wood.name }}</td>
-                                
-                                <td v-for="stage in order.stages">
-                                   
-                                        <label class="checkbox">
-                                        <input type="checkbox">
-                                            {{ stage.stage.shortcut }}
-                                            
-                                        </label>
-                                       
-                                                          
-                                </td>
-                                <td>{{ order.status }}</td>
-                                <td>{{ order.notes }}</td>
-                                <td>{{ order.date_ordered }}</td>
-                                <td>{{ order.date_of_delivery }}</td>
-                           
-                               
-                                
-                            </tr>
-                           
-                        </table>
-
-
-                        
-                        
-                    </div>
-                    <div class="box">
 
                         <!-- HEADER -->
     <div class="columns">
@@ -70,25 +21,37 @@
 
                         <!-- ORDERS SECTION -->
            
-            <div class="section custom-section" v-for="(order, index) in productionList" :key="index">
+            <div class="section has-text-centered custom-section" v-for="(order, index) in productionList" :key="index">
 
-                    <div id="status-indicator" class="box custom-box" v-if="header.name === 'Nr'">
+                    <div
+                     id="status-indicator" 
+                     :class="{
+                    'stages-done': areAllStagesTrue(order.stages),
+                    'stages-in-progress': !areAllStagesTrue(order.stages)}"
+                     class="box custom-box" 
+                     v-if="header.name === 'Nr'">
+
                         {{ order.order.id }}
                     </div>
 
-                    <div class="box custom-box" v-if="header.name === 'Name'">
+                    <div class="box has-text-centered custom-box" v-if="header.name === 'Name'">
                         {{ order.order.name }}
                     </div>
 
-                    <div class="box custom-box" v-if="header.name === 'Date of order'">
+                    <div class="box has-text-centered custom-box" v-if="header.name === 'Date of order'">
                         {{ order.date_ordered }}
                     </div>
 
-                    <div class="box custom-box" v-if="header.name === 'Delivery time'">
+                    <div 
+                    v-if="header.name === 'Delivery time'"
+                    class="box has-text-centered custom-box"
+                    :class="calculateDeliveryDate(order.date_ordered, order.date_of_delivery)"
+                   
+                   >
                         {{ order.date_of_delivery }}
                     </div>
 
-                    <div class="box custom-box" v-if="header.name === 'Stages'">
+                    <div class="box has-text-centered custom-box" v-if="header.name === 'Stages'">
                         <nav class="level" >
                             <div class="level-left">
 
@@ -104,24 +67,24 @@
                         </nav>
                     </div>
 
-                    <div class="box custom-box" v-if="header.name === 'Category'">
+                    <div class="box has-text-centered custom-box" v-if="header.name === 'Category'">
                         {{ order.order.category.name }}
                     </div>
 
-                    <div class="box custom-box" v-if="header.name === 'Paint'">
+                    <div class="box has-text-centered custom-box" v-if="header.name === 'Paint'">
                         {{ order.order.paints.name }}
                     </div>
 
-                    <div class="box custom-box" v-if="header.name === 'Wood'">
+                    <div class="box has-text-centered custom-box" v-if="header.name === 'Wood'">
                         {{ order.order.wood.name }}
                     </div>
 
-                    <div class="box custom-box" v-if="header.name === 'Status'">
+                    <div class="box has-text-centered custom-box" v-if="header.name === 'Status'">
                         {{ order.status }}
                     </div>
 
                     <div class="box custom-box" v-if="header.name === 'Notes'">
-                        {{ order.notes }}
+                        <input class="input custom-input" v-model="order.notes">
                     </div>
             </div>
         </div>
@@ -135,8 +98,7 @@
     </div>
         </div>
 
-
-        <button @click="checkStages()" class="button">CHECK STAGES</button>
+        <button @click="calculateDeliveryDate('2025-02-13','2025-02-14')" class="button">calculateDeliveryDate</button>
 
 </template>
 
@@ -172,22 +134,36 @@ const headers = [
 //computed values
 const maxStages = computed(() => {return Math.max(...productionList.value.map(order => order.stages.length+1))})
 
-function areAllStagesTrue(stages) {
-    return stages.every(stage => stage.is_done === true);
-}
 
-function checkStages() {
-    for (let order of productionList.value) {
-        
-        let status = areAllStagesTrue(order.stages)
-        console.log(status);
-     
-    }
-}
+
 
 
 //functions
 
+function areAllStagesTrue(stages) {
+    return stages.every(stage => stage.is_done === true);
+}
+
+function calculateDeliveryDate(dateOrder,date_of_delivery) {
+
+    let parsedDateOfOrder = new Date(dateOrder)
+    let parsedDateOfDelivery = new Date(date_of_delivery)
+    console.log(parsedDateOfOrder)
+    console.log(parsedDateOfDelivery)
+
+    let difference = (parsedDateOfDelivery - parsedDateOfOrder) / (1000*60*60*24)
+    console.log(difference)
+
+    if (difference === 0) {
+        return 'warning';
+      } else if (difference === 1) {
+        return 'danger';
+      } else if (difference >= 2) {
+        return 'success';
+      } else {
+        return ''; // Default class (if needed)
+      }
+}
 
 
 
@@ -265,8 +241,18 @@ onMounted(() => {
 
 .custom-box {
   background-color: rgb(248, 248, 248);
-  padding: 3px 3px; /* Override Bulma's box padding */
+  padding: 5px; /* Override Bulma's box padding */
   height: 40px;
+  box-sizing: border-box; /* Ensure padding is included in the height */
+}
+
+.custom-box .input {
+  width: 100%; /* Make the input fill the container */
+  height: 100%; /* Make the input fill the container */
+  box-sizing: border-box; /* Ensure padding and border are included in the height */
+  border: none; /* Remove default border if needed */
+  background-color: transparent; /* Match the background of the container */
+  outline: none; /* Remove focus outline if desired */
 }
 
 .custom-header {
@@ -338,6 +324,21 @@ onMounted(() => {
 /* Show the checkmark when checked */
 .custom-checkbox-input:checked ~ .custom-checkbox-checkmark:after {
     display: block;
+}
+.stages-done {
+    background-color: rgb(97, 173, 110);
+}
+.stages-in-progress {
+    background-color: rgb(255, 230, 169);
+}
+.success{
+    background-color: rgb(97, 173, 110);
+}
+.danger{
+    background-color: rgb(255, 230, 169);
+}
+.warning{
+    background-color: hsl(348, 86%, 61%);
 }
 </style>
 
