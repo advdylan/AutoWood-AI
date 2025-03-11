@@ -231,6 +231,6 @@ def save_catalog_product(request):
         # Log the error
         print(e)
         return JsonResponse({'error': str(e)}, status=500)
-    return JsonResponse({'message': 'Data saved'}, status=201)
+
 
 

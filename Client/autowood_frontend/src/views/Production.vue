@@ -146,17 +146,18 @@ function areAllStagesTrue(stages) {
 
 function calculateDeliveryDate(dateOrder,date_of_delivery) {
 
-    let parsedDateOfOrder = new Date(dateOrder)
     let parsedDateOfDelivery = new Date(date_of_delivery)
-    console.log(parsedDateOfOrder)
-    console.log(parsedDateOfDelivery)
+    let currentDate = new Date()
 
-    let difference = (parsedDateOfDelivery - parsedDateOfOrder) / (1000*60*60*24)
+    console.log(parsedDateOfDelivery)
+    console.log(`Current date: ${currentDate}`)
+
+    let difference = (parsedDateOfDelivery - currentDate) / (1000*60*60*24)
     console.log(difference)
 
-    if (difference === 0) {
+    if (difference < 0.7) {
         return 'warning';
-      } else if (difference === 1) {
+      } else if (difference <= 1) {
         return 'danger';
       } else if (difference >= 2) {
         return 'success';
