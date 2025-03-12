@@ -11,9 +11,10 @@
                     <div class="box">
 
                         <!-- HEADER -->
-    <div class="columns">
+    <div id="columns" class="columns">
         
-        <div v-for="header in headers" :key="header.id" class="column custom-column">
+        <div v-for="header in headersWithSize" :key="header.id" class="column custom-column" 
+        :style="{ flexBasis: header.size}">
             <div class="box custom-header">
                 <div class="label has-text-centered is-size-6">{{ header.name }}</div>
             
@@ -67,7 +68,7 @@
                         </nav>
                     </div>
 
-                    <div class="box has-text-centered custom-box" v-if="header.name === 'Category'">
+                    <div class="box has-text-centered custom-box"  v-if="header.name === 'Category'">
                         {{ order.order.category.name }}
                     </div>
 
@@ -115,12 +116,16 @@ const {productionList} = storeToRefs(store)
 
 //const variables
 const orderColor = ref('')
+const containerWidth = ref(0)
 
 
-const headers = [
-    {name: "Nr", size: 5},
-    {name: "Name", size: 5},
-    {name: "Date of order", size: 5},
+
+
+
+const headers = ref([
+    {name: "Nr", size: '50px'},
+    {name: "Name", size: '80px'},
+    {name: "Date of order", size: '140px'},
     {name: "Delivery time", size: 5},
     {name: "Stages", size: 5},
     {name: "Category", size: 5},
@@ -128,13 +133,23 @@ const headers = [
     {name: "Wood", size: 5},
     {name: "Status", size: 5},
     {name: "Notes", size: 5},   
-]
+])
 
 
 //computed values
 const maxStages = computed(() => {return Math.max(...productionList.value.map(order => order.stages.length+1))})
 
+const headersWithSize = computed(() => {
+    return headers.value.map(header => ({
+        ...header,
+        size: calculateWidth(header.name)
 
+    }))
+})
+
+const totalTextWidth = computed(() => {
+    return headers.value.reduce((sum,header) => sum + calculateWidth(header.name), 0)
+})
 
 
 
@@ -166,7 +181,9 @@ function calculateDeliveryDate(dateOrder,date_of_delivery) {
       }
 }
 
-
+function calculateWidth(name) {
+    return `${name.length * 10 + 20} px`
+}
 
 
 
@@ -230,6 +247,7 @@ function calculateDeliveryDate(dateOrder,date_of_delivery) {
 
 onMounted(() => {
     getProductionList()
+    containerWidth.value = document.getElementById('columns')?.offsetWidth
 })
 </script>
 
@@ -263,8 +281,13 @@ onMounted(() => {
     
 }
 
+
 .custom-column {
     padding: 0.1rem;
+    flex-basis: auto; /* or remove it if not needed */
+    flex-grow: 0;
+
+   
 }
 
 .custom-checkbox {
