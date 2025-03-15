@@ -76,16 +76,34 @@
                         {{ order.order.paints.name }}
                     </div>
 
-                    <div class="box has-text-centered custom-box" v-if="header.name === 'Wood'">
+                    <div 
+                    class="box has-text-centered custom-box"
+                    :class="{
+                        'buk': order.order.wood.name === 'Buk'
+                    }" 
+                    v-if="header.name === 'Wood'">
                         {{ order.order.wood.name }}
                     </div>
 
-                    <div class="box has-text-centered custom-box" v-if="header.name === 'Status'">
+                    <div 
+                    class="box has-text-centered custom-box"
+                    :class="{
+                        'stages-done': order.status === 'Done',
+                        'stages-in-progress': order.status === 'In progress'
+                    }"
+                    
+                    v-if="header.name === 'Status'">
                         {{ order.status }}
                     </div>
 
                     <div class="box custom-box" v-if="header.name === 'Notes'">
                         <input class="input custom-input" v-model="order.notes">
+                    </div>
+                    <div class="box custom-box" v-if="header.name === 'Nav'">
+                        <router-link :to="{ name: 'NewProjectDetail', params: { id: order.order.id } }">
+                                <b-button icon-right="circle-info">{{$t("details")}}</b-button>                               
+                            </router-link>
+                        
                     </div>
             </div>
         </div>
@@ -101,12 +119,13 @@
 
         <button @click="calculateDeliveryDate('2025-02-13','2025-02-14')" class="button">calculateDeliveryDate</button>
 
+
 </template>
 
 <script setup>
 import axios from 'axios';
 import { productionStore } from '@/store/production';
-import { ref, onMounted, computed } from 'vue';
+import { ref, onMounted, computed, watch, watchEffect } from 'vue';
 import { storeToRefs } from 'pinia';
 
 //store data 
@@ -127,12 +146,13 @@ const headers = ref([
     {name: "Name", size: '80px'},
     {name: "Date of order", size: '140px'},
     {name: "Delivery time", size: 5},
+    {name: "Wood", size: 5},
     {name: "Stages", size: 5},
     {name: "Category", size: 5},
     {name: "Paint", size: 5},
-    {name: "Wood", size: 5},
     {name: "Status", size: 5},
-    {name: "Notes", size: 5},   
+    {name: "Notes", size: 5},
+    {name: "Nav", size: 5}   
 ])
 
 
@@ -155,6 +175,11 @@ const totalTextWidth = computed(() => {
 
 //functions
 
+
+function isAnyStageTrue(stages) {
+    return stages.some(stage => stage.is_done === true);
+}
+
 function areAllStagesTrue(stages) {
     return stages.every(stage => stage.is_done === true);
 }
@@ -164,11 +189,11 @@ function calculateDeliveryDate(dateOrder,date_of_delivery) {
     let parsedDateOfDelivery = new Date(date_of_delivery)
     let currentDate = new Date()
 
-    console.log(parsedDateOfDelivery)
-    console.log(`Current date: ${currentDate}`)
+    //console.log(parsedDateOfDelivery)
+    //console.log(`Current date: ${currentDate}`)
 
     let difference = (parsedDateOfDelivery - currentDate) / (1000*60*60*24)
-    console.log(difference)
+    //console.log(difference)
 
     if (difference < 0.7) {
         return 'warning';
@@ -184,16 +209,6 @@ function calculateDeliveryDate(dateOrder,date_of_delivery) {
 function calculateWidth(name) {
     return `${name.length * 10 + 20} px`
 }
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -230,11 +245,26 @@ function calculateWidth(name) {
 
 
 
+function changeOrderStatus(newProductionList) {
+    for (let order of newProductionList) {
+        console.log(order.stages)
+        if(order.stages.some(stage => stage === true)) {
 
+        }
+    }
+}
 
-
-
-
+// Watching production stages
+watchEffect(async() => {
+    for (let order of productionList.value) {
+        if (isAnyStageTrue(order.stages)) {
+            order.status = "In progress"
+        }
+        if(areAllStagesTrue(order.stages)) {
+            order.status = "Done"
+        }
+    }
+})
 
 
 
@@ -256,20 +286,29 @@ onMounted(() => {
 <style scoped>
 .custom-section {
   padding: 3px 3px; /* Override Bulma's section padding */
+
 }
 
 .custom-box {
+  border-style: solid ; /* Remove default border if needed */
+  border-width: 0.1px;
   background-color: rgb(248, 248, 248);
   padding: 5px; /* Override Bulma's box padding */
   height: 40px;
   box-sizing: border-box; /* Ensure padding is included in the height */
+
 }
+.custom-box button {
+    height: 30px;
+    padding: 10px;
+}
+
+
 
 .custom-box .input {
   width: 100%; /* Make the input fill the container */
   height: 100%; /* Make the input fill the container */
   box-sizing: border-box; /* Ensure padding and border are included in the height */
-  border: none; /* Remove default border if needed */
   background-color: transparent; /* Match the background of the container */
   outline: none; /* Remove focus outline if desired */
 }
@@ -363,6 +402,16 @@ onMounted(() => {
 }
 .warning{
     background-color: hsl(348, 86%, 61%);
+}
+
+.buk {
+    background-color: rgb(192, 153, 153);
+}
+.dab {
+    background-color: rgb(124, 95, 53);
+}
+.sosna {
+    background-color: rgb(237, 198, 152);
 }
 </style>
 

@@ -136,4 +136,10 @@ class ProductionSerializer(serializers.ModelSerializer):
          
         ]
 
+    def to_representation(self, instance):
+        representation = super().to_representation(instance)
+        if 'status' in representation:
+            representation['status'] = representation['status'].capitalize()
+        return representation
+
 
