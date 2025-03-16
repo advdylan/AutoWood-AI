@@ -27,8 +27,10 @@
                     <div
                      id="status-indicator" 
                      :class="{
-                    'stages-done': areAllStagesTrue(order.stages),
-                    'stages-in-progress': !areAllStagesTrue(order.stages)}"
+                        'custom-box': order.status === 'Pending',
+                        'stages-done': order.status === 'Done',
+                        'stages-in-progress': order.status === 'In progress'
+                    }"
                      class="box custom-box" 
                      v-if="header.name === 'Nr'">
 
@@ -47,9 +49,10 @@
                     v-if="header.name === 'Delivery time'"
                     class="box has-text-centered custom-box"
                     :class="calculateDeliveryDate(order.date_ordered, order.date_of_delivery)"
-                   
                    >
                         {{ order.date_of_delivery }}
+                        <b-button class="warning"><span><i class="fa-solid fa-pen-to-square"></i></span></b-button>
+                        
                     </div>
 
                     <div class="box has-text-centered custom-box" v-if="header.name === 'Stages'">
@@ -88,6 +91,7 @@
                     <div 
                     class="box has-text-centered custom-box"
                     :class="{
+                        'custom-box': order.status === 'Pending',
                         'stages-done': order.status === 'Done',
                         'stages-in-progress': order.status === 'In progress'
                     }"
@@ -117,7 +121,7 @@
     </div>
         </div>
 
-        <button @click="calculateDeliveryDate('2025-02-13','2025-02-14')" class="button">calculateDeliveryDate</button>
+        <button @click="saveProductionList" class="button">saveProductionList</button>
 
 
 </template>
@@ -184,6 +188,8 @@ function areAllStagesTrue(stages) {
     return stages.every(stage => stage.is_done === true);
 }
 
+
+
 function calculateDeliveryDate(dateOrder,date_of_delivery) {
 
     let parsedDateOfDelivery = new Date(date_of_delivery)
@@ -244,33 +250,50 @@ function calculateWidth(name) {
 })  */
 
 
-
-function changeOrderStatus(newProductionList) {
-    for (let order of newProductionList) {
-        console.log(order.stages)
-        if(order.stages.some(stage => stage === true)) {
-
-        }
-    }
-}
-
 // Watching production stages
+
 watchEffect(async() => {
     for (let order of productionList.value) {
+        //console.log(`Order status: ${order.status}`)
         if (isAnyStageTrue(order.stages)) {
             order.status = "In progress"
+            
         }
         if(areAllStagesTrue(order.stages)) {
             order.status = "Done"
+        }
+        else if(!isAnyStageTrue(order.stages)) {
+            order.status = "Pending"
         }
     }
 })
 
 
+ 
+watch(productionList, (newValue,oldValue) => {
+   
+    if (!oldValue.length) {
+        console.log("First fire, do not save") 
+    }
+    else {
+        //console.log(`Old value: ${oldValue}`)
+        //console.log(`New value: ${newValue}`)
+        //check for differences
+        //console.log(`Old Value: ${JSON.stringify(oldValue)}`)
+        for (let oldObject of oldValue) {
+            //console.log(`Loop Object: ${JSON.stringify(oldObject)}`)
+            for (const [key,value] of Object.entries(oldObject)) {
+                //console.log(`${key}: ${value}`);
+                if(key==='stages') {
+                    console.log(`Changes in stages detcted`)
+                }
+            }
 
+        }
+    }
 
-
-
+    
+},{deep:true}) 
 
 
 
@@ -290,8 +313,9 @@ onMounted(() => {
 }
 
 .custom-box {
-  border-style: solid ; /* Remove default border if needed */
-  border-width: 0.1px;
+  border-style: dotted ; /* Remove default border if needed */
+  border-radius: 3px;
+  border-width: 1px;
   background-color: rgb(248, 248, 248);
   padding: 5px; /* Override Bulma's box padding */
   height: 40px;
@@ -314,15 +338,19 @@ onMounted(() => {
 }
 
 .custom-header {
+    border-style: solid ; /* Remove default border if needed */
+    border-radius: 3px;
+    border-width: 1px;
     margin: 3px;
     margin-top: 3px;
-    margin-bottom: 50px;
+    padding: 0.5rem;
+  
     
 }
 
 
 .custom-column {
-    padding: 0.1rem;
+    padding: 0.05rem;
     flex-basis: auto; /* or remove it if not needed */
     flex-grow: 0;
 
