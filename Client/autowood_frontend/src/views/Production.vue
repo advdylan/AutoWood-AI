@@ -269,31 +269,39 @@ watchEffect(async() => {
 })
 
 
+
+function updateStages(value) {
+    console.log(`Update stages fired ${JSON.stringify(value)}`)
+    
+}
+function updateNotes(value) {
+    console.log(`Update notes fired ${value}`)
+    
+}
  
-watch(productionList, (newValue,oldValue) => {
-   
-    if (!oldValue.length) {
-        console.log("First fire, do not save") 
-    }
-    else {
-        //console.log(`Old value: ${oldValue}`)
-        //console.log(`New value: ${newValue}`)
-        //check for differences
-        //console.log(`Old Value: ${JSON.stringify(oldValue)}`)
-        for (let oldObject of oldValue) {
-            //console.log(`Loop Object: ${JSON.stringify(oldObject)}`)
-            for (const [key,value] of Object.entries(oldObject)) {
-                //console.log(`${key}: ${value}`);
-                if(key==='stages') {
-                    console.log(`Changes in stages detcted`)
+const previousProductionList = ref([]); // Store previous state
+
+watch(productionList, (newList) => {
+    if (!previousProductionList.value.length) {
+        console.log("First fire, do not save");
+    } else {
+        for (let newObject of newList) {
+            let oldObject = previousProductionList.value.find(o => o.order.id === newObject.order.id);
+            
+            if (oldObject) {
+                console.log(`OldObject notes: ${oldObject.notes}`);
+                console.log(`NewObject notes: ${newObject.notes}`);
+                
+                if (oldObject.notes !== newObject.notes) {
+                    console.log(`Notes changed from '${oldObject.notes}' to '${newObject.notes}'`);
                 }
             }
-
         }
     }
 
-    
-},{deep:true}) 
+    // Update previousProductionList AFTER checking differences
+    previousProductionList.value = JSON.parse(JSON.stringify(newList));
+}, { deep: true });
 
 
 
