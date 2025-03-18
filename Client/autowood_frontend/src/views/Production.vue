@@ -269,19 +269,28 @@ watchEffect(async() => {
 })
 
 
+const updateTimeout = ref(null);
 
-function updateStages(value) {
-    console.log(`Update stages fired ${JSON.stringify(value)}`)
-    
+function updateStages(id,value) {
+
+    clearTimeout(updateTimeout.value)
+
+    let timeoutId = setTimeout(function(){
+        console.log(`Update stages fired value: ${JSON.stringify(value)} \n ID: ${id}`)
+    }, 3000)
+    updateTimeout.value = timeoutId;
+
+    return timeoutId 
 }
-function updateNotes(value) {
-    console.log(`Update notes fired ${value}`)
+function updateNotes(id,value) {
+    console.log(`Update notes fired ${JSON.stringify(value)} \n ID: ${id}`)
     
 }
  
 const previousProductionList = ref([]); // Store previous state
 
 watch(productionList, (newList) => {
+
     if (!previousProductionList.value.length) {
         console.log("First fire, do not save");
     } else {
@@ -289,13 +298,20 @@ watch(productionList, (newList) => {
             let oldObject = previousProductionList.value.find(o => o.order.id === newObject.order.id);
             
             if (oldObject) {
-                console.log(`OldObject notes: ${oldObject.notes}`);
-                console.log(`NewObject notes: ${newObject.notes}`);
+                //console.log(`OldObject notes: ${oldObject.notes}`);
+                //console.log(`NewObject notes: ${newObject.notes}`);
                 
                 if (oldObject.notes !== newObject.notes) {
-                    console.log(`Notes changed from '${oldObject.notes}' to '${newObject.notes}'`);
+                    console.log(`Notes changed from '${oldObject.notes}' to '${newObject.notes}'`)
+                    //var updateTimeout = updateNotes(newObject.order.id, newObject.stages)
+                }
+
+                else if (JSON.stringify(oldObject.stages) !== JSON.stringify(newObject.stages)) {
+                    //console.log(`Stages changes from ${JSON.stringify(oldObject.stages)} \nto ${JSON.stringify(newObject.stages)}`)
+                    updateStages(newObject.order.id, newObject.stages)
                 }
             }
+
         }
     }
 
