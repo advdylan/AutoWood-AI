@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+	<html>
+	<head>
+	
+	<style>
+
+		.bar-container {
+			display: flex;
+			gap: 1rem;
+			padding: 1rem;
+		}
+		.bar {
+		transition: width 2s;
+		border: 0.3px solid;
+		border-radius: 3px;
+		font-size: 13px;
+		padding: 10px 20px;
+		margin: 2px;
+		}
+		
+		.bar.success {
+			background: rgb(225,246,215);}
+		
+
+	</style>
+	
+	
+	</head>
+		<body>
+		<div class="bar-container">
+			<div class="bar success"
+				
+				onclick="calculateCurrentMonth()">
+				Today: <span id="today"></span>
+			</div>
+			
+		</div>
+		<div class="bar-container">
+		<input placeholder="Oblicz miesiace roku" type="number" id="year">
+			<div class="bar success"
+				onclick="getDaysOfMonths">
+				Today
+			</div>
+			<div class="bar success"
+				onclick="getDaysOfMonths()">
+				getAllMonths
+			</div>
+			</div>
+		</body> 
+
+	
+	<script>
+	
+	
+	function milisecondsToDays(data) {
+		let newDate = (data/(1000*60*60*24)).toFixed(0);
+		return newDate;
+	}
+	
+	function calculateCurrentMonth() {
+		let currentDate = new Date();
+		console.log(currentDate);
+		let currentMonth = currentDate.getMonth();
+		let currentYear = currentDate.getFullYear();
+		console.log(currentMonth, currentYear);
+		
+		let firstDayOfMonth = new Date(currentYear, currentMonth, 0)
+		let lastDayOfMonth = new Date(currentYear, currentMonth + 1, 0 )
+		console.log(`firstDay: ${firstDayOfMonth}\n lastDay: ${lastDayOfMonth}`);
+
+		let newDate = lastDayOfMonth - firstDayOfMonth;
+		console.log(milisecondsToDays(newDate));
+	}
+	
+	function getAllMonths() {
+		let months = [];
+		for (let i=0; i <= 11; i++) {
+			months.push(i);
+		}
+		console.log(months);
+		return months;
+	}
+	
+	function getDaysOfAllMonths(year) {
+		months = getAllMonths();
+		daysOfMonthsArray = [];
+		
+		for (let month of months) {
+			let firstDayOfMonth = new Date(year, month, 0)
+			let lastDayOfMonth = new Date(year, month + 1, 0 )
+			let newDate = lastDayOfMonth - firstDayOfMonth;
+			let formattedDate = milisecondsToDays(newDate);
+			daysOfMonthsArray.push(formattedDate);
+		}
+		console.log(daysOfMonthsArray);
+		return daysOfMonthsArray;
+	}
+	
+	function describeDayOfWeek(number) {
+		if (number == 0) {
+			return 'Sunday';		
+		}
+		else if (number === 1) {
+			return 'Monday';
+		}
+		else if (number === 2) {
+			return 'Tuesday';
+		}
+		else if (number === 3) {
+			return 'Wednesday';
+		}
+		else if (number === 4) {
+			return 'Thursday';
+		}
+		else if (number === 5) {
+			return 'Friday';
+		}
+		else if (number === 6) {
+			return 'Saturday';
+		}
+		
+	
+	}
+	
+	function getDaysOfMonths() {
+	
+	let daysOfMonthsArray = getDaysOfAllMonths(1994);
+	console.log(`Daysof the months array: ${daysOfMonthsArray[0]}`);
+	
+	daysOfMonthsArray.forEach((value,index) => {
+		console.log(`Value: ${value}`);
+		console.log(`Month : ${index+1}`);
+		for (i=0; i < value; i++) {
+			console.log(i);
+			let date = new Date(1994, index, i+1);
+			console.log(date);
+		}
+	});
+	}
+	
+	
+	
+		
+
+	</script>
+		</html>
+	
