@@ -140,6 +140,10 @@ const {productionList} = storeToRefs(store)
 //const variables
 const orderColor = ref('')
 const containerWidth = ref(0)
+const updateStagesTimeoutId = ref(null)
+const updateNotesTimeoutId = ref(null)
+const productionIdsWatched = ref([])
+const previousProductionList = ref([])
 
 
 
@@ -216,41 +220,47 @@ function calculateWidth(name) {
     return `${name.length * 10 + 20} px`
 }
 
+function updateStages(id,value) {
 
-
-
-/* const processedProductionList = computed(() => {
-    const orders = [];
-
-    for (let order of productionList.value) {
-        console.log(order);
-
-        let newOrder = {
-            id: order.order.id,
-            name: order.order.name,
-            date_ordered: order.date_ordered,
-            date_of_delivery: order.date_of_delivery,
-            category: order.order.category,
-            paint: order.order.paints.name,
-            wood: order.order.wood.name,
-            stages: order.order.stages,
-            status: order.order.status,
-            notes: order.notes
-        } 
-        console.log(newOrder);
-        orders.push(newOrder);
-
-    }
     
-    console.log(orders);
-        
-   
-    return orders;
+    productionIdsWatched.value.forEach((listId) => {
+        if(listId === id) {
+            console.log(`Loop ID: ${id}`)
+            console.log(`listId: ${listId}`)
+            console.log("Same id found\n Clear timeout?")
+        }
+        else if (listId !== id) {
+            console.log("Same id found\n Clear timeout?")
+            clearTimeout(updateStagesTimeoutId.value)
+        }
+    })
+    
 
-})  */
+    let timeoutId = setTimeout(function(){
+        console.log(`Update stages fired value: ${JSON.stringify(value)} \n ID: ${id}`)
+        productionIdsWatched.value.push(id)
+    }, 3000)
+    updateStagesTimeoutId.value = timeoutId;
+
+    return timeoutId 
+}
 
 
-// Watching production stages
+function updateNotes(id,value) {
+
+    clearTimeout(updateNotesTimeoutId.value)
+
+    let timeoutId = setTimeout(function() {
+        console.log(`Notes changed from '${oldObject.notes}' to '${newObject.notes}'`)
+
+    }, 3000)
+
+updateNotesTimeoutId = timeoutId;
+
+console.log(`Update notes fired ${JSON.stringify(value)} \n ID: ${id}`)
+
+}
+
 
 watchEffect(async() => {
     for (let order of productionList.value) {
@@ -269,25 +279,11 @@ watchEffect(async() => {
 })
 
 
-const updateTimeout = ref(null);
+//watches
 
-function updateStages(id,value) {
 
-    clearTimeout(updateTimeout.value)
-
-    let timeoutId = setTimeout(function(){
-        console.log(`Update stages fired value: ${JSON.stringify(value)} \n ID: ${id}`)
-    }, 3000)
-    updateTimeout.value = timeoutId;
-
-    return timeoutId 
-}
-function updateNotes(id,value) {
-    console.log(`Update notes fired ${JSON.stringify(value)} \n ID: ${id}`)
-    
-}
  
-const previousProductionList = ref([]); // Store previous state
+// Store previous state
 
 watch(productionList, (newList) => {
 
@@ -303,7 +299,8 @@ watch(productionList, (newList) => {
                 
                 if (oldObject.notes !== newObject.notes) {
                     console.log(`Notes changed from '${oldObject.notes}' to '${newObject.notes}'`)
-                    //var updateTimeout = updateNotes(newObject.order.id, newObject.stages)
+                    updateNotes(newObject.order.id, newObject.notes)
+                   
                 }
 
                 else if (JSON.stringify(oldObject.stages) !== JSON.stringify(newObject.stages)) {
@@ -315,7 +312,6 @@ watch(productionList, (newList) => {
         }
     }
 
-    // Update previousProductionList AFTER checking differences
     previousProductionList.value = JSON.parse(JSON.stringify(newList));
 }, { deep: true });
 
