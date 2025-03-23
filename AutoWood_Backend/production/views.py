@@ -234,3 +234,44 @@ def save_catalog_product(request):
 
 
 
+@api_view(["PATCH"])
+def update_order(request):
+
+    data = request.data.get("data", [])
+    order_id = request.data.get("id")
+
+    if not data:
+        return JsonResponse({"error": "No data provided"}, status=400)
+
+    first_item = data[0]
+
+    if "stage" in first_item:
+        # This means the request is updating stages
+        print(f"Stage condition: ${first_item}")
+    elif "notes" in first_item:  # Assuming notes have a "note" key
+        print(f"Note condition: {first_item}")
+
+ 
+
+
+    try:
+        if order_id is not None:
+            order = Production.objects.get(id=order_id)
+         
+
+
+    except Production.DoesNotExist:
+        return JsonResponse({"Error": "Production Object does not exist"})
+
+    return JsonResponse({"error:": "No order in the production list with this ID"}) 
+
+
+
+    """ try: 
+        order = Production.objects.get(id=order_id)
+        print(order)
+    except Production.DoesNotExist:
+        return JsonResponse({"error:" "No order in the production list with this ID"}, status=status.HTTP_404_NOT_FOUND) """
+    
+    
+

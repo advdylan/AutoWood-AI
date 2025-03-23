@@ -222,6 +222,26 @@ function calculateWidth(name) {
     return `${name.length * 10 + 20} px`
 }
 
+function updateOrders(id, data) {
+
+    console.log(data)
+    try {
+        let response =  axios.patch(`api/v1/production/update`, {
+          id: id,
+          data: data,  
+        },
+         {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        })
+        console.log('Server response:', response)
+        console.log('Project updated successfully:', response.data)
+  } catch (error) {
+        console.error('Error saving the project:', error)
+  }
+}
+
 
 function updateStages(id,value) {
 
@@ -231,6 +251,7 @@ function updateStages(id,value) {
 
     let timeoutId = setTimeout(function(){
         console.log(`Update stages fired value: ${JSON.stringify(value)} \n ID: ${id}`)
+        updateOrders(id,value)
         
     }, 3000)
     stagesTimeoutIDs.value.set(id, timeoutId)
@@ -245,12 +266,10 @@ function updateNotes(id,value) {
 
     let timeoutId = setTimeout(function() {
         console.log(`Update notes fired value: ${JSON.stringify(value)}'`)
+        updateOrders(id,value)
 
     }, 3000)
     notesTimeoutIDS.value.set(id, timeoutId)
-
-
-
 }
 
 
@@ -291,7 +310,11 @@ watch(productionList, (newList) => {
                 
                 if (oldObject.notes !== newObject.notes) {
                     console.log(`Notes changed from '${oldObject.notes}' to '${newObject.notes}'`)
-                    updateNotes(newObject.order.id, newObject.notes)
+                    let note = {
+                        "notes" : newObject.notes
+
+                    }
+                    updateNotes(newObject.order.id, note)
                 }
 
                 else if (JSON.stringify(oldObject.stages) !== JSON.stringify(newObject.stages)) {
