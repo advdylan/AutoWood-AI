@@ -143,6 +143,8 @@ const containerWidth = ref(0)
 const updateStagesTimeoutId = ref(null)
 const updateNotesTimeoutId = ref(null)
 const productionIdsWatched = ref([])
+const stagesTimeoutIDs = ref(new Map)
+const notesTimeoutIDS = ref(new Map)
 const previousProductionList = ref([])
 
 
@@ -220,44 +222,34 @@ function calculateWidth(name) {
     return `${name.length * 10 + 20} px`
 }
 
+
 function updateStages(id,value) {
 
-    
-    productionIdsWatched.value.forEach((listId) => {
-        if(listId === id) {
-            console.log(`Loop ID: ${id}`)
-            console.log(`listId: ${listId}`)
-            console.log("Same id found\n Clear timeout?")
-        }
-        else if (listId !== id) {
-            console.log("Same id found\n Clear timeout?")
-            clearTimeout(updateStagesTimeoutId.value)
-        }
-    })
-    
+    if (stagesTimeoutIDs.value.has(id)) {
+        clearTimeout(stagesTimeoutIDs.value.get(id));
+    }
 
     let timeoutId = setTimeout(function(){
         console.log(`Update stages fired value: ${JSON.stringify(value)} \n ID: ${id}`)
-        productionIdsWatched.value.push(id)
+        
     }, 3000)
-    updateStagesTimeoutId.value = timeoutId;
-
-    return timeoutId 
+    stagesTimeoutIDs.value.set(id, timeoutId)
 }
 
 
 function updateNotes(id,value) {
 
-    clearTimeout(updateNotesTimeoutId.value)
+    if (notesTimeoutIDS.value.has(id)) {
+        clearTimeout(notesTimeoutIDS.value.get(id));
+    }
 
     let timeoutId = setTimeout(function() {
-        console.log(`Notes changed from '${oldObject.notes}' to '${newObject.notes}'`)
+        console.log(`Update notes fired value: ${JSON.stringify(value)}'`)
 
     }, 3000)
+    notesTimeoutIDS.value.set(id, timeoutId)
 
-updateNotesTimeoutId = timeoutId;
 
-console.log(`Update notes fired ${JSON.stringify(value)} \n ID: ${id}`)
 
 }
 
@@ -300,7 +292,6 @@ watch(productionList, (newList) => {
                 if (oldObject.notes !== newObject.notes) {
                     console.log(`Notes changed from '${oldObject.notes}' to '${newObject.notes}'`)
                     updateNotes(newObject.order.id, newObject.notes)
-                   
                 }
 
                 else if (JSON.stringify(oldObject.stages) !== JSON.stringify(newObject.stages)) {
