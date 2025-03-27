@@ -240,30 +240,71 @@ def update_order(request):
     data = request.data.get("data", [])
     order_id = request.data.get("id")
 
+    
+
     if not data:
         return JsonResponse({"error": "No data provided"}, status=400)
 
-    first_item = data[0]
 
-    if "stage" in first_item:
-        # This means the request is updating stages
-        print(f"Stage condition: ${first_item}")
-    elif "notes" in first_item:  # Assuming notes have a "note" key
-        print(f"Note condition: {first_item}")
-
- 
-
+    #Notes are send as single object of len 1
+    #Stages are always send as dictionary
 
     try:
         if order_id is not None:
             order = Production.objects.get(id=order_id)
+            
+
+        if len(data) > 1:
+            #Stages case
+            print("More than 1")
+            print(f"Data in more than one: {data}")
+            instances = OrderProductionStage.objects.filter(production=order_id)
+
+            
+
+            for instance in instances:
+                for stage in data:
+
+                    instance_stage = instance.production_stage
+                    instance_name = str(instance_stage)
+                    data_stage = stage["stage"]["stage_name"]
+                    print(stage["is_done"])
+
+                    if instance_name == data_stage:
+                        instance.is_done = stage["is_done"]
+                        instance.save()
+                        
+
+
+            #for stage in instance:
+                #print(f"stage: {stage}")
+                #for newStage in data:
+                    #print(newStage["stage"]["stage_name"])
+                
+
+            
+            #print(instance)
+            #order.production_stages.update(data)
+        
+        elif len(data) <= 1:
+            #Notes case
+            print("Less than 1")
+            print(f"Data in less than one: {data}")
          
 
 
     except Production.DoesNotExist:
         return JsonResponse({"Error": "Production Object does not exist"})
 
+    
+ 
+ 
+
+
+    
+
     return JsonResponse({"error:": "No order in the production list with this ID"}) 
+
 
 
 
