@@ -159,7 +159,8 @@
     "choose_product_description": "Produkt katalogu przeznaczony jest do seryjnej produkcji. Tryb ten umożliwia dokładną definicje etapów produkcyjnych",
     "choose_estimate_description": "Projedyncza wycena dla klienta detalicznego. Nie jest zapisywana w katalogu produktów, posiada tylko jeden etap produkcyjny",
     "production_steps": "Etapy produkcji",
-    "shortcut": "Skrót"
+    "shortcut": "Skrót",
+     "add_to_production": "Dodaj do produkcji"
     
     
     

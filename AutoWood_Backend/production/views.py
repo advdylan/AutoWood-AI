@@ -239,71 +239,56 @@ def update_order(request):
 
     data = request.data.get("data", [])
     order_id = request.data.get("id")
+    print(f"Order id: {order_id}")
 
     
 
     if not data:
         return JsonResponse({"error": "No data provided"}, status=400)
 
+  
+    if order_id is not None:
+        try:
+            order = Production.objects.get(object_id=order_id)
+        except Production.DoesNotExist:
+            return JsonResponse({"Error": "Production Object does not exist"})
 
-    #Notes are send as single object of len 1
-    #Stages are always send as dictionary
-
-    try:
-        if order_id is not None:
-            order = Production.objects.get(id=order_id)
-            
-
-        if len(data) > 1:
-            #Stages case
-            print("More than 1")
-            print(f"Data in more than one: {data}")
-            instances = OrderProductionStage.objects.filter(production=order_id)
-
-            
-
-            for instance in instances:
-                for stage in data:
-
-                    instance_stage = instance.production_stage
-                    instance_name = str(instance_stage)
-                    data_stage = stage["stage"]["stage_name"]
-                    print(stage["is_done"])
-
-                    if instance_name == data_stage:
-                        instance.is_done = stage["is_done"]
-                        instance.save()
-                        
-
-
-            #for stage in instance:
-                #print(f"stage: {stage}")
-                #for newStage in data:
-                    #print(newStage["stage"]["stage_name"])
-                
-
-            
-            #print(instance)
-            #order.production_stages.update(data)
         
-        elif len(data) <= 1:
-            #Notes case
-            print("Less than 1")
-            print(f"Data in less than one: {data}")
-         
+
+    if len(data) > 1:
+        #Stages case
+        print(f"Data in more than one: {data}")
+        print(f"Order: {order}")
+        order_production_stages = OrderProductionStage.objects.filter(production=order)
+        print(f"Order_production_stages with given id: {order_production_stages}")
+        
+        for instance in order_production_stages:
+            for stage in data:
+
+                instance_stage = instance.production_stage
+                instance_name = str(instance_stage)
+                data_stage = stage["stage"]["stage_name"]
+                #print(stage["is_done"])
+
+                if instance_name == data_stage:
+                    instance.is_done = stage["is_done"]
+                    instance.save()
+                
+        
+        return JsonResponse({"Success": f"Production {order} stages updated"})
+                    
+    if data["notes"]:
+        #Notes case
+
+        new_note = data["notes"]
+        order.notes = new_note
+        order.save()
+
+        return JsonResponse({"Success": f"Production {order} notes updated"})
+        
 
 
-    except Production.DoesNotExist:
-        return JsonResponse({"Error": "Production Object does not exist"})
 
-    
- 
- 
-
-
-    
-
-    return JsonResponse({"error:": "No order in the production list with this ID"}) 
 
 
 

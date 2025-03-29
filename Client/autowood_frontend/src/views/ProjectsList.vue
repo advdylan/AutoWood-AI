@@ -16,6 +16,11 @@
                                 <b-button icon-right="circle-info">{{$t("details")}}</b-button>                               
                             </router-link>
 
+                            <b-button 
+                            @click="toggleAddToProduction = !toggleAddToProduction"
+                             icon-right="add">{{ $t("production") }}
+                            </b-button>
+
                             <b-button @mouseenter="hoveredProjectId = props.row.id"
                              @mouseleave="hoveredProjectId = null" 
                              @click="$emit('getElements', props.row.id)" 
@@ -48,6 +53,32 @@
             </template>
         </b-table>
     </div>
+
+
+
+
+    <div v-bind:class="{'is-active': toggleAddToProduction}" class="modal" style="--bulma-modal-content-width: 30%;">
+        <div class="modal-background"></div>
+        <div class="modal-card">
+          <header class="modal-card-head">
+            <p class="modal-card-title">{{$t('add_to_production')}}</p>
+            <button @click="toggleAddToProduction = !toggleAddToProduction" class="delete" aria-label="close"></button>
+          </header>
+          <section class="modal-card-body has-text-centered">
+
+           <div class="card-content">
+            <div class="columns">
+
+            </div>
+        </div>
+          </section>
+
+          <footer class="modal-card-foot">
+            <div class="buttons">
+            </div>
+          </footer>
+        </div>
+      </div>
     
 </template>
 
@@ -62,6 +93,7 @@ const ProjectsListStore = useProjectsListStore()
 const { loadProjects, loadDetailProject } = ProjectsListStore
 const { projectlist, data, columns } = storeToRefs(ProjectsListStore)
 const hoveredProjectId = ref(null)
+const toggleAddToProduction = ref(false)
 
 
 const propsList =  defineProps({

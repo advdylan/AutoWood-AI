@@ -159,7 +159,9 @@
     "choose_product_description": "The product catalog is intended for serial production. This mode allows for the precise definition of production stages",    
     "choose_estimate_description": "A single estimate for a retail customer. It is not saved in the product catalog and has only one production stage.",
     "production_steps": "Production steps",
-    "shortcut": "Shortcut"
+    "shortcut": "Shortcut",
+    "add_to_production": "Add to production"
+    
     
     
     
