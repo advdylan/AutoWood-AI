@@ -37,6 +37,7 @@ class Production(models.Model):
     date_ordered = models.DateField()
     date_of_delivery = models.DateField(blank=True, null=True)
     notes = models.CharField(max_length=150, blank=True, null=True)
+    customer = models.ForeignKey(Customer, on_delete=models.CASCADE, blank=True, null=True)
     
     # Generic relation to link to either NewProject or CatalogProduct
     content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)

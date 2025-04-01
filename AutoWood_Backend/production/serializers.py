@@ -4,7 +4,7 @@ from rest_framework.reverse import reverse
 from .models import *
 from warehouse.models import *
 from production.models import *
-from product.serializers import NewProjectSerializer, WorktimeTypeSerializer, AccessoryTypeSerializer, WoodSerializer, ElementSerializer, PaintsSerializer, CategorySerializer, CollectionSerializer
+from product.serializers import NewProjectSerializer, WorktimeTypeSerializer, AccessoryTypeSerializer, WoodSerializer, ElementSerializer, PaintsSerializer, CategorySerializer, CollectionSerializer, CustomerSerializer
 
 
 
@@ -121,7 +121,8 @@ class GenericRelatedField(serializers.Field):
 
 class ProductionSerializer(serializers.ModelSerializer):
 
-    stages = OrderProductionStageSerializer(many=True, read_only=True, source='production')    
+    stages = OrderProductionStageSerializer(many=True, read_only=True, source='production')
+    customer = CustomerSerializer(read_only=True) 
     order = GenericRelatedField()
 
     class Meta:
@@ -132,7 +133,8 @@ class ProductionSerializer(serializers.ModelSerializer):
             "status",
             "date_ordered",
             "date_of_delivery",
-            "notes"
+            "notes",
+            "customer"
          
         ]
 

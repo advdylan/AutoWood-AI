@@ -1,3 +1,6 @@
+
+
+
 production_data  = {
     "stages": [
         {
@@ -134,7 +137,7 @@ production_data  = {
                     "weight": "0.45",
                     "price": "2.00",
                     "type": "Prowadnice",
-                    "is_active": true
+                    "is_active": True
                 },
                 "quantity": 3,
                 "project": 138
@@ -199,6 +202,15 @@ production_data  = {
             "description": "Łóżka Sandemo to wyjątkowy badziew w naszej kolekcji mebli",
             "partners": "Visby"
         },
+        "customer": {
+            "id": 3,
+            "name": "Jakub Kuźma",
+            "phone_number": 502333222,
+            "street": "Obrońćow Westerplatte",
+            "code": "37-611",
+            "city": "Cieszanów",
+            "email": "dyl@gmail.com"
+        },
         "elements_margin": "10.80",
         "accesories_margin": "0.21",
         "additional_margin": "174.54",
@@ -219,40 +231,67 @@ production_data  = {
     "notes": "Pilne 3"
 }
 
-class EANCode:
+from pydantic import BaseModel, Field
+from typing import Dict
 
-    def __init__(self,order_id, client_name, delivery_infos, collection):
+class DeliveryInfo(BaseModel):
+    id: int
+    name: str
+    phone_number: int
+    street: str
+    code: str
+    city: str
+    email: str
 
-        self.id = order_id
-        self.name = client_name
-        self.delivery = delivery_infos
-        self.collection = collection
+class EANCode(BaseModel):
+
+    id: int
+    name: str
+    delivery: DeliveryInfo
+    collection: str
     
+    def get_prefix(self) -> str:
+        prefix = self.collection[:3]
+        return prefix.upper()
 
-    
-    def get_prefix(collection):
-        return collection.toLower()[:3]
-
-    def generate_base_code(self):
+    def generate_base_code(self) -> str:
         pass
 
+    def generate_id_prefix(self) -> str:
+        id_str = str(self.id)  # Convert int to string
+        if len(id_str) == 1:
+            return f"00{id_str}"
+        elif len(id_str) == 2:
+            return f"0{id_str}"
+        elif len(id_str) == 3:
+            return id_str
 
-    def __str__(self):
-        pass
+    def __str__(self) -> str:
+        return f"Name: {self.name}\nPrefix: {self.collection}"
+        pass 
 
 
-
-
-
-
-
+order_name = production_data["order"]["name"]
 category = production_data["order"]["category"]["name"]
 id = production_data["order"]["id"]
+delivery = production_data["order"]["customer"]
+collection = production_data["order"]["collection"]["partners"]
+
+print(f"Category: {category}\nid: {id}\ndelivery: {delivery}\ncollection:: {collection}")
+
+ean_code = EANCode(
+    id = id,
+    name = order_name,
+    delivery = delivery,
+    collection = collection
+)
 
 
+prefix_str = ean_code.get_prefix()
+print(f"get_prefix: {prefix_str}")
 
-
-
+prefix_int = ean_code.generate_id_prefix()
+print(f"generate_id_prefix : {prefix_int}")
 
 
 
