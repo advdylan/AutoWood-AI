@@ -49,11 +49,19 @@
                     v-if="header.name === 'Delivery time'"
                     class="box has-text-centered custom-box"
                     :class="calculateDeliveryDate(order.date_ordered, order.date_of_delivery)"
-                   >
-                        {{ order.date_of_delivery }}
-                        <b-button class="warning"><span><i class="fa-solid fa-pen-to-square"></i></span></b-button>
+                    > 
+               
                         
+                        <VueDatePicker 
+                            v-model="order.date_of_delivery"
+                            :enable-time-picker="false"
+                            :menu-class="'datepicker-menu'"
+                            :class="calculateDeliveryDate(order.date_ordered, order.date_of_delivery)"
+                            
+                        />
+
                     </div>
+                    
 
                     <div class="box has-text-centered custom-box" v-if="header.name === 'Stages'">
                         <nav class="level" >
@@ -130,6 +138,8 @@ import axios from 'axios';
 import { productionStore } from '@/store/production';
 import { ref, onMounted, computed, watch, watchEffect } from 'vue';
 import { storeToRefs } from 'pinia';
+import VueDatePicker from '@vuepic/vue-datepicker';
+import '@vuepic/vue-datepicker/dist/main.css'
 
 //store data 
 const store = productionStore()
@@ -145,6 +155,7 @@ const productionIdsWatched = ref([])
 const stagesTimeoutIDs = ref(new Map)
 const notesTimeoutIDS = ref(new Map)
 const previousProductionList = ref([])
+const datePicked = ref()
 
 
 
@@ -194,11 +205,29 @@ function downloadEAN(id,data) {
           id: id,
           data: data,  
         },
+        
          {
+          responseType: 'blob',
           headers: {
             'Content-Type': 'application/json',
+
           },
         })
+        .then((response) => {
+                console.log(response)
+                const href = URL.createObjectURL(response.data)
+
+                const link = document.createElement('a')
+                link.href = href
+                link.setAttribute('download', `EAN_${id}.svg`)
+                document.body.appendChild(link)
+                link.click()
+
+                document.body.removeChild(link)
+                URL.revokeObjectURL(href)
+        })
+
+
         console.log('Server response:', response)
         console.log('Project updated successfully:', response.data)
     } catch (error) {
@@ -412,6 +441,9 @@ onMounted(() => {
    
 }
 
+
+
+
 .custom-checkbox {
     position: relative;
     display: inline-block;
@@ -467,6 +499,7 @@ onMounted(() => {
     transform: rotate(45deg);
 }
 
+
 /* Show the checkmark when checked */
 .custom-checkbox-input:checked ~ .custom-checkbox-checkmark:after {
     display: block;
@@ -496,5 +529,22 @@ onMounted(() => {
 .sosna {
     background-color: rgb(237, 198, 152);
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 </style>
 

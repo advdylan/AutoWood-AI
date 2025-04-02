@@ -15,6 +15,10 @@ import axios from 'axios'
 import '@/styles/bulma-custom.scss';
 import '@/styles/global.css'; // Load global CSS last
 
+//DatePicker
+import VueDatePicker from '@vuepic/vue-datepicker';
+import '@vuepic/vue-datepicker/dist/main.css'
+
 //axios.defaults.baseURL = "https://autowood.fly.dev"
 //axios.defaults.baseURL = "https://autowood.onrender.com/"
 axios.defaults.baseURL = "http://127.0.0.1:8000"
@@ -26,6 +30,7 @@ app.use(Buefy, {
     defaultIconPack: 'fa'
 })
 app.use(pinia)
+app.use('VueDatePicker', VueDatePicker)
 app.use(router)
 app.use(i18nInstance)
 app.mount('#app')

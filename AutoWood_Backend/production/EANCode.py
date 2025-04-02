@@ -83,9 +83,10 @@ def generate_barcode(production_data):
         os.makedirs(save_dir, exist_ok=True)
 
     save_path = os.path.join(save_dir, file_name)
+    print(f"Save path : {save_path}")
 
     ean_instance.save(save_path)
-    return file_name 
+    return file_name,save_path 
 
 
 

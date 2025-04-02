@@ -307,7 +307,15 @@ def generate_ean(request):
     order = Production.objects.get(object_id=order_id)
 
     try: 
-        generate_barcode(order)
+        file_name,save_path = generate_barcode(order)
+        print(file_name)
+        with open(f"{save_path}.svg", "rb") as file:
+            buffer.write(file.read())
+
+        buffer.seek(0)
+
+        return FileResponse(buffer, as_attachment=True, filename=file_name)
+
     except ValueError as err:
         print(err)
 
