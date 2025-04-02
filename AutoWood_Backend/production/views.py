@@ -1,3 +1,9 @@
+import sys
+import os
+
+sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
+from django.conf import settings
+
 from django.shortcuts import render
 from product.models import *
 from .models import *
@@ -10,6 +16,9 @@ from product.views import get_or_create_model_instance, is_image
 from django.http import JsonResponse, HttpResponse, FileResponse
 from django.db import transaction, IntegrityError, DatabaseError
 from django.utils import timezone
+from production.EANCode import generate_barcode
+from io import BytesIO
+
 
 import datetime
 import json
@@ -232,8 +241,6 @@ def save_catalog_product(request):
         print(e)
         return JsonResponse({'error': str(e)}, status=500)
 
-
-
 @api_view(["PATCH"])
 def update_order(request):
 
@@ -289,8 +296,31 @@ def update_order(request):
 
 
 
+@api_view(["POST"])
+def generate_ean(request):
+
+    data = request.data.get("data", [])
+    order_id = request.data.get("id")
+    print(f"Order id: {order_id}")
+    buffer = BytesIO()
+
+    order = Production.objects.get(object_id=order_id)
+
+    try: 
+        generate_barcode(order)
+    except ValueError as err:
+        print(err)
 
 
+    #print(f"output_dir: {output_dir}")
+    #print(f"output_dir_2: {output_dir_2}")
+
+   
+
+    
+    return JsonResponse({"Success": f"Production {order} notes updated"})
+
+    pass
 
 
     """ try: 

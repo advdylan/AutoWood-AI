@@ -35,6 +35,7 @@ class Production(models.Model):
     production_stages = models.ManyToManyField('ProductionStage', through='OrderProductionStage', blank=True)
     status = models.CharField(max_length=50, choices=[('pending', 'Pending'), ('in_progress', 'In Progress'), ('completed', 'Completed')])
     date_ordered = models.DateField()
+    
     date_of_delivery = models.DateField(blank=True, null=True)
     notes = models.CharField(max_length=150, blank=True, null=True)
     customer = models.ForeignKey(Customer, on_delete=models.CASCADE, blank=True, null=True)

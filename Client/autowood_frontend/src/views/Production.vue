@@ -106,7 +106,8 @@
                     <div class="box custom-box" v-if="header.name === 'Nav'">
                         <router-link :to="{ name: 'NewProjectDetail', params: { id: order.order.id } }">
                                 <b-button icon-right="circle-info">{{$t("details")}}</b-button>                               
-                            </router-link>
+                        </router-link>
+                        <b-button @click="downloadEAN(order.order.id, order)" icon-right="circle-info">{{ $t("EAN") }}</b-button>
                         
                     </div>
             </div>
@@ -120,8 +121,6 @@
 </div>
     </div>
         </div>
-
-        <button @click="saveProductionList" class="button">saveProductionList</button>
 
 
 </template>
@@ -184,6 +183,28 @@ const totalTextWidth = computed(() => {
 
 
 //functions
+
+function downloadEAN(id,data) {
+
+    console.log(`ID: ${id}`)
+    console.log(`Data: ${data}`)
+
+    try {
+        let response =  axios.post(`api/v1/production/get-ean`, {
+          id: id,
+          data: data,  
+        },
+         {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        })
+        console.log('Server response:', response)
+        console.log('Project updated successfully:', response.data)
+    } catch (error) {
+            console.error('Error saving the project:', error)
+    }
+}
 
 
 function isAnyStageTrue(stages) {

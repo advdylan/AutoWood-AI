@@ -160,7 +160,8 @@
     "choose_estimate_description": "Projedyncza wycena dla klienta detalicznego. Nie jest zapisywana w katalogu produktów, posiada tylko jeden etap produkcyjny",
     "production_steps": "Etapy produkcji",
     "shortcut": "Skrót",
-     "add_to_production": "Dodaj do produkcji"
+     "add_to_production": "Dodaj do produkcji",
+     "EAN": "EAN"
     
     
     

@@ -160,7 +160,9 @@
     "choose_estimate_description": "A single estimate for a retail customer. It is not saved in the product catalog and has only one production stage.",
     "production_steps": "Production steps",
     "shortcut": "Shortcut",
-    "add_to_production": "Add to production"
+    "add_to_production": "Add to production",
+    "EAN": "EAN"
+    
     
     
     
