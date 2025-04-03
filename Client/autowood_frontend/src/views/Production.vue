@@ -140,6 +140,7 @@ import { ref, onMounted, computed, watch, watchEffect } from 'vue';
 import { storeToRefs } from 'pinia';
 import VueDatePicker from '@vuepic/vue-datepicker';
 import '@vuepic/vue-datepicker/dist/main.css'
+import { setTimeout } from 'core-js';
 
 //store data 
 const store = productionStore()
@@ -321,6 +322,18 @@ function updateNotes(id,value) {
     }, 3000)
     notesTimeoutIDS.value.set(id, timeoutId)
 }
+function updateDateOfDelivery(id, value) {
+    if (notesTimeoutIDS.value.has(id)) {
+        clearTimeout(notesTimeoutIDS.value.get(id))
+    }
+
+    let timeoutId = setTimeout(function() {
+        console.log(`Update date of delivery: ${JSON.stringify(value)}`)
+        updateOrders(id,value)
+    }, 3000)
+
+    notesTimeoutIDS.value.set(id,timeoutId)
+}
 
 
 watchEffect(async() => {
@@ -370,6 +383,11 @@ watch(productionList, (newList) => {
                 else if (JSON.stringify(oldObject.stages) !== JSON.stringify(newObject.stages)) {
                     //console.log(`Stages changes from ${JSON.stringify(oldObject.stages)} \nto ${JSON.stringify(newObject.stages)}`)
                     updateStages(newObject.order.id, newObject.stages)
+                }
+
+                else if(JSON.stringify(oldObject.date_of_delivery) !== JSON.stringify(newObject.date_of_delivery)) {
+                    console.log(`New Data of delivery: ${newObject.date_of_delivery}`)
+                    updateDateOfDelivery(newObject.order.id, newObject.date_of_delivery)
                 }
             }
 

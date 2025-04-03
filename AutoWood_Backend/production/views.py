@@ -16,6 +16,7 @@ from product.views import get_or_create_model_instance, is_image
 from django.http import JsonResponse, HttpResponse, FileResponse
 from django.db import transaction, IntegrityError, DatabaseError
 from django.utils import timezone
+from django.utils.dateparse import parse_datetime
 from production.EANCode import generate_barcode
 from io import BytesIO
 
@@ -262,7 +263,7 @@ def update_order(request):
 
         
 
-    if len(data) > 1:
+    if all("stage" in item for item in data):
         #Stages case
         print(f"Data in more than one: {data}")
         print(f"Order: {order}")
@@ -284,7 +285,7 @@ def update_order(request):
         
         return JsonResponse({"Success": f"Production {order} stages updated"})
                     
-    if data["notes"]:
+    elif isinstance(data, dict) and "notes" in data:
         #Notes case
 
         new_note = data["notes"]
@@ -292,6 +293,19 @@ def update_order(request):
         order.save()
 
         return JsonResponse({"Success": f"Production {order} notes updated"})
+    
+    elif isinstance(data, str):
+        #any string data case
+        
+        parsed_date = parse_datetime(data)
+        if parsed_date:
+            #Date case
+            print(f"Succesed parsed date: {parsed_date}")
+            order.date_of_delivery = parsed_date
+            order.save()
+
+            return JsonResponse({"Message" : f"Parsed date: {parsed_date}"})
+        return JsonResponse({"error": "Invalid data format for date"}, status=400)
         
 
 
