@@ -1,5 +1,7 @@
 from django.db import models
 from decimal import Decimal, InvalidOperation
+from django.apps import apps
+
 
 
 
@@ -153,6 +155,13 @@ class NewProject(models.Model):
     percent_elements_margin = models.IntegerField(blank=True, null=True)
     percent_accesories_margin = models.IntegerField(blank=True, null=True)
     percent_additional_margin = models.IntegerField(blank=True, null=True)
+    production_stages = models.ManyToManyField('production.ProductionStage', blank=True)
+
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        if not self.production_stages.exists():
+            default_stage = apps.get_model('production','ProductionStage').objects.get(stage_name="PRY") 
+            self.production_stages.add(default_stage)
 
     
 

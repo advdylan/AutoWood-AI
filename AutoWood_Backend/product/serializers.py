@@ -138,6 +138,7 @@ class NewProjectSerializer(serializers.ModelSerializer):
     customer = CustomerSerializer(read_only=True)
     image = ImageSerializer(many = True,read_only = True, source = 'images')
     document = DocumentSerializer(many = True,read_only = True, source = 'documents')
+    
 
 
     class Meta:
@@ -165,5 +166,6 @@ class NewProjectSerializer(serializers.ModelSerializer):
             'accesories_cost',
             'worktime_cost',
             'image',
-            'document'
+            'document',
+            'production_stages'
         ]

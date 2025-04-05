@@ -17,7 +17,7 @@
                             </router-link>
 
                             <b-button 
-                            @click="toggleAddToProduction = !toggleAddToProduction"
+                            @click="toggleAddToProduction = !toggleAddToProduction, setChosenProduct(props.row)"
                              icon-right="add">{{ $t("production") }}
                             </b-button>
 
@@ -68,6 +68,9 @@
 
            <div class="card-content">
             <div class="columns">
+                <div class="column">
+
+                </div>
 
             </div>
         </div>
@@ -94,6 +97,7 @@ const { loadProjects, loadDetailProject } = ProjectsListStore
 const { projectlist, data, columns } = storeToRefs(ProjectsListStore)
 const hoveredProjectId = ref(null)
 const toggleAddToProduction = ref(false)
+const chosenProductId = ref(null)
 
 
 const propsList =  defineProps({
@@ -103,6 +107,12 @@ const propsList =  defineProps({
 
 
 loadProjects()
+
+
+function setChosenProduct(order) {
+    console.log(order);
+
+}
 </script>
 <style>
 .elements-list {
