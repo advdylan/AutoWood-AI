@@ -5,6 +5,7 @@ from .models import *
 from warehouse.models import *
 from production.models import *
 
+
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Category
@@ -126,7 +127,11 @@ class ProductSerializer(serializers.ModelSerializer):
             'elements',
             'collection'
         ]
+class ProductionStagesSerializer(serializers.ModelSerializer):
 
+    class Meta:
+        model = ProductionStage
+        fields = '__all__'
 class NewProjectSerializer(serializers.ModelSerializer):
     worktimes = WorktimeSerializer(many=True, read_only=True, source='project_worktime')
     accessories = AccessorySerializer(many=True, read_only=True, source='project_accesories')
@@ -138,7 +143,7 @@ class NewProjectSerializer(serializers.ModelSerializer):
     customer = CustomerSerializer(read_only=True)
     image = ImageSerializer(many = True,read_only = True, source = 'images')
     document = DocumentSerializer(many = True,read_only = True, source = 'documents')
-    
+    production_stages = ProductionStagesSerializer(many = True, read_only=True)
 
 
     class Meta:
