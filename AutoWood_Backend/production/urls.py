@@ -11,6 +11,7 @@ urlpatterns = [
      path('production-list/', views.production_list_create_view, name="production-list"),
      path('catalog-product/', views.catalog_product_list_create_view, name="catalog-product"),
      path('update', views.update_order, name="update_order"),
-     path('get-ean', views.generate_ean, name="generate_ean")
+     path('get-ean', views.generate_ean, name="generate_ean"),
+     path('add-to-production/', views.add_to_production, name="add_to_production")
 
 ]

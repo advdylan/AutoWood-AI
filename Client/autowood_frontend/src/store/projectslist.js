@@ -169,6 +169,24 @@ export const useProjectsListStore = defineStore('projectslist', {
             }) 
         },
 
+        async addToProduction(data) {
+
+            console.log(data)
+
+            await axios
+            .post(`/api/v1/production/add-to-production/`, id , {
+                headers: {
+                  'Content-Type': 'application/json'
+                }
+              }) 
+            .then((response) => {
+                console.log(`Response : ${response}`)
+            })
+            .catch(error => {
+                console.log(error)
+            })
+        },
+
         addElement(element) {
             this.detail_project.elements.push({
               element: {

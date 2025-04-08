@@ -345,6 +345,26 @@ def generate_ean(request):
     pass
 
 
+
+@api_view(["POST"])
+def add_to_production(request):
+
+    print(request)
+    order_id = request.data.get("id")
+    print(f"Order id: {order_id}")
+
+    try:
+        new_project = NewProject.objects.get(id=order_id)
+        
+        print(new_project.production_stages.all())
+
+
+    except NewProject.DoesNotExist:
+        return JsonResponse({"Failure": f"NewProject of id {order_id} does not exist"}, status=400)
+
+
+    return JsonResponse({"Success" : f"Production {request} added"})
+
     """ try: 
         order = Production.objects.get(id=order_id)
         print(order)

@@ -132,6 +132,9 @@ class ProductionStagesSerializer(serializers.ModelSerializer):
     class Meta:
         model = ProductionStage
         fields = '__all__'
+
+
+        
 class NewProjectSerializer(serializers.ModelSerializer):
     worktimes = WorktimeSerializer(many=True, read_only=True, source='project_worktime')
     accessories = AccessorySerializer(many=True, read_only=True, source='project_accesories')

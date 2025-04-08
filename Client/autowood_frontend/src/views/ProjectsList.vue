@@ -69,6 +69,7 @@
            <div class="card-content">
             <div class="columns">
                 <div class="column">
+                    <div class="button" @click="addToProduction(chosenProductId)"> </div>
 
                 </div>
 
@@ -93,7 +94,7 @@ import { ref} from 'vue'
 
 const ProjectsListStore = useProjectsListStore()
 
-const { loadProjects, loadDetailProject } = ProjectsListStore
+const { loadProjects, loadDetailProject, addToProduction } = ProjectsListStore
 const { projectlist, data, columns } = storeToRefs(ProjectsListStore)
 const hoveredProjectId = ref(null)
 const toggleAddToProduction = ref(false)
@@ -109,8 +110,10 @@ const propsList =  defineProps({
 loadProjects()
 
 
+
 function setChosenProduct(order) {
     console.log(order);
+    chosenProductId.value = order
 
 }
 </script>
