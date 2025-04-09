@@ -161,7 +161,10 @@
     "production_steps": "Production steps",
     "shortcut": "Shortcut",
     "add_to_production": "Add to production",
-    "EAN": "EAN"
+    "EAN": "EAN",
+    "ordered_date": "Date of order",
+    "delivery_date": "Date of delivery",
+    "notes": "Notes"
     
     
     

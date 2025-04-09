@@ -174,7 +174,7 @@ export const useProjectsListStore = defineStore('projectslist', {
             console.log(data)
 
             await axios
-            .post(`/api/v1/production/add-to-production/`, id , {
+            .post(`/api/v1/production/add-to-production/`, data , {
                 headers: {
                   'Content-Type': 'application/json'
                 }

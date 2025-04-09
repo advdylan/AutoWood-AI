@@ -57,9 +57,10 @@
 
 
 
-    <div v-bind:class="{'is-active': toggleAddToProduction}" class="modal" style="--bulma-modal-content-width: 30%;">
+    <div v-bind:class="{'is-active': toggleAddToProduction}" class="modal">
         <div class="modal-background"></div>
-        <div class="modal-card">
+        <div class="modal-card" style="height: 90%;
+                                       width: 70%;">
           <header class="modal-card-head">
             <p class="modal-card-title">{{$t('add_to_production')}}</p>
             <button @click="toggleAddToProduction = !toggleAddToProduction" class="delete" aria-label="close"></button>
@@ -67,10 +68,90 @@
           <section class="modal-card-body has-text-centered">
 
            <div class="card-content">
-            <div class="columns">
-                <div class="column">
-                    <div class="button" @click="addToProduction(chosenProductId)"> </div>
+            
+            <div class="columns" >
+                <div class="column is-one-third">
+                <div class="box">
+                
+                    <div class="label"> {{ $t('ordered_date') }}</div>
+                    <div class="box has-text-centered"> 
+                        <VueDatePicker 
+                            v-model="dateOrdered"
+                            :enable-time-picker="false"
+                            :menu-class="'datepicker-menu'"
+                        />
+                    </div>
+                
+         
+                    <div class="label"> {{ $t('delivery_date') }}</div>
+                    <div class="box has-text-centered"> 
+                        <VueDatePicker 
+                            v-model="dateOfDelivery"
+                            :enable-time-picker="false"
+                            :menu-class="'datepicker-menu'"
+                        />
+      
+                </div>
+                    <div class="label"> {{ $t('notes') }}</div>
+                    <textarea class="textarea" :placeholder="$t('notes')"></textarea>
+                </div>
+            </div>
+            <div class="column is-one-third ">
+            <div class="box" >  
 
+                    <label class="label is-size-6">{{$t("client_name")}}</label>
+                <p class="control has-icons-left">
+                    <input v-model="customer.name" class="input is-small" type="text" :placeholder="$t('client_name')"/>
+                        <span class="icon is-small is-left">
+                            <i class="fa-solid fa-user"></i>
+                        </span>
+                </p>
+
+                <label class="label is-size-6">{{$t("number")}}</label>
+                <p class="control has-icons-left">
+                    <input v-model="customer.phone_number" class="input is-small" type="number" :placeholder="$t('number')"/>
+                        <span class="icon is-small is-left">
+                            <i class="fa-solid fa-phone"></i>
+                        </span>
+                </p>
+
+                <label class="label is-size-6">{{$t("street")}}</label>
+                <p class="control has-icons-left">
+                    <input v-model="customer.street" class="input is-small" type="text" :placeholder="$t('street')"/>
+                        <span class="icon is-small is-left">
+                            <i class="fa-solid fa-signs-post"></i>
+                        </span>
+                </p>
+
+                <label class="label is-size-6">{{$t("zip_code")}}</label>
+                <p class="control has-icons-left">
+                    <input v-model="customer.code"  class="input is-small" type="text" :placeholder="$t('zip_code')"/>
+                        <span class="icon is-small is-left">
+                            <i class="fa-solid fa-map"></i>
+                        </span>
+                </p>
+
+                <label class="label is-size-6">{{$t("city")}}</label>
+                <p class="control has-icons-left">
+                    <input v-model="customer.city" class="input is-small" type="text" :placeholder="$t('city')"/>
+                        <span class="icon is-small is-left">
+                            <i class="fa-solid fa-house"></i>
+                        </span>
+                </p>
+
+                <label class="label is-size-6">{{$t("e-mail")}}</label>
+                <p class="control has-icons-left">
+                    <input v-model="customer.email" class="input is-small" type="text" :placeholder="$t('e-mail')"/>
+                        <span class="icon is-small is-left">
+                            <i class="fa-solid fa-envelope"></i>
+                        </span>
+                </p>
+                   
+                  
+                    
+                  </div>  
+                  
+                  <div class="button" @click="parseOrderData(chosenProductId)"> </div>
                 </div>
 
             </div>
@@ -90,6 +171,9 @@
 import { useProjectsListStore } from '@/store/projectslist'
 import { storeToRefs } from 'pinia'
 import { ref} from 'vue'
+import VueDatePicker from '@vuepic/vue-datepicker';
+import '@vuepic/vue-datepicker/dist/main.css'
+
 
 
 const ProjectsListStore = useProjectsListStore()
@@ -99,7 +183,16 @@ const { projectlist, data, columns } = storeToRefs(ProjectsListStore)
 const hoveredProjectId = ref(null)
 const toggleAddToProduction = ref(false)
 const chosenProductId = ref(null)
-
+const dateOrdered = ref(null)
+const dateOfDelivery = ref(null)
+const customer = ref({
+        name: '',
+        phone_number: 0,
+        street: '',
+        code: '',
+        city: '',
+        email: ''
+})
 
 const propsList =  defineProps({
     searchModal: Boolean,
@@ -110,12 +203,22 @@ const propsList =  defineProps({
 loadProjects()
 
 
-
 function setChosenProduct(order) {
     console.log(order);
     chosenProductId.value = order
-
 }
+
+function parseOrderData(id) {
+
+    let data = {
+        id: id,
+
+
+    }
+
+    addToProduction(id)
+}
+
 </script>
 <style>
 .elements-list {
