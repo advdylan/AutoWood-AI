@@ -337,9 +337,6 @@ def generate_ean(request):
     #print(f"output_dir: {output_dir}")
     #print(f"output_dir_2: {output_dir_2}")
 
-   
-
-    
     return JsonResponse({"Success": f"Production {order} notes updated"})
 
     pass
@@ -349,14 +346,24 @@ def generate_ean(request):
 @api_view(["POST"])
 def add_to_production(request):
 
+   
     print(request)
     order_id = request.data.get("id")
+    print(request.data)
     print(f"Order id: {order_id}")
 
     try:
         new_project = NewProject.objects.get(id=order_id)
-        
         print(new_project.production_stages.all())
+
+        status = "Pending"
+        date_ordered = parse_datetime(request.data.get("dataOrdered"))
+        date_of_delivery = parse_datetime(request.data.get("dateOfDelivery"))
+        notes = request.data.get("notes")
+        customer = request.data.get("customer")
+        content_type = request.data.get("contentType")
+        print(f"Status: {status}\ndate_ordered: {date_ordered}\ndate_of_delivery: {date_of_delivery}")
+        print(f"Notes: {notes}\ncustomer: {customer}\ncontent_type: {content_type}\n")
 
 
     except NewProject.DoesNotExist:
@@ -370,6 +377,8 @@ def add_to_production(request):
         print(order)
     except Production.DoesNotExist:
         return JsonResponse({"error:" "No order in the production list with this ID"}, status=status.HTTP_404_NOT_FOUND) """
+
+  
     
     
 

@@ -17,7 +17,7 @@
                             </router-link>
 
                             <b-button 
-                            @click="toggleAddToProduction = !toggleAddToProduction, setChosenProduct(props.row)"
+                            @click="toggleAddToProduction = !toggleAddToProduction, setChosenProductId(props.row.id)"
                              icon-right="add">{{ $t("production") }}
                             </b-button>
 
@@ -93,7 +93,7 @@
       
                 </div>
                     <div class="label"> {{ $t('notes') }}</div>
-                    <textarea class="textarea" :placeholder="$t('notes')"></textarea>
+                    <textarea v-model="notes" class="textarea" :placeholder="$t('notes')"></textarea>
                 </div>
             </div>
             <div class="column is-one-third ">
@@ -170,9 +170,11 @@
 <script setup>
 import { useProjectsListStore } from '@/store/projectslist'
 import { storeToRefs } from 'pinia'
-import { ref} from 'vue'
+import { BaseTransitionPropsValidators, ref} from 'vue'
 import VueDatePicker from '@vuepic/vue-datepicker';
 import '@vuepic/vue-datepicker/dist/main.css'
+import { isValidDate } from '@/validators/Validators';
+import { toast } from 'bulma-toast';
 
 
 
@@ -185,6 +187,7 @@ const toggleAddToProduction = ref(false)
 const chosenProductId = ref(null)
 const dateOrdered = ref(null)
 const dateOfDelivery = ref(null)
+const notes = ref('')
 const customer = ref({
         name: '',
         phone_number: 0,
@@ -203,20 +206,58 @@ const propsList =  defineProps({
 loadProjects()
 
 
-function setChosenProduct(order) {
-    console.log(order);
-    chosenProductId.value = order
+function setChosenProductId(id) {
+    chosenProductId.value = id
 }
+
+const errors = ref([])
 
 function parseOrderData(id) {
 
     let data = {
         id: id,
+        contentType: "NewProject",
+        dataOrdered: dateOrdered.value,
+        dateOfDelivery: dateOfDelivery.value,
+        notes: notes.value,
+        customer: customer.value
+    }
 
+    if (isValidDate(data.dataOrdered)) {
+        errors.value.push("Invalid input of Order Date")
+    }
+
+    
+    if (!errors.value.length) {
+        addToProduction(data)
+        toast({
+            message: 'Data sent',
+            duration: 5000,
+            position: "top-center",
+            type: 'is-success',
+            animate: { in: 'backInDown', out: 'backOutUp' },
+        })
 
     }
 
-    addToProduction(id)
+    else {
+        let msg = ''
+
+          for (let i=0; i <errors.value.length; i++){
+            msg += errors.value[i] += "\n"
+          }
+          toast({
+              message: msg,
+              duration: 5000,
+              position: "top-center",
+              type: 'is-danger',
+              animate: { in: 'backInDown', out: 'backOutUp' },
+            })
+
+            errors.value = []
+        
+    }
+    
 }
 
 </script>

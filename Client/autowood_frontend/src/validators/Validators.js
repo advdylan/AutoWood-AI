@@ -130,3 +130,8 @@ export function validateNewStage(newStageName, newStageShortcut, errors) {
 
   return errors
 }
+
+export function isValidDate(date) {
+  console.log(date)
+  return date instanceof Date && !isNaN(date) && !isNull(date);
+}
