@@ -17,6 +17,7 @@ from django.http import JsonResponse, HttpResponse, FileResponse
 from django.db import transaction, IntegrityError, DatabaseError
 from django.utils import timezone
 from django.utils.dateparse import parse_datetime
+from django.contrib.contenttypes.models import ContentType
 from production.EANCode import generate_barcode
 from io import BytesIO
 
@@ -354,16 +355,43 @@ def add_to_production(request):
 
     try:
         new_project = NewProject.objects.get(id=order_id)
-        print(new_project.production_stages.all())
+        production_stages = new_project.production_stages.all()
 
         status = "Pending"
         date_ordered = parse_datetime(request.data.get("dataOrdered"))
         date_of_delivery = parse_datetime(request.data.get("dateOfDelivery"))
         notes = request.data.get("notes")
-        customer = request.data.get("customer")
+        customer_data = request.data.get("customer")
+
+        customer, created = Customer.objects.get_or_create(
+                name=customer_data["name"],
+                phone_number=int(customer_data["phone_number"]),
+                street=customer_data["street"],
+                code=customer_data["code"],
+                city=customer_data["city"],
+                email=customer_data["email"]
+            )
+
+        content_type = ContentType.objects.get_by_natural_key('product', 'newproject')
+        print(content_type)
+
         content_type = request.data.get("contentType")
         print(f"Status: {status}\ndate_ordered: {date_ordered}\ndate_of_delivery: {date_of_delivery}")
         print(f"Notes: {notes}\ncustomer: {customer}\ncontent_type: {content_type}\n")
+
+        try:
+            Production.objects.create(
+                production_stages = production_stages,
+                status = status,
+                date_ordered = date_ordered,
+                date_of_delivery = date_of_delivery,
+                notes = notes,
+                customer = customer,
+                content_type = "NewProject"
+                
+            )
+        except ValueError:
+            print("Errorito di Valio")
 
 
     except NewProject.DoesNotExist:

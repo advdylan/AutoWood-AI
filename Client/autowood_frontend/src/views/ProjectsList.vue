@@ -223,8 +223,11 @@ function parseOrderData(id) {
         customer: customer.value
     }
 
-    if (isValidDate(data.dataOrdered)) {
-        errors.value.push("Invalid input of Order Date")
+    if (!isValidDate(data.dataOrdered)) {
+        errors.value.push("Invalid input of order date")
+    }
+    if (!isValidDate(data.dateOfDelivery)) {
+        errors.value.push("Invalid input of delivery date")
     }
 
     

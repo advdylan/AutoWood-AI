@@ -133,5 +133,10 @@ export function validateNewStage(newStageName, newStageShortcut, errors) {
 
 export function isValidDate(date) {
   console.log(date)
-  return date instanceof Date && !isNaN(date) && !isNull(date);
+  if (date instanceof(Date)) {
+    return true
+  }
+  else {
+    console.log("Not a date")
+  }
 }
