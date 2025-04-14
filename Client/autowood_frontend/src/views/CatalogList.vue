@@ -1,6 +1,6 @@
 <template>
     <div class="projects-list-container">
-        <b-table :data="data">
+        <b-table :data="catalog_product_data">
             <template v-for="column in columns" :key="column.id">
                 <b-table-column v-bind="column">
                     <template v-if="column.searchable && !column.numeric" #searchable="props">
@@ -189,8 +189,8 @@ import { toast } from 'bulma-toast';
 
 const ProjectsListStore = useProjectsListStore()
 
-const { loadProjects, loadDetailProject, addToProduction } = ProjectsListStore
-const { projectlist, data, columns } = storeToRefs(ProjectsListStore)
+const { loadCatalog, loadDetailProject, addToProduction } = ProjectsListStore
+const { projectlist, catalog_product_data, columns } = storeToRefs(ProjectsListStore)
 const hoveredProjectId = ref(null)
 const toggleAddToProduction = ref(false)
 const chosenProductId = ref(null)
@@ -212,7 +212,7 @@ const propsList =  defineProps({
 })
 
 
-loadProjects()
+loadCatalog()
 
 
 function setChosenProductId(id) {

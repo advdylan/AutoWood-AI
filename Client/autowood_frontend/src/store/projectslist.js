@@ -11,6 +11,7 @@ export const useProjectsListStore = defineStore('projectslist', {
     state: () => ({
         projectlist: null,
         detail_project: null,
+        catalog_product: null
        
         
     }),
@@ -27,6 +28,20 @@ export const useProjectsListStore = defineStore('projectslist', {
                 elements: item.elements,
                 nawigacja: 'nawigacja'
             })) : [];
+        },
+
+        catalog_product_data() {
+            return this.catalog_product ? this.catalog_product.map(item => ({
+                id: item.id,
+                name: item.name,
+                category: item.category.name,
+                collection: item.collection.name,
+                wood: item.wood.name,
+                paints: item.paints.name,
+                elements: item.elements,
+                nawigacja: 'nawigacja'
+            })) : [];
+
         },
         
         columns() {         
@@ -83,11 +98,24 @@ export const useProjectsListStore = defineStore('projectslist', {
             this.detail_project = data
         },
 
+        
+
         async loadProjects() {
             await axios
             .get(`/api/v1/newproject`)
             .then(response => {       
                 this.setProjects(response.data)
+            })
+            .catch(error =>{
+                console.log(error)     
+            })
+        },
+
+        async loadCatalog() {
+            await axios
+            .get(`/api/v1/production/catalog-product`)
+            .then(response => {       
+                this.catalog_product = response.data
             })
             .catch(error =>{
                 console.log(error)     

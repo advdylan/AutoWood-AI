@@ -9,6 +9,7 @@ import NewProjectProgress from '@/views/NewProjectProgress.vue'
 import CutOptimizer from '@/views/CutOptimizer.vue'
 import Warehouse from '@/views/Warehouse.vue'
 import Production from '@/views/Production.vue'
+import CatalogList from '@/views/CatalogList.vue'
 
 
 const routes = [
@@ -40,6 +41,11 @@ const routes = [
     path: '/projects-list',
     name: 'ProjectsList',
     component: ProjectsList
+  },
+  {
+    path: '/catalog-list',
+    name: 'CatalogList',
+    component: CatalogList
   },
   {
     path: '/prices-setup',

@@ -48,7 +48,7 @@
               {{ $t("new_product")}}   
             </router-link>
             <hr class="navbar-divider">
-            <router-link to="/projects-list" class="navbar-item">
+            <router-link to="/catalog-list" class="navbar-item">
               {{ $t("catalog_list")}}   
             </router-link>
 

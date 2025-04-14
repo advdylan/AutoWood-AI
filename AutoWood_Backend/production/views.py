@@ -353,9 +353,13 @@ def add_to_production(request):
     print(request.data)
     print(f"Order id: {order_id}")
 
+    #print(f"Status: {status}\ndate_ordered: {date_ordered}\ndate_of_delivery: {date_of_delivery}")
+    #print(f"Notes: {notes}\ncustomer: {customer}\ncontent_type: {content_type}\n")
+
     try:
         new_project = NewProject.objects.get(id=order_id)
         production_stages = new_project.production_stages.all()
+
 
         status = "Pending"
         date_ordered = parse_datetime(request.data.get("dataOrdered"))
@@ -374,24 +378,23 @@ def add_to_production(request):
 
         content_type = ContentType.objects.get_by_natural_key('product', 'newproject')
         print(content_type)
-
-        content_type = request.data.get("contentType")
-        print(f"Status: {status}\ndate_ordered: {date_ordered}\ndate_of_delivery: {date_of_delivery}")
-        print(f"Notes: {notes}\ncustomer: {customer}\ncontent_type: {content_type}\n")
-
+        
         try:
-            Production.objects.create(
-                production_stages = production_stages,
+            new_production_order = Production.objects.create(
                 status = status,
                 date_ordered = date_ordered,
                 date_of_delivery = date_of_delivery,
                 notes = notes,
                 customer = customer,
-                content_type = "NewProject"
+                content_type = content_type,
+                object_id = order_id
                 
             )
-        except ValueError:
-            print("Errorito di Valio")
+
+            new_production_order.production_stages.set(production_stages)
+            new_production_order.save()
+        except ValueError as e:
+            print(f"Error {e}")
 
 
     except NewProject.DoesNotExist:
