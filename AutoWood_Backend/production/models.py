@@ -2,6 +2,7 @@ from django.db import models
 from product.models import *
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes.fields import GenericForeignKey
+from django.utils import timezone
 
 # Create your models here.
 class CatalogProduct(models.Model):
@@ -45,7 +46,33 @@ class Production(models.Model):
     content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
     object_id = models.PositiveIntegerField()
     order = GenericForeignKey('content_type', 'object_id')
+    order_number = models.CharField(max_length=20, unique=True, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
 
+    def save(self, *args, **kwargs):
+        if not self.order_number:
+            self.order_number = self.generate_order_number()
+        super().save(*args, **kwargs)
+
+
+    def generate_order_number(self):
+        
+        order_id_part = str(self.object_id).zfill(3)
+
+      
+        now = timezone.now()
+        date_part = now.strftime('%m%y')  
+
+      
+        expected_suffix = f"{order_id_part}{date_part}"
+        existing = Production.objects.filter(
+            order_number__endswith=expected_suffix
+        ).count()
+
+        
+        serial_prefix = str(existing).zfill(3)
+
+        return f"{serial_prefix}{expected_suffix}"
     
     def __str__(self):
         return f"Production for {self.order} (Status: {self.status})"

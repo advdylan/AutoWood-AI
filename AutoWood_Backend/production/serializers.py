@@ -85,6 +85,7 @@ class CatalogProductSerializer(serializers.ModelSerializer):
             'elements_cost',
             'accesories_cost',
             'worktime_cost',
+         
         ]
 
 class GenericRelatedField(serializers.Field):
@@ -134,7 +135,8 @@ class ProductionSerializer(serializers.ModelSerializer):
             "date_ordered",
             "date_of_delivery",
             "notes",
-            "customer"
+            "customer",
+            "order_number"
          
         ]
 
