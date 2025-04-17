@@ -173,6 +173,8 @@
 		//console.log(`DayContent: ${dayContent}`);
 
 		dayLine.appendChild(dayContent);
+		dayLine.id = date.id;
+		console.log(date.id);
 		monthContainer.appendChild(dayLine);
 		
 		var currentDiv = document.getElementById('div');
@@ -334,8 +336,10 @@
 			let minutes = date.getMinutes();
 			let seconds = date.getSeconds();
 			let dayOfWeek = date.getDay();
+			let id = `${day}${month}`
 
 			let newDate = {
+				id: id,
 				day: day,
 				dayOfWeek: dayOfWeek,
 				month: month,
@@ -347,6 +351,19 @@
 			//console.log(`newDate by getDate: \nDay:${newDate.day}\nMonth:${newDate.month}\nYear:${newDate.year}`);
 			return newDate;		
 	}
+	
+	function printMouseOverDay(id) {
+		const day = document.getElementById("id");
+		
+		day.addEventListener("mouseover" , (event) => {
+			console.log(day.day);
+		}
+			
+		)
+		
+	}
+	
+	
 		</script>
 		</html>
 	
