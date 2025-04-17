@@ -36,8 +36,9 @@
 		}
 		
 		.calendar-day-number-container {
-		background-color: grey;
+		background-color: rgb(211,211,211);
 		border: 1px solid black;
+		border-radius: 2.5px;
 		margin: 2px;
 		padding: 10px;
 		font-size: 15px;
@@ -49,13 +50,14 @@
 			display: grid;
 			grid-template-columns: repeat(7, 1fr);
 			padding: 5px;
-			background-color: rgb(90,106,85);
+			background-color: rgb(225,246,215);
 			gap: 2px;
 		}
 		
 		.days-of-week-container > div {
-			background-color: rgb(190,206,185);
+			background-color: rgb(205,226,195);
 			border: 1px solid black;
+			border-radius: 2.5px;
 			margin: 2px;
 			padding: 10px;
 			font-size: 20px;
@@ -168,7 +170,7 @@
 		let dayLine = document.createElement('div');
 		dayLine.classList.add("calendar-day-number-container");
 		let dayContent = document.createTextNode(date.day);
-		console.log(`DayContent: ${dayContent}`);
+		//console.log(`DayContent: ${dayContent}`);
 
 		dayLine.appendChild(dayContent);
 		monthContainer.appendChild(dayLine);
@@ -188,7 +190,7 @@
 		
 		let dayLine = document.createElement('div');
 		let dayContent = document.createTextNode(date.day);
-		console.log(`DayContent: ${dayContent}`);
+		//console.log(`DayContent: ${dayContent}`);
 
 		dayLine.appendChild(dayContent);
 		monthContainer.appendChild(dayLine);
@@ -206,15 +208,14 @@
 	let monthHeaderDiv = document.createElement('div')
 	monthHeaderDiv.classList.add('days-of-week-container')
 	
-	
 	let daysOfMonthsArray = ["Poniedzialek", "Wtornik", "Sroda", "Czwartek", "Piatek","Sobota","Niedziela"];
 	
 	for (let day of daysOfMonthsArray) {
-		console.log(`Day : ${day}`);
+		//console.log(`Day : ${day}`);
 		let newDayElement = document.createElement('div');
 		let dayDayContent = document.createTextNode(day);
 		
-		console.log(newDayElement);
+		//console.log(newDayElement);
 		newDayElement.appendChild(dayDayContent);
 		monthHeaderDiv.appendChild(newDayElement);
 		document.body.appendChild(monthHeaderDiv);
@@ -267,25 +268,24 @@
 	}
 	
 	function checkFirstDayOfMonth(month) {
-		let day = month[0].dayOfWeek;
+
+		let day = month[0].dayOfWeek;		
 		//console.log(day);
-		//console.log(`First day: ${day.dayOfWeek}`);
-		return day-1;
-	
+		//console.log(`First day: ${day-1}`);
+		if (day === 0) {
+			return 6;
+			}
+		else {
+			return day-1;
+		}	
 	}
 	
 	function displayMonth() {
-	
-	
-	
 		dates = getDaysOfMonths();
 		console.log(dates);
 		
 		monthContainer = createMonthContainer()
 		const months = Array.from({length: 12}, () => []);
-		
-		
-			
 		dates.forEach(day => {
 			//console.log(day.month);
 			//console.log(day.dayOfWeek);
