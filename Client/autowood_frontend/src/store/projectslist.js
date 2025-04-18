@@ -197,12 +197,12 @@ export const useProjectsListStore = defineStore('projectslist', {
             }) 
         },
 
-        async addToProduction(data) {
+        async addNewProjectToProduction(data) {
 
             console.log(data)
 
             await axios
-            .post(`/api/v1/production/add-to-production/`, data , {
+            .post(`/api/v1/production/add-newproject-to-production/`, data , {
                 headers: {
                   'Content-Type': 'application/json'
                 }

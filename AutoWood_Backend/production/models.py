@@ -35,7 +35,7 @@ class CatalogProduct(models.Model):
 
 class Production(models.Model):
     production_stages = models.ManyToManyField('ProductionStage', through='OrderProductionStage', blank=True)
-    status = models.CharField(max_length=50, choices=[('pending', 'Pending'), ('in_progress', 'In Progress'), ('completed', 'Completed')])
+    status = models.CharField(max_length=50, choices=[('pending', 'Pending'), ('in_progress', 'In Progress'), ('completed', 'Completed')], default="pending")
     date_ordered = models.DateField()
     
     date_of_delivery = models.DateField(blank=True, null=True)
@@ -58,21 +58,32 @@ class Production(models.Model):
     def generate_order_number(self):
         
         order_id_part = str(self.object_id).zfill(3)
-
-      
         now = timezone.now()
-        date_part = now.strftime('%m%y')  
-
-      
-        expected_suffix = f"{order_id_part}{date_part}"
-        existing = Production.objects.filter(
-            order_number__endswith=expected_suffix
-        ).count()
+        date_part = now.strftime('%m%y')
 
         
-        serial_prefix = str(existing).zfill(3)
+        try: 
+            latest_entry = Production.objects.latest('created_at')
+        except Production.DoesNotExist:
+            latest_entry = 0
 
-        return f"{serial_prefix}{expected_suffix}"
+        try:
+            number_of_order = Production.objects.all().count() + 1
+
+        except Production.DoesNotExist:
+            number_of_order = 0
+
+        number_prefix = str(number_of_order).zfill(3)
+
+     
+        
+        print(f"Number prefix: {number_prefix}")
+ 
+        new_suffix = f"{order_id_part}{date_part}"
+        #print(f"Expected_suffix: {new_suffix}")
+
+
+        return f"{number_prefix}{new_suffix}"
     
     def __str__(self):
         return f"Production for {self.order} (Status: {self.status})"

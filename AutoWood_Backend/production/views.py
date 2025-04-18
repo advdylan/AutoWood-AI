@@ -345,7 +345,7 @@ def generate_ean(request):
 
 
 @api_view(["POST"])
-def add_to_production(request):
+def add_newproject_to_production(request):
 
    
     print(request)

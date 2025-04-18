@@ -34,7 +34,7 @@
                      class="box custom-box" 
                      v-if="header.name === 'Nr'">
 
-                        {{ order.order.id }}
+                        {{ order.order_number }}
                     </div>
 
                     <div class="box has-text-centered custom-box" v-if="header.name === 'Name'">

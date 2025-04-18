@@ -146,16 +146,28 @@
                             <i class="fa-solid fa-envelope"></i>
                         </span>
                 </p>
-                   
-                  
-                    
                   </div>  
-                  
-                 
+                </div>
+                <div class="column is-one-third">
+                    <div class="card">
+                          <header class="card-header">
+                            <p class="card-header-title is-centered is-size-4">{{$t("production_steps")}} &nbsp;<i class="fa-solid fa-list-check"></i></p>  
+                          </header>
+                          <production-stages></production-stages>
+                          </div>
                 </div>
                 
                 
             </div>
+
+
+
+
+
+
+
+
+
             <div class="buttons">
                     <div  class="button is-success" @click="parseOrderData(chosenProductId)"
                         
@@ -184,6 +196,7 @@ import VueDatePicker from '@vuepic/vue-datepicker';
 import '@vuepic/vue-datepicker/dist/main.css'
 import { isValidDate } from '@/validators/Validators';
 import { toast } from 'bulma-toast';
+import ProductionStages from '@/components/NewProjectComponents/ProductionStages.vue';
 
 
 

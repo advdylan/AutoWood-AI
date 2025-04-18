@@ -189,7 +189,7 @@ import { toast } from 'bulma-toast';
 
 const ProjectsListStore = useProjectsListStore()
 
-const { loadProjects, loadDetailProject, addToProduction } = ProjectsListStore
+const { loadProjects, loadDetailProject, addNewProjectToProduction } = ProjectsListStore
 const { projectlist, data, columns } = storeToRefs(ProjectsListStore)
 const hoveredProjectId = ref(null)
 const toggleAddToProduction = ref(false)
@@ -241,7 +241,7 @@ function parseOrderData(id) {
 
     
     if (!errors.value.length) {
-        addToProduction(data)
+        addNewProjectToProduction(data)
         toast({
             message: 'Data sent',
             duration: 5000,
