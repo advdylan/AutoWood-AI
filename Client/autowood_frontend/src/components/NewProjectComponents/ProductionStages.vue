@@ -28,7 +28,7 @@
                                       v-model="newStageShortcut"/>
                                     </div>
                                   </div>
-                                  <button type="submit" class="button is-success">{{ $t("add")}}</button>
+                                  <button @click="updateProductionStages(productionSteps)" type="submit" class="button is-success">{{ $t("add")}}</button>
                                   </form>
                                 </div>
                              
@@ -51,6 +51,8 @@
                                             <td>{{ step.shortcut }}</td>
                                             <td>
                                                 <button @click="addNewStage(step)" class="button is-success is-small"><i class="fa-solid fa-plus"></i></button>
+                                                <button @click="deleteNewStage(step), updateProductionStages(productionSteps)" class="button is-danger is-small"><i class="fa-solid fa-trash"></i></button>
+                                         
                                             </td>
                                             </tr>
                                         </tbody>
@@ -99,7 +101,7 @@ import { toast } from 'bulma-toast'
 import { validateNewStage } from '@/validators/Validators'
 
 const newProjectStore = useNewProjectStoreBeta()
-const {getProductionSteps, addNewStage, deleteStage} = newProjectStore
+const {getProductionSteps, addNewStage, deleteStage, deleteNewStage} = newProjectStore
 const {productionSteps, chosenProductionSteps} = storeToRefs(newProjectStore)
 
 const newStageName = ref('')
@@ -111,6 +113,11 @@ function submitForm(){
 
   if (!errors.value.length) {
     alert('Udalo sie ')
+    let newStage = {
+      stage_name: newStageName,
+      shortcut: newStageShortcut      
+    }
+    productionSteps.value.push(newStage)
   }
   else {
     
@@ -126,6 +133,36 @@ function submitForm(){
     })
     }
   }
+
+}
+
+function updateStages(data) {
+
+    console.log(data)
+      try {
+          let response =  axios.post(`api/v1/production/update-production-stages/`, {
+            data: data,  
+          },
+          {
+            headers: {
+              'Content-Type': 'application/json',
+            },
+          })
+          console.log('Server response:', response)
+          console.log('Project updated successfully:', response.data)
+    } catch (error) {
+          console.error('Error saving the project:', error)
+    }
+
+}
+
+function updateProductionStages(value) {
+
+  let timeoutId = setTimeout(function() {
+        console.log(`Update notes fired value: ${JSON.stringify(value)}'`)
+        updateStages(value)
+
+    }, 3000)
 
 }
 

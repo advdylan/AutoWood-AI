@@ -342,7 +342,18 @@ def generate_ean(request):
 
     pass
 
+@api_view(["POST"])
+def update_production_stages(request): 
 
+    data = request.data
+    for stage in data['data']:
+        print(f"ID: {stage['id']}")
+        print(f"Stage Name: {stage['stage_name']}")
+        print(f"Shortcut: {stage['shortcut']}")
+
+   
+
+    return JsonResponse({"Data" : f"Data"}, status = 201)
 
 @api_view(["POST"])
 def add_newproject_to_production(request):
@@ -353,7 +364,7 @@ def add_newproject_to_production(request):
     print(request.data)
     print(f"Order id: {order_id}")
 
-    #print(f"Status: {status}\ndate_ordered: {date_ordered}\ndate_of_delivery: {date_of_delivery}")
+    #print(f"Status: {status}\ndate_ordered: {date_ordered}\ndate_of_delivery: {date_of_delivery}") 
     #print(f"Notes: {notes}\ncustomer: {customer}\ncontent_type: {content_type}\n")
 
     try:

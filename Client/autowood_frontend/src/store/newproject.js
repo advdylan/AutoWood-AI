@@ -303,6 +303,12 @@ export const useNewProjectStoreBeta = defineStore('newproject', {
       this.chosenProductionSteps.splice(stageToDelete, 1)
     
     },
+    deleteNewStage(stage) {
+      const stageToDelete = this.productionSteps.findIndex(item => item.stage_name === stage.stage_name & item.shortcut === stage.shortcut)
+      this.productionSteps.splice(stageToDelete, 1)
+
+    },
+
 
     $reset() {
       this.category = []
