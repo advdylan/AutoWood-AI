@@ -13,7 +13,7 @@
                                   <div class="field">
                                     <div class="control">
                                       <input 
-                                      class="input" 
+                                      class="input is-small" 
                                       type="text" 
                                       placeholder="Nazwa"
                                       v-model="newStageName"/>
@@ -22,7 +22,8 @@
                                   <div class="field">
                                     <div class="control">
                                       <input 
-                                      class="input" 
+                                      class="input is-small
+                                      " 
                                       type="text" 
                                       placeholder="Skrót"
                                       v-model="newStageShortcut"/>
@@ -102,7 +103,7 @@ import { validateNewStage } from '@/validators/Validators'
 
 const newProjectStore = useNewProjectStoreBeta()
 const {getProductionSteps, addNewStage, deleteStage, deleteNewStage} = newProjectStore
-const {productionSteps, chosenProductionSteps} = storeToRefs(newProjectStore)
+const {productionSteps, chosenProductionSteps, deletedIDs} = storeToRefs(newProjectStore)
 
 const newStageName = ref('')
 const newStageShortcut = ref('')
@@ -141,7 +142,8 @@ function updateStages(data) {
     console.log(data)
       try {
           let response =  axios.post(`api/v1/production/update-production-stages/`, {
-            data: data,  
+            data: data,
+            deletedIDs: deletedIDs.value
           },
           {
             headers: {

@@ -70,7 +70,7 @@
            <div class="card-content">
             
             <div class="columns" >
-                <div class="column is-one-third">
+                <div class="column is-one-quarter">
                 <div class="box">
                 
                     <div class="label"> {{ $t('ordered_date') }}</div>
@@ -96,7 +96,7 @@
                     <textarea v-model="notes" class="textarea" :placeholder="$t('notes')"></textarea>
                 </div>
             </div>
-            <div class="column is-one-third ">
+            <div class="column is-one-quarter ">
             <div class="box" >  
 
                     <label class="label is-size-6">{{$t("client_name")}}</label>
@@ -148,7 +148,7 @@
                 </p>
                   </div>  
                 </div>
-                <div class="column is-one-third">
+                <div class="column">
                     <div class="card">
                           <header class="card-header">
                             <p class="card-header-title is-centered is-size-4">{{$t("production_steps")}} &nbsp;<i class="fa-solid fa-list-check"></i></p>  
@@ -167,15 +167,14 @@
 
 
 
-
+            <div class="box">
             <div class="buttons">
                     <div  class="button is-success" @click="parseOrderData(chosenProductId)"
-                        
-                        
                     > {{ $t('save') }} </div>
                     <div @click="toggleAddToProduction = !toggleAddToProduction" class="button is-danger"> {{ $t('cancel') }}</div>
 
                 </div>
+            </div>
         </div>
           </section>
 
@@ -201,9 +200,10 @@ import ProductionStages from '@/components/NewProjectComponents/ProductionStages
 
 
 const ProjectsListStore = useProjectsListStore()
+const { loadCatalog, loadDetailProject, addNewProjectToProduction, addCatalogProductToProduction } = ProjectsListStore
+const { projectlist, catalog_product_data, columns, chosenProductionSteps } = storeToRefs(ProjectsListStore)
 
-const { loadCatalog, loadDetailProject, addToProduction } = ProjectsListStore
-const { projectlist, catalog_product_data, columns } = storeToRefs(ProjectsListStore)
+
 const hoveredProjectId = ref(null)
 const toggleAddToProduction = ref(false)
 const chosenProductId = ref(null)
@@ -238,11 +238,12 @@ function parseOrderData(id) {
 
     let data = {
         id: id,
-        contentType: "NewProject",
+        contentType: "CatalogProduct",
         dataOrdered: dateOrdered.value,
         dateOfDelivery: dateOfDelivery.value,
         notes: notes.value,
-        customer: customer.value
+        customer: customer.value,
+        productionSteps: chosenProductionSteps
     }
 
     if (!isValidDate(data.dataOrdered)) {
@@ -254,7 +255,7 @@ function parseOrderData(id) {
 
     
     if (!errors.value.length) {
-        addToProduction(data)
+        addCatalogProductToProduction(data)
         toast({
             message: 'Data sent',
             duration: 5000,
@@ -285,6 +286,9 @@ function parseOrderData(id) {
     }
     
 }
+
+
+
 
 </script>
 <style>

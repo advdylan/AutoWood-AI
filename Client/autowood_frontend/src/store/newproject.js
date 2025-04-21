@@ -38,7 +38,8 @@ export const useNewProjectStoreBeta = defineStore('newproject', {
     highlightedRows: new Set(),
     creationMode: '',
     productionSteps: [],
-    chosenProductionSteps: []
+    chosenProductionSteps: [],
+    deletedIDs: []
     
 
   }),
@@ -306,6 +307,7 @@ export const useNewProjectStoreBeta = defineStore('newproject', {
     deleteNewStage(stage) {
       const stageToDelete = this.productionSteps.findIndex(item => item.stage_name === stage.stage_name & item.shortcut === stage.shortcut)
       this.productionSteps.splice(stageToDelete, 1)
+      this.deletedIDs.push(stage.id)
 
     },
 

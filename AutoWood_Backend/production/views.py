@@ -346,12 +346,31 @@ def generate_ean(request):
 def update_production_stages(request): 
 
     data = request.data
-    for stage in data['data']:
-        print(f"ID: {stage['id']}")
-        print(f"Stage Name: {stage['stage_name']}")
-        print(f"Shortcut: {stage['shortcut']}")
+    all_stages = ProductionStage.objects.all()
+    ids_sent = []
+    deleted_ids = data['deletedIDs']
 
-   
+    
+    if(deleted_ids):
+        for id in deleted_ids:
+            ProductionStage.objects.filter(id=id).delete()
+
+    for stage in data['data']:
+        if 'id' in stage:
+            stage_id = stage['id']
+            ids_sent.append(stage_id)
+        else:
+            print(f"Stage missing ID: {stage}")
+
+            try:
+                ProductionStage.objects.create(
+                    stage_name = stage['stage_name'],
+                    shortcut = stage['shortcut'] 
+                )
+            except ValueError as e:
+                print(f"Error : {e}")
+    
+
 
     return JsonResponse({"Data" : f"Data"}, status = 201)
 
@@ -388,6 +407,66 @@ def add_newproject_to_production(request):
             )
 
         content_type = ContentType.objects.get_by_natural_key('product', 'newproject')
+        print(content_type)
+        
+        try:
+            new_production_order = Production.objects.create(
+                status = status,
+                date_ordered = date_ordered,
+                date_of_delivery = date_of_delivery,
+                notes = notes,
+                customer = customer,
+                content_type = content_type,
+                object_id = order_id
+                
+            )
+
+            new_production_order.production_stages.set(production_stages)
+            new_production_order.save()
+        except ValueError as e:
+            print(f"Error {e}")
+
+
+    except NewProject.DoesNotExist:
+        return JsonResponse({"Failure": f"NewProject of id {order_id} does not exist"}, status=400)
+
+
+    return JsonResponse({"Success" : f"Production {request} added"})
+
+
+@api_view(["POST"])
+def add_catalogproduct_to_production(request):
+
+   
+    print(request)
+    order_id = request.data.get("id")
+    print(request.data)
+    print(f"Order id: {order_id}")
+
+    #print(f"Status: {status}\ndate_ordered: {date_ordered}\ndate_of_delivery: {date_of_delivery}") 
+    #print(f"Notes: {notes}\ncustomer: {customer}\ncontent_type: {content_type}\n")
+
+    try:
+        catalog_product = CatalogProduct.objects.get(id=order_id)
+        production_stages = catalog_product.production_stages.all()
+
+
+        status = "Pending"
+        date_ordered = parse_datetime(request.data.get("dataOrdered"))
+        date_of_delivery = parse_datetime(request.data.get("dateOfDelivery"))
+        notes = request.data.get("notes")
+        customer_data = request.data.get("customer")
+
+        customer, created = Customer.objects.get_or_create(
+                name=customer_data["name"],
+                phone_number=int(customer_data["phone_number"]),
+                street=customer_data["street"],
+                code=customer_data["code"],
+                city=customer_data["city"],
+                email=customer_data["email"]
+            )
+
+        content_type = ContentType.objects.get_by_natural_key('production', 'catalogproduct')
         print(content_type)
         
         try:

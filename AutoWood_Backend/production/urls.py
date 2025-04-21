@@ -12,7 +12,8 @@ urlpatterns = [
      path('catalog-product/', views.catalog_product_list_create_view, name="catalog-product"),
      path('update', views.update_order, name="update_order"),
      path('get-ean', views.generate_ean, name="generate_ean"),
-     path('add-newproject-to-production/', views.add_newproject_to_production, name="add_to_production"),
+     path('add-newproject-to-production/', views.add_newproject_to_production, name="add_newproject_to_production"),
+     path('add-catalogproduct-to-production/', views.add_catalogproduct_to_production, name="add_catalogproduct_to_production"),
      path('update-production-stages/', views.update_production_stages, name="update_production_stages")
 
 ]
