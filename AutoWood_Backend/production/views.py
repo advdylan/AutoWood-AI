@@ -248,21 +248,21 @@ def update_order(request):
 
     data = request.data.get("data", [])
     order_id = request.data.get("id")
+    order_number = request.data.get("order_number")
     print(f"Order id: {order_id}")
 
     
-
     if not data:
         return JsonResponse({"error": "No data provided"}, status=400)
 
   
     if order_id is not None:
         try:
-            order = Production.objects.get(object_id=order_id)
+            order = Production.objects.get(order_number=order_number)
         except Production.DoesNotExist:
             return JsonResponse({"Error": "Production Object does not exist"})
 
-        
+    print(order.order_number)
 
     if all("stage" in item for item in data):
         #Stages case
@@ -316,10 +316,11 @@ def generate_ean(request):
 
     data = request.data.get("data", [])
     order_id = request.data.get("id")
+    order_number = request.data.get("order_number")
     print(f"Order id: {order_id}")
     buffer = BytesIO()
 
-    order = Production.objects.get(object_id=order_id)
+    order = Production.objects.get(order_number=order_number)
 
     try: 
         file_name,save_path = generate_barcode(order)
@@ -448,7 +449,7 @@ def add_catalogproduct_to_production(request):
 
     try:
         catalog_product = CatalogProduct.objects.get(id=order_id)
-        production_stages = catalog_product.production_stages.all()
+        
 
 
         status = "Pending"
@@ -456,6 +457,15 @@ def add_catalogproduct_to_production(request):
         date_of_delivery = parse_datetime(request.data.get("dateOfDelivery"))
         notes = request.data.get("notes")
         customer_data = request.data.get("customer")
+        production_stages_data = request.data.get("productionSteps")
+        production_stages = []
+
+        for production_stage in production_stages_data:
+            print(f"production stage: {production_stage}")
+            new_stage = ProductionStage.objects.get(id=production_stage["id"])
+            production_stages.append(new_stage)
+
+
 
         customer, created = Customer.objects.get_or_create(
                 name=customer_data["name"],
@@ -477,10 +487,10 @@ def add_catalogproduct_to_production(request):
                 notes = notes,
                 customer = customer,
                 content_type = content_type,
-                object_id = order_id
-                
+                object_id = order_id,
+              
             )
-
+       
             new_production_order.production_stages.set(production_stages)
             new_production_order.save()
         except ValueError as e:

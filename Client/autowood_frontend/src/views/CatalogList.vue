@@ -212,8 +212,9 @@ import ProductionStages from '@/components/NewProjectComponents/ProductionStages
 const ProjectsListStore = useProjectsListStore()
 const newProjectStore = useNewProjectStoreBeta()
 const {addProductionStages} = newProjectStore
+const {chosenProductionSteps} = storeToRefs(newProjectStore)
 const { loadCatalog, loadDetailProject, addNewProjectToProduction, addCatalogProductToProduction } = ProjectsListStore
-const { projectlist, catalog_product_data, columns, chosenProductionSteps } = storeToRefs(ProjectsListStore)
+const { projectlist, catalog_product_data, columns,  } = storeToRefs(ProjectsListStore)
 
 
 const hoveredProjectId = ref(null)
@@ -267,6 +268,8 @@ const errors = ref([])
 
 function parseOrderData(id) {
 
+    console.log(`Chosen production steps: ${chosenProductionSteps}`)
+
     let data = {
         id: id,
         contentType: "CatalogProduct",
@@ -274,7 +277,7 @@ function parseOrderData(id) {
         dateOfDelivery: dateOfDelivery.value,
         notes: notes.value,
         customer: customer.value,
-        productionSteps: chosenProductionSteps
+        productionSteps: chosenProductionSteps.value
     }
 
     if (!isValidDate(data.dataOrdered)) {

@@ -115,7 +115,7 @@
                         <router-link :to="{ name: 'NewProjectDetail', params: { id: order.order.id } }">
                                 <b-button icon-right="circle-info">{{$t("details")}}</b-button>                               
                         </router-link>
-                        <b-button @click="downloadEAN(order.order.id, order)" icon-right="circle-info">{{ $t("EAN") }}</b-button>
+                        <b-button @click="downloadEAN(order.order.id, order, order.order_number)" icon-right="circle-info">{{ $t("EAN") }}</b-button>
                         
                     </div>
             </div>
@@ -196,7 +196,7 @@ const totalTextWidth = computed(() => {
 
 //functions
 
-function downloadEAN(id,data) {
+function downloadEAN(id,data,order_number) {
 
     console.log(`ID: ${id}`)
     console.log(`Data: ${data}`)
@@ -204,7 +204,8 @@ function downloadEAN(id,data) {
     try {
         let response =  axios.post(`api/v1/production/get-ean`, {
           id: id,
-          data: data,  
+          data: data,
+          order_number: order_number  
         },
         
          {
@@ -273,13 +274,15 @@ function calculateWidth(name) {
     return `${name.length * 10 + 20} px`
 }
 
-function updateOrders(id, data) {
+function updateOrders(id,data,order_number) {
 
     console.log(data)
     try {
         let response =  axios.patch(`api/v1/production/update`, {
           id: id,
-          data: data,  
+          data: data,
+          order_number: order_number
+    
         },
          {
           headers: {
@@ -294,7 +297,7 @@ function updateOrders(id, data) {
 }
 
 
-function updateStages(id,value) {
+function updateStages(id,value,order_number) {
 
     if (stagesTimeoutIDs.value.has(id)) {
         clearTimeout(stagesTimeoutIDs.value.get(id));
@@ -302,14 +305,14 @@ function updateStages(id,value) {
 
     let timeoutId = setTimeout(function(){
         console.log(`Update stages fired value: ${JSON.stringify(value)} \n ID: ${id}`)
-        updateOrders(id,value)
+        updateOrders(id,value, order_number)
         
     }, 3000)
     stagesTimeoutIDs.value.set(id, timeoutId)
 }
 
 
-function updateNotes(id,value) {
+function updateNotes(id,value,order_number) {
 
     if (notesTimeoutIDS.value.has(id)) {
         clearTimeout(notesTimeoutIDS.value.get(id));
@@ -317,19 +320,19 @@ function updateNotes(id,value) {
 
     let timeoutId = setTimeout(function() {
         console.log(`Update notes fired value: ${JSON.stringify(value)}'`)
-        updateOrders(id,value)
+        updateOrders(id,value,order_number)
 
     }, 3000)
     notesTimeoutIDS.value.set(id, timeoutId)
 }
-function updateDateOfDelivery(id, value) {
+function updateDateOfDelivery(id, value, order_number) {
     if (notesTimeoutIDS.value.has(id)) {
         clearTimeout(notesTimeoutIDS.value.get(id))
     }
 
     let timeoutId = setTimeout(function() {
         console.log(`Update date of delivery: ${JSON.stringify(value)}`)
-        updateOrders(id,value)
+        updateOrders(id,value,order_number)
     }, 3000)
 
     notesTimeoutIDS.value.set(id,timeoutId)
@@ -365,7 +368,7 @@ watch(productionList, (newList) => {
         console.log("First fire, do not save");
     } else {
         for (let newObject of newList) {
-            let oldObject = previousProductionList.value.find(o => o.order.id === newObject.order.id);
+            let oldObject = previousProductionList.value.find(o => o.order_number === newObject.order_number);
             
             if (oldObject) {
                 //console.log(`OldObject notes: ${oldObject.notes}`);
@@ -373,21 +376,22 @@ watch(productionList, (newList) => {
                 
                 if (oldObject.notes !== newObject.notes) {
                     console.log(`Notes changed from '${oldObject.notes}' to '${newObject.notes}'`)
+                    console.log(`NewObject order number: ${newObject.order_number}`)
                     let note = {
                         "notes" : newObject.notes
 
                     }
-                    updateNotes(newObject.order.id, note)
+                    updateNotes(newObject.order.id, note, newObject.order_number)
                 }
 
                 else if (JSON.stringify(oldObject.stages) !== JSON.stringify(newObject.stages)) {
                     //console.log(`Stages changes from ${JSON.stringify(oldObject.stages)} \nto ${JSON.stringify(newObject.stages)}`)
-                    updateStages(newObject.order.id, newObject.stages)
+                    updateStages(newObject.order.id, newObject.stages, newObject.order_number)
                 }
 
                 else if(JSON.stringify(oldObject.date_of_delivery) !== JSON.stringify(newObject.date_of_delivery)) {
                     console.log(`New Data of delivery: ${newObject.date_of_delivery}`)
-                    updateDateOfDelivery(newObject.order.id, newObject.date_of_delivery)
+                    updateDateOfDelivery(newObject.order.id, newObject.date_of_delivery, newObject.order_number)
                 }
             }
 
