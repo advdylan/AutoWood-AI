@@ -58,6 +58,7 @@ class CatalogProductSerializer(serializers.ModelSerializer):
     paints = PaintsSerializer(read_only=True)
     category = CategorySerializer(read_only=True)
     collection = CollectionSerializer(read_only=True)
+    production_stages = ProductionStagesSerializer(many=True, read_only=True)
 
     
 
@@ -85,6 +86,7 @@ class CatalogProductSerializer(serializers.ModelSerializer):
             'elements_cost',
             'accesories_cost',
             'worktime_cost',
+            'production_stages'
          
         ]
 

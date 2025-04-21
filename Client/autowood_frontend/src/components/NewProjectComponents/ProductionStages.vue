@@ -1,6 +1,8 @@
 <template>
     <div class="card-content">
                             <div class="content">
+
+                              
                               <div class="columns">
                                 <div class="column is-half">
                                 <div class="box">
@@ -37,6 +39,7 @@
                                   
                                 </div>
                                 <div class="column is-half">
+                                  <div class="box"> 
                                   <label class="label is-size-6">Etapy</label>
                                     <table class="table is-bordered is-striped">
                                         <thead>
@@ -58,6 +61,7 @@
                                             </tr>
                                         </tbody>
                                     </table>
+                                  </div>
                                     
 
                                 </div>
@@ -67,6 +71,7 @@
                                 
 
                               </div>
+                              <div class="box">
                               <label class="label is-size-6">Etapy</label>
                                     <table class="table is-bordered is-striped">
                                         <thead>
@@ -86,6 +91,7 @@
                                             </tr>
                                         </tbody>
                                     </table>
+                                  </div>
 
                             </div>
                             </div>

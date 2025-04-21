@@ -68,6 +68,15 @@
           <section class="modal-card-body has-text-centered">
 
            <div class="card-content">
+            <div class="columns">
+                                <div class="column is-full">
+                                  <div class="box">
+                                    <div class="label is-size-5">Dodajesz do produkcji </div>
+                                    
+                                    DATA OF THE ORDER
+                                  </div>
+                                </div>
+                              </div>
             
             <div class="columns" >
                 <div class="column is-one-quarter">
@@ -189,6 +198,7 @@
 
 <script setup>
 import { useProjectsListStore } from '@/store/projectslist'
+import { useNewProjectStoreBeta } from '@/store/newproject'
 import { storeToRefs } from 'pinia'
 import { BaseTransitionPropsValidators, ref} from 'vue'
 import VueDatePicker from '@vuepic/vue-datepicker';
@@ -200,6 +210,8 @@ import ProductionStages from '@/components/NewProjectComponents/ProductionStages
 
 
 const ProjectsListStore = useProjectsListStore()
+const newProjectStore = useNewProjectStoreBeta()
+const {addProductionStages} = newProjectStore
 const { loadCatalog, loadDetailProject, addNewProjectToProduction, addCatalogProductToProduction } = ProjectsListStore
 const { projectlist, catalog_product_data, columns, chosenProductionSteps } = storeToRefs(ProjectsListStore)
 
@@ -219,6 +231,10 @@ const customer = ref({
         email: ''
 })
 
+const chosenProduct = ref(null)
+
+
+
 const propsList =  defineProps({
     searchModal: Boolean,
     default: false
@@ -230,6 +246,21 @@ loadCatalog()
 
 function setChosenProductId(id) {
     chosenProductId.value = id
+    getChosenProductData()
+}
+
+function getChosenProductData() {
+    if (chosenProductId) {
+        console.log(chosenProductId.value)
+        let order = catalog_product_data.value.find((order) => order.id = chosenProductId.value)
+        console.log(order.production_stages)
+        addProductionStages(order.production_stages)
+    }
+    else {
+        console.warn(`ChosenProductID of${chosenProductId.value} doesnt exist`)
+
+    }
+
 }
 
 const errors = ref([])

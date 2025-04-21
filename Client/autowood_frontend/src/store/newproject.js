@@ -94,6 +94,7 @@ export const useNewProjectStoreBeta = defineStore('newproject', {
   }, 
   actions: {
 
+    
     setData(data){
       this.category = data.category,
       this.worktimetype = data.worktimetype,
@@ -310,6 +311,14 @@ export const useNewProjectStoreBeta = defineStore('newproject', {
       this.deletedIDs.push(stage.id)
 
     },
+
+    addProductionStages(stages) {
+      for(let stage of stages) {
+          this.chosenProductionSteps.push(stage)
+          console.log(`Stage: ${stage}`)
+      }
+  },
+
 
 
     $reset() {

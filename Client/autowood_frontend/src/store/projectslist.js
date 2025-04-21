@@ -39,10 +39,13 @@ export const useProjectsListStore = defineStore('projectslist', {
                 wood: item.wood.name,
                 paints: item.paints.name,
                 elements: item.elements,
+                production_stages: item.production_stages,
                 nawigacja: 'nawigacja'
             })) : [];
 
         },
+
+
         
         columns() {         
             let columns = [
@@ -89,6 +92,8 @@ export const useProjectsListStore = defineStore('projectslist', {
 
     actions: {
 
+        
+
         setProjects(data) {
             this.projectlist = data
 
@@ -114,7 +119,8 @@ export const useProjectsListStore = defineStore('projectslist', {
         async loadCatalog() {
             await axios
             .get(`/api/v1/production/catalog-product`)
-            .then(response => {       
+            .then(response => {
+                console.log(response.data)       
                 this.catalog_product = response.data
             })
             .catch(error =>{
