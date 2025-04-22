@@ -313,6 +313,9 @@ export const useNewProjectStoreBeta = defineStore('newproject', {
     },
 
     addProductionStages(stages) {
+      //clear previous set steps
+      this.chosenProductionSteps = []
+
       for(let stage of stages) {
           this.chosenProductionSteps.push(stage)
           console.log(`Stage: ${stage}`)

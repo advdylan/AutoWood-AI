@@ -57,9 +57,8 @@
                             :enable-time-picker="false"
                             :menu-class="'datepicker-menu'"
                             :class="calculateDeliveryDate(order.date_ordered, order.date_of_delivery)"
-                            
+                            :clearable="false"
                         />
-
                     </div>
                     
 

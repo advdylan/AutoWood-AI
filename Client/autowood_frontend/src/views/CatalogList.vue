@@ -17,7 +17,7 @@
                             </router-link>
 
                             <b-button 
-                            @click="toggleAddToProduction = !toggleAddToProduction, setChosenProductId(props.row.id)"
+                            @click="toggleAddToProduction = !toggleAddToProduction, setChosenProduct(props.row)"
                              icon-right="add">{{ $t("production") }}
                             </b-button>
 
@@ -69,11 +69,55 @@
 
            <div class="card-content">
             <div class="columns">
-                                <div class="column is-full">
+                                <div class="column">
                                   <div class="box">
                                     <div class="label is-size-5">Dodajesz do produkcji </div>
-                                    
-                                    DATA OF THE ORDER
+                                    <nav class="level is-centered">
+                                        <div class="level-item has-text-centered">
+                                            <div class="level-item">
+                                                <div v-if="chosenProduct" class="section">
+                                                    <div class="label">ID</div>
+                                                    <div class="box">
+                                                        {{ chosenProduct.id }}
+                                                    </div>
+                                                </div>
+
+                                                <div v-if="chosenProduct" class="section">
+                                                    <div class="label">Name</div>
+                                                    <div class="box">
+                                                        {{ chosenProduct.name }}
+                                                    </div>
+                                                </div>
+
+                                                <div v-if="chosenProduct" class="section">
+                                                    <div class="label">Category</div>
+                                                    <div class="box">
+                                                        {{ chosenProduct.category }}
+                                                    </div>
+                                                </div>
+
+                                                <div v-if="chosenProduct" class="section">
+                                                    <div class="label">Collection</div>
+                                                    <div class="box">
+                                                        {{ chosenProduct.collection }}
+                                                    </div>
+                                                </div>
+
+                                                <div v-if="chosenProduct" class="section">
+                                                    <div class="label">Paints</div>
+                                                    <div class="box">
+                                                        {{ chosenProduct.paints }}
+                                                    </div>
+                                                </div>
+
+
+
+                                            </div>
+                                        </div>
+                                      
+                                      
+                                    </nav>
+
                                   </div>
                                 </div>
                               </div>
@@ -220,6 +264,7 @@ const { projectlist, catalog_product_data, columns,  } = storeToRefs(ProjectsLis
 const hoveredProjectId = ref(null)
 const toggleAddToProduction = ref(false)
 const chosenProductId = ref(null)
+const chosenProduct = ref(null)
 const dateOrdered = ref(null)
 const dateOfDelivery = ref(null)
 const notes = ref('')
@@ -232,7 +277,7 @@ const customer = ref({
         email: ''
 })
 
-const chosenProduct = ref(null)
+
 
 
 
@@ -245,8 +290,9 @@ const propsList =  defineProps({
 loadCatalog()
 
 
-function setChosenProductId(id) {
-    chosenProductId.value = id
+function setChosenProduct(row) {
+    chosenProductId.value = row.id
+    chosenProduct.value = row
     getChosenProductData()
 }
 

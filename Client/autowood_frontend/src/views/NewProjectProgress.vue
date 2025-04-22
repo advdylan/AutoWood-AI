@@ -419,14 +419,7 @@ if (!errors.value.length) {
     }
 
 
-  toast({
-          message: t('save_msg'),
-          duration: 5000,
-          position: "top-center",
-          type: 'is-success',
-          animate: { in: 'backInDown', out: 'backOutUp' },
-        })
-  //resetInput()
+  resetInput()
 } 
 
 else {
