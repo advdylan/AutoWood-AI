@@ -17,7 +17,7 @@
                             </router-link>
 
                             <b-button 
-                            @click="toggleAddToProduction = !toggleAddToProduction, setChosenProductId(props.row.id)"
+                            @click="toggleAddToProduction = !toggleAddToProduction, setChosenProduct(props.row)"
                              icon-right="add">{{ $t("production") }}
                             </b-button>
 
@@ -68,6 +68,54 @@
           <section class="modal-card-body has-text-centered">
 
            <div class="card-content">
+            <div class="columns">
+                <div class="column">
+                   
+                                  <div class="box">
+                                    <div class="label is-size-5">Dodajesz do produkcji </div>
+                                    <nav class="level is-centered">
+                                        <div class="level-item has-text-centered">
+                                            <div class="level-item">
+                                                <div v-if="chosenProduct" class="section">
+                                                    <div class="label">ID</div>
+                                                    <div class="box">
+                                                        {{ chosenProduct.id }}
+                                                    </div>
+                                                </div>
+
+                                                <div v-if="chosenProduct" class="section">
+                                                    <div class="label">Name</div>
+                                                    <div class="box">
+                                                        {{ chosenProduct.name }}
+                                                    </div>
+                                                </div>
+
+                                                <div v-if="chosenProduct" class="section">
+                                                    <div class="label">Category</div>
+                                                    <div class="box">
+                                                        {{ chosenProduct.category }}
+                                                    </div>
+                                                </div>
+
+                                                <div v-if="chosenProduct" class="section">
+                                                    <div class="label">Collection</div>
+                                                    <div class="box">
+                                                        {{ chosenProduct.collection }}
+                                                    </div>
+                                                </div>
+
+                                                <div v-if="chosenProduct" class="section">
+                                                    <div class="label">Paints</div>
+                                                    <div class="box">
+                                                        {{ chosenProduct.paints }}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </nav>
+                                  </div>
+                                </div>
+            </div>
             
             <div class="columns" >
                 <div class="column is-one-third">
@@ -192,6 +240,7 @@ const ProjectsListStore = useProjectsListStore()
 const { loadProjects, loadDetailProject, addNewProjectToProduction } = ProjectsListStore
 const { projectlist, data, columns } = storeToRefs(ProjectsListStore)
 const hoveredProjectId = ref(null)
+const chosenProduct = ref(null)
 const toggleAddToProduction = ref(false)
 const chosenProductId = ref(null)
 const dateOrdered = ref(null)
@@ -215,9 +264,13 @@ const propsList =  defineProps({
 loadProjects()
 
 
-function setChosenProductId(id) {
-    chosenProductId.value = id
+function setChosenProduct(row) {
+    chosenProductId.value = row.id
+    chosenProduct.value = row
+
 }
+
+
 
 const errors = ref([])
 

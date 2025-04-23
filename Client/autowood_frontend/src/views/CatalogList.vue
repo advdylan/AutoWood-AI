@@ -109,15 +109,9 @@
                                                         {{ chosenProduct.paints }}
                                                     </div>
                                                 </div>
-
-
-
                                             </div>
                                         </div>
-                                      
-                                      
                                     </nav>
-
                                   </div>
                                 </div>
                               </div>
@@ -212,14 +206,6 @@
                 
                 
             </div>
-
-
-
-
-
-
-
-
             <div class="box">
             <div class="buttons">
                     <div  class="button is-success" @click="parseOrderData(chosenProductId)"
@@ -244,6 +230,7 @@
 import { useProjectsListStore } from '@/store/projectslist'
 import { useNewProjectStoreBeta } from '@/store/newproject'
 import { storeToRefs } from 'pinia'
+import { useRouter } from 'vue-router'
 import { BaseTransitionPropsValidators, ref} from 'vue'
 import VueDatePicker from '@vuepic/vue-datepicker';
 import '@vuepic/vue-datepicker/dist/main.css'
@@ -252,7 +239,7 @@ import { toast } from 'bulma-toast';
 import ProductionStages from '@/components/NewProjectComponents/ProductionStages.vue';
 
 
-
+const router = useRouter()
 const ProjectsListStore = useProjectsListStore()
 const newProjectStore = useNewProjectStoreBeta()
 const {addProductionStages} = newProjectStore
@@ -337,13 +324,15 @@ function parseOrderData(id) {
     if (!errors.value.length) {
         addCatalogProductToProduction(data)
         toast({
-            message: 'Data sent',
+            message: `${data.contentType} of ID: ${data.id} Name: ${chosenProduct.value.name} added to `,
             duration: 5000,
             position: "top-center",
             type: 'is-success',
             animate: { in: 'backInDown', out: 'backOutUp' },
         })
         toggleAddToProduction.value = !toggleAddToProduction.value
+        router.push('/production')
+        
 
     }
 
