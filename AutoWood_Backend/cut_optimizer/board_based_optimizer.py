@@ -108,6 +108,7 @@ def cut_first_board(boards,board,format_width, format_height,initial_board_x, in
     new_board_start_y = board.start_y + format_height + SAW 
     remaining_X = board.X - format_width - SAW
     new_board_start_x = board.start_x + format_width + SAW
+
     #print(f"remaining_y: {remaining_Y},new_board_start_y: {new_board_start_y}\nremaining_X: {remaining_X},new_board_start_x: {new_board_start_x}")
 
     # CUT
@@ -155,7 +156,6 @@ def cut_next_board(boards,board,format_width, format_height,initial_board_x, ini
 
     if remaining_Y > 0 or remaining_Y < initial_board_y and remaining_Y > 40:
 
-        #maybe create a function that detects the board above? 
         #detect board above and dont create anything above!
 
         if board.start_x > 0:
@@ -178,16 +178,16 @@ def check_board_above(boards, board, tolerance=1):
         return None
 
     for board_above in boards:
-        # 1. Ensure the board is unoccupied
+        # Ensure the board is unoccupied
         if board_above.occupied:
             continue
 
-        # 2. Check vertical alignment (start_y difference + tolerance)
+        # Check vertical alignment (start_y difference + tolerance)
         vertical_gap = board_above.start_y - (board.start_y + board.Y + SAW)
         if abs(vertical_gap) > tolerance:  # Skip if gap is larger than tolerance
             continue
 
-        # 3. Ensure strict horizontal alignment (X positions must match)
+        # Ensure strict horizontal alignment (X positions must match)
         if board.start_x != board_above.start_x or board.X != board_above.X:
             continue
 

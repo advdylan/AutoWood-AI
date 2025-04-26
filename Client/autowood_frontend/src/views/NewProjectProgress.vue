@@ -91,7 +91,7 @@
       v-if="activeStep"
       :is="activeStep.component"
       :key="activeStep.name"
-
+      @next="handleNextButton(findActiveStep)"
     ></component>
     
   </div>

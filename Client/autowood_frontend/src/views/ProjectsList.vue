@@ -1,6 +1,9 @@
 <template>
     <div class="projects-list-container">
         <b-table :data="data">
+            <div class="box">
+            <div class="label has-text-centered is-size-4">{{ $t("projects_list")}}</div>
+            </div>
             <template v-for="column in columns" :key="column.id">
                 <b-table-column v-bind="column">
                     <template v-if="column.searchable && !column.numeric" #searchable="props">

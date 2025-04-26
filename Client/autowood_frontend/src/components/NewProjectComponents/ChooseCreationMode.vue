@@ -12,7 +12,7 @@
                     <div class="column is-half has-text-centered">
                         
                         <div class="button"
-                            
+                            @click="chooseCreationMode('newProductCatalogMode')"
                             :class="{
                                 'is-warning': creationMode === '' || creationMode === 'newProjectMode' ,
                                 'is-success': creationMode === 'newProductCatalogMode'
@@ -25,12 +25,12 @@
                                 {{ $t('choose_product_description')}}
                             </div>
                         </article>
-                        <div @click="setMode('newProductCatalogMode')"  class="button is-success">{{ $t('select') }}</div>
+                        <div @click="chooseCreationMode('newProductCatalogMode')"  class="button is-success">{{ $t('select') }}</div>
                      
                     </div>
                     <div class="column is-half has-text-centered">
                         <div class="button "
-                            
+                            @click="chooseCreationMode('newProjectMode')"     
                             :class="{
                                 'is-warning': creationMode === '' || creationMode === 'newProductCatalogMode',
                                 'is-success': creationMode === 'newProjectMode'
@@ -42,7 +42,7 @@
                                 {{$t('choose_estimate_description')}}
                             </div>
                         </article>
-                        <div @click="setMode('newProjectMode')"  class="button is-success">{{ $t('select') }}</div>
+                        <div @click="chooseCreationMode('newProjectMode')"   class="button is-success">{{ $t('select') }}</div>
                     </div>
                 </div>
             </div>          
@@ -56,10 +56,8 @@
 <script setup>
 import { useNewProjectStoreBeta } from '@/store/newproject'
 import { storeToRefs } from 'pinia'
-import { ref, watch, computed, watchEffect, onUnmounted } from 'vue'
-import axios from 'axios'
+import { onUnmounted } from 'vue'
 import { toast } from 'bulma-toast'
-
 
 
 const newProjectStore = useNewProjectStoreBeta()
@@ -67,10 +65,20 @@ const newProjectStore = useNewProjectStoreBeta()
 const {setMode} = newProjectStore
 const {creationMode} = storeToRefs(newProjectStore)
 
+const emit = defineEmits(['next'])
 
 const props = defineProps({
     customerProps: Object,
 })
+
+function triggerNext() {
+    emit('next')
+}
+
+function chooseCreationMode(mode) {
+    setMode(mode)
+    triggerNext()
+}
 
 onUnmounted(() => {
 
@@ -81,10 +89,11 @@ onUnmounted(() => {
     else if(creationMode.value === 'newProjectMode') {
         msg = "Wybrano Nową Wycenę"
     }
+
     else {
-        console.log(creationMode.value)
-        msg = 'ERROR'
+        msg = "No msg data"
     }
+
 
     toast({
               message: msg,
