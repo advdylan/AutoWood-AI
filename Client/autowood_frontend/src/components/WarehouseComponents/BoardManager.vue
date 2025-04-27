@@ -122,10 +122,12 @@ import { storeToRefs } from 'pinia';
 import { toast } from 'bulma-toast';
 
 const store = useNewProjectStoreBeta()
-const { boards,wood, warehouseBoards,filteredBoards, highlightedRows } = storeToRefs(store)
+const { boards,wood, warehouseBoards,filteredBoards, highlightedRows} = storeToRefs(store)
 const {addWarehouseBoard} = store
 const errors = ref([])
 const tableKey = ref(0)
+const previousWarehouseBoards = ref([])
+const timeoutIDs = ref(null)
 
 const newBoard = ref({
           board: {
@@ -206,6 +208,45 @@ toast({
 }
 }
 
+
+function saveWarehouseBoard(boards) {
+
+ 
+  let timeoutID = setTimeout(function() {
+    console.log(`Update of warehouse fired. Value :${JSON.stringify(boards)}`)
+  }, 3000)
+
+  if (timeoutIDs.value === timeoutID) {
+    clearTimeout(timeoutID)
+  }
+  timeoutIDs.value = timeoutID
+}
+
+watch(warehouseBoards, (newList) => {
+  console.log(`Newlist detected in warehouseboards, calling saveWarehouseBoards`)
+
+  if (!previousWarehouseBoards.value.length) {
+    console.log("First fire, do not save")
+  }
+  else {
+    for (let newObject of newList) {
+      let oldObject = previousWarehouseBoards.value.find(board => board.id === newObject.id)
+
+      if (oldObject) {
+        if (oldObject.quantity !== newObject.quantity) {
+        console.log(`Changes detected in quantity of oldObject: ${oldObject.name} ${oldObject.quantity} to newObject${newObject.name} ${newObject.quantity}`)
+        saveWarehouseBoard(newList)
+      }
+      }
+    }
+  }
+
+  previousWarehouseBoards.value = JSON.parse(JSON.stringify(newList))
+
+
+ 
+}, {deep: true})
+
 </script>
 <style lang="css" scoped>
 
@@ -213,6 +254,7 @@ toast({
   background-color: rgb(158, 225, 103);
 
 }
+
 
 
 </style>

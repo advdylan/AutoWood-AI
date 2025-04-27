@@ -113,7 +113,7 @@ const newProjectStore = useNewProjectStoreBeta()
 const {elements,boards, warehouseBoards, filteredBoards, chosenWoodType, highlightedRows, chosenThicknesses} = storeToRefs(newProjectStore)
 const {loadBoards, highlightRow} = newProjectStore
 
-loadBoards()
+
 
 
 const ticks= computed(() => {
@@ -239,7 +239,13 @@ watch(
 
   
 )
+
+onMounted(() => {
+  loadBoards()
+})
 </script>
+
+
 <style lang="css" scoped>
 svg {
   opacity: 0;

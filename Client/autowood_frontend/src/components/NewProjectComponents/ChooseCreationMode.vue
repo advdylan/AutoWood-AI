@@ -92,6 +92,7 @@ onUnmounted(() => {
 
     else {
         msg = "No msg data"
+        return
     }
 
 
