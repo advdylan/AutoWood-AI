@@ -368,7 +368,7 @@ watch(productionList, (newList) => {
     } else {
         for (let newObject of newList) {
             let oldObject = previousProductionList.value.find(o => o.order_number === newObject.order_number);
-            
+
             if (oldObject) {
                 //console.log(`OldObject notes: ${oldObject.notes}`);
                 //console.log(`NewObject notes: ${newObject.notes}`);
@@ -378,7 +378,6 @@ watch(productionList, (newList) => {
                     console.log(`NewObject order number: ${newObject.order_number}`)
                     let note = {
                         "notes" : newObject.notes
-
                     }
                     updateNotes(newObject.order.id, note, newObject.order_number)
                 }
@@ -389,7 +388,7 @@ watch(productionList, (newList) => {
                 }
 
                 else if(JSON.stringify(oldObject.date_of_delivery) !== JSON.stringify(newObject.date_of_delivery)) {
-                    console.log(`New Data of delivery: ${newObject.date_of_delivery}`)
+                    //console.log(`New Data of delivery: ${newObject.date_of_delivery}`)
                     updateDateOfDelivery(newObject.order.id, newObject.date_of_delivery, newObject.order_number)
                 }
             }
@@ -461,9 +460,6 @@ onMounted(() => {
 
    
 }
-
-
-
 
 .custom-checkbox {
     position: relative;

@@ -40,8 +40,6 @@ export const useNewProjectStoreBeta = defineStore('newproject', {
     productionSteps: [],
     chosenProductionSteps: [],
     deletedIDs: []
-    
-
   }),
 
   getters: {
@@ -354,18 +352,5 @@ export const useNewProjectStoreBeta = defineStore('newproject', {
       this.selectedPaint = null
       this.selectedFile = null
     },
-
-   
-
-
-
-    
-
-
-
-    
-
-    
-
   }
 })

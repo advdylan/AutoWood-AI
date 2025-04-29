@@ -111,7 +111,7 @@
                 fill="black"
                 style="font-size: 30px;"
                 text-anchor="middle"        
-                >{{ displayDimensionX }}  </text></transition>
+                >{{ displayDimensionX.toFixed(1) }}  </text></transition>
 
                 <transition
                   enter-active-class="animate__animated animate__fadeIn"
@@ -151,7 +151,7 @@
                 style="font-size: 30px;"
                 text-anchor="middle"
                 transform="rotate(-90)"      
-                >{{ displayDimensionY }}  </text></transition>
+                >{{ displayDimensionY.toFixed(1) }}  </text></transition>
 
                 <transition
                   enter-active-class="animate__animated animate__fadeIn"
