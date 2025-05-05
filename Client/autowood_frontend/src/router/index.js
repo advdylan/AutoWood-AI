@@ -10,6 +10,7 @@ import CutOptimizer from '@/views/CutOptimizer.vue'
 import Warehouse from '@/views/Warehouse.vue'
 import Production from '@/views/Production.vue'
 import CatalogList from '@/views/CatalogList.vue'
+import CatalogProductDetail from '@/views/CatalogProductDetail.vue'
 
 
 const routes = [
@@ -35,6 +36,12 @@ const routes = [
     path: '/new-project/:id',
     name: 'NewProjectDetail',
     component: NewProjectDetail
+  },
+
+  {
+    path: '/catalog-roduct/:id',
+    name: 'CatalogProductDetail',
+    component: CatalogProductDetail
   },
 
   {

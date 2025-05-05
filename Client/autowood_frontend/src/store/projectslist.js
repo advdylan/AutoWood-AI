@@ -129,14 +129,22 @@ export const useProjectsListStore = defineStore('projectslist', {
         },
 
         async loadDetailProject(id) {
+        
             await axios
             .get(`/api/v1/newproject/${id}/`)
             .then(response => {
                 this.setDetaiLProject(response.data)
                 console.log(`Project DETAIL ID:${id} \n ${response.data}`, response.data)
             })
-            .catch(error => {
-                console.log(error)
+
+        },
+
+        async loadCatalogProductDetail(id) {
+            await axios
+            .get(`/api/v1/newproject/${id}/`)
+            .then(response => {
+                this.setDetaiLProject(response.data)
+                console.log(`Project DETAIL ID:${id} \n ${response.data}`, response.data)
             })
 
         },

@@ -11,6 +11,7 @@ from product.serializers import *
 from production.serializers import *
 from rest_framework import authentication, generics, mixins, permissions, status
 from rest_framework.decorators import api_view, parser_classes
+from django.shortcuts import get_object_or_404
 from rest_framework.parsers import MultiPartParser, FormParser
 from product.views import get_or_create_model_instance, is_image
 from django.http import JsonResponse, HttpResponse, FileResponse
@@ -51,6 +52,19 @@ class ProducttionStepsListCreateAPIView(
 
 production_stages_create_view = ProducttionStepsListCreateAPIView.as_view()
 
+
+class CatalogProductDetailAPIView(
+    generics.RetrieveUpdateDestroyAPIView
+    ):
+
+    queryset = CatalogProduct.objects.all()
+    lookup_field = 'pk'
+    serializer_class = CatalogProductSerializer
+
+    
+
+    
+catalog_product_detail_view= CatalogProductDetailAPIView.as_view()
 
 @api_view(['POST'])
 @parser_classes([MultiPartParser, FormParser])
