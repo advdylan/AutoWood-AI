@@ -76,6 +76,10 @@
             </div>
 
             <div class="column is-one-third">
+              <slot></slot>
+            </div>
+
+            <div class="column is-one-third">
               <div class="card">
               <header class="card-header">
                       <p class="card-header-title is-centered is-size-4">{{$t("basic_info")}}

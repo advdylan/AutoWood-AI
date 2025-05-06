@@ -1,14 +1,63 @@
 <template>
+  
+
   <ClientData v-if="detail_project"
   :customer-props = "detail_project.customer"
   :documents-props = "detail_project.document"
   :detail-project = "detail_project"
   @update:detailProject="detail_project = $event"
-  >
+  > 
+
+  <div class="card">
+            <div class="card-header">
+              <p class="card-header-title is-centered is-size-4">{{ $t('navigation') }}</p>
+            </div>
+              <div class="card-content">
+
+                <div class="buttons-custom">
+
+                  <b-button @click="submitUpdateForm" type="is-success" >
+                    <span class="button-content">
+                      {{ $t('save') }}
+                    <i class="fa-solid fa-floppy-disk"></i>
+
+
+                    </span>
+                    
+                  </b-button>
+
+                  <b-button type="is-danger" >
+                    {{ $t('delete') }}
+                    <i class="fa-solid fa-trash"></i>
+                  </b-button>
+
+                  <b-button @click="downloadPriceReport(id)" 
+                  class="button is-info">
+                  {{$t("download_pricing_report")}} 
+                  <i class="fa-regular fa-file">&nbsp;</i>
+                  </b-button>
+
+
+                  <b-button 
+                  @click="downloadElementsTable(id)"  
+                  class="button is-info">
+                  {{$t("download_elements_list")}} 
+                  <i class="fa-regular fa-file">&nbsp;</i>
+                  </b-button>
+
+                  <b-button @click="showEditModal = true" data-target="newelement-modal" 
+                  class="button is-dark">
+                  {{$t("edit_margin")}} 
+                  <i class="fa-regular fa-pen-to-square">&nbsp;</i>
+                  </b-button>
+
+                  </div>   
+            </div>           
+          </div>
+  
   </ClientData>
   
   
-
   <div class="card">
     <header class="card-header">
       <p v-if="detail_project" class="card-header-title is-centered is-size-4">{{ $t('estimate_order') }} "{{ detail_project.name}}"</p>
@@ -17,27 +66,7 @@
       <div class="columns">
 
         <div class="column is-half">
-          <div class="card">
-            <div class="card-header">
-              <p class="card-header-title is-size-5">{{ $t('navigation') }}</p>
-            </div>
-              <div class="card-content">
-
-                <div class="buttons">
-                  <b-button @click="submitUpdateForm" type="is-success" >
-                    <i class="fa-solid fa-floppy-disk"></i>
-                    {{ $t('save') }}
-                  </b-button>
-
-                  <b-button type="is-danger" >
-                    <i class="fa-solid fa-trash"></i>
-                    {{ $t('delete') }}                  </b-button>
-                  <b-button @click="downloadPriceReport(id)" class="button is-info"><i class="fa-regular fa-file">&nbsp;</i>{{$t("download_pricing_report")}}</b-button>
-                  <b-button @click="downloadElementsTable(id)"  class="button is-info"><i class="fa-regular fa-file">&nbsp;</i>{{$t("download_elements_list")}}</b-button>
-                  <button @click="showEditModal = true" data-target="newelement-modal" class="button is-dark"><i class="fa-regular fa-pen-to-square">&nbsp;</i>{{$t("edit_margin")}}</button>
-                  </div>   
-            </div>           
-          </div>
+          
         </div>
         
 
@@ -138,6 +167,7 @@
     </div>
 </div>
 </div>
+  
 
 
 
@@ -403,8 +433,33 @@ const submitForm = () => {
 
 </script>
 
+<style lang="css" scoped>
+.buttons-custom {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  align-items: flex-start;
+}
 
-  
-  
-  
+/* Force all buttons to half width */
+.buttons-custom > .button,
+.buttons-custom > b-button,
+.buttons-custom >>> .button {
+  width: 100%;
+}
+
+/* Layout text and icon across the whole button */
+::v-deep .button-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+/* Optional: make icon stay at the far right if text wraps */
+.button-content i {
+  margin-left: 1rem;
+}
+
+</style>
   
