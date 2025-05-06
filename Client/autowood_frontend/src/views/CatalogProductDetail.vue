@@ -310,7 +310,7 @@
   const summaryStore = useSummaryStore()
 
 
-  const { loadDetailProject, updateProject, addElement, downloadElementsTable, downloadPriceReport, } = ProjectsListStore
+  const {updateProject, addElement, downloadElementsTable, downloadPriceReport, loadCatalogProductDetail } = ProjectsListStore
   const {elementsCost, accesoriesCost, worktimeCost , elementsMargin, accesoriesMargin, additionalMargin,summaryCostsWithMargin,summaryCosts} = storeToRefs(summaryStore)
 
   const {loadData, $reset } = elementStore
@@ -323,7 +323,7 @@
   async function loadAndSetProjectDetails(id) {
   try {
 
-    await loadDetailProject(id);
+    await loadCatalogProductDetail(id);
     if (!detail_project.value) return;
     
     projectName.value = detail_project.value.name

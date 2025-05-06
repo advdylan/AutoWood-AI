@@ -16,7 +16,7 @@
                     <template v-slot="props">
                         
                         <template v-if="column.field === 'nawigacja'">
-                            <router-link :to="{ name: 'NewProjectDetail', params: { id: props.row.id } }">
+                            <router-link :to="{ name: 'CatalogProductDetail', params: { id: props.row.id } }">
                                 <b-button icon-right="circle-info">{{$t("details")}}</b-button>                               
                             </router-link>
 

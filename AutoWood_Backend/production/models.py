@@ -105,7 +105,6 @@ class OrderProductionStage(models.Model):
     
 
         
-    
 
 class CatalogAccessoryDetail(models.Model):
     catalog_product = models.ForeignKey(CatalogProduct, on_delete=models.CASCADE, related_name="catalog_accessories")

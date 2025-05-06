@@ -10,6 +10,7 @@ urlpatterns = [
      path('save-product', views.save_catalog_product, name="save-product"),
      path('production-list/', views.production_list_create_view, name="production-list"),
      path('catalog-product/', views.catalog_product_list_create_view, name="catalog-product"),
+     path('catalog-product/<int:pk>/', views.catalog_product_detail_view, name="catalog_product_detail"),
      path('update', views.update_order, name="update_order"),
      path('get-ean', views.generate_ean, name="generate_ean"),
      path('add-newproject-to-production/', views.add_newproject_to_production, name="add_newproject_to_production"),

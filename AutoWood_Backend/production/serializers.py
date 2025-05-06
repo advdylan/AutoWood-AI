@@ -18,11 +18,20 @@ class WorktimeSerializer(serializers.ModelSerializer):
         model = CatalogWorktime
         fields = '__all__'
 
-class AccesoryTypeSerializer(serializers.ModelSerializer):
+class AccessoryTypeSerializer(serializers.ModelSerializer):
 
-    accesory = AccessoryTypeSerializer(read_only=True)
-    name = AccessoryTypeSerializer(read_only = True, many = True)
+    type_choices = serializers.SerializerMethodField()
+    class Meta:
+        model = AccessoryType
+        fields = '__all__'
 
+    def get_type_choices(self, obj):
+        return AccessoryType.choices
+
+class AccessorySerializer(serializers.ModelSerializer):
+
+    type = AccessoryTypeSerializer(read_only = True)
+    type_id = serializers.PrimaryKeyRelatedField(queryset=AccessoryType.objects.all(),source='type', write_only=True)
     class Meta:
         model = CatalogAccessoryDetail
         fields = '__all__'
@@ -52,7 +61,7 @@ class OrderProductionStageSerializer(serializers.ModelSerializer):
 class CatalogProductSerializer(serializers.ModelSerializer):
 
     worktimes = WorktimeSerializer(many=True, read_only=True, source = 'catalog_worktime')
-    accessories = AccesoryTypeSerializer(many=True, read_only=True, source = 'catalog_accessories')
+    accessories = AccessorySerializer(many=True, read_only=True, source = 'catalog_accessories')
     elements = CatalogElementSerializer(many=True,read_only = True, source = 'catalog_elements')
     wood = WoodSerializer( read_only=True)
     paints = PaintsSerializer(read_only=True)

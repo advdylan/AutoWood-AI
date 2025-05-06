@@ -39,7 +39,7 @@ const routes = [
   },
 
   {
-    path: '/catalog-roduct/:id',
+    path: '/catalog-product/:id',
     name: 'CatalogProductDetail',
     component: CatalogProductDetail
   },
