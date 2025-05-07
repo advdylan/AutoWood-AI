@@ -75,11 +75,11 @@
 
             </div>
 
-            <div class="column is-one-third">
+            <div class="column is-one-fifth is-2">
               <slot></slot>
             </div>
 
-            <div class="column is-one-third">
+            <div class="column">
               <div class="card">
               <header class="card-header">
                       <p class="card-header-title is-centered is-size-4">{{$t("basic_info")}}

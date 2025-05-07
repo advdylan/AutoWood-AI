@@ -1,6 +1,5 @@
 <template>
-  
-
+ 
   <ClientData v-if="detail_project"
   :customer-props = "detail_project.customer"
   :documents-props = "detail_project.document"
@@ -16,40 +15,54 @@
 
                 <div class="buttons-custom">
 
-                  <b-button @click="submitUpdateForm" type="is-success" >
+                  <button @click="submitUpdateForm" class="button fancy-split" >
                     <span class="button-content">
                       {{ $t('save') }}
                     <i class="fa-solid fa-floppy-disk"></i>
+                    </span>
+                  </button>
 
-
+                  <button class="button fancy-split" >
+                    <span class="button-content">
+                      {{ $t('delete') }}
+                    <i class="fa-solid fa-trash"></i>
                     </span>
                     
-                  </b-button>
+                  </button>
 
-                  <b-button type="is-danger" >
-                    {{ $t('delete') }}
-                    <i class="fa-solid fa-trash"></i>
-                  </b-button>
-
-                  <b-button @click="downloadPriceReport(id)" 
-                  class="button is-info">
+                  <button @click="downloadPriceReport(id)" 
+                  class="button fancy-split">
+                  <span class="button-content">
                   {{$t("download_pricing_report")}} 
-                  <i class="fa-regular fa-file">&nbsp;</i>
-                  </b-button>
+                  <i class="fa-regular fa-file"></i>
+                  </span>
+                  </button>
 
 
-                  <b-button 
+                  <button 
                   @click="downloadElementsTable(id)"  
-                  class="button is-info">
+                  class="button fancy-split">
+                  <span class="button-content">
                   {{$t("download_elements_list")}} 
-                  <i class="fa-regular fa-file">&nbsp;</i>
-                  </b-button>
+                  <i class="fa-regular fa-file"></i>
+                  </span>
+                  </button>
 
-                  <b-button @click="showEditModal = true" data-target="newelement-modal" 
-                  class="button is-dark">
+                  <button @click="showEditModal = true" data-target="newelement-modal" 
+                  class="button fancy-split">
+                  <span class="button-content">
                   {{$t("edit_margin")}} 
-                  <i class="fa-regular fa-pen-to-square">&nbsp;</i>
-                  </b-button>
+                  <i class="fa-regular fa-pen-to-square"></i>
+                  </span>
+                  </button>
+
+                  <SplitButton 
+                    label="Test"
+                    iconClass="fa-solid fa-trash"
+                    :colorA="'#ff3860'"
+                    :colorB="'#ff6f91'"
+                    @click="handleDelete"
+                  />
 
                   </div>   
             </div>           
@@ -66,31 +79,6 @@
       <div class="columns">
 
         <div class="column is-half">
-          
-        </div>
-        
-
-        <div class="column">
-          <div class="card">
-            <header class="card-header" @click="isCollapsedelements = !isCollapsedelements">
-              <p class="card-header-title is-size-5">
-                {{ $t('elements_list') }}
-              </p>
-            </header>
-          <div class="card-content">
-          <ElementsTable v-if="detail_project"  :elements="detail_project.elements"></ElementsTable>
-          </div>
-
-          <div class="buttons">
-            <button class="button is-dark" @click="showElementModal = true" data-target="newelement-modal"><i class="fa-regular fa-pen-to-square">&nbsp;</i>Edytuj tabelę</button>
-        
-          </div>
-          
-          </div>
-
-
-
-          <hr class="dashed">
 
           <div class="card">
             <header class="card-header">
@@ -98,7 +86,16 @@
                 {{$t("accessories")}}
               </p>
             </header>
-
+            <div class="card-content">
+            <section  class="hero is-primary is-small">
+              <div class="hero-body">
+                <div class="columns">
+                  <div class="column is-half is-centered">
+                    <p class="title">{{ $t("accessories") }}</p>
+                  </div>
+                </div>
+              </div>
+            </section>
 
             
           <div class="card-content">
@@ -132,10 +129,38 @@
               </tbody>
               
             </table>
+          </div>
             <button @click="showAccModal = true" data-target="newelement-modal" class="button is-dark"><i class="fa-regular fa-pen-to-square">&nbsp;</i>{{$t("edit_accessories")}}</button>
         </div>
       </div>
       </div>
+          
+        </div>
+        
+
+        <div class="column">
+          <div class="card">
+            <header class="card-header" @click="isCollapsedelements = !isCollapsedelements">
+              <p class="card-header-title is-size-5">
+                {{ $t('elements_list') }}
+              </p>
+            </header>
+          <div class="card-content">
+          <ElementsTable v-if="detail_project"  :elements="detail_project.elements"></ElementsTable>
+          </div>
+
+          <div class="buttons">
+            <button class="button is-dark" @click="showElementModal = true" data-target="newelement-modal"><i class="fa-regular fa-pen-to-square">&nbsp;</i>Edytuj tabelę</button>
+        
+          </div>
+          
+          </div>
+
+
+
+          <hr class="dashed">
+
+          
 
       
 
@@ -311,6 +336,7 @@
   import AccesoryProgressTable from '@/components/NewProjectComponents/AccesoryProgressTable.vue'
   import ClientData from '@/components/NewProjectComponents/ClientData.vue'
   import Summary from '@/components/Summary.vue'
+  import SplitButton from '@/components/MicroComponents/SplitButton.vue'
 
   const projectName = ref()
   const selectedWood = ref()
@@ -441,25 +467,53 @@ const submitForm = () => {
   align-items: flex-start;
 }
 
-/* Force all buttons to half width */
-.buttons-custom > .button,
-.buttons-custom > b-button,
-.buttons-custom >>> .button {
-  width: 100%;
+/* Base style for all buttons */
+.button.fancy-split {
+  position: relative;
+  border: none;
+  border-radius: 8px;
+  padding: 0 1rem;
+  color: white;
+  font-weight: bold;
+  font-size: 1rem;
+  cursor: pointer;
+  background: linear-gradient(
+    to top left,
+    rgb(96,138,138) 0%,       /* green (Bulma 'success') */
+    hsl(0, 0%, 30%) 65.5%,
+    hsl(0, 0%, 30%) 25.5%,    /* blue (Bulma 'info') */
+    hsl(0, 0%, 30%)
+  );
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-/* Layout text and icon across the whole button */
-::v-deep .button-content {
+/* Make text and icon span full width */
+.button-content {
   display: flex;
   justify-content: space-between;
   align-items: center;
   width: 100%;
 }
-
-/* Optional: make icon stay at the far right if text wraps */
+.button {
+  width: 100%; 
+}
+/* Add spacing for the icon */
 .button-content i {
   margin-left: 1rem;
 }
+.fa-solid fa-trash {
+  margin: 0;
+}
 
+/* Optional hover effect */
+
+
+.hero.is-primary {
+  background-color:rgb(141, 188, 164);
+  border-radius: 5px;
+}
 </style>
   
