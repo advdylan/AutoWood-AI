@@ -15,55 +15,24 @@
 
                 <div class="buttons-custom">
 
-                  <button @click="submitUpdateForm" class="button fancy-split" >
-                    <span class="button-content">
-                      {{ $t('save') }}
-                    <i class="fa-solid fa-floppy-disk"></i>
-                    </span>
-                  </button>
 
-                  <button class="button fancy-split" >
-                    <span class="button-content">
-                      {{ $t('delete') }}
-                    <i class="fa-solid fa-trash"></i>
-                    </span>
-                    
-                  </button>
+                  <SplitButton 
+                    label="Save"
+                    iconClass="fa-solid fa-floppy-disk"
+                    :colorA="'#4d4d4d'"
+                    :colorB="'#61ad6e'"
+                    @click="submitUpdateForm()"
+                  />
 
-                  <button @click="downloadPriceReport(id)" 
-                  class="button fancy-split">
-                  <span class="button-content">
-                  {{$t("download_pricing_report")}} 
-                  <i class="fa-regular fa-file"></i>
-                  </span>
-                  </button>
-
-
-                  <button 
-                  @click="downloadElementsTable(id)"  
-                  class="button fancy-split">
-                  <span class="button-content">
-                  {{$t("download_elements_list")}} 
-                  <i class="fa-regular fa-file"></i>
-                  </span>
-                  </button>
-
-                  <button @click="showEditModal = true" data-target="newelement-modal" 
-                  class="button fancy-split">
-                  <span class="button-content">
-                  {{$t("edit_margin")}} 
-                  <i class="fa-regular fa-pen-to-square"></i>
-                  </span>
-                  </button>
+                  
 
                   <SplitButton 
                     label="Test"
                     iconClass="fa-solid fa-trash"
                     :colorA="'#ff3860'"
                     :colorB="'#ff6f91'"
-                    @click="handleDelete"
+                    @click="downloadPriceReport(id)"
                   />
-
                   </div>   
             </div>           
           </div>
@@ -468,27 +437,7 @@ const submitForm = () => {
 }
 
 /* Base style for all buttons */
-.button.fancy-split {
-  position: relative;
-  border: none;
-  border-radius: 8px;
-  padding: 0 1rem;
-  color: white;
-  font-weight: bold;
-  font-size: 1rem;
-  cursor: pointer;
-  background: linear-gradient(
-    to top left,
-    rgb(96,138,138) 0%,       /* green (Bulma 'success') */
-    hsl(0, 0%, 30%) 65.5%,
-    hsl(0, 0%, 30%) 25.5%,    /* blue (Bulma 'info') */
-    hsl(0, 0%, 30%)
-  );
-  overflow: hidden;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
+
 
 /* Make text and icon span full width */
 .button-content {

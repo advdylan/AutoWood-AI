@@ -1,8 +1,10 @@
 <template>
-    <button class="button fancy-split">
+    <button 
+    @click="emit('click')"
+    class="button fancy-split">
         <span class="button-content">
             {{ label }}
-            <i class="fa-solid fa-trash"></i>
+            <i :class="iconClass"></i>
         </span>
     </button>
 
@@ -10,7 +12,7 @@
 
 <script setup>
 
-
+const emit = defineEmits(['click']);
 
 defineProps({
     label: String,
@@ -33,11 +35,11 @@ defineProps({
   font-size: 1rem;
   cursor: pointer;
   background: linear-gradient(
-    to top left,
-    v-bind(colorA) 0%,       /* green (Bulma 'success') */
-    v-bind(colorB) 65.5%,
-    v-bind(colorB) 25.5%,    /* blue (Bulma 'info') */
-    v-bind(colorB)
+  -60deg,
+    v-bind(colorB) 0%,
+    v-bind(colorB) 20%,
+    v-bind(colorA) 21%,
+    v-bind(colorA) 100%
   );
   overflow: hidden;
   display: flex;
