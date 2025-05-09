@@ -69,11 +69,6 @@
                 </div>
             </div>
         </div>
-        <button @click="saveReminder = !saveReminder;" class="button">
-            <i class="fa-solid fa-plus"></i>
-            &nbsp;
-            save reminder check {{  $t('save') }}
-        </button>
     </div>
 
     <div class="column">

@@ -61,6 +61,101 @@ class CatalogProductDetailAPIView(
     lookup_field = 'pk'
     serializer_class = CatalogProductSerializer
 
+    def update(self, request, *args, **kwargs):
+        data = json.loads(request.body)
+        wood = get_or_create_model_instance(Wood, data["wood"])
+        collection = get_or_create_model_instance(Collection, data["collection"])    
+        paint = get_or_create_model_instance(Paints, data["paints"])
+        category_name = get_or_create_model_instance(Category, data["category"])
+
+        elements_margin = data["elements_margin"]
+        accesories_margin = data["accesories_margin"]
+        additional_margin = data["additional_margin"]
+        summary_with_margin = data["summary_with_margin"]
+        summary_without_margin=data["summary_without_margin"]
+        percent_elements_margin = data["percent_elements_margin"]
+        percent_accesories_margin = data["percent_accesories_margin"]
+        percent_additional_margin = data["percent_additional_margin"]
+
+        catalog_product = get_object_or_404(CatalogProduct, pk=data["id"])
+
+        catalog_product.name = data["name"]
+        catalog_product.category = category_name
+        catalog_product.paints = paint
+        catalog_product.wood = wood
+        catalog_product.collection = collection
+        catalog_product.percent_elements_margin = percent_elements_margin
+        catalog_product.percent_accesories_margin = percent_accesories_margin
+        catalog_product.percent_additional_margin = percent_additional_margin
+        catalog_product.elements_margin = elements_margin
+        catalog_product.accesories_margin = accesories_margin
+        catalog_product.additional_margin = additional_margin
+        catalog_product.summary_with_margin = summary_with_margin
+        catalog_product.summary_without_margin = summary_without_margin
+        catalog_product.elements_cost = data["elements_cost"]
+        catalog_product.accesories_cost = data["accesories_cost"]
+        catalog_product.worktime_cost = data["worktime_cost"]
+
+        elements_data = data["elements"]
+
+        catalog_product.new_elements.clear()
+        
+        for element_data in elements_data:
+            #print(element_data["element"]["wood_type"])
+            wood_type = get_or_create_model_instance(Wood, element_data["element"]["wood_type"]["name"])
+
+
+            element = Element(
+                name=element_data["element"]["name"],
+                dimX=element_data["element"]["dimX"],
+                dimY=element_data["element"]["dimY"],
+                dimZ=element_data["element"]["dimZ"],
+                wood_type = wood_type,              
+            )
+            element.set_price()
+            element.save()
+
+            #print(element_data["quantity"])
+            catalog_product_element = CatalogElement(
+                catalog_product = catalog_product,
+                element = element,
+                quantity = element_data["quantity"]
+                
+            )
+
+        
+
+            catalog_product_element.save()
+            catalog_product.new_elements.add(element)
+
+
+        accesories_data = data["accessories"]
+        catalog_product.accessories.clear()
+        print(f" Accesories data: {accesories_data}")
+        #print(data["type"]["name"])
+
+        for accesory in accesories_data:
+            accesorytype = get_or_create_model_instance(AccessoryType, accesory["type"]["name"])
+            quantity = accesory["quantity"]
+
+            acc = CatalogAccessoryDetail.objects.create(
+                catalog_product = catalog_product,
+                type = accesorytype,
+                quantity = quantity
+            )
+            acc.save()
+
+            print(acc)
+            print(accesorytype)
+            
+
+            catalog_product.accessories.add(accesorytype)
+
+        catalog_product.save()
+        
+        return JsonResponse({'message': 'Data updated'}, status=201)
+
+
     
 
     

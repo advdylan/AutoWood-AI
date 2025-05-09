@@ -5,6 +5,52 @@
   :detail-project = "detail_project"
   @update:detailProject="detail_project = $event"
   >
+
+  <div class="card">
+            <div class="card-header">
+              <p class="card-header-title is-centered is-size-4">{{ $t('navigation') }}</p>
+            </div>
+              <div class="card-content">
+                
+                
+                <div class="buttons-custom">
+
+
+                  <SplitButton 
+                    :label="t('save')"
+                    iconClass="fa-solid fa-floppy-disk"
+                    :colorA="'#4d4d4d'"
+                    :colorB="'#61ad6e'"
+                    @click="submitUpdateForm()"
+                  />
+                  
+                  <SplitButton 
+                    :label="t('download_pricing_report')"
+                    iconClass="fa-solid fa-file"
+                    :colorA="'#4d4d4d'"
+                    :colorB="'#3474eb'"
+                    @click="downloadPriceReport(id)"
+                  />
+
+                  <SplitButton 
+                    :label="t('download_elements_list')"
+                    iconClass="fa-solid fa-file"
+                    :colorA="'#4d4d4d'"
+                    :colorB="'#3474eb'"
+                    @click="downloadElementsTable(id)"
+                  />
+                  
+                  <SplitButton 
+                    :label="t('delete')"
+                    iconClass="fa-solid fa-trash"
+                    :colorA="'#4d4d4d'"
+                    :colorB="'#f03a5f'"
+                    @click="downloadPriceReport(id)"
+                  />
+                </div>
+  
+            </div>           
+          </div>
   </ClientData>
   
   
@@ -17,51 +63,6 @@
       <div class="columns">
 
         <div class="column is-half">
-          <div class="card">
-            <div class="card-header">
-              <p class="card-header-title is-size-5">{{ $t('navigation') }}</p>
-            </div>
-              <div class="card-content">
-
-                <div class="buttons">
-                  <b-button @click="submitUpdateForm" type="is-success" >
-                    <i class="fa-solid fa-floppy-disk"></i>
-                    {{ $t('save') }}
-                  </b-button>
-
-                  <b-button type="is-danger" >
-                    <i class="fa-solid fa-trash"></i>
-                    {{ $t('delete') }}                  </b-button>
-                  <b-button @click="downloadPriceReport(id)" class="button is-info"><i class="fa-regular fa-file">&nbsp;</i>{{$t("download_pricing_report")}}</b-button>
-                  <b-button @click="downloadElementsTable(id)"  class="button is-info"><i class="fa-regular fa-file">&nbsp;</i>{{$t("download_elements_list")}}</b-button>
-                  <button @click="showEditModal = true" data-target="newelement-modal" class="button is-dark"><i class="fa-regular fa-pen-to-square">&nbsp;</i>{{$t("edit_margin")}}</button>
-                  </div>   
-            </div>           
-          </div>
-        </div>
-        
-
-        <div class="column">
-          <div class="card">
-            <header class="card-header" @click="isCollapsedelements = !isCollapsedelements">
-              <p class="card-header-title is-size-5">
-                {{ $t('elements_list') }}
-              </p>
-            </header>
-          <div class="card-content">
-          <ElementsTable v-if="detail_project"  :elements="detail_project.elements"></ElementsTable>
-          </div>
-
-          <div class="buttons">
-            <button class="button is-dark" @click="showElementModal = true" data-target="newelement-modal"><i class="fa-regular fa-pen-to-square">&nbsp;</i>Edytuj tabelę</button>
-        
-          </div>
-          
-          </div>
-
-
-
-          <hr class="dashed">
 
           <div class="card">
             <header class="card-header">
@@ -69,7 +70,16 @@
                 {{$t("accessories")}}
               </p>
             </header>
-
+            <div class="card-content">
+            <section  class="hero is-primary is-small">
+              <div class="hero-body">
+                <div class="columns">
+                  <div class="column is-half is-centered">
+                    <p class="title">{{ $t("accessories") }}</p>
+                  </div>
+                </div>
+              </div>
+            </section>
 
             
           <div class="card-content">
@@ -103,18 +113,37 @@
               </tbody>
               
             </table>
+          </div>
             <button @click="showAccModal = true" data-target="newelement-modal" class="button is-dark"><i class="fa-regular fa-pen-to-square">&nbsp;</i>{{$t("edit_accessories")}}</button>
         </div>
       </div>
       </div>
+          
+        </div>
+        
 
-      
+        <div class="column">
+          <div class="card">
+            <header class="card-header" @click="isCollapsedelements = !isCollapsedelements">
+              <p class="card-header-title is-size-5">
+                {{ $t('elements_list') }}
+              </p>
+            </header>
+          <div class="card-content">
+          <ElementsTable v-if="detail_project"  :elements="detail_project.elements"></ElementsTable>
+          </div>
+
+          <div class="buttons">
+            <button class="button is-dark" @click="showElementModal = true" data-target="newelement-modal"><i class="fa-regular fa-pen-to-square">&nbsp;</i>Edytuj tabelę</button>
+        
+          </div>
+          
+          </div>
 
 
 
 
-
-
+          
 
         <div v-bind:class="{'is-active': showAccModal}" id="newelement-modal" class="modal">
           <div class="modal-background"></div>
@@ -271,6 +300,7 @@
   </script>
   
   <script setup>
+  import { useI18n } from 'vue-i18n';
   import { useNewProjectStoreBeta } from '@/store/newproject'
   import { useProjectsListStore } from '@/store/projectslist'
   import { useSummaryStore } from '@/store/summary'
@@ -281,7 +311,9 @@
   import AccesoryProgressTable from '@/components/NewProjectComponents/AccesoryProgressTable.vue'
   import ClientData from '@/components/NewProjectComponents/ClientData.vue'
   import Summary from '@/components/Summary.vue'
+  import SplitButton from '@/components/MicroComponents/SplitButton.vue'
 
+  
   const projectName = ref()
   const selectedWood = ref()
   const selectedCategory = ref()
@@ -302,6 +334,7 @@
   quantity: 1
 })
 
+  const { t } = useI18n();
   const route = useRoute()
   const id = route.params.id
   
@@ -403,6 +436,43 @@ const submitForm = () => {
 
 </script>
 
+<style lang="css" scoped>
+.buttons-custom {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  align-items: flex-start;
+}
+
+/* Base style for all buttons */
+
+
+/* Make text and icon span full width */
+.button-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+.button {
+  width: 100%; 
+}
+/* Add spacing for the icon */
+.button-content i {
+  margin-left: 1rem;
+}
+.fa-solid fa-trash {
+  margin: 0;
+}
+
+/* Optional hover effect */
+
+
+.hero.is-primary {
+  background-color:rgb(141, 188, 164);
+  border-radius: 5px;
+}
+</style>
 
   
   

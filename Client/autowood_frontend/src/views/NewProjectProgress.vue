@@ -157,7 +157,7 @@ const summaryStore = useSummaryStore()
 
 const { addElement, loadData, $resetBoxes,} = newProjectStore
 const {summaryCosts, elementsMargin, accesoriesMargin,
-   additionalMargin,summaryCostsWithMargin, elementsCost, accesoriesCost, worktimeCost, ch } = storeToRefs(summaryStore)
+   additionalMargin,summaryCostsWithMargin, elementsCost, accesoriesCost, worktimeCost} = storeToRefs(summaryStore)
 
 loadData()
 

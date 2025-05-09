@@ -1,5 +1,4 @@
 <template>
- 
   <ClientData v-if="detail_project"
   :customer-props = "detail_project.customer"
   :documents-props = "detail_project.document"
@@ -12,28 +11,44 @@
               <p class="card-header-title is-centered is-size-4">{{ $t('navigation') }}</p>
             </div>
               <div class="card-content">
-
+                
+                
                 <div class="buttons-custom">
 
 
                   <SplitButton 
-                    label="Save"
+                    :label="t('save')"
                     iconClass="fa-solid fa-floppy-disk"
                     :colorA="'#4d4d4d'"
                     :colorB="'#61ad6e'"
                     @click="submitUpdateForm()"
                   />
-
                   
-
                   <SplitButton 
-                    label="Test"
-                    iconClass="fa-solid fa-trash"
-                    :colorA="'#ff3860'"
-                    :colorB="'#ff6f91'"
+                    :label="t('download_pricing_report')"
+                    iconClass="fa-solid fa-file"
+                    :colorA="'#4d4d4d'"
+                    :colorB="'#3474eb'"
                     @click="downloadPriceReport(id)"
                   />
-                  </div>   
+
+                  <SplitButton 
+                    :label="t('download_elements_list')"
+                    iconClass="fa-solid fa-file"
+                    :colorA="'#4d4d4d'"
+                    :colorB="'#3474eb'"
+                    @click="downloadElementsTable(id)"
+                  />
+                  
+                  <SplitButton 
+                    :label="t('delete')"
+                    iconClass="fa-solid fa-trash"
+                    :colorA="'#4d4d4d'"
+                    :colorB="'#f03a5f'"
+                    @click="downloadPriceReport(id)"
+                  />
+                </div>
+  
             </div>           
           </div>
   
@@ -124,20 +139,7 @@
           </div>
           
           </div>
-
-
-
           <hr class="dashed">
-
-          
-
-      
-
-
-
-
-
-
 
         <div v-bind:class="{'is-active': showAccModal}" id="newelement-modal" class="modal">
           <div class="modal-background"></div>
@@ -295,8 +297,10 @@
   </script>
   
   <script setup>
+  import { useI18n } from 'vue-i18n';
   import { useNewProjectStoreBeta } from '@/store/newproject'
-  import { useProjectsListStore } from '@/store/projectslist'
+  import {  useProjectsListStore } from '@/store/projectslist'
+  import { useCatalogProductStore } from '@/store/catalogproduct'
   import { useSummaryStore } from '@/store/summary'
   import { storeToRefs } from 'pinia'
   import { ref, watchEffect, onUnmounted, onMounted } from 'vue'
@@ -327,15 +331,18 @@
   quantity: 1
 })
 
+  const { t } = useI18n();
   const route = useRoute()
   const id = route.params.id
   
   const ProjectsListStore = useProjectsListStore()
+  const CatalogProductStore = useCatalogProductStore()
   const elementStore = useNewProjectStoreBeta()
   const summaryStore = useSummaryStore()
 
 
-  const {updateProject, addElement, downloadElementsTable, downloadPriceReport, loadCatalogProductDetail } = ProjectsListStore
+  const {updateProject} = CatalogProductStore
+  const {addElement, downloadElementsTable, downloadPriceReport, loadCatalogProductDetail } = ProjectsListStore
   const {elementsCost, accesoriesCost, worktimeCost , elementsMargin, accesoriesMargin, additionalMargin,summaryCostsWithMargin,summaryCosts} = storeToRefs(summaryStore)
 
   const {loadData, $reset } = elementStore
