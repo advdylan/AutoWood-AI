@@ -32,7 +32,7 @@
               </div>
     
               <div class="field">
-                <label class="label has-text-centered">{{ $t("wood_type")}}</label>
+                <label class="label has-text-centered">Type</label>
                 <div class="control">
                   <div class="select is-small">
                     <select v-model="newBoard.board.wood_type">

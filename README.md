@@ -11,10 +11,8 @@ AutoWood was developed as a portfolio-quality project to showcase real-world sof
 ```
 /frontend   → Vue 3 SPA (client)
 /backend    → Django REST API (server)
-/media      → Uploaded files (Django media)
-/logs       → Debug logs
-/venv       → Python virtual environment (not committed)
-/README.md  → Project documentation
+/venv       → Python virtual environment
+/frontend/node_modules → Vue modules
 ```
 
 ---
@@ -86,8 +84,8 @@ Make sure your backend is running in parallel so the frontend can connect to the
 
 ## ✨ Features
 
-- 🔪 Intelligent cut optimization engine for board-based materials  
-- 📄 PDF generation with project details and layout plans  
+- 🔪 Intelligent cut optimization engine for wood materials  
+- 📄 PDF generation with project details and elements lists 
 - 🏷️ Barcode (EAN) generator for order tracking and scanning  
 - 📦 Warehouse and stock management  
 - 🔄 Real-time production process tracking  
@@ -97,40 +95,20 @@ Make sure your backend is running in parallel so the frontend can connect to the
 
 ## 🧰 Tech Stack
 
-| Layer        | Technology               |
-|--------------|---------------------------|
+| Layer        | Technology                 |
+|--------------|--------------------------- |
 | Frontend     | Vue 3, Composition API     |
 | Backend      | Python, Django, DRF        |
 | Database     | SQLite (default)           |
-| Deployment   | Docker, Fly.io             |
-| Extras       | Barcode generation, PDF scripts, custom admin logic |
+| Extras       | Barcode generation, PDF scripts, custom admin logic     
 
 ---
 
-## 📸 Screenshots
+## 📸 Showcase
 
-> _(Coming soon – add screenshots or GIFs of your UI and PDF outputs here!)_
 
----
+![Demo](https://imgur.com/a/Jg9nt5s)
 
-## 🧪 Development Notes
-
-To start the entire app locally:
-
-```bash
-# Terminal tab 1 – Backend
-cd backend
-source ../venv/bin/activate
-python manage.py runserver
-
-# Terminal tab 2 – Frontend
-cd frontend
-npm run serve
-```
-
-You can also use `startup.sh` inside `/backend` to automate some of the setup.
-
----
 
 ## 📝 License
 
