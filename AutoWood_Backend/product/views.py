@@ -472,7 +472,8 @@ def generate_elements_production(request, pk):
     raport_name = f"rozpiska_produkcja_{id}.pdf"
 
     try:
-        generate_elements_productionpdf(output_dir, raport_name, id)
+        project_data = get_data(id) 
+        generate_elements_productionpdf(output_dir, raport_name, project_data)
 
         with open(f"{output_dir}/{raport_name}", "rb") as file:
             buffer.write(file.read())
@@ -503,7 +504,8 @@ def generate_pricing__report(request, pk):
     #print(f"output_dir_2: {output_dir_2}")
 
     try:
-        generate_report(output_dir, raport_name, id)
+        project_data = get_data(id)   
+        generate_report(output_dir, raport_name, project_data)
         #print(f"open : {output_dir}/{raport_name}")
 
         with open(f"{output_dir}/{raport_name}", "rb") as file:

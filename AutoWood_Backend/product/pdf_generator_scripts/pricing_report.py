@@ -83,9 +83,9 @@ def table_header(table_name="Table"):
     return table_header
 
 
-def generate_report(output_dir, raport_name, id):
+def generate_report(output_dir, raport_name, project_data):
 
-    project_data = get_data(id)   
+    
     file_path = os.path.join(output_dir, raport_name)
     print(f"File path at generate_report: {file_path}" )
   

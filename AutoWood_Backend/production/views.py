@@ -4,6 +4,10 @@ import os
 sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
 from django.conf import settings
 
+from product.pdf_generator_scripts.pdf_generator import get_data, get_catalog_data
+from product.pdf_generator_scripts.elements_production import generate_elements_productionpdf
+from product.pdf_generator_scripts.pricing_report import generate_report
+
 from django.shortcuts import render
 from product.models import *
 from .models import *
@@ -418,7 +422,66 @@ def update_order(request):
         return JsonResponse({"error": "Invalid data format for date"}, status=400)
         
 
+@api_view(['GET'])
+def generate_elements_production(request, pk):
 
+    id = pk
+    buffer = BytesIO()
+
+    output_dir = os.path.join(settings.BASE_DIR, f'product/pdf_generator_scripts/reports/{id}')
+    #output_dir = f"/home/dylan/AutoWood/AutoWood_Backend/product/pdf_generator_scripts/reports/{id}" #for local deploy
+    raport_name = f"rozpiska_produkcja_{id}.pdf"
+
+    try:
+        project_data = get_catalog_data(id)
+        generate_elements_productionpdf(output_dir, raport_name, project_data)
+
+        with open(f"{output_dir}/{raport_name}", "rb") as file:
+            buffer.write(file.read())
+
+        buffer.seek(0)
+
+        return FileResponse(buffer, as_attachment=True, filename=raport_name)
+    
+    except FileNotFoundError as e:
+        return JsonResponse({'error': 'Report file not found'}, status=status.HTTP_404_NOT_FOUND)
+    except RuntimeError as e:
+        return JsonResponse({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+    except Exception as e:
+        return JsonResponse({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+    
+
+@api_view(['GET'])
+def generate_pricing__report(request, pk):
+
+    id = pk
+    buffer = BytesIO()
+
+    output_dir = os.path.join(settings.BASE_DIR, f'product/pdf_generator_scripts/reports/{id}')
+    #output_dir_2 = f"AutoWood_Backend/product/pdf_generator_scripts/reports/{id}" #for local deploy
+    raport_name = f"wycena_{id}.pdf"
+
+    #print(f"output_dir: {output_dir}")
+    #print(f"output_dir_2: {output_dir_2}")
+
+    try:
+        project_data = get_catalog_data(id)
+        generate_report(output_dir, raport_name, project_data)
+        #print(f"open : {output_dir}/{raport_name}")
+
+        with open(f"{output_dir}/{raport_name}", "rb") as file:
+            buffer.write(file.read())
+
+        buffer.seek(0)
+
+        return FileResponse(buffer, as_attachment=True, filename=raport_name)
+    
+    except FileNotFoundError as e:
+        return JsonResponse({'error': 'Report file not found'}, status=status.HTTP_404_NOT_FOUND)
+    except RuntimeError as e:
+        return JsonResponse({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+    except Exception as e:
+        return JsonResponse({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 @api_view(["POST"])
 def generate_ean(request):

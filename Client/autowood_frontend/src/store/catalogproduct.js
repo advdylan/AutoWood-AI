@@ -38,7 +38,7 @@ export const useCatalogProductStore = defineStore('catalogproduct', {
         },
         async downloadElementsTable(id) {
             axios({
-                url: `/api/v1/newproject/elements-production/${id}`,
+                url: `/api/v1/production/elements-production/${id}`,
                 method: 'GET',
                 responseType: 'blob',
             })
@@ -62,7 +62,7 @@ export const useCatalogProductStore = defineStore('catalogproduct', {
         },
         async downloadPriceReport(id) {
             axios({
-                url: `/api/v1/newproject/pricing-report/${id}`,
+                url: `/api/v1/production/pricing-report/${id}`,
                 method: 'GET',
                 responseType: 'blob',
             })

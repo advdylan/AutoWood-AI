@@ -341,8 +341,8 @@
   const summaryStore = useSummaryStore()
 
 
-  const {updateProject} = CatalogProductStore
-  const {addElement, downloadElementsTable, downloadPriceReport, loadCatalogProductDetail } = ProjectsListStore
+  const {updateProject, downloadElementsTable,downloadPriceReport} = CatalogProductStore
+  const {addElement, loadCatalogProductDetail } = ProjectsListStore
   const {elementsCost, accesoriesCost, worktimeCost , elementsMargin, accesoriesMargin, additionalMargin,summaryCostsWithMargin,summaryCosts} = storeToRefs(summaryStore)
 
   const {loadData, $reset } = elementStore
