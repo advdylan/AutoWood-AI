@@ -46,7 +46,7 @@ class Production(models.Model):
     content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
     object_id = models.PositiveIntegerField()
     order = GenericForeignKey('content_type', 'object_id')
-    order_number = models.CharField(max_length=20, unique=True, blank=True)
+    order_number = models.CharField(max_length=50, unique=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
     def save(self, *args, **kwargs):
