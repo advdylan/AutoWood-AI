@@ -107,7 +107,7 @@ Make sure your backend is running in parallel so the frontend can connect to the
 ## 📸 Showcase
 
 
-![Demo](https://imgur.com/a/Jg9nt5s)
+<img src="https://imgur.com/a/Jg9nt5s" width="600" alt="App Demo"/> 
 
 
 ## 📝 License
