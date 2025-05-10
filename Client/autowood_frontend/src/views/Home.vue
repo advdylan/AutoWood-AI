@@ -19,10 +19,20 @@
               <div class="content">
                 <div class="columns">
                   <div class="column is-full">
+
+                  <router-link to="/new-project">
+                    <button class="button is-success is-light" style="width: 100%; ">{{ $t('new_project') }} &nbsp;<i class="fa-solid fa-edit"></i></button>
+                  </router-link>
                   
-                  <button class="button is-success is-light" style="width: 100%; margin: 1%;">Szybka wycena &nbsp;<i class="fa-solid fa-coins"></i></button>
-                  <button class="button is-success is-light" style="width: 100% ; margin: 1%;">Szybka wycena &nbsp;<i class="fa-solid fa-coins"></i></button>
-                  <button class="button is-success is-light" style="width: 100%; margin: 1%; ">Szybka wycena &nbsp;<i class="fa-solid fa-coins"></i></button>
+                  <router-link to="/cut-optimizer">
+                    <button class="button is-success is-light" style="width: 100%; margin-top: 2%; ">{{ $t('cut-optimizer') }} &nbsp;<i class="fa-solid fa-scissors"></i></button>
+                  </router-link>
+
+                  <router-link to="/new-project">
+                    <button class="button is-success is-light" style="width: 100%; margin-top: 2%; ">{{ $t('costs') }} &nbsp;<i class="fa-solid fa-coins"></i></button>
+                  </router-link>
+                  
+
                   </div>
 
                 </div>
@@ -84,6 +94,9 @@
 </template>
 
 <script setup>
+ import { useI18n } from 'vue-i18n';
+
+ const { t } = useI18n();
 
 </script>
 
