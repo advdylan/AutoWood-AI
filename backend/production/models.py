@@ -90,7 +90,7 @@ class Production(models.Model):
 class ProductionStage(models.Model):    
 
     stage_name = models.CharField(max_length=100)
-    shortcut = models.CharField(max_length=2)
+    shortcut = models.CharField(max_length=3)
 
     def __str__(self):
         return f"{self.stage_name}"
