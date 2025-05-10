@@ -1,0 +1,40 @@
+.
+├── AutoWoodTree.txt
+├── README.md
+├── backend
+│   ├── AutoWood_Backend
+│   ├── Dockerfile
+│   ├── backend.txt
+│   ├── cut_optimizer
+│   ├── db.sqlite
+│   ├── fly.toml
+│   ├── initial_json.json
+│   ├── manage.py
+│   ├── media
+│   ├── product
+│   ├── production
+│   ├── startup.sh
+│   └── warehouse
+├── frontend
+│   ├── README.md
+│   ├── babel.config.js
+│   ├── dist
+│   ├── jsconfig.json
+│   ├── node_modules
+│   ├── package-lock.json
+│   ├── package.json
+│   ├── public
+│   ├── src
+│   └── vue.config.js
+├── logs
+│   └── debug.log
+├── requirements.txt
+└── venv
+    ├── bin
+    ├── include
+    ├── lib
+    ├── lib64 -> lib
+    ├── pyvenv.cfg
+    └── share
+
+19 directories, 18 files

@@ -1,0 +1,341 @@
+.
+├── AutoWood_Backend
+│   ├── __init__.py
+│   ├── __pycache__
+│   │   ├── __init__.cpython-310.pyc
+│   │   ├── settings.cpython-310.pyc
+│   │   ├── urls.cpython-310.pyc
+│   │   └── wsgi.cpython-310.pyc
+│   ├── asgi.py
+│   ├── assets
+│   │   └── fonts
+│   │       └── RobotoCondensed-Regular.ttf
+│   ├── product
+│   │   └── pdf_generator_scripts
+│   │       └── reports
+│   │           └── 135
+│   │               └── rozpiska_produkcja_135.pdf
+│   ├── settings.py
+│   ├── urls.py
+│   └── wsgi.py
+├── Dockerfile
+├── backend.txt
+├── cut_optimizer
+│   ├── __init__.py
+│   ├── __pycache__
+│   │   ├── __init__.cpython-310.pyc
+│   │   ├── admin.cpython-310.pyc
+│   │   ├── apps.cpython-310.pyc
+│   │   ├── board_based_optimizer.cpython-310.pyc
+│   │   ├── board_based_optimizer_copy.cpython-310.pyc
+│   │   ├── helpers.cpython-310.pyc
+│   │   ├── models.cpython-310.pyc
+│   │   ├── urls.cpython-310.pyc
+│   │   └── views.cpython-310.pyc
+│   ├── admin.py
+│   ├── apps.py
+│   ├── board_based_optimizer.py
+│   ├── cut_optimizer
+│   │   └── optimized_cuts
+│   │       └── optimized_cut_4695.png
+│   ├── helpers.py
+│   ├── migrations
+│   │   ├── 0001_initial.py
+│   │   ├── __init__.py
+│   │   └── __pycache__
+│   │       ├── 0001_initial.cpython-310.pyc
+│   │       └── __init__.cpython-310.pyc
+│   ├── models.py
+│   ├── optimized_cuts
+│   │   ├── 59
+│   │   │   └── optc_59.png
+│   │   ├── 60
+│   │   │   └── optc_60.png
+│   │   ├── 61
+│   │   ├── 62
+│   │   │   └── optc_62.png
+│   │   ├── optimized_cut_1037.png
+│   │   ├── optimized_cut_135.png
+│   │   └── optimized_cut_150.png
+│   ├── tests.py
+│   ├── urls.py
+│   └── views.py
+├── db.sqlite
+├── db.sqlite3
+├── fly.toml
+├── initial_json.json
+├── manage.py
+├── media
+│   └── new_projects
+│       ├── 124
+│       │   └── documents
+│       │       ├── aaaaaa.txt
+│       │       └── activate.txt
+│       ├── 125
+│       │   └── documents
+│       │       ├── aaaaaa.txt
+│       │       └── activate.txt
+│       ├── 134
+│       └── 135
+│           └── documents
+│               └── raport_wycena_72.pdf
+├── product
+│   ├── __init__.py
+│   ├── __pycache__
+│   │   ├── __init__.cpython-310.pyc
+│   │   ├── admin.cpython-310.pyc
+│   │   ├── apps.cpython-310.pyc
+│   │   ├── models.cpython-310.pyc
+│   │   ├── serializers.cpython-310.pyc
+│   │   ├── signals.cpython-310.pyc
+│   │   ├── urls.cpython-310.pyc
+│   │   └── views.cpython-310.pyc
+│   ├── admin.py
+│   ├── apps.py
+│   ├── cut_optimizer
+│   │   ├── __pycache__
+│   │   │   ├── board_based_optimizer.cpython-310.pyc
+│   │   │   ├── helpers.cpython-310.pyc
+│   │   │   ├── or_tools_mbo.cpython-310.pyc
+│   │   │   └── or_tools_optimizer.cpython-310.pyc
+│   │   ├── moje.py
+│   │   ├── moje_v2.py
+│   │   ├── old_test
+│   │   │   ├── moje_notatki.py
+│   │   │   ├── nieudane.py
+│   │   │   ├── or_tools_mbo.py
+│   │   │   ├── or_tools_optimizer.py
+│   │   │   ├── png_opt_2.py
+│   │   │   ├── png_opt_3.py
+│   │   │   ├── png_opt_generator.py
+│   │   │   └── wc_opt.py
+│   │   ├── optimized_cuts
+│   │   │   └── 136
+│   │   │       └── optc_136.png
+│   │   └── unittests.py
+│   ├── migrations
+│   │   ├── 0001_initial.py
+│   │   ├── 0002_newproject_percent_accesories_margin_and_more.py
+│   │   ├── 0003_rename_percent_additionak_margin_newproject_percent_additional_margin.py
+│   │   ├── 0004_newproject_accesories_cost_newproject_elements_cost_and_more.py
+│   │   ├── 0005_projectworktime_cost.py
+│   │   ├── 0006_alter_projectworktime_cost.py
+│   │   ├── 0007_newproject_worktime_cost.py
+│   │   ├── 0008_customer_document_image_newproject_customer_and_more.py
+│   │   ├── 0009_document_project_image_project_and_more.py
+│   │   ├── 0010_document_type_image_type.py
+│   │   ├── 0011_document_size_image_size.py
+│   │   ├── 0012_rename_type_document_file_type_and_more.py
+│   │   ├── 0013_accessorytype_is_active.py
+│   │   ├── 0014_alter_customer_email_alter_customer_phone_number.py
+│   │   ├── 0015_newproject_production_stages.py
+│   │   ├── __init__.py
+│   │   └── __pycache__
+│   │       ├── 0001_initial.cpython-310.pyc
+│   │       ├── 0002_alter_newproject_accesories_margin_and_more.cpython-310.pyc
+│   │       ├── 0002_newproject_percent_accesories_margin_and_more.cpython-310.pyc
+│   │       ├── 0002_remove_product_accessories_remove_product_worktimes.cpython-310.pyc
+│   │       ├── 0002_remove_product_accessories_remove_product_worktimes_and_more.cpython-310.pyc
+│   │       ├── 0002_remove_projectworktime_quantity.cpython-310.pyc
+│   │       ├── 0002_remove_worktimetype_workers_worktime_workers.cpython-310.pyc
+│   │       ├── 0003_accessorydetail_alter_newproject_accessories_and_more.cpython-310.pyc
+│   │       ├── 0003_accessorytype_price.cpython-310.pyc
+│   │       ├── 0003_remove_accessory_name_accessory_type_and_more.cpython-310.pyc
+│   │       ├── 0003_rename_accesories_projectaccesories_accessories.cpython-310.pyc
+│   │       ├── 0003_rename_percent_additionak_margin_newproject_percent_additional_margin.cpython-310.pyc
+│   │       ├── 0004_alter_element_price.cpython-310.pyc
+│   │       ├── 0004_delete_accessory.cpython-310.pyc
+│   │       ├── 0004_newproject_accesories_cost_newproject_elements_cost_and_more.cpython-310.pyc
+│   │       ├── 0005_alter_projectworktime_worktime_and_more.cpython-310.pyc
+│   │       ├── 0005_projectworktime_cost.cpython-310.pyc
+│   │       ├── 0005_remove_element_count_productelement.cpython-310.pyc
+│   │       ├── 0006_alter_element_wood_type_delete_woodtype.cpython-310.pyc
+│   │       ├── 0006_alter_projectworktime_cost.cpython-310.pyc
+│   │       ├── 0006_newprojectelement_alter_newproject_elements.cpython-310.pyc
+│   │       ├── 0006_remove_newproject_elements_newprojectelement_and_more.cpython-310.pyc
+│   │       ├── 0007_alter_element_price_alter_wood_price_and_more.cpython-310.pyc
+│   │       ├── 0007_alter_newprojectelement_project.cpython-310.pyc
+│   │       ├── 0007_newproject_worktime_cost.cpython-310.pyc
+│   │       ├── 0007_rename_elements_newproject_new_elements.cpython-310.pyc
+│   │       ├── 0007_rename_elements_newproject_project_elements.cpython-310.pyc
+│   │       ├── 0008_accessorytype_type.cpython-310.pyc
+│   │       ├── 0008_customer_document_image_newproject_customer_and_more.cpython-310.pyc
+│   │       ├── 0008_remove_newproject_project_elements_and_more.cpython-310.pyc
+│   │       ├── 0009_alter_accessorytype_description.cpython-310.pyc
+│   │       ├── 0009_document_project_image_project_and_more.cpython-310.pyc
+│   │       ├── 0010_alter_accessorytype_description_and_more.cpython-310.pyc
+│   │       ├── 0010_document_type_image_type.cpython-310.pyc
+│   │       ├── 0011_document_size_image_size.cpython-310.pyc
+│   │       ├── 0011_newproject.cpython-310.pyc
+│   │       ├── 0012_alter_newproject_wood.cpython-310.pyc
+│   │       ├── 0012_newproject_wood_alter_newproject_elements.cpython-310.pyc
+│   │       ├── 0012_rename_type_document_file_type_and_more.cpython-310.pyc
+│   │       ├── 0013_accessorytype_is_active.cpython-310.pyc
+│   │       ├── 0013_alter_newproject_wood.cpython-310.pyc
+│   │       ├── 0013_rename_type_accessory_name.cpython-310.pyc
+│   │       ├── 0013_rename_type_accessory_name_projectworktime_and_more.cpython-310.pyc
+│   │       ├── 0014_alter_customer_email_alter_customer_phone_number.cpython-310.pyc
+│   │       ├── 0014_projectworktime.cpython-310.pyc
+│   │       ├── 0014_projectworktime_alter_newproject_worktimes.cpython-310.pyc
+│   │       ├── 0015_alter_newproject_worktimes.cpython-310.pyc
+│   │       ├── 0015_newproject_production_stages.cpython-310.pyc
+│   │       └── __init__.cpython-310.pyc
+│   ├── models.py
+│   ├── pdf_generator_scripts
+│   │   ├── __init__.py
+│   │   ├── __pycache__
+│   │   │   ├── __init__.cpython-310.pyc
+│   │   │   ├── elements_production.cpython-310.pyc
+│   │   │   ├── pdf_generator.cpython-310.pyc
+│   │   │   └── pricing_report.cpython-310.pyc
+│   │   ├── board_cutting.py
+│   │   ├── board_cuttinggpt.py
+│   │   ├── elements_production.py
+│   │   ├── pdf_generator.py
+│   │   ├── pricing_report.py
+│   │   ├── reports
+│   │   │   ├── 1
+│   │   │   │   └── ean_1Tyl.svg
+│   │   │   ├── 125
+│   │   │   │   ├── rozpiska_produkcja_125.pdf
+│   │   │   │   └── wycena_125.pdf
+│   │   │   ├── 135
+│   │   │   │   ├── rozpiska_produkcja_135.pdf
+│   │   │   │   └── wycena_135.pdf
+│   │   │   ├── 136
+│   │   │   │   ├── rozpiska_produkcja_136.pdf
+│   │   │   │   └── wycena_136.pdf
+│   │   │   ├── 137
+│   │   │   │   └── wycena_137.pdf
+│   │   │   ├── 138
+│   │   │   │   ├── ean_138Tyskie.svg
+│   │   │   │   ├── rozpiska_produkcja_138.pdf
+│   │   │   │   └── wycena_138.pdf
+│   │   │   ├── 141
+│   │   │   │   └── rozpiska_produkcja_141.pdf
+│   │   │   ├── 2
+│   │   │   │   ├── ean_2Sandemo 160.svg
+│   │   │   │   ├── rozpiska_produkcja_2.pdf
+│   │   │   │   └── wycena_2.pdf
+│   │   │   ├── 22
+│   │   │   │   └── rozpiska_produkcja_22.pdf
+│   │   │   ├── 3
+│   │   │   │   └── ean_3Sandemo 140.svg
+│   │   │   ├── 34
+│   │   │   │   └── raport_34.pdf
+│   │   │   ├── 37
+│   │   │   │   └── wycena_37.pdf
+│   │   │   ├── 46
+│   │   │   │   └── wycena_46.pdf
+│   │   │   ├── 54
+│   │   │   │   └── rozpiska_produkcja_54.pdf
+│   │   │   ├── 57
+│   │   │   │   ├── rozpiska_produkcja_57.pdf
+│   │   │   │   └── wycena_57.pdf
+│   │   │   ├── 58
+│   │   │   │   ├── rozpiska_produkcja_58.pdf
+│   │   │   │   └── wycena_58.pdf
+│   │   │   ├── 59
+│   │   │   │   ├── rozpiska_produkcja_59.pdf
+│   │   │   │   └── wycena_59.pdf
+│   │   │   ├── 60
+│   │   │   │   ├── rozpiska_produkcja_60.pdf
+│   │   │   │   └── wycena_60.pdf
+│   │   │   ├── 61
+│   │   │   │   └── wycena_61.pdf
+│   │   │   ├── 62
+│   │   │   │   ├── rozpiska_produkcja_62.pdf
+│   │   │   │   └── wycena_62.pdf
+│   │   │   ├── 63
+│   │   │   │   ├── rozpiska_produkcja_63.pdf
+│   │   │   │   └── wycena_63.pdf
+│   │   │   ├── 65
+│   │   │   │   ├── rozpiska_produkcja_65.pdf
+│   │   │   │   └── wycena_65.pdf
+│   │   │   ├── 66
+│   │   │   │   └── wycena_66.pdf
+│   │   │   ├── 72
+│   │   │   │   └── wycena_72.pdf
+│   │   │   └── <built-in function id>
+│   │   └── tests.py
+│   ├── serializers.py
+│   ├── signals.py
+│   ├── tests.py
+│   ├── urls.py
+│   └── views.py
+├── production
+│   ├── EANCode.py
+│   ├── __init__.py
+│   ├── __pycache__
+│   │   ├── EANCode.cpython-310.pyc
+│   │   ├── __init__.cpython-310.pyc
+│   │   ├── admin.cpython-310.pyc
+│   │   ├── apps.cpython-310.pyc
+│   │   ├── models.cpython-310.pyc
+│   │   ├── serializers.cpython-310.pyc
+│   │   ├── urls.cpython-310.pyc
+│   │   └── views.cpython-310.pyc
+│   ├── admin.py
+│   ├── apps.py
+│   ├── migrations
+│   │   ├── 0001_initial.py
+│   │   ├── 0002_remove_productionstage_production_and_more.py
+│   │   ├── 0003_remove_production_production_stages_and_more.py
+│   │   ├── 0004_rename_productionstagedetails_orderproductionstage.py
+│   │   ├── 0005_remove_productionstage_is_done_and_more.py
+│   │   ├── 0006_productionstage_shortcut.py
+│   │   ├── 0007_alter_orderproductionstage_production_stage.py
+│   │   ├── 0008_production_notes.py
+│   │   ├── 0009_production_customer.py
+│   │   ├── 0010_catalogproduct_production_stages.py
+│   │   ├── 0011_remove_catalogproduct_production_stages_and_more.py
+│   │   ├── 0012_alter_catalogproduct_production_stages.py
+│   │   ├── 0013_production_created_at_production_order_number.py
+│   │   ├── 0014_alter_production_order_number.py
+│   │   ├── __init__.py
+│   │   └── __pycache__
+│   │       ├── 0001_initial.cpython-310.pyc
+│   │       ├── 0002_remove_productionstage_production_and_more.cpython-310.pyc
+│   │       ├── 0003_remove_production_production_stages_and_more.cpython-310.pyc
+│   │       ├── 0004_rename_productionstagedetails_orderproductionstage.cpython-310.pyc
+│   │       ├── 0005_remove_productionstage_is_done_and_more.cpython-310.pyc
+│   │       ├── 0006_productionstage_shortcut.cpython-310.pyc
+│   │       ├── 0007_alter_orderproductionstage_production_stage.cpython-310.pyc
+│   │       ├── 0008_production_notes.cpython-310.pyc
+│   │       ├── 0009_production_customer.cpython-310.pyc
+│   │       ├── 0010_catalogproduct_production_stages.cpython-310.pyc
+│   │       ├── 0011_remove_catalogproduct_production_stages_and_more.cpython-310.pyc
+│   │       ├── 0012_alter_catalogproduct_production_stages.cpython-310.pyc
+│   │       ├── 0013_production_created_at_production_order_number.cpython-310.pyc
+│   │       ├── 0014_alter_production_order_number.cpython-310.pyc
+│   │       └── __init__.cpython-310.pyc
+│   ├── models.py
+│   ├── order_numbers.py
+│   ├── serializers.py
+│   ├── tests.py
+│   ├── urls.py
+│   └── views.py
+├── startup.sh
+└── warehouse
+    ├── __init__.py
+    ├── __pycache__
+    │   ├── __init__.cpython-310.pyc
+    │   ├── admin.cpython-310.pyc
+    │   ├── apps.cpython-310.pyc
+    │   ├── models.cpython-310.pyc
+    │   ├── urls.cpython-310.pyc
+    │   └── views.cpython-310.pyc
+    ├── admin.py
+    ├── apps.py
+    ├── migrations
+    │   ├── 0001_initial.py
+    │   ├── __init__.py
+    │   └── __pycache__
+    │       ├── 0001_initial.cpython-310.pyc
+    │       └── __init__.cpython-310.pyc
+    ├── models.py
+    ├── tests.py
+    ├── urls.py
+    └── views.py
+
+73 directories, 265 files
