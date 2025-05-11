@@ -99,8 +99,8 @@ Make sure your backend is running in parallel so the frontend can connect to the
 |--------------|--------------------------- |
 | Frontend     | Vue 3, Composition API     |
 | Backend      | Python, Django, DRF        |
-| Database     | SQLite (default)           |
-| Extras       | Barcode generation, PDF scripts, custom admin logic     
+| Database     | PostreSQL, Neon            |
+| Extras       | Barcode generation, PDF scripts  
 
 ---
 
