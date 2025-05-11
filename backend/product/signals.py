@@ -16,4 +16,4 @@ def set_default_production_stage(sender, instance,created, **kwargs):
             logger.info(f"Default stage 'PRY' added to project {instance.id}")
 
         except ProductionStage.DoesNotExist:
-            logger.warning(f"Error: Default ProductionStage{"PRY"} does not exist in product/signals.py")
+            logger.warning(f"Error: Default ProductionStage does not exist in product/signals.py")

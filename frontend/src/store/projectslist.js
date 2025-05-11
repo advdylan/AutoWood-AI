@@ -34,6 +34,7 @@ export const useProjectsListStore = defineStore('projectslist', {
             return this.catalog_product ? this.catalog_product.map(item => ({
                 id: item.id,
                 name: item.name,
+                
                 category: item.category.name,
                 collection: item.collection.name,
                 wood: item.wood.name,
