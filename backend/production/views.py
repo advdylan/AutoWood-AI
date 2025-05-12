@@ -682,6 +682,8 @@ def add_catalogproduct_to_production(request):
         return JsonResponse({"error:" "No order in the production list with this ID"}, status=status.HTTP_404_NOT_FOUND) """
 
   
-    
+@api_view(["GET"])
+def ping(request):
+    return JsonResponse({"Success" : "Database status OK"})   
     
 

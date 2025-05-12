@@ -90,13 +90,25 @@
 
         </div>
       </div>
+
+
+<database-check-modal>
+
+</database-check-modal>    
     
 </template>
 
 <script setup>
  import { useI18n } from 'vue-i18n';
+import {computed, ref} from 'vue'
+import DatabaseCheckModal from '@/components/DatabaseCheckModal.vue';
 
- const { t } = useI18n();
+
+ const { t } = useI18n(); 
+ const showIntroductionModal = ref(false)
+
+
+
 
 </script>
 
