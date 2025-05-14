@@ -1,77 +1,70 @@
 <template>
-
-<div class="modal">
-  <div class="modal-background"></div>
-  <div class="modal-card">
-    <header class="modal-card-head">
-      <p class="modal-card-title">Modal title</p>
-      <button class="delete" aria-label="close"></button>
-    </header>
-    <section class="modal-card-body">
-      {{ isWokeUp }}
-    </section>
-    <footer class="modal-card-foot">
-      <div class="buttons">
-        <button class="button is-success">Save changes</button>
-        <button class="button">Cancel</button>
-      </div>
-    </footer>
+  <div class="modal" :class="{ 'is-active': !isWokeUp }">
+    <div class="modal-background"></div>
+    <div class="modal-card">
+      <header class="modal-card-head">
+        <p class="modal-card-title">Checking server...</p>
+      </header>
+      <section class="modal-card-body">
+        Waiting for backend response...
+      </section>
+      <footer class="modal-card-foot">
+        <p v-if="!isWokeUp" class="has-text-danger">Still trying to connect...</p>
+      </footer>
+    </div>
   </div>
-</div>
-
 </template>
 
 <script setup>
-import axios from 'axios';
-import { onMounted, ref, onUnmounted } from 'vue';
-
-const propsList =  defineProps({
-    databaseModal: Boolean,
-    default: false
-})
+import { ref, onMounted, onUnmounted } from 'vue';
 
 const isWokeUp = ref(false);
-let retryInterval;
+let retryInterval = null;
 
 async function checkDatabase() {
-    const controller = new AbortController();
-    const timeout = setTimeout(() => controller.abort(), 30000);
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), 2000);
 
-    try {
-        const response = await fetch('https://autowood.fly.dev/api/v1/production/ping', { signal: controller.signal });
-        console.log(response)
-        if (response.ok) {
-            console.log(response.data)
-            console.log("Got DJANGO response")
-            clearInterval(retryInterval);
+  try {
+    const response = await fetch('https://autowood.fly.dev/api/v1/production/ping', {
+      signal: controller.signal
+    });
 
-            return true;
-        }
-        return false;
-    } catch (error) {
-        return false;
-    } finally {
-        clearTimeout(timeout);
+    if (response.ok) {
+      return true;
+    } else {
+      return false;
     }
+  } catch (error) {
+    return false;
+  } finally {
+    clearTimeout(timeout);
+  }
 }
 
-onMounted(async() => {
-    retryInterval = setInterval(async () => {
-        const alive = await checkDatabase();
-        if (alive) {
-            clearInterval(retryInterval);
-            isWokeUp.value = false; 
-        } else {
-            isWokeUp.value = true; 
-        }
-    }, 5000); 
-});
+async function tryToWakeUp() {
+  const alive = await checkDatabase();
+  if (alive) {
+    isWokeUp.value = true;
+    clearInterval(retryInterval);
+  } else {
+    isWokeUp.value = false;
+  }
+}
 
+onMounted(async () => {
+  await tryToWakeUp(); // 
+
+  retryInterval = setInterval(async () => {
+    if (!isWokeUp.value) {
+      await tryToWakeUp();
+    }
+  }, 5000); // retry every 5s
+});
 
 onUnmounted(() => {
-    clearInterval(retryInterval);
+  clearInterval(retryInterval);
 });
-
 </script>
 
 <style scoped>
