@@ -245,24 +245,20 @@
 <script setup>
 import { useNewProjectStoreBeta } from '@/store/newproject'
 import { storeToRefs } from 'pinia'
-import { onMounted, ref, watch, onBeforeUnmount, reactive, computed, nextTick } from 'vue'
+import { onMounted, ref, watch, onBeforeUnmount,computed} from 'vue'
 import axios from 'axios'
 import { toast } from 'bulma-toast'
 import {validateFormData, validateNewAccesory} from '@/validators/Validators.js'
 
-import { useRouter, useRoute, onBeforeRouteLeave, onBeforeRouteUpdate } from 'vue-router'
+import { useRouter, useRoute, onBeforeRouteLeave } from 'vue-router'
 
 const router = useRouter()
-const route = useRoute()
-
 
 const showActiveAcc = ref(false)
 const editMode = ref(false)
-const editedAcc = ref(false)
 const showAccModal = ref(false)
 const saveReminder = ref(false)
 const newProjectStore = useNewProjectStoreBeta()
-const data = ref([])
 const tableKey = ref(0)
 const accesory = ref({
   description: '',

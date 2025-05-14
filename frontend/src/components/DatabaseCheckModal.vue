@@ -23,31 +23,54 @@
 
 <script setup>
 import axios from 'axios';
-import { onMounted } from 'vue';
+import { onMounted, ref, onUnmounted } from 'vue';
 
-const isWokeUp = ref(false)
+const propsList =  defineProps({
+    databaseModal: Boolean,
+    default: false
+})
+
+const isWokeUp = ref(false);
+let retryInterval;
 
 async function checkDatabase() {
     const controller = new AbortController();
-    const timeout = setTimeout(() => controller.abort(), 1000);
+    const timeout = setTimeout(() => controller.abort(), 30000);
 
     try {
-        await fetch('api/v1/production/ping', { signal: controller.signal});
-        return true;
+        const response = await fetch('https://autowood.fly.dev/api/v1/production/ping', { signal: controller.signal });
+        console.log(response)
+        if (response.ok) {
+            console.log(response.data)
+            console.log("Got DJANGO response")
+            clearInterval(retryInterval);
+
+            return true;
+        }
+        return false;
     } catch (error) {
         return false;
     } finally {
-        clearTimeout(timeout)
+        clearTimeout(timeout);
     }
 }
 
 onMounted(async() => {
-    const alive = await checkDatabase();
-    if (!alive) {
-        isWokeUp.value = true;
+    retryInterval = setInterval(async () => {
+        const alive = await checkDatabase();
+        if (alive) {
+            clearInterval(retryInterval);
+            isWokeUp.value = false; 
+        } else {
+            isWokeUp.value = true; 
+        }
+    }, 5000); 
+});
 
-    }
-})
+
+onUnmounted(() => {
+    clearInterval(retryInterval);
+});
 
 </script>
 
