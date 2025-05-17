@@ -246,7 +246,7 @@ import { toast } from 'bulma-toast';
 
 const ProjectsListStore = useProjectsListStore()
 
-const { loadProjects, loadDetailProject, addNewProjectToProduction } = ProjectsListStore
+const { loadProjects, loadDetailProject, addNewProjectToProduction, setLoading } = ProjectsListStore
 const { projectlist, data, columns, isLoading } = storeToRefs(ProjectsListStore)
 const hoveredProjectId = ref(null)
 const chosenProduct = ref(null)
@@ -337,13 +337,15 @@ function parseOrderData(id) {
 }
 
 onMounted(() => {
-    if(!data.value) {
+    console.log(data.value)
+    if(!data.value.length) {
         console.log("Loading data")
         loadProjects()
     }
 
 onUnmounted(() => {
-    
+    setLoading()
+
 })
     
 })

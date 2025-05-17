@@ -368,7 +368,7 @@ function parseOrderData(id) {
 
 
 onMounted(() => {
-    if(!catalog_product.value) {
+    if(!catalog_product.length) {
          console.log("Loading catalog")
          loadCatalog()
     }
