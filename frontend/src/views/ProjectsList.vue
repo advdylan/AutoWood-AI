@@ -2,10 +2,12 @@
     <div class="projects-list-container">
         <div class="columns">
         <div class="column is-10 is-offset-1">
-        <b-table :data="data">
+        <b-table :data="isEmpty ? [] : data"
+                 :loading="isLoading">
             <div class="box">
             <div class="label has-text-centered is-size-4">{{ $t("projects_list")}}</div>
             </div>
+         
             <template v-for="column in columns" :key="column.id">
                 <b-table-column v-bind="column">
                     <template v-if="column.searchable && !column.numeric" #searchable="props">
@@ -234,7 +236,7 @@
 <script setup>
 import { useProjectsListStore } from '@/store/projectslist'
 import { storeToRefs } from 'pinia'
-import { BaseTransitionPropsValidators, ref} from 'vue'
+import { BaseTransitionPropsValidators, onMounted, onUnmounted, ref} from 'vue'
 import VueDatePicker from '@vuepic/vue-datepicker';
 import '@vuepic/vue-datepicker/dist/main.css'
 import { isValidDate } from '@/validators/Validators';
@@ -245,7 +247,7 @@ import { toast } from 'bulma-toast';
 const ProjectsListStore = useProjectsListStore()
 
 const { loadProjects, loadDetailProject, addNewProjectToProduction } = ProjectsListStore
-const { projectlist, data, columns } = storeToRefs(ProjectsListStore)
+const { projectlist, data, columns, isLoading } = storeToRefs(ProjectsListStore)
 const hoveredProjectId = ref(null)
 const chosenProduct = ref(null)
 const toggleAddToProduction = ref(false)
@@ -253,6 +255,7 @@ const chosenProductId = ref(null)
 const dateOrdered = ref(null)
 const dateOfDelivery = ref(null)
 const notes = ref('')
+const isEmpty = ref(false)
 const customer = ref({
         name: '',
         phone_number: 0,
@@ -333,6 +336,17 @@ function parseOrderData(id) {
     
 }
 
+onMounted(() => {
+    if(!data.value) {
+        console.log("Loading data")
+        loadProjects()
+    }
+
+onUnmounted(() => {
+    
+})
+    
+})
 </script>
 <style>
 .elements-list {

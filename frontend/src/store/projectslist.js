@@ -11,7 +11,8 @@ export const useProjectsListStore = defineStore('projectslist', {
     state: () => ({
         projectlist: null,
         detail_project: null,
-        catalog_product: null
+        catalog_product: null,
+        isLoading: true
        
         
     }),
@@ -120,6 +121,7 @@ export const useProjectsListStore = defineStore('projectslist', {
             .get(`/api/v1/newproject`)
             .then(response => {       
                 this.setProjects(response.data)
+                this.isLoading = false;
             })
             .catch(error =>{
                 console.log(error)     
@@ -132,6 +134,7 @@ export const useProjectsListStore = defineStore('projectslist', {
             .then(response => {
                 console.log(response.data)       
                 this.catalog_product = response.data
+                this.isLoading = false;
             })
             .catch(error =>{
                 console.log(error)     
@@ -287,5 +290,9 @@ export const useProjectsListStore = defineStore('projectslist', {
                 }
                 this.detail_project.accessories.push(newAccesory)
             },
+        
+        setLoading() {
+            this.isLoading = true;
+        }
     },
 })

@@ -3,7 +3,9 @@
         <div class="column is-10 is-offset-1">
     <div class="projects-list-container">
         
-        <b-table :data="catalog_product_data">
+        <b-table :data="isEmpty ? [] : catalog_product_data"
+                 :loading="isLoading">
+
             <div class="box">
             <div class="label has-text-centered is-size-4">{{ $t("catalog_list")}}</div>
             </div>
@@ -252,7 +254,7 @@ const newProjectStore = useNewProjectStoreBeta()
 const {addProductionStages} = newProjectStore
 const {chosenProductionSteps} = storeToRefs(newProjectStore)
 const { loadCatalog, loadDetailProject, addNewProjectToProduction, addCatalogProductToProduction } = ProjectsListStore
-const { projectlist, catalog_product,  catalog_product_data, columns,} = storeToRefs(ProjectsListStore)
+const { projectlist, catalog_product,  catalog_product_data, columns, isLoading} = storeToRefs(ProjectsListStore)
 
 
 const hoveredProjectId = ref(null)
@@ -262,6 +264,7 @@ const chosenProduct = ref(null)
 const dateOrdered = ref(null)
 const dateOfDelivery = ref(null)
 const notes = ref('')
+const isEmpty = ref(false)
 const customer = ref({
         name: '',
         phone_number: 0,
