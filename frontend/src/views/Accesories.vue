@@ -11,7 +11,7 @@
             </div>
         </div>
     </div>
-    <div class="column">
+    <div class="column is-10 is-offset-1 ">
         <div class="card">
             <header class="card-header">
                 <p class="card-header-title is-centered is-size-4">
@@ -71,7 +71,7 @@
         </div>
     </div>
 
-    <div class="column">
+    <div class="column is-10 is-offset-1">
         <div class="card">
             <header class="card-header">
                 <p class="card-header-title is-centered is-size-4">
@@ -81,6 +81,9 @@
             </header>
             <div class="card-content">
                 <div class="content">
+                    <div class="columns">
+                        <div class="column is-half is-offset-one-quarter">
+                    
                     <nav class="level">
                         <div class="level-item has-text-centered">
                             <input v-model="accesory.name" class="input" :placeholder="$t('name')"/>
@@ -110,6 +113,8 @@
                             </button>
                         </div>
                     </nav>
+                    </div>
+                    </div>
                 </div>
             </div>
         </div>

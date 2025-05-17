@@ -1,5 +1,7 @@
 <template>
     <div class="projects-list-container">
+        <div class="columns">
+        <div class="column is-10 is-offset-1">
         <b-table :data="data">
             <div class="box">
             <div class="label has-text-centered is-size-4">{{ $t("projects_list")}}</div>
@@ -55,6 +57,8 @@
                 </b-table-column>
             </template>
         </b-table>
+    </div>
+    </div>
     </div>
 
 
@@ -264,7 +268,7 @@ const propsList =  defineProps({
 })
 
 
-loadProjects()
+//loadProjects()
 
 
 function setChosenProduct(row) {

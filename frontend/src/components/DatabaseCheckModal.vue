@@ -17,9 +17,25 @@
 
 <script setup>
 import { ref, onMounted, onUnmounted } from 'vue';
+import { useProjectsListStore } from '@/store/projectslist'
+import { useNewProjectStoreBeta } from '@/store/newproject';
+import { productionStore } from '@/store/production';
+
 
 const isWokeUp = ref(false);
 let retryInterval = null;
+
+
+const ProjectsListStore = useProjectsListStore()
+const NewProjectStore = useNewProjectStoreBeta()
+
+const ProductionStore = productionStore()
+
+const {getProductionList} = ProductionStore
+
+
+const { loadData } = NewProjectStore
+const { loadCatalog, loadProjects} = ProjectsListStore
 
 async function checkDatabase() {
   const controller = new AbortController();
@@ -52,12 +68,23 @@ async function tryToWakeUp() {
   }
 }
 
+async function loadAllData() {
+  await loadCatalog();
+  await loadProjects();
+  await loadData();
+  await getProductionList()
+}
+
+
 onMounted(async () => {
-  await tryToWakeUp(); // 
+
+  await tryToWakeUp();
+  await loadAllData();
 
   retryInterval = setInterval(async () => {
     if (!isWokeUp.value) {
       await tryToWakeUp();
+      await loadAllData();
     }
   }, 5000); // retry every 5s
 });

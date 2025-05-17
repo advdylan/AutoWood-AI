@@ -1,4 +1,6 @@
 <template>
+    <div class="columns">
+        <div class="column is-10 is-offset-1">
     <div class="projects-list-container">
         
         <b-table :data="catalog_product_data">
@@ -57,7 +59,8 @@
             </template>
         </b-table>
     </div>
-
+    </div>
+    </div>
 
 
 
@@ -235,7 +238,7 @@ import { useProjectsListStore } from '@/store/projectslist'
 import { useNewProjectStoreBeta } from '@/store/newproject'
 import { storeToRefs } from 'pinia'
 import { useRouter } from 'vue-router'
-import { BaseTransitionPropsValidators, ref} from 'vue'
+import { BaseTransitionPropsValidators, onMounted, ref} from 'vue'
 import VueDatePicker from '@vuepic/vue-datepicker';
 import '@vuepic/vue-datepicker/dist/main.css'
 import { isValidDate } from '@/validators/Validators';
@@ -249,7 +252,7 @@ const newProjectStore = useNewProjectStoreBeta()
 const {addProductionStages} = newProjectStore
 const {chosenProductionSteps} = storeToRefs(newProjectStore)
 const { loadCatalog, loadDetailProject, addNewProjectToProduction, addCatalogProductToProduction } = ProjectsListStore
-const { projectlist, catalog_product_data, columns,  } = storeToRefs(ProjectsListStore)
+const { projectlist, catalog_product,  catalog_product_data, columns,} = storeToRefs(ProjectsListStore)
 
 
 const hoveredProjectId = ref(null)
@@ -278,7 +281,7 @@ const propsList =  defineProps({
 })
 
 
-loadCatalog()
+
 
 
 function setChosenProduct(row) {
@@ -361,6 +364,12 @@ function parseOrderData(id) {
 }
 
 
+onMounted(() => {
+    if(!catalog_product.value) {
+         console.log("Loading catalog")
+         loadCatalog()
+    }
+})
 
 
 </script>

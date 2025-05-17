@@ -53,31 +53,40 @@ export const useProjectsListStore = defineStore('projectslist', {
                 { 
                 field: 'name', 
                 label: i18n.t('name'),
-                searchable: true
+                searchable: true,
+                width: '250',
                 },
                 { 
                 field: 'category', 
                 label: i18n.t('category'),
-                searchable: true 
+                searchable: true,
+   
                 },
                 { 
                 field: 'collection', 
                 label: i18n.t('collection'),
-                searchable: true
+                searchable: true,
+              
                 },
                 { 
                 field: 'wood', 
                 label: i18n.t('wood_type'),
-                searchable: true 
+                searchable: true,
+                width: '130',
+
+              
                 },
                 { 
                 field: 'paints',
                 label: i18n.t('paints'),
-                searchable: true 
+                searchable: true,
+                
+               
                 },
                 {
                 field: 'nawigacja',
-                label: i18n.t('Nav')
+                label: i18n.t('Nav'),
+            
                 }
             ]
             return columns
