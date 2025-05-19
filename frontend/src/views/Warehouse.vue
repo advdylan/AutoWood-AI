@@ -80,10 +80,17 @@
 </div>
         </div>
 
-        <div v-if="warehouseComponents[0].active | warehouseComponents[1].active" class="box">
-          <div class="label has-text is-size-5">{{$t('boards')}}</div>
-          <BoardManager
+        <div v-if="warehouseComponents[0].active" class="box">
+          <div v-if="warehouseComponents[0].active" class="label has-text is-size-5">{{$t('boards')}}</div>
+          <BoardManager v-if="warehouseComponents[0].active"
           ></BoardManager>
+          </div>
+
+        <div v-if="warehouseComponents[1].active" class="box">
+          <div v-if="warehouseComponents[1].active" class="label has-text is-size-5">{{$t('paints')}}</div>
+          <PaintsManager v-if="warehouseComponents[1].active">
+
+          </PaintsManager>
           </div>
 
         </div>
@@ -99,6 +106,8 @@
              ></BoardsWarehouse>
 
              <PaintsWarehouse v-if="warehouseComponents[1].active"
+             :warehouse-capacity="warehouseCapacity"
+             :diagram-ticks="diagramTicks"
 
              ></PaintsWarehouse>
 
@@ -168,6 +177,7 @@ import { useNewProjectStoreBeta } from '@/store/newproject'
 import BoardInput from '@/components/OptimizerComponents/BoardInput.vue'
 import BoardsWarehouse from '@/components/WarehouseComponents/BoardsWarehouse.vue'
 import PaintsWarehouse from '@/components/WarehouseComponents/PaintsWarehouse.vue'
+import PaintsManager from '@/components/WarehouseComponents/PaintsManager.vue'
 import BoardManager from '@/components/WarehouseComponents/BoardManager.vue'
 import { storeToRefs } from 'pinia'
 import axios from 'axios'

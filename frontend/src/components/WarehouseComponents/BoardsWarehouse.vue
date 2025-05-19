@@ -123,6 +123,8 @@ const ticks= computed(() => {
         let newTick = oneTick
         let oneNumber = warehouseCapacity.value / diagramTicks.value
         let newNumber = oneNumber
+
+        console.log(`One number: ${oneNumber} newNumber: ${newNumber} oneTick: ${oneTick} newTick :${ newTick}`)
         
         for (let i = 0; i < diagramTicks.value; i++) {
             ticks.push([newTick,newNumber])
@@ -225,9 +227,8 @@ watch(
     }
   },
   { immediate: true }
-
-  
 )
+
 watch(
   () => props.woodType,
   (selectedWoodType) => {

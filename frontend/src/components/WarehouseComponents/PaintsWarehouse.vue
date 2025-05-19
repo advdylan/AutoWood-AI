@@ -1,33 +1,69 @@
 <template>
     <div  style="overflow: hidden; text-align: center;">
             <svg 
+                :class="{ 'data-ready': isReady }"
                 id="svgBoard" 
                 xmlns="http://www.w3.org/2000/svg" 
-                :viewBox="`-60 -60 1000 800`"
-                preserveAspectRatio="xMidYMid meet" 
-                style="width: 100%; height: 100%; ">
+                :viewBox="`0 -40 ${diagramWidth} ${diagramHeight+80}`"
+                preserveAspectRatio="xMinYMin meet" 
+                style="width: 100%; height: 100%;"
+                
+                >
                 <defs>
-                <linearGradient id="occupiedBoardGrad" x1="0%" x2="100%" y1="0%" y2="0%">
-                    <stop offset="0%" stop-color="rgb(205, 247, 205)" stop-opacity="0.3" />
-                    <stop offset="100%" stop-color="rgb(205, 247, 205)" stop-opacity="0.8" />
+                <linearGradient id="Buk" x1="0%" x2="0%" y1="100%" y2="0%">
+                    <stop offset="0%" stop-color="rgb(192, 153, 153)" stop-opacity="0.9" />
+                    <stop offset="100%" stop-color="rgb(192, 153, 153)" stop-opacity="1" />
                 </linearGradient>
-                <linearGradient id="FreeBoardGrad" x1="0%" x2="100%" y1="0%" y2="0%">
-                    <stop offset="0%" stop-color="rgb(250, 237, 237)" stop-opacity="0.1" />
-                    <stop offset="100%" stop-color="rgb(245, 230, 230)" stop-opacity="0.3" />
+                <linearGradient id="Sosna" x1="0%" x2="0%" y1="100%" y2="0%">
+                  <stop offset="0%" stop-color="rgb(237, 198, 152)" stop-opacity="0.9" />
+                  <stop offset="100%" stop-color="rgb(237, 198, 152)" stop-opacity="1" />
+                </linearGradient>
+                <linearGradient id="Dąb" x1="0%" x2="0%" y1="100%" y2="0%">
+                  <stop offset="0%" stop-color="rgb(124, 95, 53)" stop-opacity="0.9" />
+                  <stop offset="100%" stop-color="rgb(124, 95, 53)" stop-opacity="1" />
                 </linearGradient>
                 </defs>
-
-                <rect width="200" height="100" x="10" y="10" rx="20" ry="20" fill="blue" />
-                <text>PAINTS WAREHOUSE</text>
-
                 
-            </svg>
 
-            
+                <!-- AXES -->
+                <!-- TEXT -->
+                 <text v-for="tick in ticks"
+                 x="2.5%"
+                 :y="diagramHeight - tick[0]"
+                 >{{ Math.trunc(tick[1]) }}</text>
+                 
+                    <!--HORIZONTAL LINES-->
+                  <line
+                    v-for="(tick, index) in ticks"
+                    :key="tick[0]"
+                    :x1="'5%'"
+                    :x2="'90%'"
+                    :y1="diagramHeight - tick[0]"
+                    :y2="diagramHeight - tick[0]"
+                    style="stroke: black; stroke-width: 0.2;"
+                  ></line>
+
+                  <!-- VERTICAL LINES -->
+
+                  {{ daysTicks }}
+                  {{ spacesBetweenBars }}
+
+                  <line
+                  v-for="(tick,index) in daysTicks"
+                  :key="tick[0]"
+                  :x1="'5%'"
+                
+
+
+                  ></line>
+
+                  
+            </svg>
         </div>
+
 </template>
 <script setup>
-import {computed, ref} from 'vue'
+import {computed, ref, onMounted, watch} from 'vue'
 import { useNewProjectStoreBeta } from '@/store/newproject'
 
 import { storeToRefs } from 'pinia'
@@ -38,11 +74,122 @@ import { useI18n } from 'vue-i18n';
 
 
 const newProjectStore = useNewProjectStoreBeta()
-const {elements,boards} = storeToRefs(newProjectStore)
+const {elements,boards, paintsWarehouse} = storeToRefs(newProjectStore)
 
+const diagramWidth = ref(1000)
+const diagramHeight = ref(500)
+const diagramTicks = ref(null)
+const isReady = ref(false)
+const warehouseCapacity = ref(null)
+
+
+const props = defineProps({
+    warehouseCapacity: Number,
+    diagramTicks: Number,
+    woodType: String
+}
+)
+
+
+const numberOfTicks = computed(() => {
+    return paintsWarehouse.value[0].data.length
+
+})
+
+const daysTicksDistance = computed(() => {
+    let spacesBetweenBars = diagramWidth.value / numberOfTicks.value
+    return spacesBetweenBars
+})
+
+const daysTicks = computed(() => {
+
+    const daysTicks = [[0,0]]
+    let newTickX = daysTicksDistance.value
+    for (let i=0; i < numberOfTicks.value; i++) {
+        daysTicks.push
+    }
+
+})
+
+
+const ticks = computed(() => {
+
+        const ticks= [[0,0]]
+        let oneTick = diagramHeight.value / diagramTicks.value
+        let newTick = oneTick
+        let oneNumber = warehouseCapacity.value / diagramTicks.value
+        console.log(`warehouseCapacity: ${warehouseCapacity.value}`)
+        let newNumber = oneNumber
+
+        console.log(`One number: ${oneNumber} newNumber: ${newNumber} oneTick: ${oneTick} newTick :${ newTick}`)
+        
+        for (let i = 0; i < diagramTicks.value; i++) {
+            ticks.push([newTick,newNumber])
+            newTick += oneTick
+            newNumber += oneNumber
+        }
+        return ticks
+})
+
+watch(
+  () => props.diagramTicks,
+  (ticks) => {
+    if (ticks)  {
+      diagramTicks.value = ticks
+    }
+  },
+  { immediate: true }
+)
+
+watch(
+  () => props.warehouseCapacity,
+  (propswarehouseCapacity) => {
+    if (propswarehouseCapacity)  {
+      warehouseCapacity.value = propswarehouseCapacity
+    }
+  },
+  { immediate: true }
+)
+
+
+
+onMounted(() => {
+  setTimeout(() => {
+    isReady.value = true; 
+  }, 100);
+});
 
 </script>
 <style lang="css">
+
+svg {
+  opacity: 0;
+  transform: translateX(100px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+svg.data-ready {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+rect {
+  animation-name: grow;
+  animation-duration: 0.4s;
+  animation-timing-function: linear;
+  transform-origin: bottom; 
+  transform-box: fill-box;
+}
+
+@keyframes grow {
+  from {
+    transform: scaleY(0.3); 
+  }
+  to {
+    transform: scaleY(1); 
+  }
+}
+
 
 
 
