@@ -46,16 +46,21 @@
                   <!-- VERTICAL LINES -->
 
                   {{ daysTicks }}
-                  {{ spacesBetweenBars }}
+                  {{ daysTicksDistance }}
 
-                  <line
-                  v-for="(tick,index) in daysTicks"
-                  :key="tick[0]"
-                  :x1="'5%'"
-                
+                  <template v-for="line in daysTicks">
+                    <line
+                    v-for="data in line.data
+                    ">
+
+                    </line>
+
+                  </template>
 
 
-                  ></line>
+                 
+                  
+              
 
                   
             </svg>
@@ -70,11 +75,13 @@ import { storeToRefs } from 'pinia'
 import axios from 'axios'
 import { toast } from 'bulma-toast'
 import { useI18n } from 'vue-i18n';
+import { useWarehouseStore } from '@/store/warehousestore'
 
 
 
-const newProjectStore = useNewProjectStoreBeta()
-const {elements,boards, paintsWarehouse} = storeToRefs(newProjectStore)
+const warehouseStore = useWarehouseStore()
+const {paintsWarehouse} = storeToRefs(warehouseStore)
+
 
 const diagramWidth = ref(1000)
 const diagramHeight = ref(500)
@@ -90,6 +97,26 @@ const props = defineProps({
 }
 )
 
+const colorPalette = [
+  '#e6194b', '#3cb44b', '#ffe119', '#4363d8', '#f58231',
+  '#911eb4', '#46f0f0', '#f032e6', '#bcf60c', '#fabebe',
+  '#008080', '#e6beff', '#9a6324', '#fffac8', '#800000',
+  '#aaffc3', '#808000', '#ffd8b1', '#000075', '#808080'
+]
+
+const paintColorMap = computed(() => {
+  const map = {}
+  let index = 0
+  for (let paint of paintsWarehouse.value) {
+    if (!(paint.name in map)) {
+      map[paint.name] = colorPalette[index % colorPalette.length]
+      index++
+    }
+  }
+  return map
+})
+
+
 
 const numberOfTicks = computed(() => {
     return paintsWarehouse.value[0].data.length
@@ -98,16 +125,34 @@ const numberOfTicks = computed(() => {
 
 const daysTicksDistance = computed(() => {
     let spacesBetweenBars = diagramWidth.value / numberOfTicks.value
-    return spacesBetweenBars
-})
+    return Math.trunc(spacesBetweenBars * 100) / 100;
+  })
 
 const daysTicks = computed(() => {
 
-    const daysTicks = [[0,0]]
-    let newTickX = daysTicksDistance.value
-    for (let i=0; i < numberOfTicks.value; i++) {
-        daysTicks.push
+    const daysTicks = []
+    let newTickX = 0
+    
+    for (let paint of paintsWarehouse.value) {
+
+      if(paint.isActive) {
+        let newPaintObject = {
+          name: paint.name,
+          color: paintColorMap.value[paint.name],
+          data: []
+        }
+        for (let data of paint.data) {
+          console.log(`Data capacity :${data.capacity}`)
+          newPaintObject.data.push([newTickX, data.capacity])
+          newTickX += daysTicksDistance.value
+
+        }
+        daysTicks.push(newPaintObject)
+        newTickX = 0
+      }
+        
     }
+    return daysTicks
 
 })
 

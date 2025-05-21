@@ -40,8 +40,3 @@ export const useSummaryStore = defineStore('summary', {
 
     },
   })
-
-  //Zastanów się czy nie warto tu przenieść wartości
-  // z komponentu Summary.vue do tego store. Zrobiłeś tak ponieważ 
-  // najpierw napisałeś wszystkie computed value w komponencie
-  // i Ci się nie chciało tego poprawiać

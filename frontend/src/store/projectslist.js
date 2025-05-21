@@ -13,8 +13,7 @@ export const useProjectsListStore = defineStore('projectslist', {
         detail_project: null,
         catalog_product: null,
         isLoading: true
-       
-        
+
     }),
     getters: {
 
