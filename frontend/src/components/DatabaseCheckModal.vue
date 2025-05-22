@@ -3,7 +3,7 @@
     <div class="modal-background"></div>
     <div class="modal-card">
       <header class="modal-card-head">
-        <p class="modal-card-title">Checking server...</p>
+        <p class="modal-card-title">Please wait for database to wake up</p>
       </header>
       <section class="modal-card-body">
         Waiting for backend response...

@@ -37,7 +37,7 @@
                     v-for="(tick, index) in ticks"
                     :key="tick[0]"
                     :x1="'5%'"
-                    :x2="'90%'"
+                    :x2="'100%'"
                     :y1="diagramHeight - tick[0]"
                     :y2="diagramHeight - tick[0]"
                     style="stroke: black; stroke-width: 0.2;"
@@ -52,16 +52,16 @@
                       <template v-for="(point, index) in line.data" :key="index">
                         <line
                           v-if="index < line.data.length - 1"
-                          :x1="point[0]"
+                          :x1="scaleX(point[0])"
                           :y1="point[1]"
-                          :x2="line.data[index + 1][0]"
+                          :x2="scaleX(line.data[index + 1][0])"
                           :y2="line.data[index + 1][1]"
                           :stroke="line.color"
                           stroke-width="2"
                         />
                       </template>
                     </g>
-
+1
  
             </svg>
         </div>
@@ -92,6 +92,7 @@ import axios from 'axios'
 import { toast } from 'bulma-toast'
 import { useI18n } from 'vue-i18n';
 import { useWarehouseStore } from '@/store/warehousestore'
+import CatalogList from '@/views/CatalogList.vue'
 
 
 
@@ -112,6 +113,8 @@ const props = defineProps({
     woodType: String
 }
 )
+
+
 
 const colorPalette = [
   '#e6194b', '#3cb44b', '#ffe119', '#4363d8', '#f58231',
@@ -159,7 +162,7 @@ const daysTicks = computed(() => {
         }
         for (let data of paint.data) {
           console.log(`Data capacity :${data.capacity}`)
-          let height = (data.capacity / warehouseCapacity.value) * diagramHeight.value
+          let height = diagramHeight.value - (data.capacity / warehouseCapacity.value) * diagramHeight.value
           newPaintObject.data.push([newTickX, height])
           newTickX += daysTicksDistance.value
 
@@ -173,6 +176,26 @@ const daysTicks = computed(() => {
 
 })
 
+
+
+const allPoints = computed(() => {
+  return daysTicks.value.flatMap(line => line.data)
+})
+
+const maxX = computed(() => {
+  return Math.max(...allPoints.value.map(p => p[0]));
+})
+
+const minX = computed(() => {
+  return Math.min(...allPoints.value.map(p => p[0]))
+})
+
+const scaleX = x => {
+  const percent = (x - minX.value) / (maxX.value - minX.value)
+  console.log(x)
+  console.log(`Percent : ${percent}`)
+  return diagramWidth.value * (0.05 + percent * 0.95)
+};
 
 const ticks = computed(() => {
 
@@ -222,7 +245,7 @@ onMounted(() => {
 });
 
 </script>
-<style lang="css">
+<style scoped lang="css">
 
 svg {
   opacity: 0;
@@ -235,23 +258,16 @@ svg.data-ready {
   transform: translateY(0);
 }
 
-rect {
-  animation-name: grow;
+line {
+  animation-name: drawLine;
   animation-duration: 0.4s;
-  animation-timing-function: linear;
-  transform-origin: bottom; 
-  transform-box: fill-box;
 }
 
-@keyframes grow {
-  from {
-    transform: scaleY(0.3); 
-  }
+@keyframes drawLine {
   to {
-    transform: scaleY(1); 
+    stroke-dashoffset: 0;
   }
 }
-
 
 
 
