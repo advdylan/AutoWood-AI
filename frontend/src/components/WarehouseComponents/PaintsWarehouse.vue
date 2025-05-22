@@ -48,22 +48,38 @@
                   {{ daysTicks }}
                   {{ daysTicksDistance }}
 
-                  <template v-for="line in daysTicks">
-                    <line
-                    v-for="data in line.data
-                    ">
+                   <g v-for="line in daysTicks" :key="line.id">
+                      <template v-for="(point, index) in line.data" :key="index">
+                        <line
+                          v-if="index < line.data.length - 1"
+                          :x1="point[0]"
+                          :y1="point[1]"
+                          :x2="line.data[index + 1][0]"
+                          :y2="line.data[index + 1][1]"
+                          :stroke="line.color"
+                          stroke-width="2"
+                        />
+                      </template>
+                    </g>
 
-                    </line>
-
-                  </template>
-
-
-                 
-                  
-              
-
-                  
+ 
             </svg>
+        </div>
+
+        <div class="box">
+          <div v-for="line in daysTicks" :key="line.id">
+            <div class="box" v-for="point,index in line.data" :key="index">
+              Current:
+              PointX: {{point[0]}}  
+              PointY: {{point[1]}}
+              <div v-if="index < line.data.length - 1">
+              Next:
+              PointX: {{ line.data[index + 1][0] }}
+              PointY: {{ line.data[index + 1][1] }}
+            </div>
+            </div>
+            
+          </div>
         </div>
 
 </template>
@@ -143,7 +159,8 @@ const daysTicks = computed(() => {
         }
         for (let data of paint.data) {
           console.log(`Data capacity :${data.capacity}`)
-          newPaintObject.data.push([newTickX, data.capacity])
+          let height = (data.capacity / warehouseCapacity.value) * diagramHeight.value
+          newPaintObject.data.push([newTickX, height])
           newTickX += daysTicksDistance.value
 
         }
