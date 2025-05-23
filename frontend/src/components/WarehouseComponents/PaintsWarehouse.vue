@@ -66,10 +66,12 @@
                     <!-- DATA POINTS -->
                     <g v-for="line in daysTicks" :key="line.id">
                     <template v-for="(point,index) in line.data" :key="index">
-                      <circle @mouseenter="displayPointData(line,index)"
+                      <circle 
+                      @mouseenter="(MouseEvent) => displayPointData(line,index, MouseEvent)"
+                      @mouseleave="discardPointData()"
                       :cx="scaleX(point[0])" 
                       :cy="point[1]" 
-                      r="2"
+                      r="3"
                       :color="line.color"></circle>
                     </template>
                   </g>
@@ -77,6 +79,23 @@
  
             </svg>
         </div>
+
+
+    
+        <!-- DATA BOX -->
+
+        <div
+          v-if="tooltipVisible"
+          class="box has-background-light has-text-dark"
+          :style="{position: 'absolute', top: tooltipY + 'px', left: tooltipX + 'px', zIndex: 100}">
+          <p><strong>{{ tooltipData.name }}</strong></p>
+          <p>Capacity: {{ tooltipData.capacity }}</p>
+          <p>Date: {{ tooltipData.date.toISOString() }}</p>
+        
+        </div>
+
+
+
 <!--
         <div class="box">
           <div v-for="line in daysTicks" :key="line.id">
@@ -119,6 +138,10 @@ const diagramTicks = ref(null)
 const isReady = ref(false)
 const warehouseCapacity = ref(null)
 
+const tooltipVisible = ref(false)
+const tooltipX = ref(0)
+const tooltipY = ref(0)
+const tooltipData = ref({})
 
 const props = defineProps({
     warehouseCapacity: Number,
@@ -148,13 +171,40 @@ const paintColorMap = computed(() => {
   return map
 })
 
-function displayPointData(line,index) {
-  console.log(`point :${JSON.stringify(line)}`)
-  console.log(`Index: ${index}`)
+function displayPointData(line,index,event) {
+  
+  tooltipData.value = {
+    name: line.name,
+    capacity: line.data[index][2],
+    date: line.data[index][3]
+  }
 
-  //console.log(`Data point: ${daysTicks.value.data[index]}`)
+  console.log(tooltipData.value)
 
-  //console.log(`${line.data[data]}`)
+  const offset = 10;
+  const tooltipWidth = 150
+  const tooltipHeight = 70
+  
+  let x = event.clientX + offset
+  let y = event.clientY + offset
+
+  if (x + tooltipWidth > window.innerWidth) {
+    x = event.clientX - tooltipWidth - offset;
+  }
+
+  if (y + tooltipHeight > window.innerHeight) {
+    y = event.clientY - tooltipHeight - offset
+  }
+
+  tooltipX.value = x
+  tooltipY.value = y
+  tooltipVisible.value = true;
+
+  console.log(tooltipData.value)
+}
+
+function discardPointData() {
+  tooltipVisible.value = false;
 }
 
 const numberOfTicks = computed(() => {
@@ -170,7 +220,7 @@ const daysTicksDistance = computed(() => {
 const daysTicks = computed(() => {
 
     const daysTicks = []
-    let newTickX = 0
+    let tickX = 0
     
     for (let paint of paintsWarehouse.value) {
 
@@ -181,14 +231,14 @@ const daysTicks = computed(() => {
           data: []
         }
         for (let data of paint.data) {
-          console.log(`Data capacity :${data.capacity}`)
-          let height = diagramHeight.value - (data.capacity / warehouseCapacity.value) * diagramHeight.value
-          newPaintObject.data.push([newTickX, height])
-          newTickX += daysTicksDistance.value
+          console.log(`date.day : ${data.day}`)
+          let tickY = diagramHeight.value - (data.capacity / warehouseCapacity.value) * diagramHeight.value
+          newPaintObject.data.push([tickX, tickY, data.capacity, data.day])
+          tickX += daysTicksDistance.value
 
         }
         daysTicks.push(newPaintObject)
-        newTickX = 0
+        tickX = 0
       }
         
     }
