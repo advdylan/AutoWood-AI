@@ -45,9 +45,10 @@
 
                   <!-- VERTICAL LINES -->
 
-                  {{ daysTicks }}
-                  {{ daysTicksDistance }}
 
+
+
+                  <!-- DIAGRAM -->
                    <g v-for="line in daysTicks" :key="line.id">
                       <template v-for="(point, index) in line.data" :key="index">
                         <line
@@ -61,11 +62,22 @@
                         />
                       </template>
                     </g>
+
+                    <!-- DATA POINTS -->
+                    <g v-for="line in daysTicks" :key="line.id">
+                    <template v-for="(point,index) in line.data" :key="index">
+                      <circle @mouseenter="displayPointData(line,index)"
+                      :cx="scaleX(point[0])" 
+                      :cy="point[1]" 
+                      r="2"
+                      :color="line.color"></circle>
+                    </template>
+                  </g>
 1
  
             </svg>
         </div>
-
+<!--
         <div class="box">
           <div v-for="line in daysTicks" :key="line.id">
             <div class="box" v-for="point,index in line.data" :key="index">
@@ -81,6 +93,7 @@
             
           </div>
         </div>
+        !-->
 
 </template>
 <script setup>
@@ -135,7 +148,14 @@ const paintColorMap = computed(() => {
   return map
 })
 
+function displayPointData(line,index) {
+  console.log(`point :${JSON.stringify(line)}`)
+  console.log(`Index: ${index}`)
 
+  //console.log(`Data point: ${daysTicks.value.data[index]}`)
+
+  //console.log(`${line.data[data]}`)
+}
 
 const numberOfTicks = computed(() => {
     return paintsWarehouse.value[0].data.length

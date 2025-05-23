@@ -127,7 +127,7 @@
     
     
     <script setup>
-    import { computed, ref } from 'vue'
+    import { computed, ref, onMounted, watch } from 'vue'
     import { useNewProjectStoreBeta } from '@/store/newproject'
     import { useI18n } from 'vue-i18n';
     import { storeToRefs } from 'pinia';
@@ -264,6 +264,27 @@
         }
         }
     
+        onMounted(() => {
+          boards.value = [{
+          board: {
+          dimX: 2500,
+          dimY: 700,
+          dimZ: 25,
+          wood_type: 'Buk'
+          },
+          quantity: 1
+    }]
+        })
+
+        watch(
+            () => wood,
+            (newWood) => {
+              if (newWood.length && !newBoard.board.wood_type) {
+                newBoard.board.wood_type = newWood[0]; // or any logic to pick default
+              }
+            },
+            { immediate: true }
+          );
     
     
     </script>
