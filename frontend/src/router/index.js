@@ -19,17 +19,12 @@ const routes = [
     path: '/new-project',
     name: 'NewProject',
     component: NewProjectProgress,
-    meta: {
-      title: '| Auto-Wood |'
-    }
   },
   {
     path: '/new-project-progress',
     name: 'NewProjectProgress',
     component: NewProjectProgress,
-    meta: {
-      title: '| Auto-Wood |'
-    }
+
   },
 
   {
@@ -83,9 +78,6 @@ const routes = [
     path: '/',
     name: 'Home',
     component: Home,
-    meta: {
-      title: '| Auto-Wood |'
-    }
 
   }
   

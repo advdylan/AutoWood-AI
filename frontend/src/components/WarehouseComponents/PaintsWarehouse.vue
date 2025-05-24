@@ -75,15 +75,10 @@
                       :color="line.color"></circle>
                     </template>
                   </g>
-1
- 
             </svg>
-        </div>
+        </div>    
 
-
-    
         <!-- DATA BOX -->
-
         <div
           v-if="tooltipVisible"
           class="box has-background-light has-text-dark"
@@ -91,9 +86,7 @@
           <p><strong>{{ tooltipData.name }}</strong></p>
           <p>Capacity: {{ tooltipData.capacity }}</p>
           <p>Date: {{ tooltipData.date.toISOString() }}</p>
-        
         </div>
-
 
 
 <!--
