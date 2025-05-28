@@ -1,6 +1,6 @@
 <template>
     <div class=columns>
-        <div class="column is-full">
+        <div class="column is-10 is-offset-1">
             <div class="notification is-primary">
                 <div class="title is-centered is-size-4">
                     {{ $t('accessory_management') }}

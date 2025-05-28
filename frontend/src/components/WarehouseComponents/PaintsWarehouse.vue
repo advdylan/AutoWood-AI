@@ -174,7 +174,7 @@ function displayPointData(line,index,event) {
 
   console.log(tooltipData.value)
 
-  const offset = 10;
+  const offset = -50;
   const tooltipWidth = 150
   const tooltipHeight = 70
   

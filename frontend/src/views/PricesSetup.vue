@@ -1,7 +1,7 @@
 <template>
   <div class="block">
  <div class=columns >
-  <div class="column is-full">
+  <div class="column is-10 is-offset-1">
  
   
     <div class="notification is-warning">
@@ -16,6 +16,9 @@
   </div>
 </div>
 
+  <div class="columns">
+
+  <div class="column is-10 is-offset-1">
     <div class="columns is-flex">
         <div class="column is-one-third">
             <div class="card">
@@ -131,11 +134,9 @@
             </div>
           </div>
 
-
-
-
-            
         </div>
+    </div>
+    </div>
     </div>
 
   </div>
