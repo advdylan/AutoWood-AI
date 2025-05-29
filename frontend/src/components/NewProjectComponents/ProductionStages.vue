@@ -115,6 +115,10 @@ const newStageName = ref('')
 const newStageShortcut = ref('')
 const errors = ref([])
 
+const props = defineProps({
+  productionSteps: Array
+})
+
 function submitForm(){
   validateNewStage(newStageName,newStageShortcut, errors);
 
@@ -175,23 +179,30 @@ function updateProductionStages(value) {
 }
 
 
+watch(
+  () => props.productionSteps,
+  (newVal) => {
+    chosenProductionSteps.value = newVal || []
+  },
+  { immediate: true }
+)
+
 
 onMounted(() => {
     getProductionSteps()
-
 })
 
 </script>
 
 <style lang="css">
 .button.is-small {
-    padding: 0.25rem 0.5rem; /* Adjust padding to make the button smaller */
-    font-size: 0.75rem; /* Adjust font size to make the text smaller */
+    padding: 0.25rem 0.5rem; 
+    font-size: 0.75rem; 
 }
 
 td.has-text-centered {
     display: flex;
-    justify-content: center; /* Center horizontally */
-    align-items: center; /* Center vertically */
+    justify-content: center;
+    align-items: center; 
 }
 </style>

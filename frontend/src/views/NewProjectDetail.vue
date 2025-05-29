@@ -3,6 +3,7 @@
   :customer-props = "detail_project.customer"
   :documents-props = "detail_project.document"
   :detail-project = "detail_project"
+  :creation-mode = "'projectDetail'"
   @update:detailProject="detail_project = $event"
   >
 

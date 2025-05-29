@@ -1,6 +1,5 @@
 
 <template>
-
 <div class="card">
     <header v-if="showCardTitle" class="card-header">
       <p class="card-header-title is-centered is-size-3">{{$t("basic_info")}}
@@ -223,15 +222,16 @@
                 </div>
             </div>
 
-            <div v-if="creationMode === 'newProductCatalogMode'" class="column is-one-third has-text-centered"> 
+            <div v-if="creationMode === 'newProductCatalogMode' || creationMode === 'catalogDetail'" class="column is-one-third has-text-centered"> 
 
               <div class="card">
                           <header class="card-header">
                             <p class="card-header-title is-centered is-size-4">{{$t("production_steps")}} &nbsp;<i class="fa-solid fa-list-check"></i></p>  
                           </header>
-                          <production-stages></production-stages>
+                          <ProductionStages :production-steps="detailProject.production_stages" />
                           </div>
-                        </div>
+                          </div>
+            
             </div>
 
         </div>
@@ -264,7 +264,8 @@ const {getProductionSteps} = newProjectStore
 
 
 const {customer,files,category,wood,collection,paints, selectedCategory, selectedWood,
-   selectedPaint, selectedCollection, selectedFile, projectName, creationMode, productionSteps} = storeToRefs(newProjectStore)
+   selectedPaint, selectedCollection, selectedFile, projectName, productionSteps} = storeToRefs(newProjectStore)
+
 
 
 const props = defineProps({
@@ -272,7 +273,8 @@ const props = defineProps({
   documentsProps: Array,
   imagesProps: Array,
   showCardTitle: Boolean,
-  detailProject: Object
+  detailProject: Object,
+  creationMode: String
 
 })
 const emit = defineEmits(["update:detailProject"]);
@@ -334,6 +336,10 @@ watch (
 )
 
 
+
+onMounted(() => {
+  console.log(props.detailProject.production_stages)
+})
 
 
 function deleteFile(file,index){

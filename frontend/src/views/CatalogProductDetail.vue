@@ -3,6 +3,7 @@
   :customer-props = "detail_project.customer"
   :documents-props = "detail_project.document"
   :detail-project = "detail_project"
+  :creation-mode = "'catalogDetail'"
   @update:detailProject="detail_project = $event"
   > 
 
@@ -289,12 +290,6 @@
     
 </template>
   
-  <script>
-  export default {
-    name: 'NewProjectDetail'
-  }
-  
-  </script>
   
   <script setup>
   import { useI18n } from 'vue-i18n';
@@ -408,7 +403,8 @@ const submitForm = () => {
           percent_additional_margin: parseInt(marginC.value),
           elements_cost: elementsCost.value,
           accesories_cost: accesoriesCost.value,
-          worktime_cost: worktimeCost.value
+          worktime_cost: worktimeCost.value,
+          production_stages: detail_project.value.production_stages
           
           
   }

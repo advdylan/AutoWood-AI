@@ -102,6 +102,12 @@ class CatalogProductDetailAPIView(
 
         elements_data = data["elements"]
 
+        production_stages_data = data["production_stages"]
+        for stage in production_stages_data:
+
+            new_stage,created = ProductionStage.objects.get_or_create(stage_name = stage["stage_name"])
+            catalog_product.production_stages.add(new_stage)
+
         catalog_product.new_elements.clear()
         
         for element_data in elements_data:
