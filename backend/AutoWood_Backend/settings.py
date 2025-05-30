@@ -120,6 +120,7 @@ WSGI_APPLICATION = 'AutoWood_Backend.wsgi.application'
 
 env = Env()
 env.read_env()
+
 DATABASES = {
     'default': dj_database_url.config(
         default=os.environ.get('DATABASE_URL'),

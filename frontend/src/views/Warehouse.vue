@@ -193,7 +193,7 @@ const {warehouseBoards, wood, chosenWoodType, chosenThicknesses, } = storeToRefs
 const {loadData, chooseWoodType, addThickness } = newProjectStore
 const showBoardWarehouse = ref(false)
 const showPaintsWarehouse = ref(false)
-const warehouseCapacity = ref(200)
+const warehouseCapacity = ref(100)
 const diagramTicks = ref(10)
 const showThicknessSection = ref(false)
 

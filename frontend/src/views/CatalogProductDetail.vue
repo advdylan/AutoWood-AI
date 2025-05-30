@@ -4,6 +4,7 @@
   :documents-props = "detail_project.document"
   :detail-project = "detail_project"
   :creation-mode = "'catalogDetail'"
+  :slot-active="true"
   @update:detailProject="detail_project = $event"
   > 
 

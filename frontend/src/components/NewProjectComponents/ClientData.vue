@@ -74,7 +74,7 @@
 
             </div>
 
-            <div class="column is-one-fifth is-2">
+            <div v-if="slotActive" class="column is-one-fifth is-2">
               <slot></slot>
             </div>
 
@@ -228,7 +228,7 @@
                           <header class="card-header">
                             <p class="card-header-title is-centered is-size-4">{{$t("production_steps")}} &nbsp;<i class="fa-solid fa-list-check"></i></p>  
                           </header>
-                          <ProductionStages :production-steps="detailProject.production_stages" />
+                          <ProductionStages />
                           </div>
                           </div>
             
@@ -264,7 +264,7 @@ const {getProductionSteps} = newProjectStore
 
 
 const {customer,files,category,wood,collection,paints, selectedCategory, selectedWood,
-   selectedPaint, selectedCollection, selectedFile, projectName, productionSteps} = storeToRefs(newProjectStore)
+   selectedPaint, selectedCollection, selectedFile, projectName, productionSteps, creationMode} = storeToRefs(newProjectStore)
 
 
 
@@ -274,7 +274,8 @@ const props = defineProps({
   imagesProps: Array,
   showCardTitle: Boolean,
   detailProject: Object,
-  creationMode: String
+  creationMode: String,
+  slotActive: Boolean
 
 })
 const emit = defineEmits(["update:detailProject"]);
@@ -335,11 +336,6 @@ watch (
   }
 )
 
-
-
-onMounted(() => {
-  console.log(props.detailProject.production_stages)
-})
 
 
 function deleteFile(file,index){
