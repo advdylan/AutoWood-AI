@@ -462,9 +462,9 @@ def place_elements(formats, initial_board_x, initial_board_y):
     return formats_omitted, free_boards, occupied_boards
 
 # testing purposes
-"""
+
 initial_board_x = 2500
 initial_board_y = 700
 output_dir = f"/home/dylan/AutoWood/AutoWood_Backend/cut_optimizer/optimized_cuts/"
 formats = [[1658, 167],[1658, 167],[1658, 167], [323,180],[323,180],[323,180],[323,180],[323,180], ]
-generate_board(initial_board_x,initial_board_y, output_dir, formats ) """
+generate_board(initial_board_x,initial_board_y, output_dir, formats ) 
