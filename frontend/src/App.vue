@@ -176,10 +176,6 @@
 import { useI18n } from 'vue-i18n'
 
 export default {
-  metaInfo: {
-    title: 'Auto-Wood - Your Woodworking Solution',
-    titleTemplate: '%s | Auto-Wood'
-  },
   
   data() {
     

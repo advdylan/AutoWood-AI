@@ -42,7 +42,7 @@ async function checkDatabase() {
   const timeout = setTimeout(() => controller.abort(), 2000);
 
   try {
-    const response = await fetch('https://autowood.fly.dev/api/v1/production/ping', {
+    const response = await fetch('http://127.0.0.1:8000/api/v1/production/ping', {
       signal: controller.signal
     });
 

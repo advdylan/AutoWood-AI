@@ -131,6 +131,7 @@
 </template>
   
 <script setup>
+
 import { useNewProjectStoreBeta } from '@/store/newproject'
 import { useSummaryStore } from '@/store/summary'
 import {ref, computed, onUnmounted, watch, watchEffect, shallowRef, markRaw} from 'vue'
