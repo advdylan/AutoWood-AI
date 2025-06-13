@@ -107,7 +107,6 @@ class CatalogElement(models.Model):
 
     def __str__(self):
         return f"Catalog Element Name: {self.catalog_product.name}\nQuantity:{self.quantity}"
-    111
 class CatalogWorktime(models.Model):
     catalog_product = models.ForeignKey(CatalogProduct, on_delete=models.CASCADE, related_name="worktime_of_catalog_product")
     worktime = models.ForeignKey(Worktimetype, on_delete=models.CASCADE, related_name="worktime_type_model")
