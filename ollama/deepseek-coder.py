@@ -9,7 +9,7 @@ from ollama import Client
 # 2️⃣  Initialise clients
 chroma_client = chromadb.HttpClient(host="http://localhost:8000")
 collection     = chroma_client.get_or_create_collection("codebase")   # <-- use the real name
-embedder       = SentenceTransformer("all-MiniLM-L6-v2")
+embedder       = SentenceTransformer("all-mpnet-base-v2")
 ollama_client  = Client(host="http://localhost:11434")
 
 # 3️⃣  Chat loop
@@ -23,7 +23,7 @@ while user_question != "STOP":
     retrieved_docs  = results["documents"][0]
     retrieved_paths = results["metadatas"][0]
 
-    print(f"{retrieved_docs}")
+    #print(f"{retrieved_docs}")
 
     # --- build prompt ---
     context = ""
